@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { localBusinessSchema } from '@lib/schema';
+
+const title = 'Agence prospection B2B Paris';
+const description =
+  "Agence Simple génère des rendez-vous qualifiés B2B via cold email et LinkedIn outreach. Forfait mensuel avec garantie minimum vital. Basée à Paris, intervient partout en France.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  schemas={[localBusinessSchema()]}
+>
+  <section class="mx-auto max-w-5xl px-6 py-24">
+    <h1 class="text-(--text-display) leading-(--leading-tight) font-bold">
+      Génération de rendez-vous B2B,<br />
+      sans la complexité.
+    </h1>
+    <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">
+      Forfait mensuel, copy travaillé, ciblage précis. Si on ne tient pas
+      l'engagement de RDV, on prolonge gratuitement jusqu'à le tenir.
+    </p>
+  </section>
+
+  <!-- TODO Iris : sections home (3 directions visuelles à valider).
+       TODO Théo : copy hero finale + bénéfices + preuves + objections + CTA.
+       TODO Sacha : injection schema Service par offre, FAQPage si bloc FAQ. -->
+</BaseLayout>

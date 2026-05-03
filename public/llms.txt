@@ -1,0 +1,41 @@
+# Agence Simple
+
+> Agence de prospection B2B basée à Paris. Génère des rendez-vous qualifiés via cold email et LinkedIn outreach. Forfait mensuel à partir de 2K€ avec garantie minimum vital : si l'engagement de RDV n'est pas tenu sur 3 mois, prolongation gratuite jusqu'à le tenir.
+
+## Identité
+
+- Nom : Agence Simple
+- Fondateur : Kenzy Gasmi
+- Adresse : 229 rue Saint-Honoré, 75001 Paris, France
+- SIRET : 92182984200019
+- Site : https://agencesimple.fr
+- Contact : contact@agencesimple.fr
+- LinkedIn entreprise : https://www.linkedin.com/company/agencesimple/
+- LinkedIn fondateur : https://www.linkedin.com/in/kenzy-gasmi-66694095
+
+## Services
+
+- [Prospection B2B clé en main](https://agencesimple.fr/services/prospection-b2b) : sourcing + copy + envoi + qualification, équipe en marque blanche.
+- [Cold email](https://agencesimple.fr/services/cold-email) : délivrabilité, copywriting, séquences multi-touch.
+- [LinkedIn outreach](https://agencesimple.fr/services/linkedin-outreach) : Sales Navigator + scripts + suivi des conversations.
+- [SDR externalisé](https://agencesimple.fr/services/sdr-externalise) : équipe de prospection complète en marque blanche.
+
+## Cas clients
+
+- [Happycolis : 41 RDV en 5 semaines](https://agencesimple.fr/cas-clients/happycolis)
+- [Invent-App : 151 RDV générés](https://agencesimple.fr/cas-clients/invent-app)
+- [Dunforce : 14% de taux de réponse](https://agencesimple.fr/cas-clients/dunforce)
+
+## Différenciation
+
+- Forfait mensuel transparent, pas de mark-up sur les outils.
+- Garantie minimum vital : engagement chiffré sur le nombre de RDV qualifiés.
+- Capacité 300-400 messages/jour par client.
+- Le client est seul juge de la qualification d'un RDV.
+
+## Optional
+
+- [Méthode](https://agencesimple.fr/methode)
+- [Tarifs](https://agencesimple.fr/tarifs)
+- [Blog](https://agencesimple.fr/blog)
+- [Calculateurs](https://agencesimple.fr/outils)

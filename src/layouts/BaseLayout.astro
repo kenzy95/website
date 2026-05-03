@@ -1,0 +1,85 @@
+---
+import '@/styles/global.css';
+import SeoHead from '@components/SeoHead.astro';
+import { organizationSchema, websiteSchema } from '@lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schemas?: Record<string, unknown>[];
+  publishedAt?: string;
+  modifiedAt?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogType,
+  noindex,
+  schemas = [],
+  publishedAt,
+  modifiedAt,
+  bodyClass = '',
+} = Astro.props;
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const baseSchemas = isHome
+  ? [organizationSchema(), websiteSchema(), ...schemas]
+  : [websiteSchema(), ...schemas];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <SeoHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      ogType={ogType}
+      noindex={noindex}
+      schemas={baseSchemas}
+      publishedAt={publishedAt}
+      modifiedAt={modifiedAt}
+    />
+  </head>
+  <body class={bodyClass}>
+    <a href="#main" class="sr-only focus:not-sr-only">Aller au contenu</a>
+    <slot name="header" />
+    <main id="main">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>
+
+<style is:global>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+</style>

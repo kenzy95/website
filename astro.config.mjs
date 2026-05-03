@@ -1,0 +1,42 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  site: 'https://agencesimple.fr',
+  trailingSlash: 'never',
+  build: {
+    format: 'directory',
+    inlineStylesheets: 'auto',
+  },
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
+  integrations: [
+    mdx({
+      syntaxHighlight: 'shiki',
+      shikiConfig: { theme: 'github-light' },
+      gfm: true,
+    }),
+    sitemap({
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      filter: (page) =>
+        !page.includes('/legal/') &&
+        !page.includes('/404') &&
+        !page.includes('/draft'),
+      i18n: undefined,
+    }),
+  ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  image: {
+    service: { entrypoint: 'astro/assets/services/sharp' },
+  },
+  experimental: {},
+});
