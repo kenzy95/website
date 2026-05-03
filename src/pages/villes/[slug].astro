@@ -1,0 +1,63 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+import { CITIES } from '@lib/content-data';
+import { localBusinessSchema } from '@lib/schema';
+
+export function getStaticPaths() {
+  return CITIES.map((city) => ({
+    params: { slug: city.slug },
+    props: { city },
+  }));
+}
+
+const { city } = Astro.props;
+
+const breadcrumb = [
+  { name: 'Villes', href: '/villes' },
+  { name: city.name },
+];
+
+const schemas = [localBusinessSchema()];
+---
+
+<PageLayout
+  title={city.title}
+  description={city.metaDescription}
+  breadcrumb={breadcrumb}
+  schemas={schemas}
+>
+  <Section spacing="lg">
+    <Container size="default">
+      <p class="text-(--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
+        Ville · {city.name}
+      </p>
+      <h1 class="mt-4 text-(--text-h1) font-bold leading-(--leading-tight)">
+        {city.title}
+      </h1>
+      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{city.description}</p>
+      <p class="mt-4 text-(--text-small) text-(--color-gris) italic">
+        Angle local : {city.localAngle}
+      </p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="default">
+      <!-- TODO Théo : copy local légitime
+           Tissu économique local, exemples de cibles à proximité, témoignages clients locaux si dispo,
+           FAQ "qui sont les agences à Lyon", "comment on travaille à distance", etc.
+           Internal linking vers /services et /secteurs pertinents. -->
+      <p class="text-(--text-body) text-(--color-gris)">
+        Contenu local détaillé en cours de rédaction.
+      </p>
+    </Container>
+  </Section>
+
+  <CtaBlock
+    title={`Prospection B2B à ${city.name}`}
+    description="20 minutes en visio. Si on est dans votre ville, on peut aussi se voir en présentiel."
+  />
+</PageLayout>

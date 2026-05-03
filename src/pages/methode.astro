@@ -1,0 +1,35 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+
+const title = 'Notre méthode de prospection B2B';
+const description =
+  "Garantie minimum vital, forfait transparent, capacité 300-400 messages/jour, sans engagement long. La méthode Agence Simple en clair.";
+
+const breadcrumb = [{ name: 'Méthode' }];
+---
+
+<PageLayout title={title} description={description} breadcrumb={breadcrumb}>
+  <Section spacing="lg">
+    <Container size="default">
+      <h1 class="text-(--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{description}</p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="default">
+      <!-- TODO Théo : 4 piliers de la méthode = différenciation
+           1. Garantie minimum vital (engagement chiffré, prolongation gratuite si non atteint)
+           2. Forfait transparent (pas de mark-up sur outils, prix affiché)
+           3. Capacité 300-400 msg/jour (réaliste, pas de spam)
+           4. Sortie libre (sans engagement long, mois en mois)
+           Schema HowTo possible (méthode = procédure documentée). -->
+      <p class="text-(--text-body) text-(--color-gris)">Méthode détaillée en cours de rédaction.</p>
+    </Container>
+  </Section>
+
+  <CtaBlock title="Voir si la méthode colle à votre situation" description="20 minutes en visio." />
+</PageLayout>

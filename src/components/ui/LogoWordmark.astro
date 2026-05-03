@@ -1,0 +1,30 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'encre' | 'creme';
+  href?: string;
+  class?: string;
+}
+
+const { size = 'md', variant = 'encre', href = '/', class: className = '' } = Astro.props;
+
+const sizes = {
+  sm: 'text-xl',
+  md: 'text-2xl',
+  lg: 'text-3xl',
+};
+
+const colors = {
+  encre: 'text-(--color-encre)',
+  creme: 'text-(--color-creme)',
+};
+---
+
+<a
+  href={href}
+  aria-label="Agence Simple - retour à l'accueil"
+  class={`inline-flex items-center font-extrabold tracking-tight ${sizes[size]} ${colors[variant]} ${className}`}
+  style="font-family: var(--font-sans); font-weight: 800;"
+>
+  Simple<span class="text-(--color-bleu)" aria-hidden="true">.</span>
+</a>

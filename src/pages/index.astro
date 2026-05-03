@@ -1,29 +1,137 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
 import { localBusinessSchema } from '@lib/schema';
+import { SERVICES, CASE_STUDIES } from '@lib/content-data';
 
-const title = 'Agence prospection B2B Paris';
+const title = 'Agence prospection B2B Paris - rendez-vous qualifiés garantis';
 const description =
-  "Agence Simple génère des rendez-vous qualifiés B2B via cold email et LinkedIn outreach. Forfait mensuel avec garantie minimum vital. Basée à Paris, intervient partout en France.";
+  "Agence Simple génère des rendez-vous qualifiés B2B via cold email et LinkedIn outreach. Forfait mensuel transparent, garantie minimum vital, sans engagement long.";
+
+const schemas = [localBusinessSchema()];
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  schemas={[localBusinessSchema()]}
->
-  <section class="mx-auto max-w-5xl px-6 py-24">
-    <h1 class="text-(--text-display) leading-(--leading-tight) font-bold">
-      Génération de rendez-vous B2B,<br />
-      sans la complexité.
-    </h1>
-    <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">
-      Forfait mensuel, copy travaillé, ciblage précis. Si on ne tient pas
-      l'engagement de RDV, on prolonge gratuitement jusqu'à le tenir.
-    </p>
-  </section>
+<PageLayout title={title} description={description} schemas={schemas} showBreadcrumb={false}>
+  <!-- Hero -->
+  <Section spacing="xl">
+    <Container size="default">
+      <p class="text-(--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
+        Prospection B2B - Forfait mensuel
+      </p>
+      <h1 class="mt-6 text-(--text-display) font-bold leading-(--leading-tight)">
+        Vos rendez-vous B2B,<br />sans la complexité.
+      </h1>
+      <p class="mt-8 text-(--text-body) text-(--color-gris) max-w-2xl">
+        Forfait mensuel transparent. Copy travaillé, ciblage précis. Si on ne tient pas l'engagement de RDV qualifiés sur 3 mois, on prolonge gratuitement jusqu'à le tenir.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <Button href="/contact" variant="primary" size="lg">Réserver 20 minutes</Button>
+        <Button href="/methode" variant="ghost" size="lg">Voir notre méthode</Button>
+      </div>
+    </Container>
+  </Section>
 
-  <!-- TODO Iris : sections home (3 directions visuelles à valider).
-       TODO Théo : copy hero finale + bénéfices + preuves + objections + CTA.
-       TODO Sacha : injection schema Service par offre, FAQPage si bloc FAQ. -->
-</BaseLayout>
+  <!-- 4 piliers (différenciation) -->
+  <Section spacing="md">
+    <Container size="wide">
+      <h2 class="text-(--text-h2) font-bold leading-(--leading-tight) max-w-3xl">
+        Quatre engagements qui changent tout.
+      </h2>
+      <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <li>
+          <h3 class="text-(--text-h3) font-semibold">Garantie minimum vital</h3>
+          <p class="mt-3 text-(--text-body) text-(--color-gris)">
+            Engagement chiffré sur le nombre de RDV qualifiés. Si non atteint sur 3 mois, on prolonge gratos.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-(--text-h3) font-semibold">Forfait transparent</h3>
+          <p class="mt-3 text-(--text-body) text-(--color-gris)">
+            Pas de mark-up sur les outils. Le prix affiché est le prix payé, sans coûts cachés.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-(--text-h3) font-semibold">Sans engagement long</h3>
+          <p class="mt-3 text-(--text-body) text-(--color-gris)">
+            Mois en mois. Vous arrêtez quand vous voulez, on continue à servir tant que ça crée de la valeur.
+          </p>
+        </li>
+        <li>
+          <h3 class="text-(--text-h3) font-semibold">Vous êtes le juge</h3>
+          <p class="mt-3 text-(--text-body) text-(--color-gris)">
+            La qualification d'un RDV se mesure côté client, pas côté agence. Pas de débat sur les chiffres.
+          </p>
+        </li>
+      </ul>
+    </Container>
+  </Section>
+
+  <!-- Services -->
+  <Section spacing="md" bg="bleu-soft" class="rounded-(--radius-lg) mx-6">
+    <Container size="wide">
+      <h2 class="text-(--text-h2) font-bold leading-(--leading-tight) max-w-3xl">
+        Quatre offres, un seul objectif : des rendez-vous.
+      </h2>
+      <ul class="mt-12 grid gap-6 sm:grid-cols-2">
+        {
+          SERVICES.map((service) => (
+            <li>
+              <Card href={`/services/${service.slug}`}>
+                <h3 class="text-(--text-h3) font-semibold">{service.shortName}</h3>
+                <p class="mt-3 text-(--text-body) text-(--color-gris)">{service.description}</p>
+                <span class="mt-4 inline-block text-(--text-small) text-(--color-bleu) underline-offset-4 hover:underline">
+                  En savoir plus →
+                </span>
+              </Card>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <!-- Cas clients -->
+  <Section spacing="md">
+    <Container size="wide">
+      <h2 class="text-(--text-h2) font-bold leading-(--leading-tight) max-w-3xl">
+        Trois cas clients chiffrés.
+      </h2>
+      <ul class="mt-12 grid gap-6 sm:grid-cols-3">
+        {
+          CASE_STUDIES.map((cs) => (
+            <li>
+              <Card href={`/cas-clients/${cs.slug}`}>
+                <p class="text-(--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
+                  {cs.sector}
+                </p>
+                <h3 class="mt-3 text-(--text-h3) font-semibold">{cs.client}</h3>
+                <p class="mt-3 text-(--text-body) text-(--color-encre)">{cs.headline}</p>
+              </Card>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-10">
+        <Button href="/cas-clients" variant="secondary">Voir tous les cas clients</Button>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- CTA final pleine largeur -->
+  <Section spacing="lg" bg="encre">
+    <Container size="default" class="text-center">
+      <h2 class="text-(--text-h1) font-bold leading-(--leading-tight)">
+        Prendre rendez-vous, c'est Simple.
+      </h2>
+      <p class="mt-6 text-(--text-body) opacity-80 max-w-2xl mx-auto">
+        20 minutes en visio. On regarde votre cible, votre offre, votre volume. Et on vous dit franchement si on peut vous aider.
+      </p>
+      <div class="mt-10">
+        <Button href="/contact" variant="secondary" size="lg">Réserver un créneau</Button>
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

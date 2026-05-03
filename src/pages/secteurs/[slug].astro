@@ -1,0 +1,71 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+import { SECTORS } from '@lib/content-data';
+import { serviceSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+export function getStaticPaths() {
+  return SECTORS.map((sector) => ({
+    params: { slug: sector.slug },
+    props: { sector },
+  }));
+}
+
+const { sector } = Astro.props;
+const url = `${SITE.url}/secteurs/${sector.slug}`;
+
+const breadcrumb = [
+  { name: 'Secteurs', href: '/secteurs' },
+  { name: sector.shortName },
+];
+
+const schemas = [
+  serviceSchema({
+    name: sector.title,
+    description: sector.description,
+    url,
+    serviceType: `B2B Lead Generation - ${sector.shortName}`,
+  }),
+];
+---
+
+<PageLayout
+  title={sector.title}
+  description={sector.metaDescription}
+  breadcrumb={breadcrumb}
+  schemas={schemas}
+>
+  <Section spacing="lg">
+    <Container size="default">
+      <p class="text-(--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
+        Secteur · {sector.shortName}
+      </p>
+      <h1 class="mt-4 text-(--text-h1) font-bold leading-(--leading-tight)">
+        {sector.title}
+      </h1>
+      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{sector.description}</p>
+      <p class="mt-4 text-(--text-small) text-(--color-gris) italic">
+        Angle de spécialisation : {sector.angle}
+      </p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="default">
+      <!-- TODO Théo : copy détaillé sur brief Sacha
+           Pain points spécifiques au secteur, ICP, signaux d'achat, exemples de campagnes,
+           FAQ verticalisée, internal linking vers services et cas clients pertinents. -->
+      <p class="text-(--text-body) text-(--color-gris)">
+        Contenu détaillé en cours de rédaction.
+      </p>
+    </Container>
+  </Section>
+
+  <CtaBlock
+    title={`Prospection ${sector.shortName} : parlons-en 20 minutes`}
+    description="On vous partage des angles de campagne déjà testés sur votre secteur."
+  />
+</PageLayout>

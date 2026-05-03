@@ -1,0 +1,50 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  external?: boolean;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  external = false,
+  class: className = '',
+  ariaLabel,
+} = Astro.props;
+
+const variants = {
+  primary:
+    'bg-(--color-encre) text-(--color-creme) hover:bg-(--color-bleu) transition-colors',
+  secondary:
+    'bg-(--color-creme) text-(--color-encre) border border-(--color-encre) hover:bg-(--color-encre) hover:text-(--color-creme) transition-colors',
+  ghost:
+    'bg-transparent text-(--color-encre) underline-offset-4 hover:underline',
+};
+
+const sizes = {
+  sm: 'px-4 py-2 text-(--text-small)',
+  md: 'px-6 py-3 text-(--text-body)',
+  lg: 'px-8 py-4 text-(--text-body) font-medium',
+};
+
+const baseClasses = `inline-flex items-center justify-center gap-2 rounded-(--radius-md) font-medium ${variants[variant]} ${sizes[size]} ${className}`;
+const Tag = href ? 'a' : 'button';
+const externalProps = external ? { rel: 'noopener noreferrer', target: '_blank' } : {};
+---
+
+<Tag
+  class={baseClasses}
+  href={href}
+  type={!href ? type : undefined}
+  aria-label={ariaLabel}
+  {...externalProps}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,23 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import Button from '@components/ui/Button.astro';
+
+const title = 'Page introuvable';
+const description = 'La page demandée n\'existe pas. Retournez à l\'accueil ou contactez-nous.';
+---
+
+<PageLayout title={title} description={description} noindex showBreadcrumb={false}>
+  <Section spacing="xl">
+    <Container size="default" class="text-center">
+      <p class="text-(--text-h2) font-bold text-(--color-bleu)">404</p>
+      <h1 class="mt-6 text-(--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-xl mx-auto">{description}</p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <Button href="/" variant="primary">Retour à l'accueil</Button>
+        <Button href="/contact" variant="secondary">Nous contacter</Button>
+      </div>
+    </Container>
+  </Section>
+</PageLayout>

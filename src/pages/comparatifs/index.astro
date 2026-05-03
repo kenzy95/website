@@ -1,0 +1,45 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import Card from '@components/ui/Card.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+import { COMPARISONS } from '@lib/content-data';
+
+const title = 'Comparatifs prospection B2B';
+const description =
+  "Trois comparatifs honnêtes pour décider sur la base des chiffres : SDR interne vs agence, cold email vs LinkedIn, agence vs freelance.";
+
+const breadcrumb = [{ name: 'Comparatifs' }];
+---
+
+<PageLayout title={title} description={description} breadcrumb={breadcrumb}>
+  <Section spacing="lg">
+    <Container size="default">
+      <h1 class="text-(--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{description}</p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="wide">
+      <ul class="grid gap-6 sm:grid-cols-3">
+        {
+          COMPARISONS.map((c) => (
+            <li>
+              <Card href={`/comparatifs/${c.slug}`}>
+                <h2 class="text-(--text-h3) font-semibold">{c.title}</h2>
+                <p class="mt-3 text-(--text-body) text-(--color-gris)">{c.description}</p>
+                <span class="mt-4 inline-block text-(--text-small) text-(--color-bleu) underline-offset-4 hover:underline">
+                  Lire le comparatif →
+                </span>
+              </Card>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <CtaBlock title="Discuter de votre cas concret" description="Les comparatifs aident à cadrer, mais chaque cas est différent. 20 minutes en visio." />
+</PageLayout>

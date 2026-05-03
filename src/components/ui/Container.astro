@@ -1,0 +1,22 @@
+---
+type Size = 'narrow' | 'default' | 'wide' | 'full';
+
+interface Props {
+  as?: 'div' | 'section' | 'article' | 'main';
+  size?: Size;
+  class?: string;
+}
+
+const { as: Tag = 'div', size = 'default', class: className = '' } = Astro.props as Props;
+
+const sizes: Record<Size, string> = {
+  narrow: 'max-w-3xl',
+  default: 'max-w-5xl',
+  wide: 'max-w-6xl',
+  full: 'max-w-none',
+};
+---
+
+<Tag class={`mx-auto px-6 sm:px-8 ${sizes[size]} ${className}`}>
+  <slot />
+</Tag>

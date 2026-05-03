@@ -1,0 +1,17 @@
+---
+interface Props {
+  href?: string;
+  as?: 'div' | 'article' | 'a';
+  padded?: boolean;
+  class?: string;
+}
+
+const { href, as: Tag = href ? 'a' : 'article', padded = true, class: className = '' } = Astro.props;
+---
+
+<Tag
+  href={href}
+  class={`block rounded-(--radius-lg) bg-(--color-creme) shadow-(--shadow-soft) hover:shadow-(--shadow-card) transition-shadow ${padded ? 'p-6 sm:p-8' : ''} ${className}`}
+>
+  <slot />
+</Tag>

@@ -1,0 +1,42 @@
+---
+import Container from './ui/Container.astro';
+import LogoWordmark from './ui/LogoWordmark.astro';
+import Button from './ui/Button.astro';
+
+const navItems = [
+  { href: '/services/prospection-b2b', label: 'Services' },
+  { href: '/cas-clients', label: 'Cas clients' },
+  { href: '/methode', label: 'Méthode' },
+  { href: '/tarifs', label: 'Tarifs' },
+  { href: '/blog', label: 'Blog' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 bg-(--color-creme)/90 backdrop-blur-md border-b border-(--color-gris-light)">
+  <Container size="wide" class="flex items-center justify-between h-16">
+    <LogoWordmark size="md" />
+
+    <nav aria-label="Navigation principale" class="hidden md:flex items-center gap-8">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-(--text-small) font-medium transition-colors hover:text-(--color-bleu)',
+              currentPath.startsWith(item.href) ? 'text-(--color-bleu)' : 'text-(--color-encre)',
+            ]}
+            aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <Button href="/contact" variant="primary" size="sm">Prendre rendez-vous</Button>
+  </Container>
+
+  <!-- TODO Iris : nav mobile (drawer/sheet) à designer -->
+</header>
