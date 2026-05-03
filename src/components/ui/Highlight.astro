@@ -1,0 +1,15 @@
+---
+/**
+ * Highlight orange "feutre" pour mots-cles du manifeste (charte v2).
+ * Le trait passe DERRIERE le texte (z-index -1), legerement de travers.
+ * Spec charte v2 : "avec vous", "dans 15 jours", "gratuitement".
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props as Props;
+---
+
+<span class={`highlight ${className}`}>
+  <slot />
+</span>

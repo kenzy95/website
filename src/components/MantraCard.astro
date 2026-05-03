@@ -1,0 +1,29 @@
+---
+/**
+ * Mantra signature charte v2 : "Le seul juge, c'est vous."
+ * Card encre arrondie + Fraunces italic creme.
+ * A apposer en fin de page, footer, dernier slide propale, posts LinkedIn.
+ */
+interface Props {
+  text?: string;
+  size?: 'md' | 'lg';
+  class?: string;
+}
+const { text = "Le seul juge, c'est vous.", size = 'lg', class: className = '' } = Astro.props as Props;
+
+const sizeClasses = {
+  md: 'py-10 px-8 sm:py-12 sm:px-12',
+  lg: 'py-16 px-8 sm:py-20 sm:px-16',
+};
+---
+
+<div
+  class={`rounded-(--radius-xl) bg-(--color-encre) text-(--color-creme) text-center ${sizeClasses[size]} ${className}`}
+>
+  <p
+    class="font-medium leading-(--leading-title)"
+    style="font-family: var(--font-display); font-style: italic; font-size: var(--text-citation);"
+  >
+    {text}
+  </p>
+</div>

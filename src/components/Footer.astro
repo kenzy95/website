@@ -1,13 +1,18 @@
 ---
 import Container from './ui/Container.astro';
 import LogoWordmark from './ui/LogoWordmark.astro';
+import MantraCard from './MantraCard.astro';
 import { SITE } from '@lib/site';
 
+/**
+ * Footer charte v2 : Mantra + Mentions legales + LinkedIn + Contact.
+ * Architecture site v2 prevoit footer minimal autour du mantra.
+ */
 const year = new Date().getFullYear();
 
 const linkGroups = [
   {
-    title: 'Services',
+    title: 'Le service',
     links: [
       { href: '/services/prospection-b2b', label: 'Prospection B2B' },
       { href: '/services/cold-email', label: 'Cold email' },
@@ -16,66 +21,68 @@ const linkGroups = [
     ],
   },
   {
-    title: 'Secteurs',
-    links: [
-      { href: '/secteurs/saas', label: 'SaaS' },
-      { href: '/secteurs/esn', label: 'ESN' },
-      { href: '/secteurs/cabinet-conseil', label: 'Cabinet conseil' },
-      { href: '/secteurs/scale-up-post-levee', label: 'Scale-up' },
-      { href: '/secteurs/agences', label: 'Agences' },
-    ],
-  },
-  {
-    title: 'Ressources',
+    title: 'Aller plus loin',
     links: [
       { href: '/cas-clients', label: 'Cas clients' },
+      { href: '/methode', label: 'Méthode' },
+      { href: '/tarifs', label: 'Tarifs' },
       { href: '/blog', label: 'Blog' },
-      { href: '/outils/calculateur-cout-sdr-interne-vs-agence', label: 'Coût SDR vs agence' },
-      { href: '/outils/calculateur-roi-prospection', label: 'ROI prospection' },
-      { href: '/comparatifs/sdr-interne-vs-agence-externalisee', label: 'SDR interne vs agence' },
     ],
   },
   {
     title: 'Agence',
     links: [
-      { href: '/methode', label: 'Méthode' },
-      { href: '/tarifs', label: 'Tarifs' },
       { href: '/a-propos', label: 'À propos' },
       { href: '/contact', label: 'Contact' },
+      { href: SITE.social.linkedinCompany, label: 'LinkedIn', external: true },
+      { href: '/legal/mentions-legales', label: 'Mentions légales' },
     ],
   },
 ];
 ---
 
 <footer class="bg-(--color-encre) text-(--color-creme) mt-32">
-  <Container size="wide" class="py-16">
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-10">
+  <Container size="wide" class="pt-20 pb-12">
+    <!-- Mantra signature -->
+    <div class="max-w-3xl mx-auto text-center mb-20">
+      <p
+        class="leading-(--leading-title) text-(--color-creme)"
+        style="font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: var(--text-citation);"
+      >
+        Le seul juge, c'est vous.
+      </p>
+      <p class="mt-6 text-(--text-body) text-(--color-creme)/70 max-w-xl mx-auto">
+        Pas d'engagement. Pas de jargon. Pas de slides. Vous payez. On livre. Vous décidez si c'est bon.
+      </p>
+    </div>
+
+    <!-- Liens -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pt-12 border-t border-(--color-creme)/10">
       <div class="col-span-2 md:col-span-1">
         <LogoWordmark variant="creme" size="md" />
-        <p class="mt-4 text-(--text-small) text-(--color-creme)/70 leading-(--leading-normal)">
+        <p class="mt-4 text-(--text-caption) text-(--color-creme)/70 leading-(--leading-normal)">
           Agence de prospection B2B basée à Paris.
         </p>
-        <address class="not-italic mt-6 text-(--text-small) text-(--color-creme)/70 leading-relaxed">
+        <address class="not-italic mt-6 text-(--text-caption) text-(--color-creme)/70 leading-relaxed">
           {SITE.contact.address.street}<br />
-          {SITE.contact.address.postalCode} {SITE.contact.address.city}<br />
-          <a href={`mailto:${SITE.contact.email}`} class="hover:text-(--color-bleu) underline-offset-4 hover:underline">
-            {SITE.contact.email}
-          </a>
+          {SITE.contact.address.postalCode} {SITE.contact.address.city}
         </address>
       </div>
 
       {
         linkGroups.map((group) => (
           <nav aria-label={group.title}>
-            <h2 class="text-(--text-small) font-semibold uppercase tracking-wider text-(--color-creme)/60">
+            <h2 class="text-(--text-eyebrow) font-semibold uppercase tracking-wider text-(--color-orange)">
               {group.title}
             </h2>
-            <ul class="mt-4 space-y-2">
+            <ul class="mt-4 space-y-2.5">
               {group.links.map((link) => (
                 <li>
                   <a
                     href={link.href}
-                    class="text-(--text-small) text-(--color-creme)/85 hover:text-(--color-bleu) transition-colors"
+                    rel={link.external ? 'noopener noreferrer' : undefined}
+                    target={link.external ? '_blank' : undefined}
+                    class="text-(--text-caption) text-(--color-creme)/85 hover:text-(--color-bleu) transition-colors"
                   >
                     {link.label}
                   </a>
@@ -87,15 +94,10 @@ const linkGroups = [
       }
     </div>
 
-    <div class="mt-16 pt-8 border-t border-(--color-creme)/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-(--text-small) text-(--color-creme)/60">
+    <!-- Mention legale + signature -->
+    <div class="mt-16 pt-8 border-t border-(--color-creme)/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-(--text-eyebrow) text-(--color-creme)/60">
       <p>© {year} {SITE.legalName} - SIRET {SITE.legal.siret}</p>
-      <nav class="flex items-center gap-6">
-        <a href="/legal/mentions-legales" class="hover:text-(--color-creme)">Mentions légales</a>
-        <a href="/legal/politique-confidentialite" class="hover:text-(--color-creme)">Confidentialité</a>
-        <a href={SITE.social.linkedinCompany} rel="noopener noreferrer" target="_blank" class="hover:text-(--color-creme)">
-          LinkedIn
-        </a>
-      </nav>
+      <p style="font-family: var(--font-display); font-style: italic;">Le seul juge, c'est vous.</p>
     </div>
   </Container>
 </footer>
