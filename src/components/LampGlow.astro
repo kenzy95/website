@@ -1,0 +1,132 @@
+---
+/**
+ * Lamp Glow - inspire Aceternity UI (Lamp).
+ *
+ * Effet "lampe" : 2 cones conic-gradient bleu vif qui s'ouvrent en V vers le bas,
+ * une barre horizontale lumineuse au point de convergence, et un halo elliptique.
+ * Animation au mount : les cones s'elargissent (15rem -> 30rem) + opacity 0.5 -> 1.
+ *
+ * Implementation : CSS pur (pas de framer-motion). Couleurs adaptees charte v2
+ * (bleu vif #1E90FF au lieu du cyan generique 21st.dev).
+ *
+ * A placer comme element decoratif AU-DESSUS du titre du hero.
+ */
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props as Props;
+---
+
+<div class:list={['lamp', className]} aria-hidden="true">
+  <div class="lamp__cone lamp__cone--left"></div>
+  <div class="lamp__cone lamp__cone--right"></div>
+  <div class="lamp__bar"></div>
+  <div class="lamp__glow"></div>
+</div>
+
+<style>
+  .lamp {
+    position: relative;
+    width: 100%;
+    max-width: 60rem;
+    height: 14rem;
+    margin: 0 auto;
+    pointer-events: none;
+    isolation: isolate;
+  }
+
+  /* Cone gauche : conic-gradient ouvert vers le bas-droit */
+  .lamp__cone {
+    position: absolute;
+    top: 0;
+    height: 14rem;
+    overflow: hidden;
+    opacity: 0;
+    animation: lamp-fade-in 1s ease-out 0.2s forwards;
+  }
+
+  .lamp__cone--left {
+    right: 50%;
+    width: 24rem;
+    background: conic-gradient(from 70deg at 100% 0%, rgba(30, 144, 255, 0.85), transparent 45%);
+    transform-origin: top right;
+    animation: lamp-grow-left 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  }
+  .lamp__cone--right {
+    left: 50%;
+    width: 24rem;
+    background: conic-gradient(from 290deg at 0% 0%, transparent 55%, rgba(30, 144, 255, 0.85));
+    transform-origin: top left;
+    animation: lamp-grow-right 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  }
+
+  /* Barre lumineuse horizontale (la "tige" de la lampe) */
+  .lamp__bar {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 2px;
+    width: 12rem;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(30, 144, 255, 0.95) 20%,
+      #FFFFFF 50%,
+      rgba(30, 144, 255, 0.95) 80%,
+      transparent
+    );
+    transform: translateX(-50%);
+    box-shadow:
+      0 0 8px rgba(30, 144, 255, 0.9),
+      0 0 24px rgba(30, 144, 255, 0.7),
+      0 0 48px rgba(30, 144, 255, 0.5);
+    animation: lamp-bar-grow 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+  }
+
+  /* Halo radial sous la barre (la "lueur" de la lampe) */
+  .lamp__glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 28rem;
+    height: 10rem;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      ellipse 100% 100% at 50% 0%,
+      rgba(30, 144, 255, 0.55),
+      rgba(30, 144, 255, 0.15) 40%,
+      transparent 70%
+    );
+    filter: blur(20px);
+    opacity: 0;
+    animation: lamp-fade-in 1s ease-out 0.4s forwards;
+  }
+
+  /* Animations */
+  @keyframes lamp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes lamp-grow-left {
+    from { width: 12rem; opacity: 0.5; }
+    to { width: 24rem; opacity: 1; }
+  }
+  @keyframes lamp-grow-right {
+    from { width: 12rem; opacity: 0.5; }
+    to { width: 24rem; opacity: 1; }
+  }
+  @keyframes lamp-bar-grow {
+    from { width: 6rem; opacity: 0.5; }
+    to { width: 12rem; opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lamp__cone, .lamp__bar, .lamp__glow {
+      animation: none;
+      opacity: 1;
+    }
+    .lamp__cone--left, .lamp__cone--right { width: 24rem; }
+    .lamp__bar { width: 12rem; }
+  }
+</style>
