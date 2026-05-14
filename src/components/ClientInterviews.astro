@@ -1,7 +1,6 @@
 ---
 /**
- * Interviews clients - cards bleu pale avec structure Avant/Apres.
- * Logos clients reels du Framer.
+ * Interviews clients - cards bleu pale sur fond creme (alterne avec sections dark).
  */
 
 interface Interview {
@@ -50,7 +49,7 @@ const interviews: Interview[] = [
         Interviews clients
       </p>
       <h2
-        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        class="mt-5 text-(--color-encre) leading-(--leading-title)"
         style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.03em;"
       >
         Ils racontent.
@@ -88,7 +87,12 @@ const interviews: Interview[] = [
 </section>
 
 <style>
-  .interviews-section { padding: 6rem 0; }
+  .interviews-section {
+    background: var(--color-creme);
+    padding: 6rem 0;
+    border-radius: 32px 32px 0 0;
+    margin-top: 2rem;
+  }
   .interviews-grid {
     display: grid;
     gap: 1.5rem;
@@ -103,14 +107,15 @@ const interviews: Interview[] = [
     }
   }
   .interview-card {
-    background: #DDE6F5;
+    background: #FFFFFF;
     color: #0F1B3F;
     border-radius: 24px;
     padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.05);
   }
   @media (min-width: 768px) {
     .interview-card { padding: 2.5rem; }
@@ -127,9 +132,10 @@ const interviews: Interview[] = [
     height: 56px;
     object-fit: contain;
     border-radius: 10px;
-    background: #FFFFFF;
+    background: #FAF7F2;
     padding: 6px;
     flex-shrink: 0;
+    border: 1px solid rgba(15, 27, 63, 0.06);
   }
   .interview-card__id { flex: 1; min-width: 0; }
   .interview-card__sector {
@@ -153,7 +159,7 @@ const interviews: Interview[] = [
     gap: 1.25rem;
   }
   .interview-card__col {
-    background: rgba(255, 255, 255, 0.55);
+    background: #FAF7F2;
     border-radius: 14px;
     padding: 1rem 1.1rem;
   }
