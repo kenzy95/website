@@ -1,0 +1,89 @@
+---
+/**
+ * Story Scroll - inspire 21st.dev (boudjadjasamira).
+ *
+ * Effet : chaque "page" (StorySection enfant) est pinned au scroll et
+ * pivote depuis 30deg (transform-origin bottom-left) -> 0deg quand elle
+ * entre dans le viewport. Les sections s'empilent comme un deck de cartes.
+ *
+ * Implementation : sticky positioning + CSS var --rotate piloté par scroll
+ * listener vanilla. Pas de GSAP/ScrollTrigger (poids reduit + fiable).
+ */
+
+interface Props {
+  ariaLabel?: string;
+  class?: string;
+}
+
+const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Props;
+---
+
+<main
+  class:list={['story-scroll', className]}
+  aria-label={ariaLabel}
+  data-story-scroll
+>
+  <slot />
+</main>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var roots = document.querySelectorAll('[data-story-scroll]');
+      if (!roots.length) return;
+      var ticking = false;
+
+      function update() {
+        roots.forEach(function (root) {
+          var sections = root.querySelectorAll('[data-story-section]');
+          var vh = window.innerHeight;
+          sections.forEach(function (section, i) {
+            // Premiere section : ne pivote pas
+            if (i === 0) {
+              section.style.setProperty('--rotate', '0deg');
+              return;
+            }
+            var rect = section.getBoundingClientRect();
+            // Calcul rotation : 30deg quand top=vh (bas du viewport), 0 quand top=vh*0.25
+            var startY = vh;            // section juste arrivee en bas du viewport
+            var endY = vh * 0.25;       // section vers le haut du viewport
+            var range = startY - endY;
+            var traveled = startY - rect.top;
+            var p = traveled / range;
+            if (p < 0) p = 0;
+            if (p > 1) p = 1;
+            var rotate = 30 * (1 - p);
+            section.style.setProperty('--rotate', rotate.toFixed(2) + 'deg');
+          });
+        });
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .story-scroll {
+    width: 100%;
+    /* important : pas d'overflow hidden sur le main pour que sticky fonctionne */
+    overflow-x: hidden;
+  }
+</style>

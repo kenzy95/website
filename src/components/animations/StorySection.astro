@@ -1,0 +1,93 @@
+---
+/**
+ * Story Section - enfant de StoryScroll. Chaque section "pivote" au scroll
+ * depuis 30deg vers 0deg (transform-origin bottom-left).
+ *
+ * Sections successives empilees via sticky + z-index incrementiel auto.
+ * Background configurable via prop ou via slot enfant.
+ */
+
+interface Props {
+  bg?: 'creme' | 'encre' | 'orange-soft' | 'bleu-soft' | 'custom';
+  customBg?: string;
+  pin?: boolean;
+  ariaLabel?: string;
+  class?: string;
+}
+
+type Bg = NonNullable<Props['bg']>;
+
+const {
+  bg = 'creme',
+  customBg,
+  pin = true,
+  ariaLabel,
+  class: className = '',
+} = Astro.props as Props;
+
+const bgClasses: Record<Bg, string> = {
+  creme: 'story-section--creme',
+  encre: 'story-section--encre',
+  'orange-soft': 'story-section--orange',
+  'bleu-soft': 'story-section--bleu',
+  custom: '',
+};
+---
+
+<section
+  data-story-section
+  aria-label={ariaLabel}
+  class:list={['story-section', bgClasses[bg], pin && 'story-section--pin', className]}
+  style={customBg ? `background:${customBg}` : undefined}
+>
+  <div class="story-section__inner">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .story-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .story-section--pin {
+    /* Pin la section pendant que la suivante arrive par-dessus */
+    position: sticky;
+    top: 0;
+  }
+
+  .story-section__inner {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+    transform-origin: bottom left;
+    transform: rotate(var(--rotate, 0deg));
+    will-change: transform;
+  }
+  @media (min-width: 768px) {
+    .story-section__inner { padding: 5rem 4vw; }
+  }
+
+  /* Background variants */
+  .story-section--creme { background: var(--color-creme); color: var(--color-encre); }
+  .story-section--encre { background: var(--color-encre); color: var(--color-creme); }
+  .story-section--orange { background: var(--color-orange-soft); color: var(--color-encre); }
+  .story-section--bleu { background: var(--color-bleu-soft); color: var(--color-encre); }
+
+  /* Effet ombre sur la section qui arrive par-dessus */
+  .story-section + .story-section .story-section__inner {
+    box-shadow: 0 -20px 60px -20px rgba(0, 0, 0, 0.25);
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-section__inner { transform: none !important; }
+  }
+</style>

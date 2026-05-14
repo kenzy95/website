@@ -12,6 +12,8 @@ import LeadGenSection from '@components/LeadGenSection.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import WhatWeDo from '@components/animations/WhatWeDo.astro';
 import ScrollExpansionHero from '@components/animations/ScrollExpansionHero.astro';
+import StoryScroll from '@components/animations/StoryScroll.astro';
+import StorySection from '@components/animations/StorySection.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import ServiceTakeover from '@components/ServiceTakeover.astro';
 import ProcessSteps from '@components/ProcessSteps.astro';
@@ -135,6 +137,60 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
 
     <!-- ============ PROCESSUS (4 etapes + sticky visuel) ============ -->
     <ProcessSteps />
+
+    <!-- ============ STORY SCROLL placeholder (a remplir par Kenzy plus tard) ============ -->
+    <StoryScroll ariaLabel="Story scroll Agence Simple">
+      <StorySection bg="creme" ariaLabel="Story 1">
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+            Histoire — 01
+          </p>
+          <h2
+            class="mt-5 leading-(--leading-tight)"
+            style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-encre);"
+          >
+            Première page du<br />story scroll.
+          </h2>
+          <p class="mt-6 text-(--color-encre)/65 text-(--text-body-lg) max-w-2xl mx-auto">
+            Placeholder — à remplir avec ton contenu (chiffres clés, anecdote client, manifeste illustré...).
+          </p>
+        </div>
+      </StorySection>
+
+      <StorySection bg="encre" ariaLabel="Story 2">
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+            Histoire — 02
+          </p>
+          <h2
+            class="mt-5 leading-(--leading-tight)"
+            style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-creme);"
+          >
+            Deuxième page<br />du deck.
+          </h2>
+          <p class="mt-6 text-(--color-creme)/65 text-(--text-body-lg) max-w-2xl mx-auto">
+            La section s'empile sur la précédente avec une rotation depuis 30 degrés.
+          </p>
+        </div>
+      </StorySection>
+
+      <StorySection bg="orange-soft" ariaLabel="Story 3">
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-encre)">
+            Histoire — 03
+          </p>
+          <h2
+            class="mt-5 leading-(--leading-tight)"
+            style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-encre);"
+          >
+            Troisième et dernière<br />page.
+          </h2>
+          <p class="mt-6 text-(--color-encre)/65 text-(--text-body-lg) max-w-2xl mx-auto">
+            Le scroll continue normalement après. Tu peux ajouter autant de sections que tu veux.
+          </p>
+        </div>
+      </StorySection>
+    </StoryScroll>
 
     <!-- ============ CALCULATEUR ROI COLD EMAIL ============ -->
     <RoiCalculator />
