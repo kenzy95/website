@@ -71,18 +71,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
     </section>
 
     <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
-    <section class="relative">
-      <Container size="wide" class="text-center pb-6">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
-          Meeting Point
-        </p>
-        <h2
-          class="mt-4 text-(--color-creme) leading-(--leading-title) max-w-3xl mx-auto"
-          style="font-family: var(--font-display); font-weight: 600; font-style: italic; font-size: clamp(1.75rem, 3vw, 2.75rem);"
-        >
-          Votre boîte de réception. Vos rendez-vous qualifiés. Tous les matins.
-        </h2>
-      </Container>
+    <section class="relative flex flex-col overflow-hidden">
       <ContainerScroll client:load>
         <MailboxDashboard />
       </ContainerScroll>

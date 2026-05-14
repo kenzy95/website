@@ -1,6 +1,6 @@
 'use client';
 
-import { animate, motion, useMotionValue } from 'motion/react';
+import { animate, motion, useMotionValue } from 'framer-motion';
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -14,9 +14,8 @@ interface InfiniteSliderProps {
 }
 
 /**
- * Infinite marquee horizontal en motion/react.
- * Mesure native via ref+ResizeObserver pour eviter incompat React 19 / react-use-measure.
- * Children dupliques 2x pour boucle seamless.
+ * Infinite marquee horizontal en framer-motion (lib stable).
+ * Mesure native via ref+ResizeObserver, children duplique 2x pour boucle seamless.
  */
 function InfiniteSlider({
   children,
@@ -37,7 +36,6 @@ function InfiniteSlider({
     if (!innerRef.current) return;
     const measure = () => {
       if (!innerRef.current) return;
-      // Le contenu est duplique : on prend la moitie de la width
       const halfWidth = innerRef.current.scrollWidth / 2;
       setContentWidth(halfWidth);
     };

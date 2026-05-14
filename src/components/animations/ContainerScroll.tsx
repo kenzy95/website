@@ -1,88 +1,108 @@
 'use client';
-
-import { useRef, useState, useEffect, type ReactNode } from 'react';
-import { useScroll, useTransform, motion, type MotionValue } from 'motion/react';
-
-interface ContainerScrollProps {
-  children: ReactNode;
-}
+import React, { useRef, type ReactNode } from 'react';
+import { useScroll, useTransform, motion, type MotionValue } from 'framer-motion';
 
 /**
- * Container Scroll Animation (inspire d'Aceternity UI).
- * Adapte palette Agence Simple : encre #0F1B3F borders, creme interieur.
- * Offset explicite : ['start end', 'end start'] pour avoir une animation
- * etalee sur tout le passage du container dans le viewport.
+ * Container Scroll Animation - implementation 1:1 d'Aceternity UI.
+ * Stack : framer-motion (stable) + React 19. Adapte au theme Agence Simple
+ * (bordure encre, interieur creme charte v2).
+ *
+ * IMPORTANT : la section parente doit avoir une grande hauteur (pt-[40rem] minimum)
+ * pour que useScroll mesure correctement le passage du containerRef dans le viewport.
  */
-export function ContainerScroll({ children }: ContainerScrollProps) {
+export const ContainerScroll = ({
+  titleComponent,
+  children,
+}: {
+  titleComponent?: string | ReactNode;
+  children: ReactNode;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end start'],
   });
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
-  // Animation se joue sur le passage 0.0 -> 0.5, puis statique
-  const rotate = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    isMobile ? [25, 0, 0] : [28, 0, 0]
-  );
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    isMobile ? [0.75, 0.95, 0.95] : [0.85, 1, 1]
-  );
-  const translateY = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    isMobile ? [60, 0, 0] : [80, 0, 0]
-  );
+  const scaleDimensions = () => {
+    return isMobile ? [0.7, 0.9] : [1.05, 1];
+  };
+
+  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
     <div
+      className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
       ref={containerRef}
-      className="min-h-[120vh] flex items-center justify-center relative px-4 sm:px-8 py-12"
     >
-      <div className="w-full sticky top-24" style={{ perspective: '1200px' }}>
-        <Card rotate={rotate} scale={scale} translateY={translateY}>
+      <div
+        className="py-10 md:py-40 w-full relative"
+        style={{
+          perspective: '1000px',
+        }}
+      >
+        <Header translate={translate} titleComponent={titleComponent} />
+        <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
         </Card>
       </div>
     </div>
   );
-}
+};
 
-function Card({
+const Header = ({
+  translate,
+  titleComponent,
+}: {
+  translate: MotionValue<number>;
+  titleComponent?: string | ReactNode;
+}) => {
+  if (!titleComponent) return null;
+  return (
+    <motion.div
+      style={{ translateY: translate }}
+      className="max-w-5xl mx-auto text-center"
+    >
+      {titleComponent}
+    </motion.div>
+  );
+};
+
+const Card = ({
   rotate,
   scale,
-  translateY,
   children,
 }: {
   rotate: MotionValue<number>;
   scale: MotionValue<number>;
-  translateY: MotionValue<number>;
+  translate: MotionValue<number>;
   children: ReactNode;
-}) {
+}) => {
   return (
     <motion.div
       style={{
         rotateX: rotate,
         scale,
-        y: translateY,
         boxShadow:
-          '0 0 #0000004d, 0 9px 20px rgba(0,0,0,0.35), 0 37px 37px rgba(0,0,0,0.3), 0 84px 50px rgba(0,0,0,0.2), 0 149px 60px rgba(0,0,0,0.08), 0 233px 65px rgba(0,0,0,0.02)',
-        transformStyle: 'preserve-3d',
+          '0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003',
       }}
-      className="max-w-6xl mx-auto h-[28rem] md:h-[36rem] w-full border-4 border-[#1a2750] p-2 md:p-3 bg-[#0F1B3F] rounded-[28px]"
+      className="max-w-6xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#1a2750] p-2 md:p-3 bg-[#0F1B3F] rounded-[30px] shadow-2xl"
     >
-      <div className="h-full w-full overflow-hidden rounded-2xl bg-[#FAF7F2]">{children}</div>
+      <div className="h-full w-full overflow-hidden rounded-2xl bg-[#FAF7F2] md:rounded-2xl">
+        {children}
+      </div>
     </motion.div>
   );
-}
+};
