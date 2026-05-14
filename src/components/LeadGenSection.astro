@@ -1,0 +1,98 @@
+---
+/**
+ * Section "Nous vous generons des rdv qualifies, Vous faites la vente"
+ * + 2 cards : Infrastructure email (avec stats mockup) + Optimisation messages (avec reply mockup).
+ * Reprise structure du Framer.
+ */
+import HighlightMarker from './ui/HighlightMarker.astro';
+import EmailStatsMockup from './EmailStatsMockup.astro';
+import EmailReplyMockup from './EmailReplyMockup.astro';
+---
+
+<section class="py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <!-- Titre central -->
+    <div class="max-w-4xl mx-auto text-center mb-16 md:mb-20">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Notre engagement
+      </p>
+      <h2
+        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4.5vw, 3.5rem); letter-spacing: -0.03em;"
+      >
+        Nous vous générons des <HighlightMarker animated={false}>RDV qualifiés</HighlightMarker>.<br />
+        Vous faites la vente.
+      </h2>
+    </div>
+
+    <!-- 2 cards -->
+    <ul class="grid gap-6 md:grid-cols-2">
+      <li class="leadgen-card">
+        <div class="leadgen-card__content">
+          <h3 class="leadgen-card__title">
+            Une infrastructure e-mail construite pour votre entreprise.
+          </h3>
+          <p class="leadgen-card__body">
+            On gère l'aspect technique de la délivrabilité (SPF, DKIM, DMARC, warmup)
+            comme le copywriting des messages pour toucher votre cible.
+          </p>
+        </div>
+        <div class="leadgen-card__mockup">
+          <EmailStatsMockup />
+        </div>
+      </li>
+
+      <li class="leadgen-card">
+        <div class="leadgen-card__content">
+          <h3 class="leadgen-card__title">
+            Optimisation des messages et de votre calendrier pour la prise de RDV.
+          </h3>
+          <p class="leadgen-card__body">
+            Notre objectif est de comprendre les besoins, le parcours d'achat
+            et les attentes de votre cible pour délivrer le message juste.
+          </p>
+        </div>
+        <div class="leadgen-card__mockup">
+          <EmailReplyMockup />
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .leadgen-card {
+    background: #FDF8F0;
+    color: #0F1B3F;
+    border-radius: 28px;
+    padding: 2.5rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow:
+      0 1px 2px rgba(15, 27, 63, 0.04),
+      0 12px 40px rgba(15, 27, 63, 0.08);
+  }
+  @media (min-width: 768px) {
+    .leadgen-card { padding: 3rem 2.5rem 2.5rem; }
+  }
+  .leadgen-card__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    line-height: 1.2;
+    color: #0F1B3F;
+    letter-spacing: -0.01em;
+    max-width: 30rem;
+  }
+  .leadgen-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(15, 27, 63, 0.72);
+    max-width: 32rem;
+  }
+  .leadgen-card__mockup {
+    margin-top: auto;
+  }
+</style>

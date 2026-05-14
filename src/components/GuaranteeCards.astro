@@ -1,0 +1,146 @@
+---
+/**
+ * 2 cards bicolores garanties (Framer actuel) :
+ * - "Nous prenons tous les frais en charge" : fond orange plein charte v2 #F47B3F
+ * - "Aucun engagement" : fond texture cuivre/encre profond
+ * Adaptation charte v2 : remplace le rouge/orange satureé par l'orange officiel.
+ */
+import HighlightMarker from './ui/HighlightMarker.astro';
+---
+
+<section class="py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <ul class="grid gap-5 md:grid-cols-2">
+      <!-- Card 1 : Frais en charge - fond orange plein -->
+      <li class="guarantee-card guarantee-card--orange">
+        <span class="guarantee-card__eyebrow">Inclus dans le forfait</span>
+        <h3 class="guarantee-card__title">
+          Nous prenons<br />tous les frais<br />en charge.
+        </h3>
+        <p class="guarantee-card__body">
+          Outils, infrastructure, copywriting, suivi : tout est compris dans
+          le forfait mensuel. Pas de frais cachés, pas de mark-up sur les outils.
+        </p>
+      </li>
+
+      <!-- Card 2 : Aucun engagement - fond encre profond + texture -->
+      <li class="guarantee-card guarantee-card--encre">
+        <span class="guarantee-card__eyebrow">Liberté totale</span>
+        <h3 class="guarantee-card__title">
+          Aucun<br />engagement.
+        </h3>
+        <p class="guarantee-card__body">
+          Vous payez au mois. Si Simple ne vous est plus utile, vous partez.
+          Pas de durée minimum cachée, pas de pénalité de sortie.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .guarantee-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 3rem 2.5rem;
+    border-radius: 32px;
+    min-height: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  @media (min-width: 768px) {
+    .guarantee-card { padding: 4rem 3rem; min-height: 24rem; }
+  }
+
+  .guarantee-card--orange {
+    background: #F47B3F;
+    color: #0F1B3F;
+  }
+  .guarantee-card--orange::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at bottom right, rgba(15, 27, 63, 0.18), transparent 60%),
+      radial-gradient(ellipse at top left, rgba(255, 235, 220, 0.3), transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .guarantee-card--encre {
+    background: #0a132e;
+    color: #FAF7F2;
+  }
+  /* Texture cuivre/encre : multiple radial gradients pour effet matiere */
+  .guarantee-card--encre::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(244, 123, 63, 0.22), transparent 55%),
+      radial-gradient(circle at 30% 40%, rgba(244, 123, 63, 0.12), transparent 45%),
+      radial-gradient(ellipse at 80% 80%, rgba(118, 76, 220, 0.18), transparent 55%),
+      radial-gradient(circle at 60% 20%, rgba(255, 200, 150, 0.08), transparent 35%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .guarantee-card--encre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
+    background-size: 8px 8px;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .guarantee-card__eyebrow {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.75;
+  }
+  .guarantee-card--orange .guarantee-card__eyebrow {
+    color: #0F1B3F;
+    opacity: 0.7;
+  }
+  .guarantee-card--encre .guarantee-card__eyebrow {
+    color: #F47B3F;
+    opacity: 1;
+  }
+
+  .guarantee-card__title {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-top: 1.5rem;
+  }
+  .guarantee-card--encre .guarantee-card__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .guarantee-card__body {
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 26rem;
+    margin-top: 2rem;
+  }
+  .guarantee-card--orange .guarantee-card__body { color: rgba(15, 27, 63, 0.85); }
+  .guarantee-card--encre .guarantee-card__body { color: rgba(250, 247, 242, 0.78); }
+</style>

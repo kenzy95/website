@@ -1,0 +1,133 @@
+---
+/**
+ * Mockup d'un email de réponse positive reçu.
+ * Inspire du Framer actuel ("Suite a la visite de votre site").
+ */
+---
+
+<div class="reply-mockup">
+  <div class="reply-mockup__header">
+    <div class="reply-mockup__avatar">SB</div>
+    <div class="reply-mockup__meta">
+      <p class="reply-mockup__name">Sarah Bottollier</p>
+      <p class="reply-mockup__email">direction@bottollier-podologie.fr</p>
+    </div>
+    <span class="reply-mockup__date">Jeudi 11:42</span>
+  </div>
+  <p class="reply-mockup__subject">RE : Suite à la visite de votre site</p>
+  <div class="reply-mockup__body">
+    <p>Bonjour Kenzy,</p>
+    <p>Merci pour votre message.</p>
+    <p>
+      Effectivement nous avons le projet de rafraichir un peu nos communications
+      et notamment notre site. Vous pouvez me joindre au
+      <span class="reply-mockup__phone">04 50 52 97 48</span> pour en discuter.
+    </p>
+    <p>Belle journée.</p>
+    <p class="reply-mockup__signature">Sarah Bottollier</p>
+  </div>
+  <div class="reply-mockup__tags">
+    <span class="reply-mockup__tag reply-mockup__tag--success">RDV pris</span>
+    <span class="reply-mockup__tag">Cold email J+7</span>
+  </div>
+</div>
+
+<style>
+  .reply-mockup {
+    background: #FFFFFF;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
+    color: #0F1B3F;
+    box-shadow: 0 10px 30px -12px rgba(15, 27, 63, 0.2);
+    font-family: var(--font-sans);
+  }
+  .reply-mockup__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(15, 27, 63, 0.06);
+    margin-bottom: 1rem;
+  }
+  .reply-mockup__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1E90FF, #764CDC);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+  .reply-mockup__meta { flex: 1; min-width: 0; }
+  .reply-mockup__name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin: 0;
+    color: #0F1B3F;
+  }
+  .reply-mockup__email {
+    font-size: 0.75rem;
+    color: #5A6478;
+    margin: 0.1rem 0 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .reply-mockup__date {
+    font-size: 0.7rem;
+    color: #5A6478;
+    flex-shrink: 0;
+  }
+  .reply-mockup__subject {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0 0 0.85rem 0;
+    color: #0F1B3F;
+  }
+  .reply-mockup__body {
+    font-size: 0.825rem;
+    line-height: 1.55;
+    color: rgba(15, 27, 63, 0.85);
+  }
+  .reply-mockup__body p {
+    margin: 0 0 0.6rem 0;
+  }
+  .reply-mockup__phone {
+    color: #1E90FF;
+    font-weight: 600;
+  }
+  .reply-mockup__signature {
+    margin-top: 0.5rem !important;
+    font-weight: 500;
+    color: #0F1B3F;
+  }
+  .reply-mockup__tags {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.06);
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .reply-mockup__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: rgba(30, 144, 255, 0.1);
+    color: #1E90FF;
+  }
+  .reply-mockup__tag--success {
+    background: rgba(16, 185, 129, 0.12);
+    color: #059669;
+  }
+</style>

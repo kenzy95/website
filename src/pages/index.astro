@@ -6,6 +6,9 @@ import Container from '@components/ui/Container.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
 import LogoMarquee from '@components/LogoMarquee.astro';
+import PartnerWilco from '@components/PartnerWilco.astro';
+import GuaranteeCards from '@components/GuaranteeCards.astro';
+import LeadGenSection from '@components/LeadGenSection.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import { localBusinessSchema, faqSchema } from '@lib/schema';
@@ -80,13 +83,21 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
     <!-- ============ LOGOS CLIENTS (MARQUEE) ============ -->
     <LogoMarquee />
 
-    <!-- TODO PR2 : 2 cards bicolores garantie + section "Nous vous générons des RDV" + 2 cards infra/optim -->
+    <!-- ============ PARTENAIRE WILCO ============ -->
+    <PartnerWilco />
+
+    <!-- ============ 2 CARDS BICOLORES GARANTIES ============ -->
+    <GuaranteeCards />
+
+    <!-- ============ SECTION "RDV QUALIFIES" + 2 CARDS INFRA/OPTIM ============ -->
+    <LeadGenSection />
+
     <!-- TODO PR3 : What We Do + ScrollExpansion + 5 cards prise en charge + Processus -->
     <!-- TODO PR4 : Calculateur + Valeurs + Interviews + Constellation outils + FAQ + CTA final -->
 
     <div class="py-32 text-center">
       <p class="text-(--color-creme)/40 text-sm italic">
-        (Sections suivantes en construction - PR 2 à 4)
+        (Sections suivantes en construction - PR 3 et 4)
       </p>
     </div>
   </main>

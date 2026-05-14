@@ -1,0 +1,187 @@
+---
+/**
+ * Mockup d'infrastructure email - chart avec stats de sequence.
+ * Inspiré du Framer (750 envois, 66% open rate, 12.7% reply rate).
+ * CSS pur, perf max.
+ */
+---
+
+<div class="stats-mockup">
+  <div class="stats-mockup__header">
+    <div class="stats-mockup__status">
+      <span class="stats-mockup__pulse" aria-hidden="true"></span>
+      <span>Campagne active</span>
+    </div>
+    <span class="stats-mockup__paused">82%</span>
+  </div>
+
+  <div class="stats-mockup__metrics">
+    <div class="stats-mockup__metric">
+      <span class="stats-mockup__metric-label">Envois</span>
+      <span class="stats-mockup__metric-value">750</span>
+    </div>
+    <div class="stats-mockup__metric">
+      <span class="stats-mockup__metric-label">Ouverture</span>
+      <span class="stats-mockup__metric-value">66%<small>494</small></span>
+    </div>
+    <div class="stats-mockup__metric">
+      <span class="stats-mockup__metric-label">Réponses</span>
+      <span class="stats-mockup__metric-value stats-mockup__metric-value--accent">12,7%<small>95</small></span>
+    </div>
+  </div>
+
+  <!-- Chart SVG : courbes superposées sent / opens / replies -->
+  <svg viewBox="0 0 320 120" class="stats-mockup__chart" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="sent-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#F47B3F" stop-opacity="0.4" />
+        <stop offset="100%" stop-color="#F47B3F" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient id="opens-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1E90FF" stop-opacity="0.4" />
+        <stop offset="100%" stop-color="#1E90FF" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <!-- Sent (area) -->
+    <path
+      d="M0,70 C40,45 80,60 120,40 C160,28 200,35 240,30 C280,28 320,32 320,32 L320,120 L0,120 Z"
+      fill="url(#sent-grad)"
+    />
+    <path
+      d="M0,70 C40,45 80,60 120,40 C160,28 200,35 240,30 C280,28 320,32 320,32"
+      stroke="#F47B3F"
+      stroke-width="1.8"
+      fill="none"
+    />
+    <!-- Opens -->
+    <path
+      d="M0,90 C40,75 80,80 120,68 C160,60 200,65 240,58 C280,55 320,60 320,60"
+      stroke="#1E90FF"
+      stroke-width="1.8"
+      fill="none"
+    />
+    <!-- Replies -->
+    <path
+      d="M0,108 C40,100 80,102 120,95 C160,88 200,92 240,86 C280,82 320,86 320,86"
+      stroke="#5A6478"
+      stroke-width="1.5"
+      fill="none"
+      stroke-dasharray="3 3"
+    />
+  </svg>
+
+  <div class="stats-mockup__legend">
+    <span class="stats-mockup__legend-item">
+      <span class="stats-mockup__dot" style="background:#F47B3F"></span>Envoyés
+    </span>
+    <span class="stats-mockup__legend-item">
+      <span class="stats-mockup__dot" style="background:#1E90FF"></span>Ouverts
+    </span>
+    <span class="stats-mockup__legend-item">
+      <span class="stats-mockup__dot" style="background:#5A6478"></span>Réponses
+    </span>
+  </div>
+</div>
+
+<style>
+  .stats-mockup {
+    background: #FAF7F2;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
+    color: #0F1B3F;
+    box-shadow: 0 10px 30px -12px rgba(15, 27, 63, 0.2);
+  }
+  .stats-mockup__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .stats-mockup__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5A6478;
+  }
+  .stats-mockup__pulse {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    animation: stats-pulse 2s infinite;
+  }
+  @keyframes stats-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+  .stats-mockup__paused {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1E90FF;
+    background: rgba(30, 144, 255, 0.12);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+  }
+  .stats-mockup__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .stats-mockup__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .stats-mockup__metric-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #5A6478;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .stats-mockup__metric-value {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0F1B3F;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .stats-mockup__metric-value small {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5A6478;
+  }
+  .stats-mockup__metric-value--accent { color: #1E90FF; }
+  .stats-mockup__chart {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 0.75rem;
+  }
+  .stats-mockup__legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .stats-mockup__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    color: #5A6478;
+  }
+  .stats-mockup__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+</style>
