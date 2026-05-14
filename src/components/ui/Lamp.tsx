@@ -24,27 +24,25 @@ export const LampContainer = ({
         className,
       )}
     >
-      {/* Gradient orange-rose gauche (forme tachee floue) */}
+      {/* Gradient orange-rose gauche - ovale vertical, ambiance flanc bas */}
       <div
         aria-hidden="true"
-        className="absolute -left-[20rem] top-[10%] h-[60rem] w-[60rem] rounded-full pointer-events-none z-[1]"
+        className="absolute -left-[18rem] top-[20%] h-[60rem] w-[42rem] pointer-events-none z-[1]"
         style={{
           background:
-            "radial-gradient(circle at 60% 50%, rgba(255, 200, 168, 0.55) 0%, rgba(244, 123, 63, 0.50) 20%, rgba(255, 111, 181, 0.45) 45%, transparent 70%)",
-          filter: "blur(80px)",
-          mixBlendMode: "screen",
+            "radial-gradient(ellipse 50% 60% at 70% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%)",
+          filter: "blur(60px)",
         }}
       />
 
-      {/* Gradient orange-rose droit (symetrique, plus petit, plus bas) */}
+      {/* Gradient orange-rose droit - symetrique */}
       <div
         aria-hidden="true"
-        className="absolute -right-[15rem] top-[30%] h-[50rem] w-[50rem] rounded-full pointer-events-none z-[1]"
+        className="absolute -right-[18rem] top-[20%] h-[60rem] w-[42rem] pointer-events-none z-[1]"
         style={{
           background:
-            "radial-gradient(circle at 40% 50%, rgba(255, 215, 180, 0.50) 0%, rgba(244, 123, 63, 0.42) 22%, rgba(255, 111, 181, 0.38) 50%, transparent 72%)",
-          filter: "blur(80px)",
-          mixBlendMode: "screen",
+            "radial-gradient(ellipse 50% 60% at 30% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%)",
+          filter: "blur(60px)",
         }}
       />
 
