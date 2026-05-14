@@ -28,12 +28,12 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden w-full z-0",
+        "relative flex min-h-[100vh] flex-col items-center justify-end overflow-hidden w-full z-0 pt-24",
         className,
       )}
       style={{ backgroundColor: INK }}
     >
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
+      <div className="relative flex w-full h-[55vh] min-h-[440px] scale-y-125 items-center justify-center isolate z-0">
         {/* Cone gauche */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -108,8 +108,8 @@ export const LampContainer = ({
         />
       </div>
 
-      {/* Contenu (titre + CTA) remonte sous la barre */}
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+      {/* Contenu (titre + CTA) remonte sous la barre lumineuse */}
+      <div className="relative z-50 flex -translate-y-32 sm:-translate-y-40 flex-col items-center px-5 pb-16">
         {children}
       </div>
     </div>
