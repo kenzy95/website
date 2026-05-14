@@ -6,6 +6,7 @@ import Container from '@components/ui/Container.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
 import GlassButton from '@components/ui/GlassButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import HeroBackground from '@components/HeroBackground.astro';
 import LogoMarquee from '@components/LogoMarquee.astro';
 import PartnerWilco from '@components/PartnerWilco.astro';
 import GuaranteeCards from '@components/GuaranteeCards.astro';
@@ -54,13 +55,11 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
 
   <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
     <!-- ============ HERO ============ -->
-    <section class="relative pt-32 pb-12 sm:pt-40 sm:pb-20">
-      <!-- Glows decoratifs -->
-      <div aria-hidden="true" class="glow-orange w-[32rem] h-[32rem] -top-32 -right-32 opacity-40"></div>
-      <div aria-hidden="true" class="glow-violet w-[36rem] h-[36rem] top-32 -left-40 opacity-50"></div>
-      <div aria-hidden="true" class="glow-bleu w-[24rem] h-[24rem] top-1/2 left-1/2 -translate-x-1/2 opacity-30"></div>
+    <section class="relative pt-32 pb-12 sm:pt-40 sm:pb-20 overflow-hidden">
+      <!-- Background anime : grille + aurora + vignette -->
+      <HeroBackground />
 
-      <Container size="wide" class="relative text-center">
+      <Container size="wide" class="relative z-10 text-center">
         <h1
           class="leading-(--leading-tight) tracking-tight max-w-5xl mx-auto"
           style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"

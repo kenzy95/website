@@ -108,22 +108,35 @@ body[data-theme='dark'] {
   }
 }
 
-/* Highlight marker (charte v2) - utilise par <HighlightMarker>. */
+/* Highlight marker (charte v2) - feutre orange opaque, plus marque sur fond dark. */
 .highlight {
   position: relative;
   display: inline-block;
   z-index: 0;
+  padding: 0 0.15em;
 }
 .highlight::before {
   content: '';
   position: absolute;
-  inset: auto -0.1em -0.05em -0.1em;
-  height: 0.45em;
+  inset: 0.05em -0.1em 0 -0.1em;
   background: var(--color-orange);
-  opacity: 0.42;
   z-index: -1;
-  border-radius: 3px;
-  transform: rotate(-0.8deg);
+  border-radius: 4px;
+  transform: rotate(-0.6deg);
+  box-shadow:
+    0 0 0 1px rgba(244, 123, 63, 0.4),
+    0 6px 20px -4px rgba(244, 123, 63, 0.5),
+    0 0 32px rgba(244, 123, 63, 0.25);
+}
+.highlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 30%, rgba(255, 220, 180, 0.18), transparent 60%);
+  z-index: -1;
+  border-radius: 4px;
+  pointer-events: none;
 }
 
 /* Point bleu du logo qui pulse (charte v2). */
