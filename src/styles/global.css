@@ -65,7 +65,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Pas de scroll-behavior smooth : interfere avec les scroll-driven animations
+     (effet saccade quand l'utilisateur scrolle vite, valeurs --progress qui sautent).
+     Le scroll natif est fluide par defaut sur tous les browsers modernes. */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
