@@ -4,6 +4,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
+import react from '@astrojs/react';
+
 export default defineConfig({
   site: 'https://agencesimple.fr',
   trailingSlash: 'never',
@@ -15,23 +17,20 @@ export default defineConfig({
     prefetchAll: false,
     defaultStrategy: 'hover',
   },
-  integrations: [
-    mdx({
-      syntaxHighlight: 'shiki',
-      shikiConfig: { theme: 'github-light' },
-      gfm: true,
-    }),
-    sitemap({
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date(),
-      filter: (page) =>
-        !page.includes('/legal/') &&
-        !page.includes('/404') &&
-        !page.includes('/draft'),
-      i18n: undefined,
-    }),
-  ],
+  integrations: [mdx({
+    syntaxHighlight: 'shiki',
+    shikiConfig: { theme: 'github-light' },
+    gfm: true,
+  }), sitemap({
+    changefreq: 'weekly',
+    priority: 0.7,
+    lastmod: new Date(),
+    filter: (page) =>
+      !page.includes('/legal/') &&
+      !page.includes('/404') &&
+      !page.includes('/draft'),
+    i18n: undefined,
+  }), react()],
   vite: {
     plugins: [tailwindcss()],
   },

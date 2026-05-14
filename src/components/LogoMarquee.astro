@@ -1,0 +1,61 @@
+---
+import { BlurredInfiniteSlider } from './animations/InfiniteSlider';
+
+interface Logo {
+  name: string;
+  src?: string;
+}
+
+interface Props {
+  title?: string;
+  logos?: Logo[];
+  speed?: number;
+}
+
+// Clients vus sur le Framer actuel.
+const defaultLogos: Logo[] = [
+  { name: 'Trimble' },
+  { name: 'yomoni' },
+  { name: 'Job2bedone' },
+  { name: 'Solunea' },
+  { name: 'Happycolis' },
+  { name: 'Invent-App' },
+  { name: 'Dunforce' },
+  { name: 'Wedoit' },
+];
+
+const { title = 'Ils nous font confiance', logos = defaultLogos, speed = 50 } = Astro.props as Props;
+---
+
+<section class="py-16 md:py-20">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-[#F47B3F]">
+      {title}
+    </p>
+    <div class="mt-10">
+      <BlurredInfiniteSlider client:load speed={speed} speedOnHover={20} gap={64} fadeWidth={120}>
+        {
+          logos.map((logo) => (
+            <div class="flex items-center justify-center min-w-[140px] h-12">
+              {logo.src ? (
+                <img
+                  src={logo.src}
+                  alt={`Logo ${logo.name}`}
+                  class="h-7 w-auto opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+                  loading="lazy"
+                />
+              ) : (
+                <span
+                  class="text-[#FAF7F2]/60 hover:text-[#FAF7F2] transition-colors whitespace-nowrap"
+                  style="font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em;"
+                >
+                  {logo.name}
+                </span>
+              )}
+            </div>
+          ))
+        }
+      </BlurredInfiniteSlider>
+    </div>
+  </div>
+</section>

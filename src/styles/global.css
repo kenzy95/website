@@ -2,20 +2,18 @@
 
 /* Self-hosted variable fonts (LCP friendly).
    Plus Jakarta Sans : LOGO UNIQUEMENT (poids 800).
-   Fraunces : SERIF EDITORIALE (manifestes, citations, mantras), italic preferee.
-   DM Sans : SANS-SERIF FONCTIONNELLE (titres UI, body, navigation). */
+   Fraunces : SERIF EDITORIALE (manifestes, citations, mantras, hero).
+   DM Sans : SANS-SERIF FONCTIONNELLE (UI, body, navigation, cards). */
 @import '@fontsource/plus-jakarta-sans/800.css';
 @import '@fontsource-variable/fraunces/wght-italic.css';
 @import '@fontsource-variable/fraunces/wght.css';
 @import '@fontsource-variable/dm-sans/wght.css';
 
-/* Charte de marque Agence Simple v2.0 - mai 2026
+/* Charte de marque Agence Simple v2.0
    Six couleurs hierarchisees, max 3 par ecran.
-   Le bleu vif est rare et precieux : CTA, signature mantra, point logo, mot-cle manifeste.
-   L'orange est l'accent chaleur : zones d'energie ponctuelles, jamais en fond plein.
-   Pas de gradients agressifs. */
+   Le bleu vif est RARE et precieux : CTA, signature mantra, point logo, mot-cle.
+   L'orange est l'accent CHALEUR : zones d'energie ponctuelles, jamais en fond plein. */
 @theme {
-  /* Palette officielle */
   --color-encre: #0F1B3F;
   --color-bleu: #1E90FF;
   --color-orange: #F47B3F;
@@ -25,6 +23,7 @@
 
   /* Variantes utiles */
   --color-encre-soft: #1a2750;
+  --color-encre-deep: #0a132e;
   --color-creme-warm: #F8EFE3;
   --color-creme-card: #FDF8F0;
   --color-orange-soft: #FCE5D5;
@@ -37,9 +36,9 @@
   --font-sans: 'DM Sans Variable', system-ui, -apple-system, sans-serif;
   --font-logo: 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  /* Hierarchie typographique charte v2 */
-  --text-h1-hero: clamp(2.5rem, 5vw, 4.5rem);
-  --text-h2: clamp(1.875rem, 3.5vw, 3rem);
+  /* Hierarchie typographique */
+  --text-h1-hero: clamp(2.75rem, 6vw, 5.25rem);
+  --text-h2: clamp(2rem, 4vw, 3.25rem);
   --text-h3: clamp(1.25rem, 2vw, 1.75rem);
   --text-citation: clamp(1.5rem, 2.5vw, 2.25rem);
   --text-body-lg: clamp(1.0625rem, 1.4vw, 1.25rem);
@@ -47,22 +46,22 @@
   --text-caption: 0.875rem;
   --text-eyebrow: 0.8125rem;
 
-  /* Line-height : 1.4 sur titres, 1.6 sur corps */
-  --leading-tight: 1.1;
+  --leading-tight: 1.05;
   --leading-title: 1.2;
   --leading-normal: 1.6;
   --leading-relaxed: 1.7;
 
-  /* Radius : cards arrondies 16-24px charte v2 */
   --radius-sm: 0.5rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
   --radius-xl: 1.75rem;
+  --radius-2xl: 2rem;
 
-  /* Shadows : ombrage subtil */
   --shadow-soft: 0 1px 2px rgb(15 27 63 / 0.04), 0 4px 16px rgb(15 27 63 / 0.04);
   --shadow-card: 0 2px 4px rgb(15 27 63 / 0.05), 0 12px 32px rgb(15 27 63 / 0.05);
   --shadow-card-hover: 0 4px 8px rgb(15 27 63 / 0.06), 0 24px 48px rgb(15 27 63 / 0.08);
+  --shadow-glow-bleu: 0 0 40px -10px rgb(30 144 255 / 0.45);
+  --shadow-glow-orange: 0 0 40px -10px rgb(244 123 63 / 0.4);
 }
 
 html {
@@ -74,14 +73,20 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-feature-settings: 'ss01', 'cv11';
+  font-feature-settings: 'ss01';
   background: var(--color-creme);
   color: var(--color-encre);
   font-size: var(--text-body);
   line-height: var(--leading-normal);
 }
 
-/* Selections : encre sur bleu doux */
+/* Home en dark-first : fond encre, texte creme.
+   Pages secondaires gardent le creme par defaut. */
+body[data-theme='dark'] {
+  background: var(--color-encre);
+  color: var(--color-creme);
+}
+
 ::selection {
   background: var(--color-bleu);
   color: var(--color-creme);
@@ -93,19 +98,15 @@ body {
   border-radius: 4px;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
-/* Highlight orange pour mots-cles du manifeste (charte v2)
-   Pseudo-element pour effet "feutre" qui passe derriere le mot. */
+/* Highlight marker (charte v2) - utilise par <HighlightMarker>. */
 .highlight {
   position: relative;
   display: inline-block;
@@ -119,6 +120,38 @@ body {
   background: var(--color-orange);
   opacity: 0.42;
   z-index: -1;
-  border-radius: 2px;
+  border-radius: 3px;
   transform: rotate(-0.8deg);
+}
+
+/* Point bleu du logo qui pulse (charte v2). */
+@keyframes logo-pulse {
+  0%, 100% { transform: translateY(-0.04em) scale(1); opacity: 1; }
+  50% { transform: translateY(-0.04em) scale(1.08); opacity: 0.85; }
+}
+.logo-pulse {
+  animation: logo-pulse 2.4s ease-in-out infinite;
+}
+
+/* Glow halo decoratif sections hero. */
+.glow-orange {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(244, 123, 63, 0.35) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+.glow-bleu {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(30, 144, 255, 0.28) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+.glow-violet {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(118, 76, 220, 0.3) 0%, transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
 }

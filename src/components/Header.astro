@@ -1,36 +1,64 @@
 ---
 import Container from './ui/Container.astro';
 import LogoWordmark from './ui/LogoWordmark.astro';
-import Button from './ui/Button.astro';
+import ArrowButton from './ui/ArrowButton.astro';
 
 /**
- * Header charte v2 : Logo Simple. + Navigation simple.
- * "Accueil · Comment ca marche · Temoignages · Contact"
+ * Header charte v2 - reprise de la structure Framer :
+ * logo + nav pill centree + CTA "Prendre RDV" a droite.
+ * Variant dark (home) ou light (autres pages) selon route.
  */
+interface Props {
+  variant?: 'dark' | 'light';
+}
+const { variant = 'light' } = Astro.props as Props;
+
 const navItems = [
-  { href: '/#comment-ca-marche', label: 'Comment ça marche' },
-  { href: '/#preuves', label: 'Témoignages' },
+  { href: '/', label: 'Accueil' },
   { href: '/cas-clients', label: 'Cas clients' },
-  { href: '/tarifs', label: 'Tarifs' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 const currentPath = Astro.url.pathname;
+const isDark = variant === 'dark';
 ---
 
-<header class="sticky top-0 z-40 bg-(--color-creme)/90 backdrop-blur-md border-b border-(--color-encre)/8">
+<header
+  class:list={[
+    'fixed top-0 left-0 right-0 z-40 transition-colors duration-300',
+    isDark
+      ? 'bg-[#0F1B3F]/70 backdrop-blur-xl border-b border-white/5'
+      : 'bg-[#FAF7F2]/85 backdrop-blur-xl border-b border-[#0F1B3F]/8',
+  ]}
+>
   <Container size="wide" class="flex items-center justify-between h-16 sm:h-20">
-    <LogoWordmark size="md" />
+    <LogoWordmark size="md" variant={isDark ? 'creme' : 'encre'} />
 
-    <nav aria-label="Navigation principale" class="hidden md:flex items-center gap-8">
+    <!-- Nav pill centree -->
+    <nav
+      aria-label="Navigation principale"
+      class:list={[
+        'hidden md:flex items-center gap-1 px-1.5 py-1.5 rounded-full backdrop-blur-md',
+        isDark ? 'bg-white/5 border border-white/10' : 'bg-[#0F1B3F]/5 border border-[#0F1B3F]/8',
+      ]}
+    >
       {
         navItems.map((item) => {
-          const active = currentPath === item.href || (item.href.startsWith('/') && !item.href.startsWith('/#') && currentPath.startsWith(item.href));
+          const active = item.href === '/'
+            ? currentPath === '/'
+            : currentPath.startsWith(item.href);
           return (
             <a
               href={item.href}
               class:list={[
-                'text-(--text-caption) font-medium transition-colors',
-                active ? 'text-(--color-bleu)' : 'text-(--color-encre) hover:text-(--color-bleu)',
+                'px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-colors',
+                active
+                  ? isDark
+                    ? 'bg-[#1E90FF]/15 text-[#1E90FF]'
+                    : 'bg-[#0F1B3F] text-[#FAF7F2]'
+                  : isDark
+                    ? 'text-[#FAF7F2]/80 hover:text-[#FAF7F2]'
+                    : 'text-[#0F1B3F]/75 hover:text-[#0F1B3F]',
               ]}
               aria-current={active ? 'page' : undefined}
             >
@@ -41,6 +69,6 @@ const currentPath = Astro.url.pathname;
       }
     </nav>
 
-    <Button href="/contact" variant="bleu" size="sm">Réserver un appel</Button>
+    <ArrowButton href="/contact" variant="bleu" size="sm">Prendre RDV</ArrowButton>
   </Container>
 </header>

@@ -1,0 +1,79 @@
+---
+/**
+ * Bouton CTA Agence Simple avec fleche.
+ * variant 'bleu' = CTA hero (bleu vif charte v2 - rare et precieux).
+ * variant 'ghost-dark' = bouton secondaire sur fond sombre (encre).
+ * variant 'ghost-light' = bouton secondaire sur fond crème.
+ * Effet hover : fleche qui translate + leger lift.
+ */
+interface Props {
+  href?: string;
+  variant?: 'bleu' | 'ghost-dark' | 'ghost-light' | 'creme';
+  size?: 'sm' | 'md' | 'lg';
+  external?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  ariaLabel?: string;
+  withArrow?: boolean;
+}
+
+type Variant = NonNullable<Props['variant']>;
+type Size = NonNullable<Props['size']>;
+
+const {
+  href,
+  variant = 'bleu',
+  size = 'md',
+  external = false,
+  type = 'button',
+  class: className = '',
+  ariaLabel,
+  withArrow = true,
+} = Astro.props as Props;
+
+const variants: Record<Variant, string> = {
+  bleu: 'bg-[#1E90FF] text-white hover:bg-[#1E90FF]/90 shadow-[0_8px_24px_-8px_rgba(30,144,255,0.6)] hover:shadow-[0_12px_32px_-8px_rgba(30,144,255,0.8)]',
+  'ghost-dark': 'bg-white/8 backdrop-blur-md text-[#FAF7F2] border border-white/15 hover:bg-white/12 hover:border-white/30',
+  'ghost-light': 'bg-[#0F1B3F]/5 text-[#0F1B3F] border border-[#0F1B3F]/15 hover:bg-[#0F1B3F]/10 hover:border-[#0F1B3F]/30',
+  creme: 'bg-[#FAF7F2] text-[#0F1B3F] hover:bg-white shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)]',
+};
+
+const sizes: Record<Size, string> = {
+  sm: 'px-4 py-2 text-sm gap-1.5',
+  md: 'px-6 py-3 text-[15px] gap-2',
+  lg: 'px-7 py-3.5 text-[16px] gap-2.5',
+};
+
+const baseClasses = `group inline-flex items-center justify-center font-semibold rounded-full transition-all duration-300 ${variants[variant]} ${sizes[size]} ${className}`;
+const Tag = href ? 'a' : 'button';
+const externalProps = external ? { rel: 'noopener noreferrer', target: '_blank' } : {};
+---
+
+<Tag
+  class={baseClasses}
+  href={href}
+  type={!href ? type : undefined}
+  aria-label={ariaLabel}
+  {...externalProps}
+>
+  <span><slot /></span>
+  {
+    withArrow && (
+      <svg
+        class="transition-transform duration-300 group-hover:translate-x-0.5"
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="1" y1="7" x2="13" y2="7" />
+        <polyline points="7 1 13 7 7 13" />
+      </svg>
+    )
+  }
+</Tag>
