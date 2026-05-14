@@ -57,7 +57,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
     <section class="relative overflow-hidden">
       <LampContainer client:load>
         <h1
-          class="leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
+          class="mt-8 py-4 leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
           style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"
         >
           Payez
@@ -66,8 +66,11 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
           un
           <span style="font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-bleu);">RDV qualifié</span>.
         </h1>
+      </LampContainer>
 
-        <p class="mt-8 text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed) text-center">
+      <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin) -->
+      <div class="relative z-10 -mt-64 sm:-mt-72 pb-20 text-center px-5" style="background-color: var(--color-encre);">
+        <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
           Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
         </p>
 
@@ -79,7 +82,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
             En savoir plus
           </ArrowButton>
         </div>
-      </LampContainer>
+      </div>
     </section>
 
     <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
