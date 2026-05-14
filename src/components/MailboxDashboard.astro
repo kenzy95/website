@@ -1,132 +1,30 @@
 ---
 /**
- * Mockup boite mail "Meeting Point" - dashboard de RDV pour le hero.
- * A inserer dans le ContainerScroll. CSS-only, zero JS, perf garantie.
- * Stylise comme Gmail-like avec branding Agence Simple.
+ * Dashboard mail "Meeting Point" - vraie image du Framer.
+ * Utilisee dans le ContainerScroll du hero.
  */
-import LogoWordmark from './ui/LogoWordmark.astro';
-
-const meetings = [
-  { day: 'Lundi', date: '4 mai', time: '09:42', from: 'Yann Lescurat', preview: 'Effectivement, je suis intéressé pour discuter en visio. Jeudi 4 à 11h ?', company: 'Solunea', role: 'CEO', tag: 'RDV confirmé' },
-  { day: 'Mardi', date: '5 mai', time: '11:18', from: 'Marc Dupond', preview: "Bonjour Kenzy, votre approche m'intéresse. Quelle disponibilité avez-vous cette semaine ?", company: 'Wedoit better', role: 'DG', tag: 'En attente' },
-  { day: 'Mercredi', date: '6 mai', time: '15:30', from: 'Inès Rivière', preview: 'Merci pour votre message. Je vous propose un créneau jeudi matin pour échanger.', company: 'Trimble', role: 'VP Sales', tag: 'RDV confirmé' },
-  { day: 'Jeudi', date: '7 mai', time: '10:05', from: 'Antoine Berger', preview: 'Effectivement, on a un vrai sujet sur la prospection. Disponible demain à 14h ?', company: 'Yannod', role: 'Founder', tag: 'RDV confirmé' },
-];
-
-const sidebarItems = [
-  { icon: '✉️', label: 'Inbox', count: 8, active: true },
-  { icon: '⭐', label: 'Starred' },
-  { icon: '⏰', label: 'Snoozed' },
-  { icon: '📤', label: 'Sent' },
-  { icon: '📝', label: 'Drafts' },
-];
 ---
 
-<div class="flex h-full w-full bg-[#FAF7F2] text-[#0F1B3F]">
-  <!-- Sidebar -->
-  <aside class="hidden md:flex flex-col w-52 border-r border-[#0F1B3F]/8 px-3 py-4 bg-[#FDF8F0]">
-    <div class="flex items-center gap-2 px-2 mb-6">
-      <LogoWordmark size="sm" asLink={false} />
-    </div>
-    <button
-      type="button"
-      class="flex items-center gap-2 px-3 py-2 rounded-full bg-[#1E90FF] text-white font-medium text-sm mb-4"
-    >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-      Compose
-    </button>
-    <nav class="flex flex-col gap-0.5">
-      {
-        sidebarItems.map((item) => (
-          <a
-            href="#"
-            class:list={[
-              'flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-colors',
-              item.active
-                ? 'bg-[#1E90FF]/12 text-[#0F1B3F] font-semibold'
-                : 'text-[#5A6478] hover:bg-[#0F1B3F]/5',
-            ]}
-          >
-            <span class="flex items-center gap-2">
-              <span aria-hidden="true">{item.icon}</span>
-              {item.label}
-            </span>
-            {item.count && (
-              <span class="text-xs font-medium text-[#1E90FF]">{item.count}</span>
-            )}
-          </a>
-        ))
-      }
-    </nav>
-  </aside>
+<img
+  src="/images/hero-dashboard.png"
+  alt="Boîte de réception montrant des rendez-vous qualifiés générés par Agence Simple"
+  class="hero-dashboard-img"
+  width="1920"
+  height="1080"
+  loading="eager"
+  fetchpriority="high"
+/>
 
-  <!-- Liste de messages -->
-  <main class="flex-1 flex flex-col">
-    <!-- Toolbar -->
-    <div class="flex items-center justify-between px-5 py-3 border-b border-[#0F1B3F]/8 bg-[#FDF8F0]">
-      <div class="flex items-center gap-3">
-        <div class="relative w-72 max-w-xs">
-          <svg
-            class="absolute left-3 top-1/2 -translate-y-1/2 text-[#5A6478]"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="text"
-            placeholder="Rechercher dans la boite mail"
-            disabled
-            class="w-full pl-9 pr-3 py-1.5 rounded-full bg-white border border-[#0F1B3F]/10 text-xs text-[#5A6478]"
-          />
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 text-xs text-[#0F1B3F]/70">
-          <span class="block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
-          Active
-        </span>
-      </div>
-    </div>
-
-    <!-- Liste de RDV -->
-    <ul class="flex-1 divide-y divide-[#0F1B3F]/6 overflow-hidden">
-      {
-        meetings.map((m) => (
-          <li class="flex items-start gap-4 px-5 py-4 hover:bg-[#FDF8F0]/50 transition-colors">
-            <div class="flex-shrink-0 w-14 text-center pt-1">
-              <p class="text-xs font-bold text-[#0F1B3F] uppercase">{m.day.slice(0, 3)}</p>
-              <p class="text-xs text-[#5A6478] tabular-nums">{m.time}</p>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between gap-3">
-                <p class="text-sm font-semibold text-[#0F1B3F] truncate">{m.from}</p>
-                <span class="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide bg-[#1E90FF]/12 text-[#1E90FF]">
-                  {m.tag}
-                </span>
-              </div>
-              <p class="text-xs text-[#5A6478] mt-0.5">
-                {m.role} - {m.company}
-              </p>
-              <p class="text-sm text-[#0F1B3F]/85 mt-1 line-clamp-2">{m.preview}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-
-    <!-- Footer status -->
-    <footer class="px-5 py-3 border-t border-[#0F1B3F]/8 bg-[#FDF8F0] flex items-center justify-between text-xs text-[#5A6478]">
-      <p>4 RDV qualifiés cette semaine</p>
-      <p>Mis à jour il y a 4 min</p>
-    </footer>
-  </main>
-</div>
+<style>
+  .hero-dashboard-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: 16px;
+  }
+  @media (min-width: 768px) {
+    .hero-dashboard-img { border-radius: 20px; }
+  }
+</style>
