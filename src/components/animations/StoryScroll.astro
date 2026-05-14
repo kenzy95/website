@@ -34,6 +34,8 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
           var sections = root.querySelectorAll('[data-story-section]');
           var vh = window.innerHeight;
           sections.forEach(function (section, i) {
+            // Z-index incremental (scoping CSS Astro casse :nth-child cross-component)
+            section.style.zIndex = String(i + 1);
             var inner = section.querySelector('.story-section__inner');
             if (!inner) return;
             if (i === 0) {
