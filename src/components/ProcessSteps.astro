@@ -62,46 +62,25 @@ const steps = [
         }
       </ol>
 
-      <!-- Visuel sticky a droite -->
+      <!-- Visuel sticky a droite : vraie photo du Framer + overlay caption -->
       <aside class="process-visual">
         <div class="process-visual__sticky">
-          <div class="process-visual__card">
-            <div class="process-visual__header">
-              <span class="process-visual__chip">Atelier de cadrage</span>
-              <span class="process-visual__time">60 min</span>
-            </div>
-            <div class="process-visual__steps">
-              <div class="process-visual__row process-visual__row--done">
-                <span class="process-visual__dot"></span>
-                <span>ICP cible défini</span>
-                <small>10:00</small>
-              </div>
-              <div class="process-visual__row process-visual__row--done">
-                <span class="process-visual__dot"></span>
-                <span>Pain points validés</span>
-                <small>10:18</small>
-              </div>
-              <div class="process-visual__row process-visual__row--current">
-                <span class="process-visual__dot"></span>
-                <span>Angles d'attaque</span>
-                <small>10:32</small>
-              </div>
-              <div class="process-visual__row">
-                <span class="process-visual__dot"></span>
-                <span>Volume cible / mois</span>
-                <small>10:46</small>
-              </div>
-              <div class="process-visual__row">
-                <span class="process-visual__dot"></span>
-                <span>Engagement minimum vital</span>
-                <small>10:55</small>
-              </div>
-            </div>
-            <div class="process-visual__footer">
-              <span class="process-visual__pulse"></span>
-              Brief en cours
-            </div>
-          </div>
+          <figure class="process-photo">
+            <img
+              src="/images/process-photo.png"
+              alt="Atelier de cadrage avec un client"
+              class="process-photo__img"
+              loading="lazy"
+              width="600"
+              height="600"
+            />
+            <figcaption class="process-photo__caption">
+              <span class="process-photo__chip">Atelier de cadrage</span>
+              <p class="process-photo__text">
+                On commence toujours par un atelier de 60 minutes avec vous, sans slides.
+              </p>
+            </figcaption>
+          </figure>
         </div>
       </aside>
     </div>
@@ -188,7 +167,7 @@ const steps = [
     max-width: 32rem;
   }
 
-  /* === VISUEL === */
+  /* === VISUEL : photo du Framer + caption === */
   .process-visual {
     display: none;
   }
@@ -199,91 +178,46 @@ const steps = [
     position: sticky;
     top: 6rem;
   }
-  .process-visual__card {
-    background: #FAF7F2;
-    color: #0F1B3F;
+  .process-photo {
+    position: relative;
+    margin: 0;
     border-radius: 24px;
-    padding: 1.75rem 1.75rem 1.25rem;
+    overflow: hidden;
     box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.5);
   }
-  .process-visual__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
+  .process-photo__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
   }
-  .process-visual__chip {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #1E90FF;
-    background: rgba(30, 144, 255, 0.12);
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
+  .process-photo__caption {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    background: rgba(15, 27, 63, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    color: var(--color-creme);
   }
-  .process-visual__time {
-    font-size: 0.75rem;
-    color: #5A6478;
+  .process-photo__chip {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-orange);
+    margin-bottom: 0.5rem;
+  }
+  .process-photo__text {
+    font-family: var(--font-display);
+    font-style: italic;
     font-weight: 500;
-  }
-  .process-visual__steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-  .process-visual__row {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.85rem;
-    font-size: 0.875rem;
-    color: rgba(15, 27, 63, 0.45);
-  }
-  .process-visual__row small {
-    font-size: 0.72rem;
-    color: rgba(15, 27, 63, 0.35);
-  }
-  .process-visual__dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: rgba(15, 27, 63, 0.15);
-    flex-shrink: 0;
-  }
-  .process-visual__row--done {
-    color: rgba(15, 27, 63, 0.85);
-  }
-  .process-visual__row--done .process-visual__dot {
-    background: #10B981;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
-  }
-  .process-visual__row--current {
-    color: #0F1B3F;
-    font-weight: 600;
-  }
-  .process-visual__row--current .process-visual__dot {
-    background: #1E90FF;
-    box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.18);
-  }
-  .process-visual__footer {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(15, 27, 63, 0.08);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    color: #5A6478;
-  }
-  .process-visual__pulse {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #1E90FF;
-    box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.5);
-    animation: process-pulse 2s infinite;
-  }
-  @keyframes process-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.5); }
-    50% { box-shadow: 0 0 0 6px rgba(30, 144, 255, 0); }
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--color-creme);
   }
 </style>
