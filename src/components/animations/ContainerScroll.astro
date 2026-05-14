@@ -1,77 +1,101 @@
 ---
 /**
- * Container Scroll - reveal 3D via IntersectionObserver + CSS transitions.
- * Approche zero-echec : marche dans tous les browsers et tous les contextes
- * (HMR, devtools ouvertes, env restrictifs).
- * L'element se redresse en 3D quand il entre dans le viewport.
+ * Container Scroll Animation - reproduction exacte de l'effet Aceternity UI.
+ * Le container se redresse progressivement en 3D, synchronise au scroll.
+ *
+ * Implementation : scroll listener vanilla + CSS variable --progress (0->1)
+ * + transform calc(). Zero framer-motion, zero React, marche partout.
+ *
+ * Section 200vh -> sticky 100vh -> card animee selon position de la section
+ * dans le viewport. Identique a la demo Aceternity.
  */
 ---
 
-<div class="container-scroll-wrapper" style="perspective: 1400px;">
-  <div class="container-scroll-card" data-card-reveal>
-    <div class="container-scroll-inner">
-      <slot />
+<section class="acc-scroll" data-scroll-section>
+  <div class="acc-scroll__sticky">
+    <div class="acc-scroll__perspective">
+      <div class="acc-scroll__card">
+        <div class="acc-scroll__inner">
+          <slot />
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <script is:inline>
-  // is:inline pour garantir l'execution immediate, sans bundle Astro.
   (function () {
-    function reveal() {
-      var cards = document.querySelectorAll('[data-card-reveal]');
-      if (!cards.length) return;
-      // Check immediat : si la card est deja visible ou passee au mount
-      // (cas reload mid-page), on revele direct sans attendre l'observer.
-      cards.forEach(function (c) {
-        var r = c.getBoundingClientRect();
-        var vh = window.innerHeight;
-        if (r.top < vh * 0.85 && r.bottom > 0) {
-          c.classList.add('in-view');
-        } else if (r.top < 0) {
-          // Card deja passee au-dessus
-          c.classList.add('in-view');
-        }
-      });
-      if (!('IntersectionObserver' in window)) {
-        cards.forEach(function (c) { c.classList.add('in-view'); });
-        return;
+    function init() {
+      var sections = document.querySelectorAll('[data-scroll-section]');
+      if (!sections.length) return;
+      var ticking = false;
+
+      function update() {
+        sections.forEach(function (section) {
+          var rect = section.getBoundingClientRect();
+          var vh = window.innerHeight;
+          // Progress 0 quand top.section touche bottom.viewport (entree)
+          // Progress 1 quand bottom.section touche top.viewport (sortie)
+          var total = vh + rect.height;
+          var traveled = vh - rect.top;
+          var p = traveled / total;
+          if (p < 0) p = 0;
+          if (p > 1) p = 1;
+          section.style.setProperty('--progress', p.toFixed(4));
+        });
       }
-      var obs = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
-      );
-      cards.forEach(function (c) {
-        if (!c.classList.contains('in-view')) obs.observe(c);
-      });
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
     }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', reveal);
+      document.addEventListener('DOMContentLoaded', init);
     } else {
-      reveal();
+      init();
     }
   })();
 </script>
 
 <style>
-  .container-scroll-wrapper {
+  .acc-scroll {
+    /* Hauteur 200vh : 1 vh d'animation, le sticky se decolle ensuite */
+    height: 200vh;
+    position: relative;
+    padding: 0 0.5rem;
+    --progress: 0;
+  }
+  @media (min-width: 768px) {
+    .acc-scroll { padding: 0 2rem; }
+  }
+
+  .acc-scroll__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .acc-scroll__perspective {
     width: 100%;
     max-width: 80rem;
     margin: 0 auto;
-    padding: 4rem 0.5rem;
-  }
-  @media (min-width: 768px) {
-    .container-scroll-wrapper { padding: 6rem 2rem; }
+    perspective: 1200px;
   }
 
-  .container-scroll-card {
+  .acc-scroll__card {
     max-width: 72rem;
     margin: 0 auto;
     height: 28rem;
@@ -86,27 +110,21 @@
       0 84px 50px rgba(0, 0, 0, 0.2),
       0 149px 60px rgba(0, 0, 0, 0.08);
     transform-style: preserve-3d;
-    /* Etat initial : incline + descendu + transparent */
-    transform: rotateX(28deg) scale(0.88) translateY(60px);
-    opacity: 0;
-    transition:
-      transform 1.4s cubic-bezier(0.22, 0.8, 0.22, 1),
-      opacity 0.9s cubic-bezier(0.22, 0.8, 0.22, 1);
-    will-change: transform, opacity;
+    will-change: transform;
+    /* Transform pilote par --progress (0 = etat initial, 1 = etat final) */
+    --rotate: calc((1 - var(--progress)) * 22deg);
+    --scale: calc(0.9 + var(--progress) * 0.15);
+    --ty: calc((1 - var(--progress)) * 60px);
+    transform: rotateX(var(--rotate)) scale(var(--scale)) translateY(var(--ty));
   }
   @media (min-width: 768px) {
-    .container-scroll-card {
+    .acc-scroll__card {
       height: 36rem;
       padding: 0.75rem;
     }
   }
 
-  .container-scroll-card.in-view {
-    transform: rotateX(0deg) scale(1) translateY(0);
-    opacity: 1;
-  }
-
-  .container-scroll-inner {
+  .acc-scroll__inner {
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -115,8 +133,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .container-scroll-card {
-      transition: opacity 0.3s linear;
+    .acc-scroll__card {
       transform: rotateX(0deg) scale(1) translateY(0);
     }
   }
