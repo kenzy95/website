@@ -6,7 +6,7 @@ import Container from '@components/ui/Container.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
 import LogoMarquee from '@components/LogoMarquee.astro';
-import { ContainerScroll } from '@components/animations/ContainerScroll';
+import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import { localBusinessSchema, faqSchema } from '@lib/schema';
 
@@ -72,7 +72,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
 
     <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
     <section class="relative flex flex-col overflow-hidden">
-      <ContainerScroll client:load>
+      <ContainerScroll>
         <MailboxDashboard />
       </ContainerScroll>
     </section>
