@@ -4,6 +4,7 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import Container from '@components/ui/Container.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
 import LogoMarquee from '@components/LogoMarquee.astro';
 import PartnerWilco from '@components/PartnerWilco.astro';
@@ -76,7 +77,9 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
         </p>
 
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <ArrowButton href="/contact" variant="bleu" size="lg">Prendre RDV</ArrowButton>
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Prendre rendez-vous">
+            Prendre RDV
+          </GlassButton>
           <ArrowButton href="#comment-ca-marche" variant="ghost-dark" size="lg" withArrow={false}>
             En savoir plus
           </ArrowButton>
