@@ -73,16 +73,15 @@ import HighlightMarker from './ui/HighlightMarker.astro';
     background: #0a132e;
     color: #FAF7F2;
   }
-  /* Texture cuivre/encre : multiple radial gradients pour effet matiere */
+  /* Texture cuivre reelle : image du Framer + overlay encre pour darken */
   .guarantee-card--encre::before {
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse at top left, rgba(244, 123, 63, 0.22), transparent 55%),
-      radial-gradient(circle at 30% 40%, rgba(244, 123, 63, 0.12), transparent 45%),
-      radial-gradient(ellipse at 80% 80%, rgba(118, 76, 220, 0.18), transparent 55%),
-      radial-gradient(circle at 60% 20%, rgba(255, 200, 150, 0.08), transparent 35%);
+    background-image: url('/textures/copper.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.45;
     z-index: 0;
     pointer-events: none;
   }
@@ -90,12 +89,11 @@ import HighlightMarker from './ui/HighlightMarker.astro';
     content: '';
     position: absolute;
     inset: 0;
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
-    background-size: 8px 8px;
+    background:
+      radial-gradient(ellipse at top left, rgba(15, 27, 63, 0.4), transparent 50%),
+      linear-gradient(135deg, rgba(15, 27, 63, 0.3), rgba(10, 19, 46, 0.6));
     z-index: 0;
     pointer-events: none;
-    opacity: 0.6;
   }
 
   .guarantee-card__eyebrow {

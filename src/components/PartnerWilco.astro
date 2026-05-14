@@ -1,16 +1,15 @@
 ---
 /**
- * Card "Partenaire WILCO" - inspiree du Framer actuel (card violette flottante).
- * Centree sous le marquee logos, badge avec gradient pour rappeler le visuel
- * d'origine sans tomber dans le gradient 2022 saturé.
+ * Card "Partenaire WILCO" - utilise le vrai badge Wilco du Framer.
+ * Centree sous le marquee logos.
  */
 ---
 
 <section class="py-10">
   <div class="mx-auto max-w-6xl px-6 flex justify-center">
-    <div class="wilco-card">
-      <span class="wilco-card__eyebrow">Partenaire officiel</span>
-      <span class="wilco-card__name">WILCO</span>
+    <div class="wilco-card" role="img" aria-label="Partenaire officiel Wilco">
+      <img src="/clients/wilco-partner.png" alt="" class="wilco-card__img" loading="lazy" />
+      <span class="wilco-card__label">Partenaire officiel</span>
     </div>
   </div>
 </section>
@@ -20,45 +19,32 @@
     position: relative;
     display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
-    padding: 1rem 1.6rem;
-    border-radius: 18px;
+    align-items: stretch;
+    padding: 0.85rem 1rem;
+    border-radius: 20px;
     overflow: hidden;
     isolation: isolate;
-    background:
-      linear-gradient(135deg, rgba(118, 76, 220, 0.95), rgba(30, 144, 255, 0.95));
+    background: rgba(250, 247, 242, 0.04);
+    border: 1px solid rgba(250, 247, 242, 0.1);
+    backdrop-filter: blur(8px);
     box-shadow:
-      0 10px 30px -10px rgba(118, 76, 220, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+      0 12px 30px -12px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset;
   }
-  .wilco-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at top right, rgba(244, 123, 63, 0.35), transparent 60%),
-      radial-gradient(ellipse at bottom left, rgba(255, 255, 255, 0.15), transparent 55%);
-    pointer-events: none;
-    z-index: 0;
+  .wilco-card__img {
+    width: auto;
+    height: 56px;
+    border-radius: 10px;
+    display: block;
   }
-  .wilco-card__eyebrow {
-    position: relative;
-    z-index: 1;
+  .wilco-card__label {
+    margin-top: 0.6rem;
+    text-align: center;
     font-family: var(--font-sans);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255, 255, 255, 0.85);
-  }
-  .wilco-card__name {
-    position: relative;
-    z-index: 1;
-    font-family: var(--font-logo);
-    font-weight: 800;
-    font-size: 1.625rem;
-    letter-spacing: 0.05em;
-    color: #FFFFFF;
+    color: rgba(250, 247, 242, 0.7);
   }
 </style>

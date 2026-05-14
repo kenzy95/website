@@ -1,13 +1,13 @@
 ---
 /**
  * Interviews clients - cards bleu pale avec structure Avant/Apres.
- * Reprise du Framer (Les Epaulettes, Komon, Daisy...).
+ * Logos clients reels du Framer.
  */
 
 interface Interview {
   client: string;
+  logo?: string;
   sector: string;
-  videoThumb?: string;
   before: string;
   after: string;
 }
@@ -15,6 +15,7 @@ interface Interview {
 const interviews: Interview[] = [
   {
     client: 'Les Épaulettes',
+    logo: '/clients/epaulettes.png',
     sector: 'Vente B2B',
     before:
       "Les Épaulettes faisaient face à des défis importants dans leur prospection B2B. Les méthodes utilisées manquaient de structure, ce qui rendait difficile l'atteinte efficace des prospects. Les engagements initiaux étaient souvent influencés par des relations historiques, et il y avait un besoin pressant d'accélérer et d'améliorer les ventes B2B.",
@@ -22,20 +23,22 @@ const interviews: Interview[] = [
       "L'accent mis sur le timing et la personnalisation des messages a permis d'améliorer considérablement la qualité des leads. Désormais, la grande majorité de leur activité B2B découle directement du flux de RDV qualifiés apportés.",
   },
   {
-    client: 'Komon',
-    sector: 'Assurance B2C',
+    client: 'MOFFI',
+    logo: '/clients/moffi.png',
+    sector: 'SaaS B2B',
     before:
-      "Komon faisaient face à une forte concurrence dans le secteur de l'assurance individuelle. Leurs tentatives de prospection, notamment sur LinkedIn, n'avaient pas porté leurs fruits, et ils se reposaient principalement sur le bouche-à-oreille.",
+      "MOFFI faisait face à une forte concurrence dans son secteur. Leurs tentatives de prospection, notamment sur LinkedIn, n'avaient pas porté leurs fruits, et ils se reposaient principalement sur le bouche-à-oreille.",
     after:
       "Nous avons organisé environ 30 réunions dès le premier mois. Cela a non seulement boosté leur potentiel de croissance, mais a également amélioré le moral de l'équipe, leur permettant d'envisager de nouvelles méthodes de travail plus flexibles, en se concentrant sur le closing.",
   },
   {
-    client: 'Daisy',
+    client: 'Dr.Rubber',
+    logo: '/clients/dr-rubber.png',
     sector: 'SaaS Créatif',
     before:
-      "Au lancement de Daisy, Louise et son équipe étaient confrontés à l'enjeu crucial de découvrir leur marché et de valider le market fit de leur produit. Sans expérience préalable en prospection, ils cherchaient à comprendre les besoins et les attentes des clients potentiels pour s'assurer que leur SaaS répondait aux exigences du marché créatif.",
+      "Au lancement de Dr.Rubber, l'équipe était confrontée à l'enjeu crucial de découvrir leur marché et de valider le market fit de leur produit. Sans expérience préalable en prospection, ils cherchaient à comprendre les besoins et les attentes des clients potentiels pour s'assurer que leur SaaS répondait aux exigences du marché.",
     after:
-      "Grâce à l'externalisation de la prospection, Daisy a pu rapidement entrer en contact avec de nombreux prospects à travers la France, y compris dans des villes comme Bordeaux, Lyon et Marseille. En un mois, Louise a réussi à organiser entre 10 et 15 démos, ce qui a permis à l'entreprise de valider son produit et d'élargir sa portée sans effort supplémentaire de la part de son équipe.",
+      "Grâce à l'externalisation de la prospection, Dr.Rubber a pu rapidement entrer en contact avec de nombreux prospects à travers la France, y compris dans des villes comme Bordeaux, Lyon et Marseille. En un mois, l'équipe a réussi à organiser entre 10 et 15 démos, ce qui a permis à l'entreprise de valider son produit et d'élargir sa portée sans effort supplémentaire.",
   },
 ];
 ---
@@ -59,8 +62,13 @@ const interviews: Interview[] = [
         interviews.map((iv) => (
           <li class="interview-card">
             <div class="interview-card__head">
-              <span class="interview-card__sector">{iv.sector}</span>
-              <h3 class="interview-card__name">{iv.client}</h3>
+              {iv.logo && (
+                <img src={iv.logo} alt={`Logo ${iv.client}`} class="interview-card__logo" loading="lazy" />
+              )}
+              <div class="interview-card__id">
+                <span class="interview-card__sector">{iv.sector}</span>
+                <h3 class="interview-card__name">{iv.client}</h3>
+              </div>
             </div>
             <div class="interview-card__body">
               <div class="interview-card__col">
@@ -80,10 +88,7 @@ const interviews: Interview[] = [
 </section>
 
 <style>
-  .interviews-section {
-    padding: 6rem 0;
-  }
-
+  .interviews-section { padding: 6rem 0; }
   .interviews-grid {
     display: grid;
     gap: 1.5rem;
@@ -97,7 +102,6 @@ const interviews: Interview[] = [
       margin: 0 auto;
     }
   }
-
   .interview-card {
     background: #DDE6F5;
     color: #0F1B3F;
@@ -111,11 +115,23 @@ const interviews: Interview[] = [
   @media (min-width: 768px) {
     .interview-card { padding: 2.5rem; }
   }
-
   .interview-card__head {
     border-bottom: 1px solid rgba(15, 27, 63, 0.1);
-    padding-bottom: 1rem;
+    padding-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
+  .interview-card__logo {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #FFFFFF;
+    padding: 6px;
+    flex-shrink: 0;
+  }
+  .interview-card__id { flex: 1; min-width: 0; }
   .interview-card__sector {
     font-size: 0.75rem;
     font-weight: 600;
@@ -128,10 +144,9 @@ const interviews: Interview[] = [
     font-family: var(--font-display);
     font-weight: 600;
     font-style: italic;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     color: #0F1B3F;
   }
-
   .interview-card__body {
     display: flex;
     flex-direction: column;

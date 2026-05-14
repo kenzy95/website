@@ -1,34 +1,33 @@
 ---
 /**
- * Marquee infini en CSS pur (zero JS, perf maximale).
- * Children dupliques 2x dans le DOM pour boucle seamless.
- * Mask gradient pour fade gauche/droite.
- * Hover pause via animation-play-state.
+ * Marquee infini en CSS pur (zero JS).
+ * 10 vrais logos clients reels recuperes du Framer.
  */
 
 interface Logo {
   name: string;
-  domain?: string;
+  src: string;
+  height?: number;
 }
 
 const clients: Logo[] = [
-  { name: 'Trimble', domain: 'trimble.com' },
-  { name: 'Yomoni', domain: 'yomoni.fr' },
-  { name: 'Solunea', domain: 'solunea.fr' },
-  { name: 'Job2bedone' },
-  { name: 'Dunforce', domain: 'dunforce.com' },
-  { name: 'Happycolis' },
-  { name: 'Invent-App' },
-  { name: 'Wedoit' },
+  { name: 'Trimble', src: '/clients/trimble.png', height: 28 },
+  { name: 'Yomoni', src: '/clients/yomoni.png', height: 26 },
+  { name: 'Solunea', src: '/clients/solunea.png', height: 44 },
+  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 34 },
+  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 28 },
+  { name: 'MOFFI', src: '/clients/moffi.png', height: 30 },
+  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 24 },
+  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 32 },
+  { name: 'Nestore', src: '/clients/nestore.png', height: 22 },
 ];
 
 interface Props {
   title?: string;
   duration?: number;
 }
-const { title = 'Ils nous font confiance', duration = 35 } = Astro.props as Props;
+const { title = 'Ils nous font confiance', duration = 40 } = Astro.props as Props;
 
-// Children duplique 2x pour boucle infinie
 const logos = [...clients, ...clients];
 ---
 
@@ -43,24 +42,13 @@ const logos = [...clients, ...clients];
         {
           logos.map((c, i) => (
             <div class="marquee-item" aria-hidden={i >= clients.length ? 'true' : undefined}>
-              {c.domain ? (
-                <img
-                  src={`https://logo.clearbit.com/${c.domain}?size=120`}
-                  alt={`Logo ${c.name}`}
-                  class="h-9 w-auto opacity-75 hover:opacity-100 transition-opacity"
-                  style="filter: brightness(0) invert(0.92);"
-                  loading="lazy"
-                  width="120"
-                  height="36"
-                />
-              ) : (
-                <span
-                  class="text-(--color-creme)/75 hover:text-(--color-creme) transition-colors whitespace-nowrap"
-                  style="font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; letter-spacing: -0.02em;"
-                >
-                  {c.name}
-                </span>
-              )}
+              <img
+                src={c.src}
+                alt={`Logo ${c.name}`}
+                style={`height:${c.height || 32}px; width:auto;`}
+                class="marquee-logo"
+                loading="lazy"
+              />
             </div>
           ))
         }
@@ -78,7 +66,8 @@ const logos = [...clients, ...clients];
   .marquee-track {
     display: flex;
     width: max-content;
-    gap: 4rem;
+    gap: 5rem;
+    align-items: center;
     animation: marquee-scroll linear infinite;
     will-change: transform;
   }
@@ -92,6 +81,17 @@ const logos = [...clients, ...clients];
     justify-content: center;
     min-width: 140px;
     height: 56px;
+  }
+  /* Convertit les logos colores en blanc/creme sur fond dark, conserve l'opacite */
+  .marquee-logo {
+    filter: brightness(0) invert(0.95);
+    opacity: 0.75;
+    transition: opacity 200ms ease;
+    max-width: 180px;
+    object-fit: contain;
+  }
+  .marquee-item:hover .marquee-logo {
+    opacity: 1;
   }
   @keyframes marquee-scroll {
     from { transform: translateX(0); }
