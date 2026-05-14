@@ -1,13 +1,13 @@
 ---
 /**
- * Story Scroll - inspire 21st.dev (boudjadjasamira).
+ * Story Scroll - empilement vertical de "stories" en card-stack scroll.
  *
- * Effet : chaque "page" (StorySection enfant) est pinned au scroll et
- * pivote depuis 30deg (transform-origin bottom-left) -> 0deg quand elle
- * entre dans le viewport. Les sections s'empilent comme un deck de cartes.
+ * Pattern : container vertical, chaque StorySection enfant est sticky top:0
+ * height:100vh. La 1re reste pinnee pendant que la 2e arrive par-dessus,
+ * etc. L'inner de chaque section pivote depuis 30deg -> 0deg au passage.
  *
- * Implementation : sticky positioning + CSS var --rotate piloté par scroll
- * listener vanilla. Pas de GSAP/ScrollTrigger (poids reduit + fiable).
+ * Implementation : scroll listener vanilla qui update CSS var --rotate
+ * sur l'inner de chaque section enfant. Zero GSAP, zero React, zero ScrollTrigger.
  */
 
 interface Props {
@@ -18,13 +18,9 @@ interface Props {
 const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Props;
 ---
 
-<main
-  class:list={['story-scroll', className]}
-  aria-label={ariaLabel}
-  data-story-scroll
->
+<div class:list={['story-scroll', className]} aria-label={ariaLabel} data-story-scroll>
   <slot />
-</main>
+</div>
 
 <script is:inline>
   (function () {
@@ -38,22 +34,23 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
           var sections = root.querySelectorAll('[data-story-section]');
           var vh = window.innerHeight;
           sections.forEach(function (section, i) {
-            // Premiere section : ne pivote pas
+            var inner = section.querySelector('.story-section__inner');
+            if (!inner) return;
             if (i === 0) {
-              section.style.setProperty('--rotate', '0deg');
+              inner.style.setProperty('--rotate', '0deg');
               return;
             }
             var rect = section.getBoundingClientRect();
-            // Calcul rotation : 30deg quand top=vh (bas du viewport), 0 quand top=vh*0.25
-            var startY = vh;            // section juste arrivee en bas du viewport
-            var endY = vh * 0.25;       // section vers le haut du viewport
+            // 30deg quand top=vh, 0deg quand top=vh*0.2
+            var startY = vh;
+            var endY = vh * 0.2;
             var range = startY - endY;
             var traveled = startY - rect.top;
             var p = traveled / range;
             if (p < 0) p = 0;
             if (p > 1) p = 1;
             var rotate = 30 * (1 - p);
-            section.style.setProperty('--rotate', rotate.toFixed(2) + 'deg');
+            inner.style.setProperty('--rotate', rotate.toFixed(2) + 'deg');
           });
         });
       }
@@ -82,8 +79,15 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
 
 <style>
   .story-scroll {
+    position: relative;
     width: 100%;
-    /* important : pas d'overflow hidden sur le main pour que sticky fonctionne */
-    overflow-x: hidden;
+    /* PAS d'overflow hidden : casserait le sticky des sections enfants */
   }
+  /* Z-index incrementiel pour empiler les sections successives */
+  .story-scroll > [data-story-section]:nth-child(1) { z-index: 1; }
+  .story-scroll > [data-story-section]:nth-child(2) { z-index: 2; }
+  .story-scroll > [data-story-section]:nth-child(3) { z-index: 3; }
+  .story-scroll > [data-story-section]:nth-child(4) { z-index: 4; }
+  .story-scroll > [data-story-section]:nth-child(5) { z-index: 5; }
+  .story-scroll > [data-story-section]:nth-child(6) { z-index: 6; }
 </style>
