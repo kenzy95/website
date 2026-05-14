@@ -14,6 +14,11 @@ import WhatWeDo from '@components/animations/WhatWeDo.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import ServiceTakeover from '@components/ServiceTakeover.astro';
 import ProcessSteps from '@components/ProcessSteps.astro';
+import RoiCalculator from '@components/RoiCalculator.astro';
+import ClientInterviews from '@components/ClientInterviews.astro';
+import ToolsConstellation from '@components/ToolsConstellation.astro';
+import FaqSection from '@components/FaqSection.astro';
+import FinalCta from '@components/FinalCta.astro';
 import { localBusinessSchema, faqSchema } from '@lib/schema';
 
 /**
@@ -104,13 +109,20 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
     <!-- ============ PROCESSUS (4 etapes + sticky visuel) ============ -->
     <ProcessSteps />
 
-    <!-- TODO PR4 : Calculateur + Valeurs + Interviews + Constellation outils + FAQ + CTA final -->
+    <!-- ============ CALCULATEUR ROI COLD EMAIL ============ -->
+    <RoiCalculator />
 
-    <div class="py-32 text-center">
-      <p class="text-(--color-creme)/40 text-sm italic">
-        (Sections suivantes en construction - PR 4 : calculateur, valeurs, interviews, FAQ, CTA final)
-      </p>
-    </div>
+    <!-- ============ CONSTELLATION OUTILS ============ -->
+    <ToolsConstellation />
+
+    <!-- ============ INTERVIEWS CLIENTS ============ -->
+    <ClientInterviews />
+
+    <!-- ============ FAQ ============ -->
+    <FaqSection />
+
+    <!-- ============ CTA FINAL ============ -->
+    <FinalCta />
   </main>
 
   <Footer slot="footer" />

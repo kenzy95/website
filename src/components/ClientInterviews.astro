@@ -1,0 +1,159 @@
+---
+/**
+ * Interviews clients - cards bleu pale avec structure Avant/Apres.
+ * Reprise du Framer (Les Epaulettes, Komon, Daisy...).
+ */
+
+interface Interview {
+  client: string;
+  sector: string;
+  videoThumb?: string;
+  before: string;
+  after: string;
+}
+
+const interviews: Interview[] = [
+  {
+    client: 'Les Épaulettes',
+    sector: 'Vente B2B',
+    before:
+      "Les Épaulettes faisaient face à des défis importants dans leur prospection B2B. Les méthodes utilisées manquaient de structure, ce qui rendait difficile l'atteinte efficace des prospects. Les engagements initiaux étaient souvent influencés par des relations historiques, et il y avait un besoin pressant d'accélérer et d'améliorer les ventes B2B.",
+    after:
+      "L'accent mis sur le timing et la personnalisation des messages a permis d'améliorer considérablement la qualité des leads. Désormais, la grande majorité de leur activité B2B découle directement du flux de RDV qualifiés apportés.",
+  },
+  {
+    client: 'Komon',
+    sector: 'Assurance B2C',
+    before:
+      "Komon faisaient face à une forte concurrence dans le secteur de l'assurance individuelle. Leurs tentatives de prospection, notamment sur LinkedIn, n'avaient pas porté leurs fruits, et ils se reposaient principalement sur le bouche-à-oreille.",
+    after:
+      "Nous avons organisé environ 30 réunions dès le premier mois. Cela a non seulement boosté leur potentiel de croissance, mais a également amélioré le moral de l'équipe, leur permettant d'envisager de nouvelles méthodes de travail plus flexibles, en se concentrant sur le closing.",
+  },
+  {
+    client: 'Daisy',
+    sector: 'SaaS Créatif',
+    before:
+      "Au lancement de Daisy, Louise et son équipe étaient confrontés à l'enjeu crucial de découvrir leur marché et de valider le market fit de leur produit. Sans expérience préalable en prospection, ils cherchaient à comprendre les besoins et les attentes des clients potentiels pour s'assurer que leur SaaS répondait aux exigences du marché créatif.",
+    after:
+      "Grâce à l'externalisation de la prospection, Daisy a pu rapidement entrer en contact avec de nombreux prospects à travers la France, y compris dans des villes comme Bordeaux, Lyon et Marseille. En un mois, Louise a réussi à organiser entre 10 et 15 démos, ce qui a permis à l'entreprise de valider son produit et d'élargir sa portée sans effort supplémentaire de la part de son équipe.",
+  },
+];
+---
+
+<section class="interviews-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-3xl mb-12 text-center mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Interviews clients
+      </p>
+      <h2
+        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.03em;"
+      >
+        Ils racontent.
+      </h2>
+    </div>
+
+    <ul class="interviews-grid">
+      {
+        interviews.map((iv) => (
+          <li class="interview-card">
+            <div class="interview-card__head">
+              <span class="interview-card__sector">{iv.sector}</span>
+              <h3 class="interview-card__name">{iv.client}</h3>
+            </div>
+            <div class="interview-card__body">
+              <div class="interview-card__col">
+                <p class="interview-card__col-label interview-card__col-label--before">Avant</p>
+                <p class="interview-card__col-text">{iv.before}</p>
+              </div>
+              <div class="interview-card__col">
+                <p class="interview-card__col-label interview-card__col-label--after">Après</p>
+                <p class="interview-card__col-text">{iv.after}</p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .interviews-section {
+    padding: 6rem 0;
+  }
+
+  .interviews-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 1024px) {
+    .interviews-grid { grid-template-columns: 1fr 1fr; }
+    .interviews-grid > li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      max-width: 50%;
+      margin: 0 auto;
+    }
+  }
+
+  .interview-card {
+    background: #DDE6F5;
+    color: #0F1B3F;
+    border-radius: 24px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+  }
+  @media (min-width: 768px) {
+    .interview-card { padding: 2.5rem; }
+  }
+
+  .interview-card__head {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    padding-bottom: 1rem;
+  }
+  .interview-card__sector {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #F47B3F;
+  }
+  .interview-card__name {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.75rem;
+    color: #0F1B3F;
+  }
+
+  .interview-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .interview-card__col {
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+  }
+  .interview-card__col-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .interview-card__col-label--before { color: #DC2626; }
+  .interview-card__col-label--after { color: #059669; }
+  .interview-card__col-text {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(15, 27, 63, 0.85);
+  }
+</style>

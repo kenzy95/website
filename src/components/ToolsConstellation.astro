@@ -1,0 +1,145 @@
+---
+/**
+ * Constellation d'outils tech (reprise du Framer).
+ * Icones unicode dans cards rondes flottant aleatoirement autour d'un cercle central.
+ * Pas d'image (charte v2 bannit), pas de stock, juste CSS pur + emojis tech.
+ */
+
+const tools = [
+  { label: 'Instantly', symbol: '📧', x: 18, y: 25, size: 56 },
+  { label: 'Sales Navigator', symbol: '◆', x: 38, y: 12, size: 64 },
+  { label: 'Clay', symbol: '✦', x: 62, y: 18, size: 56 },
+  { label: 'Lemlist', symbol: '◉', x: 82, y: 28, size: 60 },
+  { label: 'Aimfox', symbol: '◈', x: 12, y: 55, size: 52 },
+  { label: 'UseBouncer', symbol: '✓', x: 90, y: 58, size: 56 },
+  { label: 'Make', symbol: '⚡', x: 32, y: 68, size: 60 },
+  { label: 'Zapier', symbol: '⚙', x: 68, y: 70, size: 56 },
+  { label: 'HubSpot', symbol: '◐', x: 50, y: 80, size: 64 },
+];
+---
+
+<section class="tools-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-3xl mb-12 text-center mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Notre stack
+      </p>
+      <h2
+        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em;"
+      >
+        ~ 785 € d'outils inclus chaque mois.
+      </h2>
+      <p class="mt-6 text-(--color-creme)/70 text-(--text-body-lg)">
+        On utilise les meilleurs outils du marché et on les inclut dans le forfait. Sans markup, facturés au coût réel.
+      </p>
+    </div>
+
+    <div class="tools-constellation">
+      <!-- Cercle central -->
+      <div class="tools-core">
+        <span class="tools-core__icon">⌘</span>
+        <span class="tools-core__label">Agence Simple</span>
+      </div>
+      <!-- Icones flottants -->
+      {
+        tools.map((t, i) => (
+          <div
+            class="tool-pill"
+            style={`left:${t.x}%;top:${t.y}%;width:${t.size}px;height:${t.size}px;animation-delay:${i * 0.4}s`}
+          >
+            <span class="tool-pill__symbol" aria-hidden="true">{t.symbol}</span>
+            <span class="tool-pill__label">{t.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools-section {
+    padding: 5rem 0 4rem;
+  }
+
+  .tools-constellation {
+    position: relative;
+    height: 28rem;
+    max-width: 50rem;
+    margin: 0 auto;
+  }
+  @media (min-width: 768px) {
+    .tools-constellation { height: 32rem; }
+  }
+
+  .tools-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 9rem;
+    height: 9rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #1a2750, #0a132e);
+    border: 1px solid rgba(30, 144, 255, 0.2);
+    box-shadow:
+      0 0 60px rgba(30, 144, 255, 0.25),
+      inset 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    z-index: 2;
+  }
+  .tools-core__icon {
+    font-size: 2rem;
+    color: #1E90FF;
+  }
+  .tools-core__label {
+    font-family: var(--font-logo);
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--color-creme);
+    letter-spacing: 0.04em;
+  }
+
+  .tool-pill {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: rgba(250, 247, 242, 0.06);
+    border: 1px solid rgba(250, 247, 242, 0.12);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-creme);
+    z-index: 1;
+    animation: tool-float 6s ease-in-out infinite;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  .tool-pill__symbol {
+    font-size: 1.3rem;
+    color: var(--color-orange);
+  }
+  .tool-pill__label {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: rgba(250, 247, 242, 0.55);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  @keyframes tool-float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tool-pill { animation: none; }
+  }
+</style>
