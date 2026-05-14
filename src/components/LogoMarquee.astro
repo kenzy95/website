@@ -1,55 +1,60 @@
 ---
 import { BlurredInfiniteSlider } from './animations/InfiniteSlider';
 
+/**
+ * Logos clients reels d'Agence Simple - via Clearbit Logo API (URLs publiques stables).
+ * Pour les clients sans domaine public clair, fallback en wordmark texte.
+ */
 interface Logo {
   name: string;
-  src?: string;
+  domain?: string;
 }
 
-interface Props {
-  title?: string;
-  logos?: Logo[];
-  speed?: number;
-}
-
-// Clients vus sur le Framer actuel.
-const defaultLogos: Logo[] = [
-  { name: 'Trimble' },
-  { name: 'yomoni' },
+const clients: Logo[] = [
+  { name: 'Trimble', domain: 'trimble.com' },
+  { name: 'Yomoni', domain: 'yomoni.fr' },
+  { name: 'Solunea', domain: 'solunea.fr' },
   { name: 'Job2bedone' },
-  { name: 'Solunea' },
+  { name: 'Dunforce', domain: 'dunforce.com' },
   { name: 'Happycolis' },
   { name: 'Invent-App' },
-  { name: 'Dunforce' },
   { name: 'Wedoit' },
 ];
 
-const { title = 'Ils nous font confiance', logos = defaultLogos, speed = 50 } = Astro.props as Props;
+interface Props {
+  title?: string;
+  speed?: number;
+}
+
+const { title = 'Ils nous font confiance', speed = 60 } = Astro.props as Props;
 ---
 
-<section class="py-16 md:py-20">
+<section class="py-16 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
-    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-[#F47B3F]">
+    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
       {title}
     </p>
     <div class="mt-10">
       <BlurredInfiniteSlider client:load speed={speed} speedOnHover={20} gap={64} fadeWidth={120}>
         {
-          logos.map((logo) => (
-            <div class="flex items-center justify-center min-w-[140px] h-12">
-              {logo.src ? (
+          clients.map((c) => (
+            <div class="flex items-center justify-center min-w-[140px] h-14">
+              {c.domain ? (
                 <img
-                  src={logo.src}
-                  alt={`Logo ${logo.name}`}
-                  class="h-7 w-auto opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+                  src={`https://logo.clearbit.com/${c.domain}?size=120`}
+                  alt={`Logo ${c.name}`}
+                  class="h-9 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                  style="filter: brightness(0) invert(0.92);"
                   loading="lazy"
+                  width="120"
+                  height="36"
                 />
               ) : (
                 <span
-                  class="text-[#FAF7F2]/60 hover:text-[#FAF7F2] transition-colors whitespace-nowrap"
-                  style="font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.02em;"
+                  class="text-(--color-creme)/70 hover:text-(--color-creme) transition-colors whitespace-nowrap"
+                  style="font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; letter-spacing: -0.02em;"
                 >
-                  {logo.name}
+                  {c.name}
                 </span>
               )}
             </div>

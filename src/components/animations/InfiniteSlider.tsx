@@ -1,8 +1,7 @@
 'use client';
 
 import { animate, motion, useMotionValue } from 'motion/react';
-import { type CSSProperties, type ReactNode, useEffect, useState } from 'react';
-import useMeasure from 'react-use-measure';
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface InfiniteSliderProps {
@@ -10,45 +9,61 @@ interface InfiniteSliderProps {
   gap?: number;
   speed?: number;
   speedOnHover?: number;
-  direction?: 'horizontal' | 'vertical';
   reverse?: boolean;
   className?: string;
 }
 
+/**
+ * Infinite marquee horizontal en motion/react.
+ * Mesure native via ref+ResizeObserver pour eviter incompat React 19 / react-use-measure.
+ * Children dupliques 2x pour boucle seamless.
+ */
 function InfiniteSlider({
   children,
-  gap = 16,
-  speed = 100,
+  gap = 32,
+  speed = 60,
   speedOnHover,
-  direction = 'horizontal',
   reverse = false,
   className,
 }: InfiniteSliderProps) {
   const [currentSpeed, setCurrentSpeed] = useState(speed);
-  const [ref, { width, height }] = useMeasure();
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [contentWidth, setContentWidth] = useState(0);
   const translation = useMotionValue(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [key, setKey] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
-    let controls;
-    const size = direction === 'horizontal' ? width : height;
-    if (size === 0) return;
-    const contentSize = size + gap;
-    const from = reverse ? -contentSize / 2 : 0;
-    const to = reverse ? 0 : -contentSize / 2;
-    const distanceToTravel = Math.abs(to - from);
-    const duration = distanceToTravel / currentSpeed;
+    if (!innerRef.current) return;
+    const measure = () => {
+      if (!innerRef.current) return;
+      // Le contenu est duplique : on prend la moitie de la width
+      const halfWidth = innerRef.current.scrollWidth / 2;
+      setContentWidth(halfWidth);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(innerRef.current);
+    return () => ro.disconnect();
+  }, []);
 
+  useEffect(() => {
+    if (contentWidth === 0) return;
+    const from = reverse ? -contentWidth : 0;
+    const to = reverse ? 0 : -contentWidth;
+    const distance = Math.abs(to - from);
+    const duration = distance / currentSpeed;
+
+    let controls;
     if (isTransitioning) {
-      const remainingDistance = Math.abs(translation.get() - to);
-      const transitionDuration = remainingDistance / currentSpeed;
+      const remaining = Math.abs(translation.get() - to);
+      const transitionDuration = remaining / currentSpeed;
       controls = animate(translation, [translation.get(), to], {
         ease: 'linear',
         duration: transitionDuration,
         onComplete: () => {
           setIsTransitioning(false);
-          setKey((prev) => prev + 1);
+          setResetKey((k) => k + 1);
         },
       });
     } else {
@@ -58,13 +73,11 @@ function InfiniteSlider({
         repeat: Infinity,
         repeatType: 'loop',
         repeatDelay: 0,
-        onRepeat: () => {
-          translation.set(from);
-        },
+        onRepeat: () => translation.set(from),
       });
     }
     return () => controls?.stop();
-  }, [key, translation, currentSpeed, width, height, gap, isTransitioning, direction, reverse]);
+  }, [resetKey, translation, currentSpeed, contentWidth, isTransitioning, reverse]);
 
   const hoverProps = speedOnHover
     ? {
@@ -82,13 +95,9 @@ function InfiniteSlider({
   return (
     <div className={cn('overflow-hidden', className)}>
       <motion.div
+        ref={innerRef}
         className="flex w-max"
-        style={{
-          ...(direction === 'horizontal' ? { x: translation } : { y: translation }),
-          gap: `${gap}px`,
-          flexDirection: direction === 'horizontal' ? 'row' : 'column',
-        }}
-        ref={ref}
+        style={{ x: translation, gap: `${gap}px` }}
         {...hoverProps}
       >
         {children}
@@ -113,7 +122,6 @@ export function BlurredInfiniteSlider({
     maskImage: `linear-gradient(to right, transparent, black ${fadeWidth}px, black calc(100% - ${fadeWidth}px), transparent)`,
     WebkitMaskImage: `linear-gradient(to right, transparent, black ${fadeWidth}px, black calc(100% - ${fadeWidth}px), transparent)`,
   };
-
   return (
     <div className={cn('relative w-full', containerClassName)} style={maskStyle}>
       <InfiniteSlider {...sliderProps}>{children}</InfiniteSlider>
