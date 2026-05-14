@@ -9,7 +9,7 @@ import EmailStatsMockup from './EmailStatsMockup.astro';
 import EmailReplyMockup from './EmailReplyMockup.astro';
 ---
 
-<section class="py-20 md:py-28">
+<section class="leadgen-section">
   <div class="mx-auto max-w-6xl px-6">
     <!-- Titre central -->
     <div class="max-w-4xl mx-auto text-center mb-16 md:mb-20">
@@ -17,7 +17,7 @@ import EmailReplyMockup from './EmailReplyMockup.astro';
         Notre engagement
       </p>
       <h2
-        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        class="mt-5 text-(--color-encre) leading-(--leading-title)"
         style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4.5vw, 3.5rem); letter-spacing: -0.03em;"
       >
         Nous vous générons des <HighlightMarker animated={false}>RDV qualifiés</HighlightMarker>.<br />
@@ -61,8 +61,19 @@ import EmailReplyMockup from './EmailReplyMockup.astro';
 </section>
 
 <style>
+  /* Section creme - premiere respiration apres le bloc hero/marquee/wilco/garanties */
+  .leadgen-section {
+    background: var(--color-creme);
+    padding: 6rem 0 7rem;
+    border-radius: 32px 32px 0 0;
+    margin-top: 2rem;
+  }
+  @media (min-width: 768px) {
+    .leadgen-section { padding: 7rem 0 8rem; }
+  }
+
   .leadgen-card {
-    background: #FDF8F0;
+    background: #FFFFFF;
     color: #0F1B3F;
     border-radius: 28px;
     padding: 2.5rem 2rem 2rem;
