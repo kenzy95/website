@@ -43,9 +43,10 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
               return;
             }
             var rect = section.getBoundingClientRect();
-            // 30deg quand top=vh, 0deg quand top=vh*0.2
-            var startY = vh;
-            var endY = vh * 0.2;
+            // Pattern GSAP : rotation 30deg quand top=bottom-viewport (entree)
+            //                rotation 0deg quand top=25% du viewport
+            var startY = vh;       // rect.top = vh → debut animation (rotation 30)
+            var endY = vh * 0.25;  // rect.top = vh*0.25 → fin animation (rotation 0)
             var range = startY - endY;
             var traveled = startY - rect.top;
             var p = traveled / range;

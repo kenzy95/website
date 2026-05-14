@@ -2,14 +2,19 @@
 /**
  * Story Section - enfant de StoryScroll.
  *
- * Section sticky top:0 height:100vh. La 1re est pinnee pendant que la 2e
- * arrive par-dessus. L'inner pivote depuis 30deg -> 0deg via CSS var
- * --rotate pilotee par le scroll listener du parent StoryScroll.
+ * Pattern repris a l'identique du code GSAP original (boudjadjasamira/story-scroll) :
+ * - section : relative min-h-screen w-full overflow-hidden (sticky pour empilement)
+ * - inner : flex min-h-screen w-full flex-col justify-between gap-6
+ *           px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw] + transform-origin bottom-left
+ *
+ * La rotation 30deg -> 0deg est pilotee par CSS var --rotate via le scroll
+ * listener du parent StoryScroll.
  */
 
 interface Props {
   bg?: 'creme' | 'encre' | 'orange-soft' | 'bleu-soft' | 'custom';
   customBg?: string;
+  textColor?: string;
   ariaLabel?: string;
   class?: string;
 }
@@ -19,6 +24,7 @@ type Bg = NonNullable<Props['bg']>;
 const {
   bg = 'creme',
   customBg,
+  textColor,
   ariaLabel,
   class: className = '',
 } = Astro.props as Props;
@@ -30,13 +36,18 @@ const bgClasses: Record<Bg, string> = {
   'bleu-soft': 'story-section--bleu',
   custom: '',
 };
+
+const customStyle = [
+  customBg ? `background:${customBg}` : '',
+  textColor ? `color:${textColor}` : '',
+].filter(Boolean).join(';');
 ---
 
 <section
   data-story-section
   aria-label={ariaLabel}
   class:list={['story-section', bgClasses[bg], className]}
-  style={customBg ? `background:${customBg}` : undefined}
+  style={customStyle || undefined}
 >
   <div class="story-section__inner">
     <slot />
@@ -44,44 +55,37 @@ const bgClasses: Record<Bg, string> = {
 </section>
 
 <style>
-  /* Pattern card-stack : sticky top:0 + height fixe. La section reste
-     epinglee pendant que la suivante arrive par-dessus (z-index plus haut). */
+  /* Pattern card-stack : sticky top:0 + min-h-screen + overflow hidden
+     (identique au pattern GSAP source). */
   .story-section {
     position: sticky;
     top: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
-    display: flex;
     overflow: hidden;
   }
 
   .story-section__inner {
-    flex: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 1.5rem;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 100vh;
+    width: 100%;
+    padding: clamp(2rem, 8vw, 4vw) 4vw 4vw 4vw;
     transform-origin: bottom left;
     transform: rotate(var(--rotate, 0deg));
     will-change: transform;
     background: inherit;
   }
-  @media (min-width: 768px) {
-    .story-section__inner { padding: 5rem 4vw; }
-  }
 
-  /* Background variants */
+  /* Backgrounds variants */
   .story-section--creme { background: var(--color-creme); color: var(--color-encre); }
   .story-section--encre { background: var(--color-encre); color: var(--color-creme); }
   .story-section--orange { background: var(--color-orange-soft); color: var(--color-encre); }
   .story-section--bleu { background: var(--color-bleu-soft); color: var(--color-encre); }
 
-  /* Ombre sur la section qui arrive par-dessus (effet "decollement" du deck) */
-  .story-section + .story-section {
-    box-shadow: 0 -30px 60px -30px rgba(0, 0, 0, 0.3);
-  }
   /* La 1re section ne pivote pas */
   .story-section:first-child .story-section__inner { transform: none; }
 
