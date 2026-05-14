@@ -53,44 +53,61 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
   <Header slot="header" variant="dark" />
 
   <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
-    <!-- ============ HERO (Aceternity Lamp Effect, charte bleu) ============ -->
-    <section class="relative overflow-hidden">
-      <LampContainer client:load>
-        <h1
-          class="mt-8 py-4 leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
-          style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"
-        >
-          Payez
-          <HighlightMarker>seulement</HighlightMarker>
-          quand vous avez<br />
-          un
-          <span style="font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-bleu);">RDV qualifié</span>.
-        </h1>
-      </LampContainer>
+    <!-- ============ WRAPPER HERO + DASHBOARD avec gradients orange en fond ============ -->
+    <div class="relative overflow-hidden">
+      <!-- Gradient orange-rose gauche : descend jusqu'a la section dashboard -->
+      <div
+        aria-hidden="true"
+        class="absolute -left-[18rem] top-[5%] h-[80vh] min-h-[55rem] w-[42rem] pointer-events-none z-0"
+        style="background: radial-gradient(ellipse 50% 60% at 70% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%); filter: blur(60px);"
+      ></div>
 
-      <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin) -->
-      <div class="relative z-10 -mt-64 sm:-mt-72 pb-20 text-center px-5" style="background-color: var(--color-encre);">
-        <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
-          Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
-        </p>
+      <!-- Gradient orange-rose droit : symetrique -->
+      <div
+        aria-hidden="true"
+        class="absolute -right-[18rem] top-[5%] h-[80vh] min-h-[55rem] w-[42rem] pointer-events-none z-0"
+        style="background: radial-gradient(ellipse 50% 60% at 30% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%); filter: blur(60px);"
+      ></div>
 
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Prendre rendez-vous">
-            Prendre RDV
-          </GlassButton>
-          <ArrowButton href="#comment-ca-marche" variant="ghost-dark" size="lg" withArrow={false}>
-            En savoir plus
-          </ArrowButton>
+      <!-- ============ HERO (Aceternity Lamp Effect, charte bleu) ============ -->
+      <section class="relative z-10">
+        <LampContainer client:load>
+          <h1
+            class="mt-8 py-4 leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
+            style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"
+          >
+            Payez
+            <HighlightMarker>seulement</HighlightMarker>
+            quand vous avez<br />
+            un
+            <span style="font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-bleu);">RDV qualifié</span>.
+          </h1>
+        </LampContainer>
+
+        <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin) -->
+        <div class="relative z-10 -mt-64 sm:-mt-72 pb-20 text-center px-5">
+          <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
+            Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <GlassButton href="/contact" size="lg" withArrow ariaLabel="Prendre rendez-vous">
+              Prendre RDV
+            </GlassButton>
+            <ArrowButton href="#comment-ca-marche" variant="ghost-dark" size="lg" withArrow={false}>
+              En savoir plus
+            </ArrowButton>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
-    <section class="relative flex flex-col overflow-hidden">
-      <ContainerScroll>
-        <MailboxDashboard />
-      </ContainerScroll>
-    </section>
+      <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
+      <section class="relative z-10 flex flex-col overflow-hidden">
+        <ContainerScroll>
+          <MailboxDashboard />
+        </ContainerScroll>
+      </section>
+    </div>
 
     <!-- ============ LOGOS CLIENTS (MARQUEE) ============ -->
     <LogoMarquee />

@@ -20,32 +20,10 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0F1B3F] w-full rounded-md z-0",
+        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden w-full rounded-md z-0",
         className,
       )}
     >
-      {/* Gradient orange-rose gauche - ovale vertical, ambiance flanc bas */}
-      <div
-        aria-hidden="true"
-        className="absolute -left-[18rem] top-[20%] h-[60rem] w-[42rem] pointer-events-none z-[1]"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 60% at 70% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      {/* Gradient orange-rose droit - symetrique */}
-      <div
-        aria-hidden="true"
-        className="absolute -right-[18rem] top-[20%] h-[60rem] w-[42rem] pointer-events-none z-[1]"
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 60% at 30% 50%, rgba(255, 184, 112, 0.75) 0%, rgba(244, 123, 63, 0.65) 22%, rgba(255, 111, 181, 0.55) 48%, transparent 72%)",
-          filter: "blur(60px)",
-        }}
-      />
-
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
           initial={{ opacity: 0.5, width: "30rem" }}
