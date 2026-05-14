@@ -36,10 +36,11 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
           sections.forEach(function (section, i) {
             // Z-index incremental (scoping CSS Astro casse :nth-child cross-component)
             section.style.zIndex = String(i + 1);
-            var inner = section.querySelector('.story-section__inner');
-            if (!inner) return;
+            // La rotation est portee par .story-section__card (la card flottante)
+            var card = section.querySelector('.story-section__card');
+            if (!card) return;
             if (i === 0) {
-              inner.style.setProperty('--rotate', '0deg');
+              card.style.setProperty('--rotate', '0deg');
               return;
             }
             var rect = section.getBoundingClientRect();
@@ -53,7 +54,7 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
             if (p < 0) p = 0;
             if (p > 1) p = 1;
             var rotate = 30 * (1 - p);
-            inner.style.setProperty('--rotate', rotate.toFixed(2) + 'deg');
+            card.style.setProperty('--rotate', rotate.toFixed(2) + 'deg');
           });
         });
       }

@@ -2,13 +2,12 @@
 /**
  * Story Section - enfant de StoryScroll.
  *
- * Pattern repris a l'identique du code GSAP original (boudjadjasamira/story-scroll) :
- * - section : relative min-h-screen w-full overflow-hidden (sticky pour empilement)
- * - inner : flex min-h-screen w-full flex-col justify-between gap-6
- *           px-[4vw] pt-[clamp(2rem,8vw,4vw)] pb-[4vw] + transform-origin bottom-left
+ * Layout : section sticky 100vh sur fond transparent (laisse voir le dark
+ * de la page derriere), une card centree avec max-width et marges donne
+ * l'effet "card flottante qui pivote" plutot que pleine viewport.
  *
- * La rotation 30deg -> 0deg est pilotee par CSS var --rotate via le scroll
- * listener du parent StoryScroll.
+ * La rotation 30deg -> 0deg est sur la card (pas l'inner) via CSS var
+ * --rotate pilotee par le scroll listener du parent StoryScroll.
  */
 
 interface Props {
@@ -38,7 +37,7 @@ const bgClasses: Record<Bg, string> = {
 };
 
 const customStyle = [
-  customBg ? `background:${customBg}` : '',
+  customBg ? `--card-bg:${customBg}` : '',
   textColor ? `color:${textColor}` : '',
 ].filter(Boolean).join(';');
 ---
@@ -49,20 +48,53 @@ const customStyle = [
   class:list={['story-section', bgClasses[bg], className]}
   style={customStyle || undefined}
 >
-  <div class="story-section__inner">
-    <slot />
+  <div class="story-section__card">
+    <div class="story-section__inner">
+      <slot />
+    </div>
   </div>
 </section>
 
 <style>
-  /* Pattern card-stack : sticky top:0 + min-h-screen + overflow hidden
-     (identique au pattern GSAP source). */
+  /* Section : pleine largeur sticky, fond transparent (laisse voir le dark) */
   .story-section {
     position: sticky;
     top: 0;
     min-height: 100vh;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: transparent;
+  }
+  @media (min-width: 768px) {
+    .story-section { padding: 3rem 4vw; }
+  }
+
+  /* Card centree avec max-width + box-shadow + rotation
+     = effet 'card flottante qui pivote' (pas pleine viewport) */
+  .story-section__card {
+    position: relative;
+    width: 100%;
+    max-width: 80rem;
+    min-height: calc(100vh - 4rem);
+    border-radius: 28px;
     overflow: hidden;
+    background: var(--card-bg, var(--color-creme));
+    color: inherit;
+    box-shadow:
+      0 10px 30px -10px rgba(0, 0, 0, 0.25),
+      0 30px 80px -30px rgba(0, 0, 0, 0.35);
+    transform-origin: bottom left;
+    transform: rotate(var(--rotate, 0deg));
+    will-change: transform;
+  }
+  @media (min-width: 768px) {
+    .story-section__card {
+      min-height: calc(100vh - 6rem);
+      border-radius: 36px;
+    }
   }
 
   .story-section__inner {
@@ -71,25 +103,21 @@ const customStyle = [
     flex-direction: column;
     justify-content: space-between;
     gap: 1.5rem;
-    min-height: 100vh;
+    min-height: inherit;
     width: 100%;
-    padding: clamp(2rem, 8vw, 4vw) 4vw 4vw 4vw;
-    transform-origin: bottom left;
-    transform: rotate(var(--rotate, 0deg));
-    will-change: transform;
-    background: inherit;
+    padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 5vw, 4rem);
   }
 
-  /* Backgrounds variants */
-  .story-section--creme { background: var(--color-creme); color: var(--color-encre); }
-  .story-section--encre { background: var(--color-encre); color: var(--color-creme); }
-  .story-section--orange { background: var(--color-orange-soft); color: var(--color-encre); }
-  .story-section--bleu { background: var(--color-bleu-soft); color: var(--color-encre); }
+  /* Backgrounds variants via --card-bg */
+  .story-section--creme { --card-bg: var(--color-creme); color: var(--color-encre); }
+  .story-section--encre { --card-bg: var(--color-encre); color: var(--color-creme); }
+  .story-section--orange { --card-bg: var(--color-orange-soft); color: var(--color-encre); }
+  .story-section--bleu { --card-bg: var(--color-bleu-soft); color: var(--color-encre); }
 
-  /* La 1re section ne pivote pas */
-  .story-section:first-child .story-section__inner { transform: none; }
+  /* La 1re card ne pivote pas */
+  .story-section:first-child .story-section__card { transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .story-section__inner { transform: none !important; }
+    .story-section__card { transform: none !important; }
   }
 </style>
