@@ -1,0 +1,296 @@
+---
+/**
+ * Scroll Expansion Hero - inspire 21st.dev (arunachalam0606).
+ *
+ * Implementation adaptee : scroll-driven via CSS var --progress (0->1),
+ * pas de scroll-jacking agressif (window.scrollTo(0,0)) qui crashait Vite.
+ * Le media (image ou video) s'expand au centre pendant le scroll, le texte
+ * se split (un mot a gauche, l'autre a droite), background opacity decroit,
+ * et un contenu apparait quand la section sort du viewport.
+ */
+
+interface Props {
+  mediaSrc: string;
+  mediaType?: 'image' | 'video';
+  posterSrc?: string;
+  bgImageSrc: string;
+  title: string;
+  date?: string;
+  scrollToExpand?: string;
+}
+
+const {
+  mediaSrc,
+  mediaType = 'image',
+  posterSrc,
+  bgImageSrc,
+  title,
+  date,
+  scrollToExpand = 'Faites défiler pour découvrir',
+} = Astro.props as Props;
+
+const parts = title.split(' ');
+const firstWord = parts[0];
+const restOfTitle = parts.slice(1).join(' ');
+---
+
+<section class="seh-section" data-seh-scroll>
+  <div class="seh-sticky">
+    <!-- Background image qui fade -->
+    <div class="seh-bg">
+      <img src={bgImageSrc} alt="" class="seh-bg__img" loading="lazy" />
+      <div class="seh-bg__overlay"></div>
+    </div>
+
+    <!-- Media qui grossit au centre -->
+    <div class="seh-media">
+      {
+        mediaType === 'video' ? (
+          <video
+            src={mediaSrc}
+            poster={posterSrc}
+            autoplay
+            muted
+            loop
+            playsinline
+            class="seh-media__el"
+          />
+        ) : (
+          <img src={mediaSrc} alt={title} class="seh-media__el" loading="lazy" />
+        )
+      }
+      <div class="seh-media__overlay"></div>
+
+      {
+        (date || scrollToExpand) && (
+          <div class="seh-media__caption">
+            {date && <p class="seh-media__date seh-caption-left">{date}</p>}
+            {scrollToExpand && (
+              <p class="seh-media__hint seh-caption-right">{scrollToExpand}</p>
+            )}
+          </div>
+        )
+      }
+    </div>
+
+    <!-- Title split gauche/droite -->
+    <div class="seh-title">
+      <h2 class="seh-title__word seh-title__word--left">{firstWord}</h2>
+      <h2 class="seh-title__word seh-title__word--right">{restOfTitle}</h2>
+    </div>
+  </div>
+
+  <!-- Contenu revele apres expansion -->
+  <div class="seh-content">
+    <slot />
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var sections = document.querySelectorAll('[data-seh-scroll]');
+      if (!sections.length) return;
+      var ticking = false;
+      function update() {
+        sections.forEach(function (s) {
+          var rect = s.getBoundingClientRect();
+          var vh = window.innerHeight;
+          // Progress sur la portion 'sticky' uniquement (0 = top atteint top viewport, 1 = bottom du sticky atteint top)
+          var total = s.offsetHeight - vh;
+          var traveled = -rect.top;
+          var p = total > 0 ? traveled / total : 0;
+          if (p < 0) p = 0;
+          if (p > 1) p = 1;
+          s.style.setProperty('--progress', p.toFixed(4));
+          // Reveal le contenu apres 75% du progress
+          if (p >= 0.75) {
+            s.classList.add('seh-expanded');
+          } else {
+            s.classList.remove('seh-expanded');
+          }
+        });
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .seh-section {
+    --progress: 0;
+    /* Hauteur 200vh : 100vh sticky + 100vh scroll = duree complete d'expansion */
+    height: 200vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .seh-sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ===== Background ===== */
+  .seh-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: calc(1 - var(--progress));
+    transition: opacity 0.05s linear;
+  }
+  .seh-bg__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .seh-bg__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(15, 27, 63, 0.45) 0%,
+      rgba(15, 27, 63, 0.65) 100%);
+  }
+
+  /* ===== Media qui grossit ===== */
+  .seh-media {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* width: 300px init -> 1550px expanded (1250 * progress) */
+    width: calc(300px + var(--progress) * 1250px);
+    height: calc(400px + var(--progress) * 400px);
+    max-width: 95vw;
+    max-height: 85vh;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -20px rgba(0, 0, 0, 0.5);
+  }
+  @media (max-width: 768px) {
+    .seh-media {
+      width: calc(300px + var(--progress) * 650px);
+      height: calc(400px + var(--progress) * 200px);
+    }
+  }
+  .seh-media__el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+  .seh-media__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: calc(0.7 - var(--progress) * 0.5);
+    pointer-events: none;
+    border-radius: 16px;
+  }
+  .seh-media__caption {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    pointer-events: none;
+  }
+  .seh-media__date {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .seh-media__hint {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  /* Caption split au scroll */
+  .seh-caption-left { transform: translateX(calc(var(--progress) * -150px)); }
+  .seh-caption-right { transform: translateX(calc(var(--progress) * 150px)); }
+  @media (max-width: 768px) {
+    .seh-caption-left { transform: translateX(calc(var(--progress) * -100px)); }
+    .seh-caption-right { transform: translateX(calc(var(--progress) * 100px)); }
+  }
+
+  /* ===== Title split ===== */
+  .seh-title {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    pointer-events: none;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  .seh-title__word {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1;
+    color: var(--color-creme);
+    letter-spacing: -0.04em;
+    margin: 0;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    mix-blend-mode: difference;
+  }
+  .seh-title__word--left {
+    transform: translateX(calc(var(--progress) * -22vw));
+  }
+  .seh-title__word--right {
+    transform: translateX(calc(var(--progress) * 22vw));
+  }
+
+  /* ===== Contenu revele ===== */
+  .seh-content {
+    padding: 4rem 1.5rem 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+  .seh-section.seh-expanded .seh-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seh-media,
+    .seh-title__word--left,
+    .seh-title__word--right,
+    .seh-caption-left,
+    .seh-caption-right { transform: none; }
+    .seh-bg { opacity: 1; }
+    .seh-content { opacity: 1; transform: none; }
+  }
+</style>

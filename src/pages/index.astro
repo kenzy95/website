@@ -11,6 +11,7 @@ import GuaranteeCards from '@components/GuaranteeCards.astro';
 import LeadGenSection from '@components/LeadGenSection.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import WhatWeDo from '@components/animations/WhatWeDo.astro';
+import ScrollExpansionHero from '@components/animations/ScrollExpansionHero.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import ServiceTakeover from '@components/ServiceTakeover.astro';
 import ProcessSteps from '@components/ProcessSteps.astro';
@@ -102,6 +103,32 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
 
     <!-- ============ CE QU'ON FAIT (split text + sphere) ============ -->
     <WhatWeDo />
+
+    <!-- ============ SCROLL EXPANSION HERO : gestion complète prospection ============ -->
+    <ScrollExpansionHero
+      mediaSrc="/images/mockup-macbook.jpg"
+      mediaType="image"
+      bgImageSrc="/images/workshop-postits.jpg"
+      title="Gestion complète"
+      date="De A à Z"
+      scrollToExpand="Faites défiler pour découvrir"
+    >
+      <div class="max-w-3xl mx-auto text-center text-(--color-creme)">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+          Ce qu'on prend en charge
+        </p>
+        <h3
+          class="mt-5 leading-(--leading-title)"
+          style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(1.75rem, 3vw, 2.5rem);"
+        >
+          De la stratégie à la prise de RDV, tout sauf la vente.
+        </h3>
+        <p class="mt-6 text-(--color-creme)/75 text-(--text-body-lg) leading-(--leading-relaxed)">
+          Stratégie, sourcing, infrastructure email, outils, copywriting, pilotage hebdo.
+          Vous récupérez les rendez-vous qualifiés directement dans votre agenda.
+        </p>
+      </div>
+    </ScrollExpansionHero>
 
     <!-- ============ CE QU'ON PREND EN CHARGE (5 cards) ============ -->
     <ServiceTakeover />
