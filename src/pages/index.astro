@@ -2,11 +2,10 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
-import Container from '@components/ui/Container.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
 import GlassButton from '@components/ui/GlassButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
-import LampGlow from '@components/LampGlow.astro';
+import { LampContainer } from '@components/ui/Lamp';
 import LogoMarquee from '@components/LogoMarquee.astro';
 import PartnerWilco from '@components/PartnerWilco.astro';
 import GuaranteeCards from '@components/GuaranteeCards.astro';
@@ -54,21 +53,11 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
   <Header slot="header" variant="dark" />
 
   <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
-    <!-- ============ HERO ============ -->
-    <section class="relative pt-24 pb-12 sm:pt-32 sm:pb-20 overflow-hidden">
-      <!-- Glows decoratifs (palette d'origine, opacite renforcee) -->
-      <div aria-hidden="true" class="glow-orange w-[32rem] h-[32rem] -top-20 -right-20 opacity-55"></div>
-      <div aria-hidden="true" class="glow-violet w-[36rem] h-[36rem] top-40 -left-32 opacity-60"></div>
-      <div aria-hidden="true" class="glow-bleu w-[24rem] h-[24rem] top-1/2 left-1/2 -translate-x-1/2 opacity-40"></div>
-
-      <!-- Lamp decoratif au-dessus du titre (discret) -->
-      <div class="relative z-10 mb-[-2rem] sm:mb-[-3rem]">
-        <LampGlow />
-      </div>
-
-      <Container size="wide" class="relative z-10 text-center">
+    <!-- ============ HERO (Aceternity Lamp Effect, charte bleu) ============ -->
+    <section class="relative overflow-hidden">
+      <LampContainer client:load>
         <h1
-          class="leading-(--leading-tight) tracking-tight max-w-5xl mx-auto"
+          class="leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
           style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"
         >
           Payez
@@ -78,7 +67,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
           <span style="font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-bleu);">RDV qualifié</span>.
         </h1>
 
-        <p class="mt-8 text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
+        <p class="mt-8 text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed) text-center">
           Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
         </p>
 
@@ -90,7 +79,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
             En savoir plus
           </ArrowButton>
         </div>
-      </Container>
+      </LampContainer>
     </section>
 
     <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL ============ -->
