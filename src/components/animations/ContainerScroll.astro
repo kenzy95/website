@@ -21,6 +21,18 @@
     function reveal() {
       var cards = document.querySelectorAll('[data-card-reveal]');
       if (!cards.length) return;
+      // Check immediat : si la card est deja visible ou passee au mount
+      // (cas reload mid-page), on revele direct sans attendre l'observer.
+      cards.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        var vh = window.innerHeight;
+        if (r.top < vh * 0.85 && r.bottom > 0) {
+          c.classList.add('in-view');
+        } else if (r.top < 0) {
+          // Card deja passee au-dessus
+          c.classList.add('in-view');
+        }
+      });
       if (!('IntersectionObserver' in window)) {
         cards.forEach(function (c) { c.classList.add('in-view'); });
         return;
@@ -36,7 +48,9 @@
         },
         { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
       );
-      cards.forEach(function (c) { obs.observe(c); });
+      cards.forEach(function (c) {
+        if (!c.classList.contains('in-view')) obs.observe(c);
+      });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', reveal);
