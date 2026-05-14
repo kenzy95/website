@@ -1,0 +1,155 @@
+---
+/**
+ * Section "Ce qu'on fait" - inspiree du visuel qubix-flowdevz.
+ * Split text gauche/droite qui s'ecarte au scroll, sphere animee au centre.
+ *
+ * Implementation : scroll-driven via CSS var --progress (0->1) sur la section,
+ * memes mecanique que ContainerScroll. Pas de scroll-jacking.
+ */
+---
+
+<section class="wwd-section" data-scroll-section>
+  <div class="wwd-sticky">
+    <div class="wwd-content">
+      <span class="wwd-word wwd-word--left">Ce</span>
+      <div class="wwd-orb" aria-hidden="true">
+        <div class="wwd-orb__core"></div>
+        <div class="wwd-orb__ring wwd-orb__ring--a"></div>
+        <div class="wwd-orb__ring wwd-orb__ring--b"></div>
+        <div class="wwd-orb__halo"></div>
+      </div>
+      <span class="wwd-word wwd-word--right">qu'on fait</span>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var section = document.querySelector('.wwd-section');
+      if (!section) return;
+      var ticking = false;
+      function update() {
+        var rect = section.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var total = vh + rect.height;
+        var traveled = vh - rect.top;
+        var p = traveled / total;
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        section.style.setProperty('--progress', p.toFixed(4));
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .wwd-section {
+    --progress: 0;
+    height: 200vh;
+    position: relative;
+  }
+  .wwd-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .wwd-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .wwd-word {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--color-creme);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  /* Le mot de gauche translate vers la gauche, droite vers la droite */
+  .wwd-word--left {
+    transform: translateX(calc(var(--progress) * -8vw));
+  }
+  .wwd-word--right {
+    transform: translateX(calc(var(--progress) * 8vw));
+  }
+
+  /* Sphere centrale : grossit et se revele au scroll */
+  .wwd-orb {
+    position: relative;
+    width: clamp(8rem, 16vw, 14rem);
+    height: clamp(8rem, 16vw, 14rem);
+    flex-shrink: 0;
+    opacity: calc(var(--progress) * 1.5);
+    transform: scale(calc(0.4 + var(--progress) * 0.6));
+    transition: none;
+  }
+
+  .wwd-orb__core {
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 25%, #2a3b6a 0%, #0a132e 55%, #060c1f 100%);
+    box-shadow:
+      inset 0 0 60px rgba(0, 0, 0, 0.8),
+      inset -20px -10px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  .wwd-orb__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(250, 247, 242, 0.18);
+  }
+  .wwd-orb__ring--a {
+    transform: rotateZ(35deg) rotateY(70deg);
+    border-top-color: rgba(250, 247, 242, 0.45);
+    border-left-color: rgba(250, 247, 242, 0.35);
+  }
+  .wwd-orb__ring--b {
+    transform: rotateZ(-35deg) rotateY(70deg);
+    border-top-color: rgba(30, 144, 255, 0.5);
+    border-right-color: rgba(30, 144, 255, 0.35);
+  }
+
+  .wwd-orb__halo {
+    position: absolute;
+    inset: -30%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(30, 144, 255, 0.18) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wwd-word--left, .wwd-word--right { transform: none; }
+    .wwd-orb { opacity: 1; transform: scale(1); }
+  }
+</style>

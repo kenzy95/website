@@ -1,0 +1,289 @@
+---
+/**
+ * Section Processus - 4 etapes 01-04 sticky scroll (reprise du Framer).
+ * Liste de etapes a gauche, visuel sticky a droite.
+ * Pas d'image stock photo (charte v2 bannit) : visuel CSS pur avec mockup process.
+ */
+
+const steps = [
+  {
+    num: '01',
+    title: 'Analyse du marché et de vos cibles',
+    body: "On commence par un workshop de 60 minutes pour comprendre votre cible et identifier les bons segments de marché. Pas de templates génériques.",
+  },
+  {
+    num: '02',
+    title: 'Trouver les contacts de vos prospects',
+    body: 'On identifie et collecte les coordonnées des décideurs clés au sein des entreprises ciblées. Sourcing manuel + vérification email.',
+  },
+  {
+    num: '03',
+    title: "Création de l'infrastructure email",
+    body: "On met en place des systèmes performants pour gérer l'envoi de vos emails. Domaines secondaires dédiés, paramétrage technique, warmup.",
+  },
+  {
+    num: '04',
+    title: 'Gestion des campagnes et des réponses',
+    body: "On surveille en temps réel les performances des campagnes, en ajustant les stratégies en fonction des taux d'ouverture, de clics et de réponse.",
+  },
+];
+---
+
+<section class="process-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-2xl mb-14">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Processus
+      </p>
+      <h2
+        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em;"
+      >
+        Comment on travaille,<br />étape par étape.
+      </h2>
+    </div>
+
+    <div class="process-grid">
+      <!-- Steps a gauche -->
+      <ol class="process-steps">
+        {
+          steps.map((s) => (
+            <li class="process-step">
+              <div class="process-step__num-wrap">
+                <span class="process-step__num">{s.num}</span>
+                <span class="process-step__line" aria-hidden="true"></span>
+              </div>
+              <div class="process-step__content">
+                <h3 class="process-step__title">{s.title}</h3>
+                <p class="process-step__body">{s.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <!-- Visuel sticky a droite -->
+      <aside class="process-visual">
+        <div class="process-visual__sticky">
+          <div class="process-visual__card">
+            <div class="process-visual__header">
+              <span class="process-visual__chip">Atelier de cadrage</span>
+              <span class="process-visual__time">60 min</span>
+            </div>
+            <div class="process-visual__steps">
+              <div class="process-visual__row process-visual__row--done">
+                <span class="process-visual__dot"></span>
+                <span>ICP cible défini</span>
+                <small>10:00</small>
+              </div>
+              <div class="process-visual__row process-visual__row--done">
+                <span class="process-visual__dot"></span>
+                <span>Pain points validés</span>
+                <small>10:18</small>
+              </div>
+              <div class="process-visual__row process-visual__row--current">
+                <span class="process-visual__dot"></span>
+                <span>Angles d'attaque</span>
+                <small>10:32</small>
+              </div>
+              <div class="process-visual__row">
+                <span class="process-visual__dot"></span>
+                <span>Volume cible / mois</span>
+                <small>10:46</small>
+              </div>
+              <div class="process-visual__row">
+                <span class="process-visual__dot"></span>
+                <span>Engagement minimum vital</span>
+                <small>10:55</small>
+              </div>
+            </div>
+            <div class="process-visual__footer">
+              <span class="process-visual__pulse"></span>
+              Brief en cours
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process-section {
+    padding: 5rem 0 7rem;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 1024px) {
+    .process-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  /* === STEPS === */
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .process-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .process-step__num-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .process-step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: #1E90FF;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px -10px rgba(30, 144, 255, 0.5);
+  }
+  .process-step__line {
+    flex: 1;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(30, 144, 255, 0.3), transparent);
+    min-height: 2rem;
+  }
+  .process-step:last-child .process-step__line { display: none; }
+
+  .process-step__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-style: italic;
+    font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+    line-height: 1.2;
+    color: var(--color-creme);
+    letter-spacing: -0.01em;
+  }
+  .process-step__body {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(250, 247, 242, 0.65);
+    max-width: 32rem;
+  }
+
+  /* === VISUEL === */
+  .process-visual {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .process-visual { display: block; }
+  }
+  .process-visual__sticky {
+    position: sticky;
+    top: 6rem;
+  }
+  .process-visual__card {
+    background: #FAF7F2;
+    color: #0F1B3F;
+    border-radius: 24px;
+    padding: 1.75rem 1.75rem 1.25rem;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.5);
+  }
+  .process-visual__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .process-visual__chip {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1E90FF;
+    background: rgba(30, 144, 255, 0.12);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+  .process-visual__time {
+    font-size: 0.75rem;
+    color: #5A6478;
+    font-weight: 500;
+  }
+  .process-visual__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .process-visual__row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.875rem;
+    color: rgba(15, 27, 63, 0.45);
+  }
+  .process-visual__row small {
+    font-size: 0.72rem;
+    color: rgba(15, 27, 63, 0.35);
+  }
+  .process-visual__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.15);
+    flex-shrink: 0;
+  }
+  .process-visual__row--done {
+    color: rgba(15, 27, 63, 0.85);
+  }
+  .process-visual__row--done .process-visual__dot {
+    background: #10B981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+  }
+  .process-visual__row--current {
+    color: #0F1B3F;
+    font-weight: 600;
+  }
+  .process-visual__row--current .process-visual__dot {
+    background: #1E90FF;
+    box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.18);
+  }
+  .process-visual__footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #5A6478;
+  }
+  .process-visual__pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1E90FF;
+    box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.5);
+    animation: process-pulse 2s infinite;
+  }
+  @keyframes process-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(30, 144, 255, 0); }
+  }
+</style>

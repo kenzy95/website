@@ -10,7 +10,10 @@ import PartnerWilco from '@components/PartnerWilco.astro';
 import GuaranteeCards from '@components/GuaranteeCards.astro';
 import LeadGenSection from '@components/LeadGenSection.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
+import WhatWeDo from '@components/animations/WhatWeDo.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
+import ServiceTakeover from '@components/ServiceTakeover.astro';
+import ProcessSteps from '@components/ProcessSteps.astro';
 import { localBusinessSchema, faqSchema } from '@lib/schema';
 
 /**
@@ -92,12 +95,20 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
     <!-- ============ SECTION "RDV QUALIFIES" + 2 CARDS INFRA/OPTIM ============ -->
     <LeadGenSection />
 
-    <!-- TODO PR3 : What We Do + ScrollExpansion + 5 cards prise en charge + Processus -->
+    <!-- ============ CE QU'ON FAIT (split text + sphere) ============ -->
+    <WhatWeDo />
+
+    <!-- ============ CE QU'ON PREND EN CHARGE (5 cards) ============ -->
+    <ServiceTakeover />
+
+    <!-- ============ PROCESSUS (4 etapes + sticky visuel) ============ -->
+    <ProcessSteps />
+
     <!-- TODO PR4 : Calculateur + Valeurs + Interviews + Constellation outils + FAQ + CTA final -->
 
     <div class="py-32 text-center">
       <p class="text-(--color-creme)/40 text-sm italic">
-        (Sections suivantes en construction - PR 3 et 4)
+        (Sections suivantes en construction - PR 4 : calculateur, valeurs, interviews, FAQ, CTA final)
       </p>
     </div>
   </main>
