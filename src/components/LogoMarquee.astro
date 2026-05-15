@@ -7,19 +7,23 @@
 interface Logo {
   name: string;
   src: string;
-  height?: number;
 }
 
+/**
+ * Tous les logos partagent le meme slot (170x110px). Chaque logo est centre
+ * dedans avec object-fit contain + max-height/max-width identiques -> harmonie
+ * visuelle parfaite quelles que soient les proportions natives des PNGs.
+ */
 const clients: Logo[] = [
-  { name: 'Trimble', src: '/clients/trimble.png', height: 64 },
-  { name: 'Yomoni', src: '/clients/yomoni.png', height: 58 },
-  { name: 'Solunea', src: '/clients/solunea.png', height: 90 },
-  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 76 },
-  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 64 },
-  { name: 'MOFFI', src: '/clients/moffi.png', height: 68 },
-  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 56 },
-  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 70 },
-  { name: 'Nestore', src: '/clients/nestore.png', height: 52 },
+  { name: 'Trimble', src: '/clients/trimble.png' },
+  { name: 'Yomoni', src: '/clients/yomoni.png' },
+  { name: 'Solunea', src: '/clients/solunea.png' },
+  { name: 'Job2bedone partners', src: '/clients/job2bedone.png' },
+  { name: 'Dunforce', src: '/clients/dunforce.svg' },
+  { name: 'MOFFI', src: '/clients/moffi.png' },
+  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png' },
+  { name: 'Les Épaulettes', src: '/clients/epaulettes.png' },
+  { name: 'Nestore', src: '/clients/nestore.png' },
 ];
 
 interface Props {
@@ -43,7 +47,6 @@ const logos = [...clients, ...clients];
               <img
                 src={c.src}
                 alt={`Logo ${c.name}`}
-                style={`height:${c.height || 64}px; width:auto;`}
                 class="marquee-logo"
                 loading="lazy"
               />
@@ -108,21 +111,26 @@ const logos = [...clients, ...clients];
   }
   .marquee-track:hover { animation-play-state: paused; }
 
+  /* Slot uniforme : tous les logos partagent EXACTEMENT la meme box -> harmonie visuelle */
   .marquee-item {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 200px;
-    height: 110px;
+    width: 220px;
+    height: 140px;
   }
-  /* Logos en couleurs naturelles sur fond blanc, legere desaturation pour cohesion */
+  /* Logos en couleurs naturelles sur fond blanc, leger desaturation pour cohesion.
+     max-height + max-width identiques + object-fit contain -> harmonie quels que soient les ratios. */
   .marquee-logo {
+    max-width: 200px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     opacity: 0.85;
     filter: grayscale(20%);
     transition: opacity 200ms ease, filter 200ms ease;
-    max-width: 260px;
-    object-fit: contain;
   }
   .marquee-item:hover .marquee-logo {
     opacity: 1;
