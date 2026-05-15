@@ -85,18 +85,18 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
       </div>
     </section>
 
-    <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL (mt negatif leger pour coller aux CTAs avec petit gap) ============ -->
-    <section class="relative flex flex-col overflow-hidden -mt-6">
+    <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL (gap modere avec CTAs) ============ -->
+    <section class="relative flex flex-col overflow-hidden -mt-2">
       <ContainerScroll>
         <MailboxDashboard />
       </ContainerScroll>
     </section>
 
+    <!-- ============ PARTENAIRE WILCO (avant LogoMarquee comme sur agencesimple.fr Framer) ============ -->
+    <PartnerWilco />
+
     <!-- ============ LOGOS CLIENTS (MARQUEE) ============ -->
     <LogoMarquee />
-
-    <!-- ============ PARTENAIRE WILCO ============ -->
-    <PartnerWilco />
 
     <!-- ============ 2 CARDS BICOLORES GARANTIES ============ -->
     <GuaranteeCards />
