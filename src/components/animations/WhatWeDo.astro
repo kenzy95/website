@@ -30,18 +30,18 @@
           <div class="wwd-word-wrap">
             <div class="wwd-word">Ce</div>
           </div>
-          <div class="wwd-spacer" aria-hidden="true"></div>
-          <div class="wwd-word-wrap">
-            <div class="wwd-word">qu'on fait</div>
+          <div class="wwd-spacer" aria-hidden="true">
+            {/* Sphere DANS le spacer -> toujours alignee entre les 2 mots, peu importe leurs largeurs */}
+            <div class="wwd-sphere">
+              <div class="wwd-sphere__core"></div>
+              <div class="wwd-sphere__ring wwd-sphere__ring--a"></div>
+              <div class="wwd-sphere__ring wwd-sphere__ring--b"></div>
+              <div class="wwd-sphere__halo"></div>
+            </div>
           </div>
-        </div>
-
-        {/* Sphere absolute au centre */}
-        <div class="wwd-sphere" aria-hidden="true">
-          <div class="wwd-sphere__core"></div>
-          <div class="wwd-sphere__ring wwd-sphere__ring--a"></div>
-          <div class="wwd-sphere__ring wwd-sphere__ring--b"></div>
-          <div class="wwd-sphere__halo"></div>
+          <div class="wwd-word-wrap">
+            <div class="wwd-word">qu'on fait pour vous</div>
+          </div>
         </div>
       </div>
 
@@ -146,7 +146,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
+    gap: clamp(0.5rem, 2vw, 1.5rem); /* espace minimum entre 'Ce' et 'qu'on fait' meme quand spacer=0 */
     opacity: var(--p-title);
     transform: translateY(calc((1 - var(--p-title)) * 50px));
     z-index: 3;
@@ -157,22 +157,23 @@
   .wwd-word {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: clamp(2.5rem, 9vw, 7.5rem);
+    font-size: clamp(2rem, 5.5vw, 4.5rem); /* reduit pour que 'qu'on fait pour vous' rentre */
     line-height: 0.95;
     letter-spacing: -0.04em;
     color: var(--color-creme);
     white-space: nowrap;
   }
 
-  /* Spacer central : width 0 -> 462px (la sphere fait 462px de large) */
+  /* Spacer central : position relative pour ancrer la sphere DANS lui */
   .wwd-spacer {
     flex-shrink: 0;
+    position: relative;
     width: calc(var(--p-sphere) * clamp(8rem, 28vw, 28rem));
-    height: 1px;
+    height: clamp(8rem, 28vw, 28rem);
     transition: none;
   }
 
-  /* Sphere absolute centered : opacity 0->1, translateZ -847->0 (effet 3D depth) */
+  /* Sphere absolute centred dans le spacer -> alignement parfait entre les 2 mots */
   .wwd-sphere {
     position: absolute;
     top: 50%;
@@ -182,7 +183,6 @@
     transform: translate(-50%, -50%) translateZ(calc((1 - var(--p-sphere)) * -847px));
     transform-style: preserve-3d;
     opacity: var(--p-sphere);
-    z-index: 2;
     pointer-events: none;
   }
 
@@ -213,7 +213,7 @@
   }
   .wwd-sphere__halo {
     position: absolute;
-    inset: -30%;
+    inset: -10%;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(30, 144, 255, 0.18) 0%, transparent 55%);
   }
