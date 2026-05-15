@@ -15,16 +15,21 @@ interface Logo {
  * visuelle parfaite quelles que soient les proportions natives des PNGs.
  */
 /**
- * Logos clients fournis par Kenzy. Le fichier nestore.png contient en realite
- * le logo Les Epaulettes (mauvais nommage initial). Les fichiers trimble.png
- * (= image de chat/bulles) et epaulettes.png (= vide/blanc) sont cassés -> non
- * inclus. Le vrai Nestore et Trimble PNG seront ajoutes plus tard si fournis.
+ * Logos clients fournis par Kenzy. Audit complet des fichiers PNG :
+ * - wilco-partner.png contient en realite le vrai logo Trimble (mauvais nommage)
+ * - nestore.png contient en realite le logo Les Epaulettes
+ * - trimble.png contenait une image de chat/bulles (retire)
+ * - dunforce.svg contient un PNG encode base64 d'un dashboard financier (retire,
+ *   ce n'est pas un logo)
+ * - epaulettes.png est vide/casse (retire)
+ *
+ * 7 logos finaux harmonises avec gap uniforme de 5rem (80px) entre chaque.
  */
 const clients: Logo[] = [
+  { name: 'Trimble', src: '/clients/wilco-partner.png' },
   { name: 'Yomoni', src: '/clients/yomoni.png' },
   { name: 'Solunea', src: '/clients/solunea.png' },
   { name: 'Job2bedone partners', src: '/clients/job2bedone.png' },
-  { name: 'Dunforce', src: '/clients/dunforce.svg' },
   { name: 'MOFFI', src: '/clients/moffi.png' },
   { name: 'Dr.Rubber', src: '/clients/dr-rubber.png' },
   { name: 'Les Épaulettes', src: '/clients/nestore.png' },
