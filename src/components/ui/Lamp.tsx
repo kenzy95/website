@@ -53,13 +53,16 @@ export const LampContainer = ({
         </motion.div>
         <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#0F1B3F] blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
-        <div className="absolute inset-auto z-50 h-56 w-[60rem] -translate-y-[3rem] rounded-full bg-[#1E90FF] opacity-70 blur-3xl"></div>
+        {/* Gros halo blur-3xl : z-30 (SOUS le masque z-40), plus petit et descendu pour eclairer SOUS la barre */}
+        <div className="absolute inset-auto z-30 h-44 w-[44rem] -translate-y-[2rem] rounded-full bg-[#1E90FF] opacity-55 blur-3xl"></div>
+        {/* Halo serre : descendu sous la barre */}
         <motion.div
-          initial={{ width: "14rem" }}
-          whileInView={{ width: "32rem" }}
+          initial={{ width: "12rem" }}
+          whileInView={{ width: "26rem" }}
           transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-auto z-30 h-40 w-[32rem] -translate-y-[4rem] rounded-full bg-[#1E90FF] blur-2xl"
+          className="absolute inset-auto z-30 h-32 w-[26rem] -translate-y-[3rem] rounded-full bg-[#1E90FF] blur-2xl"
         ></motion.div>
+        {/* Barre : z-50, au-dessus de tout */}
         <motion.div
           initial={{ width: "30rem" }}
           whileInView={{ width: "70rem" }}
@@ -67,7 +70,8 @@ export const LampContainer = ({
           className="absolute inset-auto z-50 h-0.5 w-[70rem] -translate-y-[6rem] bg-[#1E90FF] "
         ></motion.div>
 
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[11.5rem] bg-[#0F1B3F] "></div>
+        {/* Masque haut : z-40 (AU-DESSUS des halos z-30, EN DESSOUS de la barre z-50). Hauteur augmentee pour couvrir tout au-dessus de la barre. */}
+        <div className="absolute inset-auto z-40 h-64 w-full -translate-y-[14rem] bg-[#0F1B3F] "></div>
       </div>
 
       <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
