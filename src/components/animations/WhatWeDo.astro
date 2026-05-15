@@ -1,24 +1,47 @@
 ---
 /**
- * Section "Ce qu'on fait" - inspiree du visuel qubix-flowdevz.
- * Split text gauche/droite qui s'ecarte au scroll, sphere animee au centre.
+ * Section "Ce qu'on fait" - inspiree du visuel qubix-flowdevz Webflow.
  *
- * Implementation : scroll-driven via CSS var --progress (0->1) sur la section,
- * memes mecanique que ContainerScroll. Pas de scroll-jacking.
+ * Mecanique d'animation scroll-driven :
+ * - Sticky parent 300vh, sticky enfant 100vh
+ * - --progress 0->1 sur traversee du parent
+ * - Etat initial : titre, sphere, cards tous invisibles (opacity 0)
+ * - Apparitions sequencees :
+ *   - 0 -> 0.3 : titre 'Ce qu'on fait' (opacity 0->1, translateY 50->0)
+ *   - 0.2 -> 0.55 : sphere centrale (opacity 0->1, translateZ 847->0)
+ *   - 0.4 -> 0.7 : card 1 'Strategie' (opacity 0->1, translateY 20->0)
+ *   - 0.5 -> 0.8 : card 2 'Sourcing' (opacity 0->1, translateY 20->0)
+ *   - 0.6 -> 0.9 : card 3 'Infrastructure' (opacity 0->1, translateY 20->0)
  */
 ---
 
 <section class="wwd-section" data-scroll-section>
   <div class="wwd-sticky">
-    <div class="wwd-content">
-      <span class="wwd-word wwd-word--left">Ce</span>
-      <div class="wwd-orb" aria-hidden="true">
-        <div class="wwd-orb__core"></div>
-        <div class="wwd-orb__ring wwd-orb__ring--a"></div>
-        <div class="wwd-orb__ring wwd-orb__ring--b"></div>
-        <div class="wwd-orb__halo"></div>
+    <div class="wwd-perspective">
+      <div class="wwd-content">
+        <span class="wwd-word wwd-word--left">Ce</span>
+        <div class="wwd-orb" aria-hidden="true">
+          <div class="wwd-orb__core"></div>
+          <div class="wwd-orb__ring wwd-orb__ring--a"></div>
+          <div class="wwd-orb__ring wwd-orb__ring--b"></div>
+          <div class="wwd-orb__halo"></div>
+        </div>
+        <span class="wwd-word wwd-word--right">qu'on fait</span>
       </div>
-      <span class="wwd-word wwd-word--right">qu'on fait</span>
+
+      {/* 3 cards autour de la sphere, sequencees */}
+      <div class="wwd-card wwd-card--1">
+        <h3 class="wwd-card__title">Stratégie</h3>
+        <p class="wwd-card__body">On définit avec vous l'angle, les avantages à mettre en avant et la cible précise.</p>
+      </div>
+      <div class="wwd-card wwd-card--2">
+        <h3 class="wwd-card__title">Sourcing &amp; enrichissement</h3>
+        <p class="wwd-card__body">Listes de prospects qualifiées, emails pros vérifiés, scoring qualité.</p>
+      </div>
+      <div class="wwd-card wwd-card--3">
+        <h3 class="wwd-card__title">Infrastructure</h3>
+        <p class="wwd-card__body">Domaines secondaires, SPF/DKIM/DMARC, warmup, monitoring deliverability.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -62,7 +85,7 @@
 <style>
   .wwd-section {
     --progress: 0;
-    height: 200vh;
+    height: 300vh;
     position: relative;
   }
   .wwd-sticky {
@@ -74,6 +97,17 @@
     justify-content: center;
     overflow: hidden;
   }
+  .wwd-perspective {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+  }
+
+  /* Titre central : apparait progress 0 -> 0.3 (clamp inline pour calcul lineaire) */
   .wwd-content {
     width: 100%;
     display: flex;
@@ -81,6 +115,11 @@
     justify-content: center;
     gap: 1.5rem;
     padding: 0 1rem;
+    /* clamp((progress - 0) / 0.3, 0, 1) -> 0 a progress 0, 1 a progress 0.3 */
+    --p-title: clamp(0, calc(var(--progress) * 3.33), 1);
+    opacity: var(--p-title);
+    transform: translateY(calc((1 - var(--p-title)) * 50px));
+    transition: none;
   }
 
   .wwd-word {
@@ -93,23 +132,19 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
-  /* Le mot de gauche translate vers la gauche, droite vers la droite */
-  .wwd-word--left {
-    transform: translateX(calc(var(--progress) * -8vw));
-  }
-  .wwd-word--right {
-    transform: translateX(calc(var(--progress) * 8vw));
-  }
 
-  /* Sphere centrale : grossit et se revele au scroll */
+  /* Sphere centrale : apparait progress 0.2 -> 0.55 avec translateZ */
   .wwd-orb {
     position: relative;
     width: clamp(8rem, 16vw, 14rem);
     height: clamp(8rem, 16vw, 14rem);
     flex-shrink: 0;
-    opacity: calc(var(--progress) * 1.5);
-    transform: scale(calc(0.4 + var(--progress) * 0.6));
+    /* clamp((progress - 0.2) / 0.35, 0, 1) */
+    --p-orb: clamp(0, calc((var(--progress) - 0.2) * 2.857), 1);
+    opacity: var(--p-orb);
+    transform: translateZ(calc((1 - var(--p-orb)) * -847px));
     transition: none;
+    transform-style: preserve-3d;
   }
 
   .wwd-orb__core {
@@ -148,8 +183,59 @@
     pointer-events: none;
   }
 
+  /* Cards autour de la sphere : positionnees en absolute, sequencees */
+  .wwd-card {
+    position: absolute;
+    max-width: 18rem;
+    color: var(--color-creme);
+    font-family: var(--font-sans);
+    pointer-events: none;
+  }
+  .wwd-card__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-creme);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  .wwd-card__body {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(250, 247, 242, 0.55);
+  }
+
+  /* Card 1 : haut-gauche, apparait 0.4 -> 0.7 */
+  .wwd-card--1 {
+    top: 12%;
+    left: 6%;
+    --p-c: clamp(0, calc((var(--progress) - 0.4) * 3.33), 1);
+    opacity: var(--p-c);
+    transform: translateY(calc((1 - var(--p-c)) * 20px));
+  }
+  /* Card 2 : haut-droite, apparait 0.5 -> 0.8 */
+  .wwd-card--2 {
+    top: 18%;
+    right: 6%;
+    text-align: right;
+    --p-c: clamp(0, calc((var(--progress) - 0.5) * 3.33), 1);
+    opacity: var(--p-c);
+    transform: translateY(calc((1 - var(--p-c)) * 20px));
+  }
+  /* Card 3 : bas-centre, apparait 0.6 -> 0.9 */
+  .wwd-card--3 {
+    bottom: 14%;
+    left: 50%;
+    text-align: center;
+    --p-c: clamp(0, calc((var(--progress) - 0.6) * 3.33), 1);
+    opacity: var(--p-c);
+    transform: translate(-50%, calc((1 - var(--p-c)) * 20px));
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .wwd-word--left, .wwd-word--right { transform: none; }
-    .wwd-orb { opacity: 1; transform: scale(1); }
+    .wwd-content, .wwd-orb, .wwd-card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .wwd-card--3 { transform: translateX(-50%) !important; }
   }
 </style>
