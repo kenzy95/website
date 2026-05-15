@@ -78,9 +78,9 @@ const { titleComponent } = Astro.props as Props;
 </script>
 
 <style>
-  /* Container : reduit pour coller le card sous le hero (assez d'espace pour anim scroll) */
+  /* Container : hauteur etendue pour scroll progress plus long (l'effet dure plus longtemps) */
   .acc-container {
-    height: 40rem;
+    height: 60rem;
     display: flex;
     align-items: flex-start; /* card colle en haut, pas centre */
     justify-content: center;
@@ -91,7 +91,7 @@ const { titleComponent } = Astro.props as Props;
   }
   @media (min-width: 768px) {
     .acc-container {
-      height: 50rem;
+      height: 80rem;
       padding: 1rem 5rem 5rem;
     }
   }
