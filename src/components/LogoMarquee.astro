@@ -14,16 +14,20 @@ interface Logo {
  * dedans avec object-fit contain + max-height/max-width identiques -> harmonie
  * visuelle parfaite quelles que soient les proportions natives des PNGs.
  */
+/**
+ * Logos clients fournis par Kenzy. Le fichier nestore.png contient en realite
+ * le logo Les Epaulettes (mauvais nommage initial). Les fichiers trimble.png
+ * (= image de chat/bulles) et epaulettes.png (= vide/blanc) sont cassés -> non
+ * inclus. Le vrai Nestore et Trimble PNG seront ajoutes plus tard si fournis.
+ */
 const clients: Logo[] = [
-  { name: 'Trimble', src: '/clients/trimble.png' },
   { name: 'Yomoni', src: '/clients/yomoni.png' },
   { name: 'Solunea', src: '/clients/solunea.png' },
   { name: 'Job2bedone partners', src: '/clients/job2bedone.png' },
   { name: 'Dunforce', src: '/clients/dunforce.svg' },
   { name: 'MOFFI', src: '/clients/moffi.png' },
   { name: 'Dr.Rubber', src: '/clients/dr-rubber.png' },
-  { name: 'Les Épaulettes', src: '/clients/epaulettes.png' },
-  { name: 'Nestore', src: '/clients/nestore.png' },
+  { name: 'Les Épaulettes', src: '/clients/nestore.png' },
 ];
 
 interface Props {
