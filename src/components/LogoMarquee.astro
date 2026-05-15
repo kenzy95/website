@@ -11,15 +11,15 @@ interface Logo {
 }
 
 const clients: Logo[] = [
-  { name: 'Trimble', src: '/clients/trimble.png', height: 28 },
-  { name: 'Yomoni', src: '/clients/yomoni.png', height: 26 },
-  { name: 'Solunea', src: '/clients/solunea.png', height: 44 },
-  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 34 },
-  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 28 },
-  { name: 'MOFFI', src: '/clients/moffi.png', height: 30 },
-  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 24 },
-  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 32 },
-  { name: 'Nestore', src: '/clients/nestore.png', height: 22 },
+  { name: 'Trimble', src: '/clients/trimble.png', height: 44 },
+  { name: 'Yomoni', src: '/clients/yomoni.png', height: 40 },
+  { name: 'Solunea', src: '/clients/solunea.png', height: 64 },
+  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 52 },
+  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 44 },
+  { name: 'MOFFI', src: '/clients/moffi.png', height: 46 },
+  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 38 },
+  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 48 },
+  { name: 'Nestore', src: '/clients/nestore.png', height: 36 },
 ];
 
 interface Props {
@@ -31,13 +31,13 @@ const { title = 'Ils nous font confiance', duration = 40 } = Astro.props as Prop
 const logos = [...clients, ...clients];
 ---
 
-<section class="py-16 md:py-24">
+<section class="logo-marquee-section">
   <div class="mx-auto max-w-6xl px-6">
-    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] logo-marquee-title">
       {title}
     </p>
 
-    <div class="mt-10 marquee-mask">
+    <div class="mt-8 marquee-mask">
       <div class="marquee-track" style={`animation-duration:${duration}s`}>
         {
           logos.map((c, i) => (
@@ -45,7 +45,7 @@ const logos = [...clients, ...clients];
               <img
                 src={c.src}
                 alt={`Logo ${c.name}`}
-                style={`height:${c.height || 32}px; width:auto;`}
+                style={`height:${c.height || 44}px; width:auto;`}
                 class="marquee-logo"
                 loading="lazy"
               />
@@ -58,6 +58,25 @@ const logos = [...clients, ...clients];
 </section>
 
 <style>
+  /* Section : fond creme + radius top pour transition propre depuis le dark dessus */
+  .logo-marquee-section {
+    background: var(--color-creme);
+    padding: 3rem 0 2.5rem;
+    border-radius: 32px 32px 0 0;
+    position: relative;
+    z-index: 5;
+  }
+  @media (min-width: 768px) {
+    .logo-marquee-section {
+      padding: 3.5rem 0 3rem;
+    }
+  }
+
+  .logo-marquee-title {
+    color: var(--color-encre);
+    opacity: 0.55;
+  }
+
   .marquee-mask {
     overflow: hidden;
     mask-image: linear-gradient(to right, transparent, black 120px, black calc(100% - 120px), transparent);
@@ -79,19 +98,20 @@ const logos = [...clients, ...clients];
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 140px;
-    height: 56px;
+    min-width: 160px;
+    height: 72px;
   }
-  /* Convertit les logos colores en blanc/creme sur fond dark, conserve l'opacite */
+  /* Logos en couleurs naturelles sur fond creme, legere desaturation pour cohesion */
   .marquee-logo {
-    filter: brightness(0) invert(0.95);
-    opacity: 0.75;
-    transition: opacity 200ms ease;
-    max-width: 180px;
+    opacity: 0.85;
+    filter: grayscale(20%);
+    transition: opacity 200ms ease, filter 200ms ease;
+    max-width: 220px;
     object-fit: contain;
   }
   .marquee-item:hover .marquee-logo {
     opacity: 1;
+    filter: grayscale(0%);
   }
   @keyframes marquee-scroll {
     from { transform: translateX(0); }
