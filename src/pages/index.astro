@@ -68,8 +68,8 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
         </h1>
       </LampContainer>
 
-      <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin), pb 0 pour rapprocher dashboard au max -->
-      <div class="relative z-10 -mt-64 sm:-mt-72 pb-0 text-center px-5" style="background-color: var(--color-encre);">
+      <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin), pb 12 pour aerer avant le dashboard -->
+      <div class="relative z-10 -mt-64 sm:-mt-72 pb-12 sm:pb-16 text-center px-5" style="background-color: var(--color-encre);">
         <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
           Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
         </p>
@@ -85,8 +85,8 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
       </div>
     </section>
 
-    <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL (gap modere avec CTAs) ============ -->
-    <section class="relative flex flex-col overflow-hidden -mt-2">
+    <!-- ============ CONTAINER SCROLL : DASHBOARD MAIL (espace genere par pb des CTAs) ============ -->
+    <section class="relative flex flex-col overflow-hidden">
       <ContainerScroll>
         <MailboxDashboard />
       </ContainerScroll>
