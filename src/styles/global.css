@@ -170,3 +170,37 @@ body[data-theme='dark'] {
   filter: blur(70px);
   pointer-events: none;
 }
+
+/* === Lamp Effect (Aceternity port) — animations CSS au mount === */
+.lamp-cone-anim {
+  opacity: 0.5;
+  animation: lamp-cone-grow 0.8s ease-in-out 0.3s forwards;
+}
+.lamp-bar-anim {
+  width: 30rem;
+  animation: lamp-bar-grow 0.8s ease-in-out 0.3s forwards;
+}
+.lamp-halo-narrow-anim {
+  width: 14rem;
+  animation: lamp-halo-narrow-grow 0.8s ease-in-out 0.3s forwards;
+}
+@keyframes lamp-cone-grow {
+  from { opacity: 0.5; width: 30rem; }
+  to { opacity: 1; width: 70rem; }
+}
+@keyframes lamp-bar-grow {
+  from { width: 30rem; }
+  to { width: 70rem; }
+}
+@keyframes lamp-halo-narrow-grow {
+  from { width: 14rem; }
+  to { width: 40rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lamp-cone-anim, .lamp-bar-anim, .lamp-halo-narrow-anim {
+    animation: none;
+  }
+  .lamp-cone-anim { opacity: 1; width: 70rem; }
+  .lamp-bar-anim { width: 70rem; }
+  .lamp-halo-narrow-anim { width: 40rem; }
+}
