@@ -78,32 +78,33 @@ const { titleComponent } = Astro.props as Props;
 </script>
 
 <style>
-  /* Container : h-[60rem] md:h-[80rem] flex center, p-2 md:p-20 (Aceternity exact) */
+  /* Container : reduit pour coller le card sous le hero (assez d'espace pour anim scroll) */
   .acc-container {
-    height: 60rem;
+    height: 40rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* card colle en haut, pas centre */
     justify-content: center;
     position: relative;
     padding: 0.5rem;
+    padding-top: 1rem;
     --progress: 0;
   }
   @media (min-width: 768px) {
     .acc-container {
-      height: 80rem;
-      padding: 5rem;
+      height: 50rem;
+      padding: 1rem 5rem 5rem;
     }
   }
 
-  /* Inner : py-10 md:py-40, perspective 1000px (Aceternity exact) */
+  /* Inner : padding reduit, perspective preservee */
   .acc-inner {
-    padding: 2.5rem 0;
+    padding: 0;
     width: 100%;
     position: relative;
     perspective: 1000px;
   }
   @media (min-width: 768px) {
-    .acc-inner { padding: 10rem 0; }
+    .acc-inner { padding: 1rem 0 0; }
   }
 
   /* Header : translateY [0, -100] selon scrollYProgress */
