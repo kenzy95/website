@@ -11,15 +11,15 @@ interface Logo {
 }
 
 const clients: Logo[] = [
-  { name: 'Trimble', src: '/clients/trimble.png', height: 44 },
-  { name: 'Yomoni', src: '/clients/yomoni.png', height: 40 },
-  { name: 'Solunea', src: '/clients/solunea.png', height: 64 },
-  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 52 },
-  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 44 },
-  { name: 'MOFFI', src: '/clients/moffi.png', height: 46 },
-  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 38 },
-  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 48 },
-  { name: 'Nestore', src: '/clients/nestore.png', height: 36 },
+  { name: 'Trimble', src: '/clients/trimble.png', height: 64 },
+  { name: 'Yomoni', src: '/clients/yomoni.png', height: 58 },
+  { name: 'Solunea', src: '/clients/solunea.png', height: 90 },
+  { name: 'Job2bedone partners', src: '/clients/job2bedone.png', height: 76 },
+  { name: 'Dunforce', src: '/clients/dunforce.svg', height: 64 },
+  { name: 'MOFFI', src: '/clients/moffi.png', height: 68 },
+  { name: 'Dr.Rubber', src: '/clients/dr-rubber.png', height: 56 },
+  { name: 'Les Épaulettes', src: '/clients/epaulettes.png', height: 70 },
+  { name: 'Nestore', src: '/clients/nestore.png', height: 52 },
 ];
 
 interface Props {
@@ -32,12 +32,10 @@ const logos = [...clients, ...clients];
 ---
 
 <section class="logo-marquee-section">
-  <div class="mx-auto max-w-6xl px-6">
-    <p class="text-center text-xs font-semibold uppercase tracking-[0.2em] logo-marquee-title">
-      {title}
-    </p>
+  <p class="logo-marquee-eyebrow">{title}</p>
 
-    <div class="mt-8 marquee-mask">
+  <div class="logo-marquee-card">
+    <div class="marquee-mask">
       <div class="marquee-track" style={`animation-duration:${duration}s`}>
         {
           logos.map((c, i) => (
@@ -45,7 +43,7 @@ const logos = [...clients, ...clients];
               <img
                 src={c.src}
                 alt={`Logo ${c.name}`}
-                style={`height:${c.height || 44}px; width:auto;`}
+                style={`height:${c.height || 64}px; width:auto;`}
                 class="marquee-logo"
                 loading="lazy"
               />
@@ -58,29 +56,47 @@ const logos = [...clients, ...clients];
 </section>
 
 <style>
-  /* Section : fond creme + radius top pour transition propre depuis le dark dessus */
+  /* Section : conteneur dark, garde l'eyebrow + card blanche centree (pattern agencesimple.fr Framer) */
   .logo-marquee-section {
-    background: var(--color-creme);
-    padding: 3rem 0 2.5rem;
-    border-radius: 32px 32px 0 0;
+    padding: 3rem 1.5rem 3.5rem;
     position: relative;
     z-index: 5;
   }
   @media (min-width: 768px) {
-    .logo-marquee-section {
-      padding: 3.5rem 0 3rem;
-    }
+    .logo-marquee-section { padding: 3.5rem 2rem 4rem; }
   }
 
-  .logo-marquee-title {
-    color: var(--color-encre);
+  .logo-marquee-eyebrow {
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-creme);
     opacity: 0.55;
+    margin-bottom: 2rem;
+  }
+
+  /* Card blanche centree, max 1200px, border-radius pill (match Framer 70px) */
+  .logo-marquee-card {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border-radius: 70px;
+    padding: 2.5rem 0;
+    overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .logo-marquee-card {
+      border-radius: 32px;
+      padding: 2rem 0;
+    }
   }
 
   .marquee-mask {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, black 120px, black calc(100% - 120px), transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 120px, black calc(100% - 120px), transparent);
+    mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
   }
   .marquee-track {
     display: flex;
@@ -90,23 +106,22 @@ const logos = [...clients, ...clients];
     animation: marquee-scroll linear infinite;
     will-change: transform;
   }
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
+  .marquee-track:hover { animation-play-state: paused; }
+
   .marquee-item {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 160px;
-    height: 72px;
+    min-width: 200px;
+    height: 110px;
   }
-  /* Logos en couleurs naturelles sur fond creme, legere desaturation pour cohesion */
+  /* Logos en couleurs naturelles sur fond blanc, legere desaturation pour cohesion */
   .marquee-logo {
     opacity: 0.85;
     filter: grayscale(20%);
     transition: opacity 200ms ease, filter 200ms ease;
-    max-width: 220px;
+    max-width: 260px;
     object-fit: contain;
   }
   .marquee-item:hover .marquee-logo {
