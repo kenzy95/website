@@ -111,19 +111,17 @@ const logos = [...clients, ...clients];
   }
   .marquee-track:hover { animation-play-state: paused; }
 
-  /* Slot uniforme : tous les logos partagent EXACTEMENT la meme box -> harmonie visuelle */
+  /* Slot uniforme elargi : permet aux wordmarks horizontaux (ratio 4-5) d'atteindre ~100-130px */
   .marquee-item {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 360px;
+    width: 440px;
     height: 180px;
   }
-  /* Logos en couleurs naturelles sur fond blanc, leger desaturation pour cohesion.
-     max-width genereux pour que meme les wordmarks horizontaux atteignent ~140px de haut. */
   .marquee-logo {
-    max-width: 340px;
+    max-width: 420px;
     max-height: 140px;
     width: auto;
     height: auto;
