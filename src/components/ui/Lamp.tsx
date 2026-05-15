@@ -53,27 +53,38 @@ export const LampContainer = ({
         </motion.div>
         <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#0F1B3F] blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
-        {/* Halo large projete vers le bas : ellipse depuis top, fade progressif vertical, contraint lateralement */}
+        {/* Halo trapeze inverse (large) : wrapper avec filter:blur, enfant avec clip-path polygon */}
         <div
-          className="absolute inset-auto z-30 h-72 w-[60rem] -translate-y-[2rem]"
-          style={{
-            background:
-              "radial-gradient(ellipse 45% 95% at 50% 0%, rgba(30, 144, 255, 0.85) 0%, rgba(30, 144, 255, 0.50) 22%, rgba(30, 144, 255, 0.22) 50%, rgba(30, 144, 255, 0.08) 75%, transparent 100%)",
-            filter: "blur(28px)",
-          }}
-        ></div>
-        {/* Halo central plus serre et intense : coeur lumineux sous la barre, anim qui s'elargit */}
+          className="absolute inset-auto z-30 h-72 w-[70rem] -translate-y-[2rem] pointer-events-none"
+          style={{ filter: "blur(32px)" }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(30, 144, 255, 0.85) 0%, rgba(30, 144, 255, 0.55) 25%, rgba(30, 144, 255, 0.25) 55%, rgba(30, 144, 255, 0.08) 80%, transparent 100%)",
+              clipPath: "polygon(0% 0%, 100% 0%, 72% 100%, 28% 100%)",
+            }}
+          />
+        </div>
+
+        {/* Halo trapeze inverse (etroit, coeur intense) : meme technique, anim width */}
         <motion.div
-          initial={{ width: "12rem" }}
-          whileInView={{ width: "30rem" }}
+          initial={{ width: "14rem" }}
+          whileInView={{ width: "34rem" }}
           transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-auto z-30 h-56 w-[30rem] -translate-y-[2rem]"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 100% at 50% 0%, rgba(120, 200, 255, 0.95) 0%, rgba(30, 144, 255, 0.55) 25%, rgba(30, 144, 255, 0.15) 60%, transparent 100%)",
-            filter: "blur(18px)",
-          }}
-        ></motion.div>
+          className="absolute inset-auto z-30 h-56 w-[34rem] -translate-y-[2rem] pointer-events-none"
+          style={{ filter: "blur(18px)" }}
+        >
+          <div
+            className="w-full h-full"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(150, 210, 255, 1) 0%, rgba(30, 144, 255, 0.7) 30%, rgba(30, 144, 255, 0.2) 65%, transparent 100%)",
+              clipPath: "polygon(0% 0%, 100% 0%, 78% 100%, 22% 100%)",
+            }}
+          />
+        </motion.div>
         {/* Barre : z-50, au-dessus de tout */}
         <motion.div
           initial={{ width: "30rem" }}
