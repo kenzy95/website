@@ -133,9 +133,9 @@ const { titleComponent } = Astro.props as Props;
       0 149px 60px rgba(0, 0, 0, 0.04);
     transform-style: preserve-3d;
     will-change: transform;
-    /* rotateX (20 -> 0) + scale (1.05 -> 1) sur desktop */
+    /* rotateX (35 -> 0) + scale (1.05 -> 1) sur desktop : inclinaison plus marquee */
     transform:
-      rotateX(calc((1 - var(--progress)) * 20deg))
+      rotateX(calc((1 - var(--progress)) * 35deg))
       scale(calc(1.05 - var(--progress) * 0.05));
   }
   @media (min-width: 768px) {
@@ -148,7 +148,7 @@ const { titleComponent } = Astro.props as Props;
   @media (max-width: 768px) {
     .acc-card {
       transform:
-        rotateX(calc((1 - var(--progress)) * 20deg))
+        rotateX(calc((1 - var(--progress)) * 35deg))
         scale(calc(0.7 + var(--progress) * 0.2));
     }
   }
