@@ -53,14 +53,26 @@ export const LampContainer = ({
         </motion.div>
         <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#0F1B3F] blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
-        {/* Gros halo blur-3xl : z-30 (SOUS le masque z-40), plus petit et descendu pour eclairer SOUS la barre */}
-        <div className="absolute inset-auto z-30 h-44 w-[44rem] -translate-y-[2rem] rounded-full bg-[#1E90FF] opacity-55 blur-3xl"></div>
-        {/* Halo serre : descendu sous la barre */}
+        {/* Halo large projete vers le bas : ellipse depuis top, fade progressif vertical, contraint lateralement */}
+        <div
+          className="absolute inset-auto z-30 h-72 w-[60rem] -translate-y-[2rem]"
+          style={{
+            background:
+              "radial-gradient(ellipse 45% 95% at 50% 0%, rgba(30, 144, 255, 0.85) 0%, rgba(30, 144, 255, 0.50) 22%, rgba(30, 144, 255, 0.22) 50%, rgba(30, 144, 255, 0.08) 75%, transparent 100%)",
+            filter: "blur(28px)",
+          }}
+        ></div>
+        {/* Halo central plus serre et intense : coeur lumineux sous la barre, anim qui s'elargit */}
         <motion.div
           initial={{ width: "12rem" }}
-          whileInView={{ width: "26rem" }}
+          whileInView={{ width: "30rem" }}
           transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-auto z-30 h-32 w-[26rem] -translate-y-[3rem] rounded-full bg-[#1E90FF] blur-2xl"
+          className="absolute inset-auto z-30 h-56 w-[30rem] -translate-y-[2rem]"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 100% at 50% 0%, rgba(120, 200, 255, 0.95) 0%, rgba(30, 144, 255, 0.55) 25%, rgba(30, 144, 255, 0.15) 60%, transparent 100%)",
+            filter: "blur(18px)",
+          }}
         ></motion.div>
         {/* Barre : z-50, au-dessus de tout */}
         <motion.div
