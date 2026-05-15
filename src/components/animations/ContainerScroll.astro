@@ -82,22 +82,21 @@ const { titleComponent } = Astro.props as Props;
 </script>
 
 <style>
-  /* Container : hauteur compacte. L'anim termine vite (--anim-progress = progress * 2.5 clamped) */
+  /* Container : compacte + padding-top minimal pour coller au plus pres des CTAs */
   .acc-container {
     height: 45rem;
     display: flex;
-    align-items: flex-start; /* card colle en haut, pas centre */
+    align-items: flex-start;
     justify-content: center;
     position: relative;
-    padding: 0.5rem;
-    padding-top: 1rem;
+    padding: 0;
     --progress: 0;
     --anim-progress: 0;
   }
   @media (min-width: 768px) {
     .acc-container {
       height: 55rem;
-      padding: 1rem 5rem 5rem;
+      padding: 0 5rem 5rem;
     }
   }
 
