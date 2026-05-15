@@ -52,6 +52,10 @@ const { titleComponent } = Astro.props as Props;
           if (p < 0) p = 0;
           if (p > 1) p = 1;
           s.style.setProperty('--progress', p.toFixed(4));
+          // anim-progress : boost x2.5, clamped [0, 1]. Anim termine a progress 0.4.
+          var ap = p * 2.5;
+          if (ap > 1) ap = 1;
+          s.style.setProperty('--anim-progress', ap.toFixed(4));
         });
       }
 
@@ -78,9 +82,9 @@ const { titleComponent } = Astro.props as Props;
 </script>
 
 <style>
-  /* Container : hauteur etendue pour scroll progress plus long (l'effet dure plus longtemps) */
+  /* Container : hauteur compacte. L'anim termine vite (--anim-progress = progress * 2.5 clamped) */
   .acc-container {
-    height: 60rem;
+    height: 45rem;
     display: flex;
     align-items: flex-start; /* card colle en haut, pas centre */
     justify-content: center;
@@ -88,10 +92,11 @@ const { titleComponent } = Astro.props as Props;
     padding: 0.5rem;
     padding-top: 1rem;
     --progress: 0;
+    --anim-progress: 0;
   }
   @media (min-width: 768px) {
     .acc-container {
-      height: 80rem;
+      height: 55rem;
       padding: 1rem 5rem 5rem;
     }
   }
@@ -133,10 +138,10 @@ const { titleComponent } = Astro.props as Props;
       0 149px 60px rgba(0, 0, 0, 0.04);
     transform-style: preserve-3d;
     will-change: transform;
-    /* rotateX (35 -> 0) + scale (1.05 -> 1) sur desktop : inclinaison plus marquee */
+    /* rotateX (35 -> 0) + scale (1.05 -> 1) sur desktop : utilise --anim-progress (boost x2.5, clamped) pour rabattre plus vite */
     transform:
-      rotateX(calc((1 - var(--progress)) * 35deg))
-      scale(calc(1.05 - var(--progress) * 0.05));
+      rotateX(calc((1 - var(--anim-progress)) * 35deg))
+      scale(calc(1.05 - var(--anim-progress) * 0.05));
   }
   @media (min-width: 768px) {
     .acc-card {
@@ -144,12 +149,12 @@ const { titleComponent } = Astro.props as Props;
       padding: 1.5rem;
     }
   }
-  /* Mobile : scale [0.7, 0.9] (Aceternity) */
+  /* Mobile : scale [0.7, 0.9] (Aceternity) - meme boost --anim-progress */
   @media (max-width: 768px) {
     .acc-card {
       transform:
-        rotateX(calc((1 - var(--progress)) * 35deg))
-        scale(calc(0.7 + var(--progress) * 0.2));
+        rotateX(calc((1 - var(--anim-progress)) * 35deg))
+        scale(calc(0.7 + var(--anim-progress) * 0.2));
     }
   }
 
