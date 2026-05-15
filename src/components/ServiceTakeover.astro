@@ -121,11 +121,29 @@ import GlowCard from './ui/GlowCard.astro';
   }
   @media (min-width: 1024px) {
     .takeover-grid { grid-template-columns: repeat(6, 1fr); }
-    .takeover-card--1 { grid-column: span 2; }
-    .takeover-card--2 { grid-column: span 2; }
-    .takeover-card--3 { grid-column: span 2; }
-    .takeover-card--4 { grid-column: 2 / span 2; }
-    .takeover-card--5 { grid-column: 4 / span 2; }
+    /* Cible direct child du grid (independant des classes scopees Astro) */
+    .takeover-grid > :nth-child(1),
+    .takeover-grid > :nth-child(2),
+    .takeover-grid > :nth-child(3) {
+      grid-column: span 2;
+    }
+    .takeover-grid > :nth-child(4) {
+      grid-column: 2 / span 2;
+    }
+    .takeover-grid > :nth-child(5) {
+      grid-column: 4 / span 2;
+    }
+  }
+
+  /* Le wrapper GlowCard doit fill sa cellule pour que les cartes prennent toute la hauteur */
+  .takeover-card-slot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .takeover-card-slot > * {
+    flex: 1;
+    height: 100%;
   }
 
   .takeover-card {
