@@ -45,11 +45,11 @@
         </div>
       </div>
 
-      {/* 3 cards absolute autour de la sphere */}
+      {/* 8 cards positionnees autour de la sphere - 4 a gauche (amont/data) + 4 a droite (aval/execution) */}
       <div class="wwd-card wwd-card--1">
         <span class="wwd-card__num">01</span>
         <h3 class="wwd-card__title">Stratégie</h3>
-        <p class="wwd-card__body">On définit avec vous l'angle, les avantages à mettre en avant et la cible précise.</p>
+        <p class="wwd-card__body">Définition de l'angle, des avantages à mettre en avant et de la cible précise.</p>
       </div>
       <div class="wwd-card wwd-card--2">
         <span class="wwd-card__num">02</span>
@@ -58,8 +58,33 @@
       </div>
       <div class="wwd-card wwd-card--3">
         <span class="wwd-card__num">03</span>
+        <h3 class="wwd-card__title">Détection de signaux d'intérêt</h3>
+        <p class="wwd-card__body">Levées de fonds, recrutements, changements de poste, intent data : on repère les boîtes prêtes à acheter.</p>
+      </div>
+      <div class="wwd-card wwd-card--4">
+        <span class="wwd-card__num">04</span>
         <h3 class="wwd-card__title">Infrastructure</h3>
-        <p class="wwd-card__body">Domaines secondaires, SPF/DKIM/DMARC, warmup, monitoring deliverability.</p>
+        <p class="wwd-card__body">Domaines secondaires, SPF/DKIM/DMARC, warmup, monitoring de la deliverability.</p>
+      </div>
+      <div class="wwd-card wwd-card--5">
+        <span class="wwd-card__num">05</span>
+        <h3 class="wwd-card__title">Copywriting</h3>
+        <p class="wwd-card__body">Cold emails sur-mesure, séquences de relance, A/B tests continus sur les hooks et angles.</p>
+      </div>
+      <div class="wwd-card wwd-card--6">
+        <span class="wwd-card__num">06</span>
+        <h3 class="wwd-card__title">Pilotage des campagnes</h3>
+        <p class="wwd-card__body">Lancement, monitoring quotidien des stats, ajustements selon les taux d'ouverture et de réponse.</p>
+      </div>
+      <div class="wwd-card wwd-card--7">
+        <span class="wwd-card__num">07</span>
+        <h3 class="wwd-card__title">Qualification &amp; RDV</h3>
+        <p class="wwd-card__body">On traite les réponses, qualifie les leads, et place les RDV qualifiés directement dans votre agenda.</p>
+      </div>
+      <div class="wwd-card wwd-card--8">
+        <span class="wwd-card__num">08</span>
+        <h3 class="wwd-card__title">Reporting &amp; itérations</h3>
+        <p class="wwd-card__body">Bilan mensuel chiffré, recommandations d'itération, A/B tests sur le ciblage et le copy.</p>
       </div>
     </div>
   </div>
@@ -107,10 +132,12 @@
     /* Stages : tous calcules a partir de --progress, clampes [0,1] */
     --p-title: clamp(0, calc(var(--progress) * 3.33), 1);
     --p-sphere: clamp(0, calc((var(--progress) - 0.2) * 2.857), 1);
-    --p-c1: clamp(0, calc((var(--progress) - 0.4) * 3.33), 1);
-    --p-c2: clamp(0, calc((var(--progress) - 0.5) * 3.33), 1);
-    --p-c3: clamp(0, calc((var(--progress) - 0.6) * 3.33), 1);
-    height: 300vh;
+    /* 8 cards : 4 lignes x 2 colonnes - apparition par ligne, sequence en cascade */
+    --p-row1: clamp(0, calc((var(--progress) - 0.3) * 5), 1);
+    --p-row2: clamp(0, calc((var(--progress) - 0.4) * 5), 1);
+    --p-row3: clamp(0, calc((var(--progress) - 0.5) * 5), 1);
+    --p-row4: clamp(0, calc((var(--progress) - 0.6) * 5), 1);
+    height: 350vh;
     position: relative;
   }
   .wwd-sticky {
@@ -168,8 +195,8 @@
   .wwd-spacer {
     flex-shrink: 0;
     position: relative;
-    width: calc(var(--p-sphere) * clamp(8rem, 28vw, 28rem));
-    height: clamp(8rem, 28vw, 28rem);
+    width: calc(var(--p-sphere) * clamp(10rem, 34vw, 34rem));
+    height: clamp(10rem, 34vw, 34rem);
     transition: none;
   }
 
@@ -178,50 +205,65 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: clamp(8rem, 28vw, 28rem);
-    height: clamp(8rem, 28vw, 28rem);
+    width: clamp(10rem, 34vw, 34rem);
+    height: clamp(10rem, 34vw, 34rem);
     transform: translate(-50%, -50%) translateZ(calc((1 - var(--p-sphere)) * -847px));
     transform-style: preserve-3d;
     opacity: var(--p-sphere);
     pointer-events: none;
   }
 
+  /* Core : bleu charte vif avec highlight clair en haut-gauche pour effet 3D */
   .wwd-sphere__core {
     position: absolute;
     inset: 18%;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 25%, #2a3b6a 0%, #0a132e 55%, #060c1f 100%);
+    background: radial-gradient(
+      circle at 30% 25%,
+      #8acaff 0%,
+      #1E90FF 40%,
+      #0a4d8f 80%,
+      #062a52 100%
+    );
     box-shadow:
-      inset 0 0 60px rgba(0, 0, 0, 0.8),
-      inset -20px -10px 50px rgba(0, 0, 0, 0.4);
+      inset -30px -20px 70px rgba(6, 42, 82, 0.6),
+      inset 20px 15px 50px rgba(138, 202, 255, 0.25),
+      0 0 60px rgba(30, 144, 255, 0.35);
   }
   .wwd-sphere__ring {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 1.5px solid rgba(250, 247, 242, 0.18);
+    border: 2px solid rgba(250, 247, 242, 0.25);
   }
   .wwd-sphere__ring--a {
     transform: rotateZ(35deg) rotateY(70deg);
-    border-top-color: rgba(250, 247, 242, 0.45);
-    border-left-color: rgba(250, 247, 242, 0.35);
+    border-top-color: rgba(250, 247, 242, 0.7);
+    border-left-color: rgba(250, 247, 242, 0.5);
   }
   .wwd-sphere__ring--b {
     transform: rotateZ(-35deg) rotateY(70deg);
-    border-top-color: rgba(30, 144, 255, 0.5);
-    border-right-color: rgba(30, 144, 255, 0.35);
+    border-top-color: rgba(30, 144, 255, 0.85);
+    border-right-color: rgba(30, 144, 255, 0.6);
   }
+  /* Halo plus large et plus marque : effet 'glow' bleu charte autour de la sphere */
   .wwd-sphere__halo {
     position: absolute;
-    inset: -10%;
+    inset: -20%;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(30, 144, 255, 0.18) 0%, transparent 55%);
+    background: radial-gradient(
+      circle,
+      rgba(30, 144, 255, 0.35) 0%,
+      rgba(30, 144, 255, 0.12) 40%,
+      transparent 65%
+    );
+    filter: blur(8px);
   }
 
-  /* Cards absolute autour : opacity 0->1, translateY 20->0 */
+  /* Cards absolute autour : opacity 0->1, translateY 20->0 - 4 a gauche + 4 a droite */
   .wwd-card {
     position: absolute;
-    max-width: 21rem;
+    max-width: 18rem;
     color: var(--color-creme);
     font-family: var(--font-sans);
     z-index: 1;
@@ -229,63 +271,96 @@
   .wwd-card__num {
     font-family: var(--font-display);
     font-style: italic;
-    font-weight: 500;
-    font-size: 0.875rem;
+    font-weight: 600;
+    font-size: 1rem;
     color: var(--color-bleu);
     display: block;
-    margin-bottom: 0.4rem;
-  }
-  .wwd-card__title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--color-creme);
-    letter-spacing: -0.01em;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  /* Titre des cards : plus gros + couleur bleue charte pour mise en valeur */
+  .wwd-card__title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-bleu);
+    letter-spacing: -0.015em;
+    margin-bottom: 0.6rem;
+    line-height: 1.15;
   }
   .wwd-card__body {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     line-height: 1.55;
-    color: rgba(250, 247, 242, 0.55);
+    color: rgba(250, 247, 242, 0.7);
     max-width: 18rem;
   }
 
-  /* Card 1 : top-left (position equivalente au qubix : top 30px / left 0) */
+  /* Colonne gauche : cards 1-4 espacees verticalement */
   .wwd-card--1 {
-    top: 8%;
-    left: 4%;
-    opacity: var(--p-c1);
-    transform: translateY(calc((1 - var(--p-c1)) * 20px));
+    top: 3%; left: 2%;
+    opacity: var(--p-row1);
+    transform: translateY(calc((1 - var(--p-row1)) * 20px));
   }
-  /* Card 2 : top-right (position equivalente : top 0 / right 0) */
   .wwd-card--2 {
-    top: 14%;
-    right: 4%;
-    text-align: right;
-    opacity: var(--p-c2);
-    transform: translateY(calc((1 - var(--p-c2)) * 20px));
+    top: 27%; left: 2%;
+    opacity: var(--p-row2);
+    transform: translateY(calc((1 - var(--p-row2)) * 20px));
   }
-  /* Card 3 : bottom-center (position equivalente : bottom 50 / centered) */
   .wwd-card--3 {
-    bottom: 10%;
-    left: 50%;
-    text-align: center;
-    opacity: var(--p-c3);
-    transform: translate(-50%, calc((1 - var(--p-c3)) * 20px));
+    top: 51%; left: 2%;
+    opacity: var(--p-row3);
+    transform: translateY(calc((1 - var(--p-row3)) * 20px));
+  }
+  .wwd-card--4 {
+    top: 75%; left: 2%;
+    opacity: var(--p-row4);
+    transform: translateY(calc((1 - var(--p-row4)) * 20px));
   }
 
-  @media (max-width: 768px) {
+  /* Colonne droite : cards 5-8 espacees verticalement, alignees a droite */
+  .wwd-card--5 {
+    top: 3%; right: 2%;
+    text-align: right;
+    opacity: var(--p-row1);
+    transform: translateY(calc((1 - var(--p-row1)) * 20px));
+  }
+  .wwd-card--6 {
+    top: 27%; right: 2%;
+    text-align: right;
+    opacity: var(--p-row2);
+    transform: translateY(calc((1 - var(--p-row2)) * 20px));
+  }
+  .wwd-card--7 {
+    top: 51%; right: 2%;
+    text-align: right;
+    opacity: var(--p-row3);
+    transform: translateY(calc((1 - var(--p-row3)) * 20px));
+  }
+  .wwd-card--8 {
+    top: 75%; right: 2%;
+    text-align: right;
+    opacity: var(--p-row4);
+    transform: translateY(calc((1 - var(--p-row4)) * 20px));
+  }
+
+  @media (max-width: 1024px) {
     .wwd-card { max-width: 14rem; }
-    .wwd-card__title { font-size: 1rem; }
+    .wwd-card__title { font-size: 1.125rem; }
     .wwd-card__body { font-size: 0.8125rem; }
+    .wwd-card__num { font-size: 0.875rem; }
+  }
+  /* Mobile : on cache les cards (a refaire en grid stack si besoin) */
+  @media (max-width: 768px) {
+    .wwd-card { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .wwd-section {
       --p-title: 1;
       --p-sphere: 1;
-      --p-c1: 1;
-      --p-c2: 1;
-      --p-c3: 1;
+      --p-row1: 1;
+      --p-row2: 1;
+      --p-row3: 1;
+      --p-row4: 1;
     }
   }
 </style>
