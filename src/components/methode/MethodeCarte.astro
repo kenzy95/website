@@ -1,0 +1,523 @@
+---
+// MethodeCarte.astro
+// Direction D3 "Le Terrain de Chasse"
+// Carte cartographique zenitale, 4 zones + RDV final, chemin pointille trace au scroll.
+// Self-contained : SVG inline + CSS pur + listener scroll vanilla, pas de React.
+---
+
+<section class="methode-carte" aria-labelledby="methode-carte-title">
+  <div class="topo-bg" aria-hidden="true"></div>
+
+  <div class="header">
+    <p class="eyebrow">CARTE DE CHASSE</p>
+    <h2 id="methode-carte-title" class="title">
+      On ne prospecte pas au hasard. On suit la <em>carte</em>.
+    </h2>
+    <p class="subtitle">4 zones. 1 chemin. 1 RDV.</p>
+  </div>
+
+  <div class="sticky-wrap">
+    <div class="sticky-inner">
+      <div class="map-container">
+        <!-- Boussole bonus, rotation pilotee par --progress -->
+        <div class="compass" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle cx="24" cy="24" r="22" fill="none" stroke="var(--color-creme)" stroke-opacity="0.35" stroke-width="1"/>
+            <circle cx="24" cy="24" r="2" fill="var(--color-creme)" fill-opacity="0.6"/>
+            <polygon points="24,6 27,24 24,22 21,24" fill="var(--color-orange)"/>
+            <polygon points="24,42 21,24 24,26 27,24" fill="var(--color-creme)" fill-opacity="0.5"/>
+            <text x="24" y="5" text-anchor="middle" font-size="4" fill="var(--color-creme)" fill-opacity="0.5" font-family="DM Sans, sans-serif">N</text>
+          </svg>
+        </div>
+
+        <!-- SVG principal : zones, chemin, points d'ancrage -->
+        <svg
+          class="map-svg"
+          viewBox="0 0 1200 700"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        >
+          <defs>
+            <!-- Marker fleche directionnel sur le chemin principal -->
+            <marker
+              id="arrow"
+              viewBox="0 0 10 10"
+              refX="8"
+              refY="5"
+              markerWidth="5"
+              markerHeight="5"
+              orient="auto-start-reverse"
+            >
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-creme)" fill-opacity="0.7"/>
+            </marker>
+
+            <!-- Glow pour l'etoile finale -->
+            <filter id="star-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <!-- Pattern courbes de niveau, tres subtil -->
+            <pattern id="topo-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+              <path d="M 0 100 Q 50 80, 100 100 T 200 100" fill="none" stroke="var(--color-creme)" stroke-opacity="0.06" stroke-width="0.8"/>
+              <path d="M 0 130 Q 50 110, 100 130 T 200 130" fill="none" stroke="var(--color-creme)" stroke-opacity="0.05" stroke-width="0.8"/>
+              <path d="M 0 160 Q 50 140, 100 160 T 200 160" fill="none" stroke="var(--color-creme)" stroke-opacity="0.04" stroke-width="0.8"/>
+            </pattern>
+          </defs>
+
+          <!-- Fond topographique -->
+          <rect x="0" y="0" width="1200" height="700" fill="url(#topo-pattern)"/>
+
+          <!-- Zone 01 CADRAGE : polygone irregulier en haut a gauche -->
+          <polygon
+            class="zone zone-01"
+            points="80,80 280,60 380,140 360,260 240,310 130,270 60,180"
+            fill="var(--color-bleu)"
+            fill-opacity="0"
+            stroke="var(--color-creme)"
+            stroke-opacity="0.3"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+
+          <!-- Zone 02 BUILD : haut a droite, decale -->
+          <polygon
+            class="zone zone-02"
+            points="540,90 760,70 920,130 1080,110 1140,230 1020,290 860,270 720,220 580,240"
+            fill="var(--color-bleu)"
+            fill-opacity="0"
+            stroke="var(--color-creme)"
+            stroke-opacity="0.3"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+
+          <!-- Zone 03 LANCEMENT : bas a droite -->
+          <polygon
+            class="zone zone-03"
+            points="700,400 880,380 1040,420 1100,540 980,640 820,620 720,560 660,470"
+            fill="var(--color-bleu)"
+            fill-opacity="0"
+            stroke="var(--color-creme)"
+            stroke-opacity="0.3"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+
+          <!-- Zone 04 ITERATION : bas a gauche -->
+          <polygon
+            class="zone zone-04"
+            points="100,420 280,400 420,440 460,560 360,640 200,630 90,560 70,470"
+            fill="var(--color-bleu)"
+            fill-opacity="0"
+            stroke="var(--color-creme)"
+            stroke-opacity="0.3"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+
+          <!-- Chemin principal Zone 01 -> 02 -> 03 -> 04 -> OUT -->
+          <!-- Path hardcode : passe par les points d'ancrage de chaque zone -->
+          <path
+            class="path-main"
+            d="M 200 180 Q 400 100, 760 180 Q 950 250, 870 510 Q 600 600, 270 520 Q 100 470, 1050 660"
+            fill="none"
+            stroke="var(--color-creme)"
+            stroke-opacity="0.6"
+            stroke-width="2"
+            stroke-dasharray="8 8"
+            marker-mid="url(#arrow)"
+          />
+
+          <!-- Boucle iteration : zone 04 retour vers zone 03 (apparait en fin) -->
+          <path
+            class="path-loop"
+            d="M 270 520 Q 500 380, 760 470"
+            fill="none"
+            stroke="var(--color-bleu)"
+            stroke-opacity="0"
+            stroke-width="2"
+            stroke-dasharray="4 6"
+          />
+
+          <!-- Points d'ancrage : un par zone -->
+          <circle class="anchor anchor-01" cx="200" cy="180" r="8" fill="var(--color-creme)"/>
+          <circle class="anchor anchor-02" cx="760" cy="180" r="8" fill="var(--color-creme)"/>
+          <circle class="anchor anchor-03" cx="870" cy="510" r="8" fill="var(--color-creme)"/>
+          <circle class="anchor anchor-04" cx="270" cy="520" r="8" fill="var(--color-creme)"/>
+
+          <!-- Etoile RDV finale -->
+          <g class="star-final" transform="translate(1050 660)" filter="url(#star-glow)">
+            <polygon
+              points="0,-32 9,-10 32,-10 13,5 20,28 0,14 -20,28 -13,5 -32,-10 -9,-10"
+              fill="var(--color-orange)"
+            />
+          </g>
+        </svg>
+
+        <!-- Labels HTML positionnes en absolu au-dessus du SVG -->
+        <div class="labels">
+          <div class="label label-01" style="left: 11%; top: 18%;">
+            <span class="label-num">01</span>
+            <span class="label-title">Cadrage</span>
+            <span class="label-meta">ICP / Signaux / Angles</span>
+            <span class="label-duration">7 a 10 j</span>
+          </div>
+
+          <div class="label label-02" style="left: 56%; top: 18%;">
+            <span class="label-num">02</span>
+            <span class="label-title">Build</span>
+            <span class="label-meta">Domaines / Stack / Warmup</span>
+            <span class="label-duration">5 a 7 j</span>
+          </div>
+
+          <div class="label label-03" style="left: 65%; top: 67%;">
+            <span class="label-num">03</span>
+            <span class="label-title">Lancement</span>
+            <span class="label-meta">Copy / Push / Activation</span>
+            <span class="label-duration">3 a 5 j</span>
+          </div>
+
+          <div class="label label-04" style="left: 13%; top: 68%;">
+            <span class="label-num">04</span>
+            <span class="label-title">Iteration</span>
+            <span class="label-meta">Reporting / Hypotheses / Ajustement</span>
+            <span class="label-duration">en continu</span>
+          </div>
+
+          <div class="label label-out" style="left: 81%; top: 88%;">
+            <span class="label-star">RDV qualifie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll listener calcule --progress (0 -> 1) sur la zone sticky.
+  // Pattern identique a ContainerScroll.astro.
+  const section = document.querySelector('.methode-carte') as HTMLElement | null;
+  const wrap = section?.querySelector('.sticky-wrap') as HTMLElement | null;
+
+  if (section && wrap) {
+    const update = () => {
+      const rect = wrap.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const total = rect.height - viewH;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const progress = total > 0 ? scrolled / total : 0;
+      section.style.setProperty('--progress', progress.toFixed(4));
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>
+
+<style>
+  .methode-carte {
+    --progress: 0;
+    position: relative;
+    background: var(--color-encre);
+    color: var(--color-creme);
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  /* Fond topographique tres subtil en plus du pattern SVG */
+  .topo-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(30, 144, 255, 0.05) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(244, 123, 63, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 6rem 1.5rem 2rem;
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-orange);
+    margin: 0 0 1.5rem;
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--color-creme);
+    margin: 0 0 1rem;
+  }
+
+  .title em {
+    font-style: italic;
+    color: var(--color-bleu);
+  }
+
+  .subtitle {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    color: var(--color-gris-soft);
+    margin: 0;
+  }
+
+  /* Zone sticky pour piloter --progress sur ~350vh */
+  .sticky-wrap {
+    position: relative;
+    height: 350vh;
+  }
+
+  .sticky-inner {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .map-container {
+    position: relative;
+    width: 100%;
+    max-width: 64rem;
+    aspect-ratio: 16 / 10;
+  }
+
+  .compass {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+    transform: rotate(calc(var(--progress) * 360deg));
+    transition: transform 0.1s linear;
+  }
+
+  .map-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Animation du chemin principal : trace progressif */
+  .path-main {
+    stroke-dasharray: 1400;
+    stroke-dashoffset: calc(1400 - (var(--progress) * 1400));
+    transition: stroke-dashoffset 0.1s linear, stroke 0.3s ease;
+  }
+
+  /* Chemin passe en bleu vif quand suffisamment trace */
+  .methode-carte[style*="--progress: 0.3"] .path-main,
+  .methode-carte[style*="--progress: 0.4"] .path-main,
+  .methode-carte[style*="--progress: 0.5"] .path-main,
+  .methode-carte[style*="--progress: 0.6"] .path-main,
+  .methode-carte[style*="--progress: 0.7"] .path-main,
+  .methode-carte[style*="--progress: 0.8"] .path-main,
+  .methode-carte[style*="--progress: 0.9"] .path-main,
+  .methode-carte[style*="--progress: 1"] .path-main {
+    stroke: var(--color-bleu);
+    stroke-opacity: 0.9;
+  }
+
+  /* Zones : remplissage progressif via opacite calc */
+  .zone {
+    transition: fill-opacity 0.4s ease, stroke-opacity 0.4s ease, stroke 0.4s ease;
+  }
+
+  /* Zone 01 franchie a partir de progress 0.2 */
+  .methode-carte:not([style*="--progress: 0.0"]) .zone-01 {
+    fill-opacity: calc(min(max((var(--progress) - 0.2) * 5, 0), 1) * 0.25);
+    stroke-opacity: calc(0.3 + min(max((var(--progress) - 0.2) * 5, 0), 1) * 0.4);
+  }
+
+  .zone-02 {
+    fill-opacity: calc(min(max((var(--progress) - 0.4) * 5, 0), 1) * 0.25);
+    stroke-opacity: calc(0.3 + min(max((var(--progress) - 0.4) * 5, 0), 1) * 0.4);
+  }
+
+  .zone-03 {
+    fill-opacity: calc(min(max((var(--progress) - 0.6) * 5, 0), 1) * 0.25);
+    stroke-opacity: calc(0.3 + min(max((var(--progress) - 0.6) * 5, 0), 1) * 0.4);
+  }
+
+  .zone-04 {
+    fill-opacity: calc(min(max((var(--progress) - 0.8) * 5, 0), 1) * 0.25);
+    stroke-opacity: calc(0.3 + min(max((var(--progress) - 0.8) * 5, 0), 1) * 0.4);
+  }
+
+  /* Points d'ancrage : pulse quand la zone correspondante est active */
+  .anchor {
+    transition: fill 0.4s ease, r 0.4s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  @keyframes pulse-anchor {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.7; }
+  }
+
+  /* Boucle iteration : apparait a partir de progress 0.85 */
+  .path-loop {
+    stroke-opacity: calc(min(max((var(--progress) - 0.85) * 8, 0), 1) * 0.7);
+    transition: stroke-opacity 0.4s ease;
+  }
+
+  /* Etoile finale : apparait avec scale spring a progress 1 */
+  .star-final {
+    opacity: calc(min(max((var(--progress) - 0.92) * 15, 0), 1));
+    transform-origin: center;
+    transition: opacity 0.4s ease;
+  }
+
+  @keyframes star-pop {
+    0% { transform: translate(1050px, 660px) scale(0.3); }
+    60% { transform: translate(1050px, 660px) scale(1.15); }
+    100% { transform: translate(1050px, 660px) scale(1); }
+  }
+
+  .methode-carte[style*="--progress: 1"] .star-final,
+  .methode-carte[style*="--progress: 0.99"] .star-final,
+  .methode-carte[style*="--progress: 0.98"] .star-final,
+  .methode-carte[style*="--progress: 0.97"] .star-final,
+  .methode-carte[style*="--progress: 0.96"] .star-final,
+  .methode-carte[style*="--progress: 0.95"] .star-final,
+  .methode-carte[style*="--progress: 0.94"] .star-final,
+  .methode-carte[style*="--progress: 0.93"] .star-final {
+    animation: star-pop 0.8s cubic-bezier(0.5, 1.5, 0.5, 1) forwards;
+  }
+
+  /* Labels HTML : typo lisible par-dessus le SVG */
+  .labels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .label {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--color-creme);
+    transition: color 0.4s ease;
+  }
+
+  .label-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .label-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .label-meta {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--color-gris-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .label-duration {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    color: var(--color-gris);
+    font-style: italic;
+    margin-top: 0.25rem;
+  }
+
+  .label-out {
+    transform: translate(-50%, -50%);
+  }
+
+  .label-star {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.125rem;
+    color: var(--color-orange);
+    font-weight: 600;
+  }
+
+  /* Responsive : mobile bascule en carre */
+  @media (max-width: 1023px) {
+    .map-container {
+      aspect-ratio: 1 / 1;
+      max-width: 36rem;
+    }
+
+    .label-title {
+      font-size: 0.85rem;
+    }
+
+    .label-meta {
+      font-size: 0.65rem;
+    }
+
+    .label-num {
+      font-size: 1.1rem;
+    }
+
+    .label-duration {
+      font-size: 0.6rem;
+    }
+  }
+
+  /* Accessibilite : reduced motion = etat final fige */
+  @media (prefers-reduced-motion: reduce) {
+    .path-main {
+      stroke-dashoffset: 0;
+      stroke: var(--color-bleu);
+      stroke-opacity: 0.9;
+    }
+
+    .zone-01, .zone-02, .zone-03, .zone-04 {
+      fill-opacity: 0.25;
+      stroke-opacity: 0.7;
+    }
+
+    .path-loop {
+      stroke-opacity: 0.7;
+    }
+
+    .star-final {
+      opacity: 1;
+    }
+
+    .compass {
+      transform: rotate(180deg);
+      transition: none;
+    }
+
+    .path-main, .zone, .anchor, .path-loop {
+      transition: none;
+    }
+  }
+</style>

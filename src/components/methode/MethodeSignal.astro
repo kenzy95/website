@@ -1,0 +1,595 @@
+---
+// MethodeSignal.astro
+// Direction D2 — "Le Signal" : onde radio horizontale qui se calibre
+// du bruit chaotique vers le pic final (le RDV qualifié).
+// Animation pilotée par --progress (0 → 1) calculé au scroll sur un wrapper sticky.
+
+// Génération déterministe du path SVG.
+// viewBox : 0 0 1400 280, ligne de base y = 140.
+// 5 zones : plate / chaotique / régularise / propre / minimale, puis pic.
+function generateSignalPath(): string {
+  const baseline = 140;
+  const points: Array<[number, number]> = [];
+
+  // Zone 0 (0 → 200) : ligne plate, signal mort
+  points.push([0, baseline]);
+  for (let x = 20; x <= 200; x += 20) {
+    points.push([x, baseline]);
+  }
+
+  // Zone 1 (200 → 500) : onde chaotique haute fréquence
+  // Combinaison de plusieurs sinus pour produire un bruit déterministe
+  for (let x = 204; x <= 500; x += 4) {
+    const t = (x - 200) / 300;
+    const y =
+      baseline +
+      Math.sin(x * 0.42) * 55 +
+      Math.sin(x * 0.18 + 1.3) * 30 +
+      Math.cos(x * 0.71 + 0.7) * 18 * (1 - t * 0.3);
+    points.push([x, y]);
+  }
+
+  // Zone 2 (500 → 800) : amplitude moyenne, fréquence baisse
+  for (let x = 504; x <= 800; x += 6) {
+    const t = (x - 500) / 300;
+    const amp = 45 * (1 - t * 0.45);
+    const y = baseline + Math.sin(x * 0.22) * amp + Math.sin(x * 0.09 + 0.5) * 14 * (1 - t);
+    points.push([x, y]);
+  }
+
+  // Zone 3 (800 → 1100) : onde propre stable
+  for (let x = 806; x <= 1100; x += 6) {
+    const t = (x - 800) / 300;
+    const amp = 22 * (1 - t * 0.5);
+    const y = baseline + Math.sin(x * 0.12) * amp;
+    points.push([x, y]);
+  }
+
+  // Zone 4 (1100 → 1260) : onde minimale qui se calme
+  for (let x = 1106; x <= 1260; x += 8) {
+    const t = (x - 1100) / 160;
+    const amp = 10 * (1 - t);
+    const y = baseline + Math.sin(x * 0.08) * amp;
+    points.push([x, y]);
+  }
+
+  // Sortie plate jusqu'au pic
+  for (let x = 1268; x <= 1290; x += 8) {
+    points.push([x, baseline]);
+  }
+
+  // Construction du path SVG via segments L (lignes droites)
+  let d = `M ${points[0][0]},${points[0][1].toFixed(2)}`;
+  for (let i = 1; i < points.length; i++) {
+    d += ` L ${points[i][0]},${points[i][1].toFixed(2)}`;
+  }
+  return d;
+}
+
+const signalPath = generateSignalPath();
+
+const etapes = [
+  { num: '01', titre: 'Cadrage', mots: 'ICP · Signaux · Angles' },
+  { num: '02', titre: 'Build', mots: 'Domaines · Stack · Warmup' },
+  { num: '03', titre: 'Lancement', mots: 'Copy · Push · Activation' },
+  { num: '04', titre: 'Itération', mots: 'Reporting · Optimisation' },
+];
+---
+
+<section class="methode-signal" aria-labelledby="methode-signal-titre">
+  <div class="methode-signal__sticky">
+    {/* Header de section */}
+    <header class="methode-signal__header">
+      <p class="methode-signal__eyebrow">MÉTHODE</p>
+      <h2 id="methode-signal-titre" class="methode-signal__titre">
+        Émettre. <em>Calibrer.</em> Convertir.
+      </h2>
+      <p class="methode-signal__sous-titre">Le bruit en haut. Le RDV en bas.</p>
+    </header>
+
+    {/* Onde radio */}
+    <div class="methode-signal__wave-wrap">
+      <svg
+        class="methode-signal__svg"
+        viewBox="0 0 1400 280"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient id="signalGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#B8BDC9" />
+            <stop offset="30%" stop-color="#1E90FF" />
+            <stop offset="70%" stop-color="#1E90FF" />
+            <stop offset="100%" stop-color="#F47B3F" />
+          </linearGradient>
+        </defs>
+
+        {/* Ligne de base discrète */}
+        <line
+          x1="0"
+          y1="140"
+          x2="1400"
+          y2="140"
+          stroke="#B8BDC9"
+          stroke-width="1"
+          stroke-dasharray="2 6"
+          opacity="0.4"
+        />
+
+        {/* Path fond (signal complet, opacité basse) */}
+        <path
+          class="methode-signal__path-fond"
+          d={signalPath}
+          fill="none"
+          stroke="#0F1B3F"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        {/* Path actif (révélé au scroll via dashoffset) */}
+        <path
+          class="methode-signal__path-actif"
+          d={signalPath}
+          fill="none"
+          stroke="url(#signalGradient)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        {/* Points d'ancrage des étapes (au-dessus du signal) */}
+        <circle class="methode-signal__ancre" data-step="1" cx="280" cy="80" r="6" />
+        <circle class="methode-signal__ancre" data-step="2" cx="630" cy="80" r="6" />
+        <circle class="methode-signal__ancre" data-step="3" cx="930" cy="80" r="6" />
+        <circle class="methode-signal__ancre" data-step="4" cx="1180" cy="80" r="6" />
+
+        {/* Connexions verticales discrètes ancre → signal */}
+        <line class="methode-signal__tige" data-step="1" x1="280" y1="86" x2="280" y2="140" />
+        <line class="methode-signal__tige" data-step="2" x1="630" y1="86" x2="630" y2="140" />
+        <line class="methode-signal__tige" data-step="3" x1="930" y1="86" x2="930" y2="140" />
+        <line class="methode-signal__tige" data-step="4" x1="1180" y1="86" x2="1180" y2="140" />
+
+        {/* Pic final RDV */}
+        <line
+          class="methode-signal__pic"
+          x1="1330"
+          y1="140"
+          x2="1330"
+          y2="30"
+          stroke="#F47B3F"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+        <circle class="methode-signal__pic-dot" cx="1330" cy="30" r="7" fill="#F47B3F" />
+      </svg>
+
+      {/* Label RDV au-dessus du pic */}
+      <span class="methode-signal__rdv-label" aria-hidden="true">RDV</span>
+    </div>
+
+    {/* Grille des étapes alignée avec les zones du signal */}
+    <ol class="methode-signal__etapes">
+      {
+        etapes.map((etape, i) => (
+          <li class="methode-signal__etape" data-step={i + 1}>
+            <span class="methode-signal__etape-num">{etape.num}</span>
+            <h3 class="methode-signal__etape-titre">{etape.titre}</h3>
+            <p class="methode-signal__etape-mots">{etape.mots}</p>
+          </li>
+        ))
+      }
+      <li class="methode-signal__etape methode-signal__etape--out" data-step="5">
+        <span class="methode-signal__etape-num">OUT</span>
+        <h3 class="methode-signal__etape-titre">RDV</h3>
+        <p class="methode-signal__etape-mots">Qualifié · Calendrier client</p>
+      </li>
+    </ol>
+
+    {/* Indicateur mobile (scroll horizontal hint) */}
+    <p class="methode-signal__hint-mobile" aria-hidden="true">← faites glisser →</p>
+  </div>
+</section>
+
+<style>
+  .methode-signal {
+    position: relative;
+    background: var(--color-creme, #faf7f2);
+    color: var(--color-encre, #0f1b3f);
+    /* Wrapper haut pour permettre un scroll long avec progress */
+    min-height: 300vh;
+  }
+
+  .methode-signal__sticky {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 4vw, 4rem);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    overflow: hidden;
+    /* --progress sera setté en inline style via JS (0 → 1) */
+    --progress: 0;
+  }
+
+  /* Header */
+  .methode-signal__header {
+    max-width: 60rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .methode-signal__eyebrow {
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    font-weight: 600;
+    color: var(--color-orange, #f47b3f);
+    margin: 0 0 1rem;
+  }
+
+  .methode-signal__titre {
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    color: var(--color-encre, #0f1b3f);
+  }
+
+  .methode-signal__titre em {
+    font-family: var(--font-display, 'Fraunces Variable', Georgia, serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-bleu, #1e90ff);
+  }
+
+  .methode-signal__sous-titre {
+    font-family: var(--font-display, 'Fraunces Variable', Georgia, serif);
+    font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: var(--color-gris, #5a6478);
+    margin: 0;
+  }
+
+  /* Wave wrap */
+  .methode-signal__wave-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .methode-signal__svg {
+    width: 100%;
+    height: clamp(180px, 22vw, 280px);
+    display: block;
+  }
+
+  /* Path fond : visible en permanence, opacité basse */
+  .methode-signal__path-fond {
+    opacity: 0.12;
+  }
+
+  /* Path actif : révélé via stroke-dashoffset interpolé sur --progress.
+     pathLength=1 force le calcul relatif : dasharray=1 + dashoffset=1-progress. */
+  .methode-signal__path-actif {
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - var(--progress));
+    /* Nécessaire pour que dasharray/dashoffset soient relatifs à 1 */
+    pathLength: 1;
+  }
+
+  /* Ancres et tiges des étapes : s'allument une par une */
+  .methode-signal__ancre {
+    fill: var(--color-gris-soft, #b8bdc9);
+    opacity: 0.3;
+    transition:
+      opacity 0.4s ease,
+      fill 0.4s ease,
+      r 0.4s ease;
+  }
+
+  .methode-signal__tige {
+    stroke: var(--color-gris-soft, #b8bdc9);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+    opacity: 0.25;
+    transition: opacity 0.4s ease, stroke 0.4s ease;
+  }
+
+  /* Seuils d'activation : 0.2, 0.4, 0.6, 0.8 */
+  /* On utilise une astuce CSS : --progress comme nombre, comparé via calc(sign(...)).
+     Fallback simple : on parse via JS qui ajoute des classes .step-N-active. */
+  .methode-signal__ancre.is-active {
+    fill: var(--color-bleu, #1e90ff);
+    opacity: 1;
+  }
+
+  .methode-signal__tige.is-active {
+    stroke: var(--color-bleu, #1e90ff);
+    opacity: 0.6;
+  }
+
+  /* Pic final RDV : apparaît à --progress proche de 1 */
+  .methode-signal__pic,
+  .methode-signal__pic-dot {
+    opacity: 0;
+    transform-origin: 1330px 140px;
+    transform: scaleY(0.2);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .methode-signal__sticky.is-final .methode-signal__pic,
+  .methode-signal__sticky.is-final .methode-signal__pic-dot {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .methode-signal__sticky.is-final .methode-signal__pic-dot {
+    animation: methode-signal-flash 600ms ease-out 1;
+  }
+
+  @keyframes methode-signal-flash {
+    0% {
+      filter: drop-shadow(0 0 0 rgba(244, 123, 63, 0));
+      transform: scale(1);
+    }
+    40% {
+      filter: drop-shadow(0 0 16px rgba(244, 123, 63, 0.9));
+      transform: scale(1.4);
+    }
+    100% {
+      filter: drop-shadow(0 0 0 rgba(244, 123, 63, 0));
+      transform: scale(1);
+    }
+  }
+
+  /* Label RDV en gros au-dessus du pic */
+  .methode-signal__rdv-label {
+    position: absolute;
+    right: clamp(0.5rem, 3%, 3rem);
+    top: 0;
+    font-family: var(--font-display, 'Fraunces Variable', Georgia, serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--color-bleu, #1e90ff);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .methode-signal__sticky.is-final .methode-signal__rdv-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Grille des étapes */
+  .methode-signal__etapes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(1rem, 2vw, 2rem);
+    max-width: 1400px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .methode-signal__etape {
+    position: relative;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-gris-light, #e5e5e5);
+    opacity: 0.45;
+    transition:
+      opacity 0.4s ease,
+      border-color 0.4s ease;
+  }
+
+  .methode-signal__etape.is-active {
+    opacity: 1;
+    border-top-color: var(--color-bleu, #1e90ff);
+  }
+
+  .methode-signal__etape--out.is-active {
+    border-top-color: var(--color-orange, #f47b3f);
+  }
+
+  .methode-signal__etape-num {
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-gris, #5a6478);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .methode-signal__etape--out .methode-signal__etape-num {
+    color: var(--color-orange, #f47b3f);
+  }
+
+  .methode-signal__etape-titre {
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+    color: var(--color-encre, #0f1b3f);
+    transition:
+      font-family 0s,
+      font-style 0.3s ease;
+  }
+
+  .methode-signal__etape.is-active .methode-signal__etape-titre {
+    font-family: var(--font-display, 'Fraunces Variable', Georgia, serif);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .methode-signal__etape-mots {
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-gris, #5a6478);
+    margin: 0;
+  }
+
+  /* Hint mobile caché par défaut */
+  .methode-signal__hint-mobile {
+    display: none;
+    font-family: var(--font-sans, 'DM Sans Variable', system-ui, sans-serif);
+    font-size: 0.75rem;
+    color: var(--color-gris, #5a6478);
+    text-align: center;
+    margin: 0.5rem 0 0;
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive mobile : grille en colonne, scroll horizontal sur le SVG */
+  @media (max-width: 1023px) {
+    .methode-signal__wave-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .methode-signal__svg {
+      min-width: 900px;
+      height: 220px;
+    }
+
+    .methode-signal__etapes {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .methode-signal__hint-mobile {
+      display: block;
+    }
+  }
+
+  /* Reduced motion : tout à l'état final, pas d'animation */
+  @media (prefers-reduced-motion: reduce) {
+    .methode-signal__path-actif {
+      stroke-dashoffset: 0;
+    }
+
+    .methode-signal__ancre,
+    .methode-signal__tige,
+    .methode-signal__etape {
+      opacity: 1 !important;
+    }
+
+    .methode-signal__ancre {
+      fill: var(--color-bleu, #1e90ff);
+    }
+
+    .methode-signal__tige {
+      stroke: var(--color-bleu, #1e90ff);
+    }
+
+    .methode-signal__pic,
+    .methode-signal__pic-dot,
+    .methode-signal__rdv-label {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+
+    .methode-signal__etape-titre {
+      font-family: var(--font-display, 'Fraunces Variable', Georgia, serif);
+      font-style: italic;
+      font-weight: 500;
+    }
+  }
+</style>
+
+<script>
+  // Pilote --progress (0 → 1) sur le wrapper sticky en fonction du scroll
+  // sur la section parente (300vh). Active aussi les étapes par seuil.
+  (() => {
+    const sections = document.querySelectorAll<HTMLElement>('.methode-signal');
+    if (!sections.length) return;
+
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      // En reduced motion : afficher direct l'état final, pas d'écoute scroll
+      sections.forEach((section) => {
+        const sticky = section.querySelector<HTMLElement>('.methode-signal__sticky');
+        if (!sticky) return;
+        sticky.style.setProperty('--progress', '1');
+        sticky.classList.add('is-final');
+        sticky.querySelectorAll('.methode-signal__ancre, .methode-signal__tige').forEach((el) =>
+          el.classList.add('is-active'),
+        );
+        sticky.querySelectorAll('.methode-signal__etape').forEach((el) =>
+          el.classList.add('is-active'),
+        );
+      });
+      return;
+    }
+
+    const seuils = [0.18, 0.38, 0.58, 0.78];
+    const seuilFinal = 0.95;
+
+    function update(section: HTMLElement) {
+      const sticky = section.querySelector<HTMLElement>('.methode-signal__sticky');
+      if (!sticky) return;
+      const rect = section.getBoundingClientRect();
+      const viewH = window.innerHeight || 1;
+      // Progress : 0 quand le haut entre dans le viewport, 1 quand le bas l'atteint
+      const total = section.offsetHeight - viewH;
+      const scrolled = -rect.top;
+      const raw = total > 0 ? scrolled / total : 0;
+      const progress = Math.max(0, Math.min(1, raw));
+      sticky.style.setProperty('--progress', progress.toFixed(4));
+
+      // Activation des étapes par seuil
+      const ancres = sticky.querySelectorAll<SVGElement>('.methode-signal__ancre');
+      const tiges = sticky.querySelectorAll<SVGElement>('.methode-signal__tige');
+      const etapes = sticky.querySelectorAll<HTMLElement>('.methode-signal__etape');
+
+      seuils.forEach((s, i) => {
+        const active = progress >= s;
+        ancres[i]?.classList.toggle('is-active', active);
+        tiges[i]?.classList.toggle('is-active', active);
+        etapes[i]?.classList.toggle('is-active', active);
+      });
+
+      // OUT (étape 5) et état final
+      const final = progress >= seuilFinal;
+      sticky.classList.toggle('is-final', final);
+      etapes[4]?.classList.toggle('is-active', final);
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        sections.forEach(update);
+        ticking = false;
+      });
+    }
+
+    sections.forEach(update);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+  })();
+</script>

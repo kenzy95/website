@@ -1,0 +1,537 @@
+---
+/**
+ * MethodeUsine.astro — Direction D1 "L'Usine à RDV"
+ *
+ * Chaîne de montage verticale : un lead entre en haut comme matière brute,
+ * descend à travers 4 stations (CADRAGE / BUILD / LANCEMENT / ITÉRATION),
+ * et sort en bas comme RDV qualifié.
+ *
+ * Pattern animation : sticky container étiré sur ~400vh + scroll listener vanilla
+ * qui calcule --progress (0->1). Les compteurs sont animés via @property.
+ * Identique au pattern ContainerScroll.astro déjà en place.
+ *
+ * Self-contained : ne dépend que des CSS vars du global.css.
+ */
+---
+
+<section class="usine" data-usine-scroll aria-labelledby="usine-title">
+  <div class="usine__sticky">
+    <div class="usine__viewport">
+      <header class="usine__header">
+        <div class="usine__intro">
+          <p class="usine__eyebrow">MÉTHODE</p>
+          <h2 id="usine-title" class="usine__title">
+            <span>On fabrique des RDV.</span>
+            <span>Pas du trafic, pas des MQL.</span>
+            <span>Des <em>RDV</em>.</span>
+          </h2>
+        </div>
+        <p class="usine__subtitle">4 stations.<br />1 sortie.</p>
+      </header>
+
+      <div class="usine__chain">
+        <!-- ENTRÉE : matière brute -->
+        <div class="usine__node usine__node--in">
+          <p class="usine__caption">ENTRÉE</p>
+          <p class="usine__bigNumber" data-counter-in>
+            <span class="usine__numText">0</span>
+          </p>
+          <p class="usine__caption-sub">prospects identifiés</p>
+        </div>
+
+        <!-- Tuyau qui se remplit au scroll -->
+        <div class="usine__pipe" aria-hidden="true">
+          <div class="usine__pipeFill"></div>
+        </div>
+
+        <!-- 4 stations -->
+        <ol class="usine__stations">
+          <li class="usine__station" data-station="1">
+            <div class="usine__stationHead">
+              <span class="usine__num">01</span>
+              <div>
+                <h3 class="usine__stationTitle"><em>CADRAGE</em></h3>
+                <p class="usine__stationSub">ICP × Signaux × Angles</p>
+              </div>
+            </div>
+            <p class="usine__stationOut">
+              <span data-counter-01>0</span> leads ciblés
+            </p>
+          </li>
+
+          <li class="usine__station" data-station="2">
+            <div class="usine__stationHead">
+              <span class="usine__num">02</span>
+              <div>
+                <h3 class="usine__stationTitle"><em>BUILD</em></h3>
+                <p class="usine__stationSub">Domaines · Stack · Warmup</p>
+              </div>
+            </div>
+            <p class="usine__stationOut">
+              <span data-counter-02>0</span> boîtes de réception
+            </p>
+          </li>
+
+          <li class="usine__station" data-station="3">
+            <div class="usine__stationHead">
+              <span class="usine__num">03</span>
+              <div>
+                <h3 class="usine__stationTitle"><em>LANCEMENT</em></h3>
+                <p class="usine__stationSub">Copy · Push · Activation</p>
+              </div>
+            </div>
+            <p class="usine__stationOut">
+              <span data-counter-03>0</span> messages envoyés
+            </p>
+          </li>
+
+          <li class="usine__station" data-station="4">
+            <div class="usine__stationHead">
+              <span class="usine__num">04</span>
+              <div>
+                <h3 class="usine__stationTitle"><em>ITÉRATION</em></h3>
+                <p class="usine__stationSub">Reporting · Hypothèses · Ajustement</p>
+              </div>
+            </div>
+            <p class="usine__stationOut">boucle continue</p>
+          </li>
+        </ol>
+
+        <!-- SORTIE : RDV qualifié -->
+        <div class="usine__node usine__node--out">
+          <p class="usine__caption usine__caption--orange">SORTIE</p>
+          <p class="usine__bigNumber usine__bigNumber--orange">
+            <span data-counter-out>0</span>
+          </p>
+          <p class="usine__caption-sub">RDV qualifiés · Conv. 0,37%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var sections = document.querySelectorAll('[data-usine-scroll]');
+      if (!sections.length) return;
+      var ticking = false;
+
+      // Cible finale des compteurs (ordre : entrée, st1, st2, st3, sortie)
+      var TARGETS = {
+        in: 12847,
+        s1: 4200,
+        s2: 8,
+        s3: 12847,
+        out: 47,
+      };
+
+      // Easing : démarre la rampe d'un compteur à un seuil de progress
+      function ramp(p, start, end) {
+        if (p <= start) return 0;
+        if (p >= end) return 1;
+        return (p - start) / (end - start);
+      }
+
+      function formatInt(n) {
+        // Format français avec espace insécable comme séparateur de milliers
+        var s = Math.round(n).toString();
+        return s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+
+      function update() {
+        sections.forEach(function (s) {
+          var rect = s.getBoundingClientRect();
+          var vh = window.innerHeight;
+          var total = vh + rect.height;
+          var traveled = vh - rect.top;
+          var p = traveled / total;
+          if (p < 0) p = 0;
+          if (p > 1) p = 1;
+          s.style.setProperty('--progress', p.toFixed(4));
+
+          // Stations actives par paliers
+          var stations = s.querySelectorAll('.usine__station');
+          var thresholds = [0.2, 0.4, 0.6, 0.8];
+          stations.forEach(function (st, i) {
+            if (p >= thresholds[i]) st.classList.add('is-active');
+            else st.classList.remove('is-active');
+          });
+
+          // Compteurs
+          var elIn = s.querySelector('[data-counter-in]');
+          var el1 = s.querySelector('[data-counter-01]');
+          var el2 = s.querySelector('[data-counter-02]');
+          var el3 = s.querySelector('[data-counter-03]');
+          var elOut = s.querySelector('[data-counter-out]');
+
+          if (elIn) elIn.textContent = formatInt(TARGETS.in * ramp(p, 0.05, 0.2));
+          if (el1) el1.textContent = formatInt(TARGETS.s1 * ramp(p, 0.2, 0.4));
+          if (el2) el2.textContent = formatInt(TARGETS.s2 * ramp(p, 0.4, 0.6));
+          if (el3) el3.textContent = formatInt(TARGETS.s3 * ramp(p, 0.6, 0.8));
+          if (elOut) elOut.textContent = formatInt(TARGETS.out * ramp(p, 0.8, 0.98));
+
+          // État final pour glow sortie
+          if (p >= 0.85) s.classList.add('is-finished');
+          else s.classList.remove('is-finished');
+        });
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+
+      // Reduced motion : afficher état final fixe
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) {
+        sections.forEach(function (s) {
+          s.style.setProperty('--progress', '1');
+          s.classList.add('is-finished');
+          s.querySelectorAll('.usine__station').forEach(function (st) {
+            st.classList.add('is-active');
+          });
+          var elIn = s.querySelector('[data-counter-in]');
+          var el1 = s.querySelector('[data-counter-01]');
+          var el2 = s.querySelector('[data-counter-02]');
+          var el3 = s.querySelector('[data-counter-03]');
+          var elOut = s.querySelector('[data-counter-out]');
+          if (elIn) elIn.textContent = formatInt(TARGETS.in);
+          if (el1) el1.textContent = formatInt(TARGETS.s1);
+          if (el2) el2.textContent = formatInt(TARGETS.s2);
+          if (el3) el3.textContent = formatInt(TARGETS.s3);
+          if (elOut) elOut.textContent = formatInt(TARGETS.out);
+        });
+        return;
+      }
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .usine {
+    position: relative;
+    background: var(--color-encre);
+    color: var(--color-creme);
+    /* Étiré sur ~400vh pour que la chaîne joue pendant le scroll */
+    height: 400vh;
+    --progress: 0;
+  }
+
+  .usine__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .usine__viewport {
+    width: 100%;
+    max-width: 80rem;
+    padding: 3rem 1.5rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Header */
+  .usine__header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 1024px) {
+    .usine__header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .usine__eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-orange);
+    margin: 0 0 0.5rem;
+  }
+
+  .usine__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    color: var(--color-creme);
+  }
+
+  .usine__title em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-bleu);
+  }
+
+  .usine__subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--color-gris-soft);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Chain : la colonne centrale */
+  .usine__chain {
+    position: relative;
+    width: 100%;
+    max-width: 32rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  /* Nodes ENTRÉE / SORTIE */
+  .usine__node {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    background: var(--color-encre-soft);
+    border: 1px solid rgba(184, 189, 201, 0.12);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+
+  .usine__node--in {
+    box-shadow: 0 0 60px -20px rgba(30, 144, 255, 0.45);
+    border-color: rgba(30, 144, 255, 0.3);
+  }
+
+  .usine__node--out {
+    box-shadow: 0 0 40px -25px rgba(244, 123, 63, 0.2);
+    border-color: rgba(244, 123, 63, 0.15);
+  }
+
+  .is-finished .usine__node--out {
+    box-shadow: 0 0 100px -10px rgba(244, 123, 63, 0.7);
+    border-color: rgba(244, 123, 63, 0.6);
+  }
+
+  .usine__caption {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-bleu);
+    margin: 0;
+  }
+
+  .usine__caption--orange {
+    color: var(--color-orange);
+  }
+
+  .usine__caption-sub {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--color-gris-soft);
+    margin: 0.25rem 0 0;
+  }
+
+  .usine__bigNumber {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    line-height: 1;
+    margin: 0.5rem 0;
+    color: var(--color-creme);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .usine__bigNumber--orange {
+    color: var(--color-orange);
+  }
+
+  /* Tuyau vertical : positionné en absolu derrière les stations */
+  .usine__pipe {
+    position: absolute;
+    top: 6.5rem;
+    bottom: 6.5rem;
+    left: 50%;
+    width: 4px;
+    transform: translateX(-50%);
+    background: rgba(184, 189, 201, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .usine__pipeFill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      var(--color-bleu) 0%,
+      var(--color-bleu) 60%,
+      var(--color-orange) 100%
+    );
+    transform-origin: top;
+    transform: scaleY(var(--progress, 0));
+    transition: transform 0.05s linear;
+  }
+
+  /* Stations */
+  .usine__stations {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .usine__station {
+    padding: 1rem 1.25rem;
+    border-radius: 0.85rem;
+    background: var(--color-encre-soft);
+    border: 1px solid rgba(184, 189, 201, 0.1);
+    opacity: 0.35;
+    transform: translateY(8px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease,
+      box-shadow 0.5s ease,
+      border-color 0.5s ease;
+  }
+
+  .usine__station.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 50px -20px rgba(30, 144, 255, 0.6);
+    border-color: rgba(30, 144, 255, 0.35);
+  }
+
+  .usine__stationHead {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .usine__num {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-creme);
+    color: var(--color-encre);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.05em;
+  }
+
+  .usine__stationTitle {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--color-creme);
+    letter-spacing: 0.02em;
+  }
+
+  .usine__stationTitle em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-bleu);
+  }
+
+  .usine__stationSub {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-gris-soft);
+    margin: 0.15rem 0 0;
+  }
+
+  .usine__stationOut {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-gris-soft);
+    text-align: right;
+    margin: 0.5rem 0 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .usine__station.is-active .usine__stationOut {
+    color: var(--color-creme);
+  }
+
+  /* Mobile : compresser */
+  @media (max-width: 1023px) {
+    .usine {
+      height: 350vh;
+    }
+    .usine__viewport {
+      padding: 2rem 1rem;
+      gap: 1.5rem;
+    }
+    .usine__chain {
+      max-width: 100%;
+    }
+    .usine__bigNumber {
+      font-size: 2.5rem;
+    }
+    .usine__pipe {
+      top: 5.5rem;
+      bottom: 5.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .usine {
+      height: auto;
+    }
+    .usine__sticky {
+      position: relative;
+      height: auto;
+    }
+    .usine__pipeFill {
+      transform: scaleY(1);
+    }
+    .usine__station {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

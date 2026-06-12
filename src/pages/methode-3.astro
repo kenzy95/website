@@ -1,0 +1,18 @@
+---
+/**
+ * Preview D3 - Le Terrain de Chasse (carte cartographique animee).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MethodePreviewNav from '@components/methode/MethodePreviewNav.astro';
+import MethodeCarte from '@components/methode/MethodeCarte.astro';
+
+const title = 'Preview Methode D3 — Terrain de Chasse';
+const description = "Preview de la direction D3 pour la section Methodologie.";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <MethodePreviewNav current={3} />
+  <main>
+    <MethodeCarte />
+  </main>
+</BaseLayout>
