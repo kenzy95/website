@@ -1,0 +1,20 @@
+---
+/**
+ * Preview Direction A - L'Equation Vivante.
+ * Synergie 3 piliers : Ciblage x Copy x Infra = RDV qualifies.
+ * Switchs ON/OFF par pilier, compteur de reponse qui change en live.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MethodePreviewNavV2 from '@components/methode/MethodePreviewNavV2.astro';
+import MethodeEquation from '@components/methode/MethodeEquation.astro';
+
+const title = "Preview Methode A — L'Equation Vivante";
+const description = "Direction A pour la section Synergie 3 piliers.";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <MethodePreviewNavV2 current="A" />
+  <main>
+    <MethodeEquation />
+  </main>
+</BaseLayout>

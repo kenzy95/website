@@ -1,0 +1,18 @@
+---
+/**
+ * Preview Direction B - Diagramme de Forces (Venn anime).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MethodePreviewNavV2 from '@components/methode/MethodePreviewNavV2.astro';
+import MethodeVenn from '@components/methode/MethodeVenn.astro';
+
+const title = 'Preview Methode B — Diagramme de Forces';
+const description = "Direction B pour la section Synergie 3 piliers.";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <MethodePreviewNavV2 current="B" />
+  <main>
+    <MethodeVenn />
+  </main>
+</BaseLayout>

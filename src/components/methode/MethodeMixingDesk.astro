@@ -1,0 +1,1001 @@
+---
+// MethodeMixingDesk.astro
+// Direction C : la table de mixage interactive.
+// 3 curseurs (Ciblage / Copy / Infra) qui recomposent un email simulé
+// et 3 jauges KPI en live. Vanilla JS, accessible, responsive.
+---
+
+<section class="mixing-desk" aria-labelledby="mixing-desk-title">
+  <div class="mx-wrap">
+
+    {/* En-tete */}
+    <header class="mx-head">
+      <p class="mx-eyebrow">MÉTHODE</p>
+      <h2 id="mixing-desk-title" class="mx-title">
+        La méthode, <span class="mx-title-em">à l'œuvre.</span>
+      </h2>
+      <p class="mx-sub">Bougez les curseurs. Voyez ce qu'il se passe.</p>
+    </header>
+
+    {/* Grille 2 colonnes desktop */}
+    <div class="mx-grid">
+
+      {/* COLONNE GAUCHE : la table de mixage */}
+      <div class="mx-panel mx-panel-mix" role="group" aria-label="Table de mixage des trois piliers">
+        <div class="mx-sliders">
+
+          {/* Slider Ciblage */}
+          <div class="mx-slider" data-pilier="ciblage">
+            <div class="mx-slider-head">
+              <span class="mx-slider-label">CIBLAGE</span>
+              <span class="mx-slider-sub">Signaux fins</span>
+            </div>
+            <div class="mx-slider-value" data-role="value">70</div>
+            <div
+              class="mx-track"
+              role="slider"
+              tabindex="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="70"
+              aria-orientation="vertical"
+              aria-label="Curseur Ciblage de 0 à 100"
+              data-role="track"
+            >
+              <div class="mx-track-fill" data-role="fill"></div>
+              <div class="mx-knob" data-role="knob"></div>
+            </div>
+            <div class="mx-slider-foot">
+              <span class="mx-slider-min">0</span>
+              <button type="button" class="mx-btn-mini" data-role="random">Aléatoire</button>
+            </div>
+          </div>
+
+          {/* Slider Copy */}
+          <div class="mx-slider" data-pilier="copy">
+            <div class="mx-slider-head">
+              <span class="mx-slider-label">COPY</span>
+              <span class="mx-slider-sub">Contexte naturel</span>
+            </div>
+            <div class="mx-slider-value" data-role="value">70</div>
+            <div
+              class="mx-track"
+              role="slider"
+              tabindex="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="70"
+              aria-orientation="vertical"
+              aria-label="Curseur Copy de 0 à 100"
+              data-role="track"
+            >
+              <div class="mx-track-fill" data-role="fill"></div>
+              <div class="mx-knob" data-role="knob"></div>
+            </div>
+            <div class="mx-slider-foot">
+              <span class="mx-slider-min">0</span>
+              <button type="button" class="mx-btn-mini" data-role="random">Aléatoire</button>
+            </div>
+          </div>
+
+          {/* Slider Infra */}
+          <div class="mx-slider" data-pilier="infra">
+            <div class="mx-slider-head">
+              <span class="mx-slider-label">INFRA</span>
+              <span class="mx-slider-sub">Délivrabilité</span>
+            </div>
+            <div class="mx-slider-value" data-role="value">70</div>
+            <div
+              class="mx-track"
+              role="slider"
+              tabindex="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="70"
+              aria-orientation="vertical"
+              aria-label="Curseur Infra de 0 à 100"
+              data-role="track"
+            >
+              <div class="mx-track-fill" data-role="fill"></div>
+              <div class="mx-knob" data-role="knob"></div>
+            </div>
+            <div class="mx-slider-foot">
+              <span class="mx-slider-min">0</span>
+              <button type="button" class="mx-btn-mini" data-role="random">Aléatoire</button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Boutons presets */}
+        <div class="mx-presets">
+          <button type="button" class="mx-preset mx-preset-primary" data-preset="as">
+            Préréglage Agence Simple
+          </button>
+          <button type="button" class="mx-preset mx-preset-ghost" data-preset="classique">
+            Cold email classique
+          </button>
+        </div>
+      </div>
+
+      {/* COLONNE DROITE : le résultat */}
+      <div class="mx-result">
+
+        {/* Boite mail simulée */}
+        <article class="mx-mail" data-role="mail" aria-live="polite">
+          <div class="mx-mail-status" data-role="status">
+            <span class="mx-mail-status-icon" data-role="status-icon">✓</span>
+            <span class="mx-mail-status-text" data-role="status-text">Inbox principale — 09h12 ce matin</span>
+          </div>
+          <div class="mx-mail-body">
+            <div class="mx-mail-meta">
+              <div class="mx-mail-row">
+                <span class="mx-mail-key">De</span>
+                <span class="mx-mail-val">Kenzy Gasmi &lt;kenzy@agence-simple.fr&gt;</span>
+              </div>
+              <div class="mx-mail-row">
+                <span class="mx-mail-key">À</span>
+                <span class="mx-mail-val" data-role="recipient">Marie Dupont, Head of Sales chez StartupX (levée 8M€ il y a 12 j)</span>
+              </div>
+              <div class="mx-mail-row">
+                <span class="mx-mail-key">Sujet</span>
+                <span class="mx-mail-val mx-mail-subject" data-role="subject">Vu votre annonce Head of Sales</span>
+              </div>
+            </div>
+            <hr class="mx-mail-sep" />
+            <div class="mx-mail-content" data-role="content">
+              <p>Bonjour Marie,</p>
+              <p>J'ai vu votre annonce Head of Sales sur LinkedIn et le timing m'a interpellé (la levée tombe pile au bon moment pour structurer l'acquisition).</p>
+              <p>On opère la prospection externalisée pour des SaaS dans votre configuration. Je vous montre ce qu'on a fait pour StartupY qui a une matrice proche ?</p>
+              <p>Bien à vous,<br />Kenzy</p>
+            </div>
+          </div>
+        </article>
+
+        {/* Dashboard KPIs */}
+        <div class="mx-kpis" aria-live="polite" aria-label="Indicateurs de performance">
+          <div class="mx-kpi" data-kpi="inbox">
+            <div class="mx-kpi-head">
+              <span class="mx-kpi-label">Arrivée inbox</span>
+              <span class="mx-kpi-value" data-role="kpi-value">60%</span>
+            </div>
+            <div class="mx-kpi-track">
+              <div class="mx-kpi-fill" data-role="kpi-fill"></div>
+            </div>
+          </div>
+          <div class="mx-kpi" data-kpi="open">
+            <div class="mx-kpi-head">
+              <span class="mx-kpi-label">Ouverture</span>
+              <span class="mx-kpi-value" data-role="kpi-value">17%</span>
+            </div>
+            <div class="mx-kpi-track">
+              <div class="mx-kpi-fill" data-role="kpi-fill"></div>
+            </div>
+          </div>
+          <div class="mx-kpi" data-kpi="reply">
+            <div class="mx-kpi-head">
+              <span class="mx-kpi-label">Réponse</span>
+              <span class="mx-kpi-value" data-role="kpi-value">4,1%</span>
+            </div>
+            <div class="mx-kpi-track">
+              <div class="mx-kpi-fill" data-role="kpi-fill"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* Bloc final */}
+    <footer class="mx-foot">
+      <p class="mx-foot-tag">Trois curseurs au max. C'est notre travail quotidien.</p>
+      <a href="/campagnes" class="mx-cta">Voir nos campagnes →</a>
+    </footer>
+
+  </div>
+</section>
+
+<style>
+  .mixing-desk {
+    background: var(--color-creme);
+    color: var(--color-encre);
+    padding: 6rem 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .mx-wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* En-tete */
+  .mx-head {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+  .mx-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--color-orange);
+    margin: 0 0 1rem;
+  }
+  .mx-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.1;
+    margin: 0 0 1rem;
+    color: var(--color-encre);
+  }
+  .mx-title-em {
+    font-style: italic;
+    color: var(--color-bleu);
+  }
+  .mx-sub {
+    font-family: var(--font-sans);
+    color: var(--color-gris);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  /* Grille principale */
+  .mx-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Panneau table de mixage */
+  .mx-panel-mix {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 1px 2px rgba(15, 27, 63, 0.04), 0 10px 30px rgba(15, 27, 63, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .mx-sliders {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .mx-slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .mx-slider-head {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .mx-slider-label {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-encre);
+  }
+  .mx-slider-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--color-gris);
+  }
+  .mx-slider-value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0.2rem 0 0.4rem;
+  }
+
+  /* Couleurs par pilier */
+  .mx-slider[data-pilier="ciblage"] .mx-slider-value { color: var(--color-bleu); }
+  .mx-slider[data-pilier="copy"]    .mx-slider-value { color: var(--color-orange); }
+  .mx-slider[data-pilier="infra"]   .mx-slider-value { color: var(--color-encre); }
+
+  /* Track vertical */
+  .mx-track {
+    position: relative;
+    width: 12px;
+    height: 280px;
+    background: var(--color-gris-light);
+    border-radius: 999px;
+    cursor: pointer;
+    touch-action: none;
+    outline: none;
+  }
+  .mx-track:focus-visible {
+    box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.35);
+  }
+  .mx-track-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30%;
+    background: var(--color-encre);
+    border-radius: 999px;
+    transition: height 0.15s ease-out, background 0.2s ease-out;
+  }
+  .mx-slider[data-pilier="ciblage"] .mx-track-fill { background: var(--color-bleu); }
+  .mx-slider[data-pilier="copy"]    .mx-track-fill { background: var(--color-orange); }
+  .mx-slider[data-pilier="infra"]   .mx-track-fill { background: var(--color-encre); }
+
+  .mx-knob {
+    position: absolute;
+    left: 50%;
+    bottom: 30%;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-encre);
+    transform: translate(-50%, 50%);
+    cursor: grab;
+    box-shadow: 0 2px 6px rgba(15, 27, 63, 0.25);
+    transition: bottom 0.15s ease-out, transform 0.15s ease-out;
+  }
+  .mx-knob:active { cursor: grabbing; transform: translate(-50%, 50%) scale(1.1); }
+  .mx-slider[data-pilier="ciblage"] .mx-knob { background: var(--color-bleu); }
+  .mx-slider[data-pilier="copy"]    .mx-knob { background: var(--color-orange); }
+  .mx-slider[data-pilier="infra"]   .mx-knob { background: var(--color-encre); }
+
+  .mx-slider-foot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+  }
+  .mx-slider-min {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--color-gris-soft);
+  }
+  .mx-btn-mini {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    color: var(--color-gris);
+    background: transparent;
+    border: 1px solid var(--color-gris-light);
+    border-radius: 999px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .mx-btn-mini:hover { border-color: var(--color-encre); color: var(--color-encre); }
+
+  /* Presets */
+  .mx-presets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  .mx-preset {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.85rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    border: 1px solid transparent;
+  }
+  .mx-preset-primary {
+    background: var(--color-encre);
+    color: var(--color-creme);
+  }
+  .mx-preset-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 27, 63, 0.2);
+  }
+  .mx-preset-ghost {
+    background: transparent;
+    color: var(--color-gris);
+    border-color: var(--color-gris-light);
+  }
+  .mx-preset-ghost:hover {
+    background: var(--color-gris-light);
+    color: var(--color-encre);
+  }
+
+  /* Colonne resultat */
+  .mx-result {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Boite mail */
+  .mx-mail {
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(15, 27, 63, 0.04), 0 10px 30px rgba(15, 27, 63, 0.06);
+    transition: opacity 0.3s ease-out, filter 0.3s ease-out;
+  }
+  .mx-mail.is-spam {
+    opacity: 0.55;
+    filter: grayscale(0.4);
+  }
+
+  .mx-mail-status {
+    padding: 0.7rem 1.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  .mx-mail-status.is-good { background: #E6F4EA; color: #1B7A3A; }
+  .mx-mail-status.is-mid  { background: #FFF1E0; color: #B45309; }
+  .mx-mail-status.is-bad  { background: #FCE8E8; color: #B91C1C; }
+
+  .mx-mail-status-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .mx-mail-body {
+    padding: 1.4rem 1.6rem 1.6rem;
+    font-family: var(--font-sans);
+    color: var(--color-encre);
+  }
+
+  .mx-mail-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.8rem;
+  }
+  .mx-mail-row {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+  .mx-mail-key {
+    color: var(--color-gris-soft);
+    min-width: 42px;
+  }
+  .mx-mail-val {
+    color: var(--color-encre);
+    transition: color 0.3s ease-out, opacity 0.3s ease-out;
+  }
+  .mx-mail-val.is-good { color: #1B7A3A; }
+  .mx-mail-val.is-mid  { color: #B45309; }
+  .mx-mail-val.is-bad  { color: #B91C1C; }
+  .mx-mail-subject { font-weight: 600; }
+
+  .mx-mail-sep {
+    border: none;
+    border-top: 1px solid var(--color-gris-light);
+    margin: 0.4rem 0 1rem;
+  }
+
+  .mx-mail-content {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-encre);
+    transition: opacity 0.3s ease-out;
+  }
+  .mx-mail-content p { margin: 0 0 0.8rem; }
+  .mx-mail-content p:last-child { margin-bottom: 0; }
+  .mx-mail-content.is-fading { opacity: 0; }
+
+  /* KPIs */
+  .mx-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.4rem 1.6rem;
+    box-shadow: 0 1px 2px rgba(15, 27, 63, 0.04), 0 10px 30px rgba(15, 27, 63, 0.06);
+  }
+  .mx-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .mx-kpi-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .mx-kpi-label {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-gris);
+    font-weight: 500;
+  }
+  .mx-kpi-value {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--color-encre);
+  }
+  .mx-kpi-track {
+    height: 8px;
+    background: var(--color-gris-light);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .mx-kpi-fill {
+    height: 100%;
+    width: 30%;
+    background: var(--color-encre);
+    border-radius: 999px;
+    transition: width 0.4s ease-out, background 0.3s;
+  }
+  .mx-kpi-fill.is-good { background: #1B7A3A; }
+  .mx-kpi-fill.is-mid  { background: var(--color-orange); }
+  .mx-kpi-fill.is-bad  { background: #B91C1C; }
+
+  /* Bloc final */
+  .mx-foot {
+    text-align: center;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .mx-foot-tag {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    color: var(--color-encre);
+    margin: 0;
+  }
+  .mx-cta {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-creme);
+    background: var(--color-encre);
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .mx-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 27, 63, 0.2);
+  }
+
+  /* Tablette */
+  @media (max-width: 1023px) {
+    .mx-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Mobile : sliders horizontaux */
+  @media (max-width: 767px) {
+    .mixing-desk { padding: 4rem 1rem; }
+    .mx-panel-mix { padding: 1.5rem 1rem; gap: 1.5rem; }
+    .mx-sliders {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+    .mx-slider {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.8rem;
+      width: 100%;
+    }
+    .mx-slider-head {
+      text-align: left;
+      flex-shrink: 0;
+      width: 90px;
+    }
+    .mx-slider-value {
+      width: 42px;
+      text-align: center;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    /* Track horizontal */
+    .mx-track {
+      width: 100%;
+      height: 12px;
+      flex: 1;
+      touch-action: pan-y;
+    }
+    .mx-track-fill {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: auto;
+      height: auto;
+      width: 30%;
+      transition: width 0.15s ease-out, background 0.2s ease-out;
+    }
+    .mx-knob {
+      top: 50%;
+      bottom: auto;
+      left: 30%;
+      transform: translate(-50%, -50%);
+    }
+    .mx-knob:active { transform: translate(-50%, -50%) scale(1.1); }
+    .mx-slider-foot { display: none; }
+    .mx-presets { grid-template-columns: 1fr; }
+    .mx-kpis { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.2rem; }
+  }
+
+  /* Accessibilité : reduce-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .mx-track-fill,
+    .mx-knob,
+    .mx-kpi-fill,
+    .mx-mail,
+    .mx-mail-content,
+    .mx-mail-val,
+    .mx-mail-status {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Mixing Desk : controle des 3 curseurs et recompose du resultat.
+  (function () {
+    const section = document.querySelector<HTMLElement>('.mixing-desk');
+    if (!section) return;
+
+    const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Etat des trois piliers
+    const state: Record<string, number> = { ciblage: 70, copy: 70, infra: 70 };
+
+    // Contenus par seuil pour la recompose de l'email
+    const RECIPIENTS = {
+      low:  'Marie Dupont, DRH chez StartupAléatoire (aucun signal)',
+      mid:  'Marie Dupont, Head of Sales chez StartupX (signal partiel)',
+      high: "Marie Dupont, Head of Sales chez StartupX (levée 8M€ il y a 12 j)"
+    };
+
+    const SUBJECTS = {
+      low:  'Une opportunité pour votre entreprise',
+      mid:  'Concernant votre développement commercial',
+      high: 'Vu votre annonce Head of Sales'
+    };
+
+    const BODIES = {
+      low: `
+        <p>Bonjour Marie,</p>
+        <p>J'espère que vous allez bien. Je me permets de vous contacter car votre entreprise correspond à notre cible. Nous proposons des solutions innovantes de prospection B2B pour générer du ROI et des synergies.</p>
+        <p>Seriez-vous disponible pour un call de 30 minutes la semaine prochaine ?</p>
+        <p>Cordialement,<br />Kenzy</p>
+      `,
+      mid: `
+        <p>Bonjour Marie,</p>
+        <p>Je travaille avec des SaaS B2B sur leur prospection sortante. Vu votre secteur, je pense qu'on pourrait apporter de la valeur.</p>
+        <p>Disponible pour échanger 15 minutes ?</p>
+        <p>Bien à vous,<br />Kenzy</p>
+      `,
+      high: `
+        <p>Bonjour Marie,</p>
+        <p>J'ai vu votre annonce Head of Sales sur LinkedIn et le timing m'a interpellé (la levée tombe pile au bon moment pour structurer l'acquisition).</p>
+        <p>On opère la prospection externalisée pour des SaaS dans votre configuration. Je vous montre ce qu'on a fait pour StartupY qui a une matrice proche ?</p>
+        <p>Bien à vous,<br />Kenzy</p>
+      `
+    };
+
+    const STATUS = {
+      bad: { icon: '🚫', text: 'Tombé en spam — Vu 0 fois' },
+      mid: { icon: '⚠', text: 'Onglet Promotions — Vu 1 fois sur 4' },
+      good: { icon: '✓', text: 'Inbox principale — 09h12 ce matin' }
+    };
+
+    // Tier helper : 0-29 / 30-69 / 70-100
+    const tier = (v: number): 'low' | 'mid' | 'high' => {
+      if (v < 30) return 'low';
+      if (v < 70) return 'mid';
+      return 'high';
+    };
+
+    // Calcul des KPIs
+    const computeKpis = (c: number, co: number, i: number) => {
+      const inbox = Math.round(i * 0.85);
+      // Si pas livré, pas ouvert : facteur d'arrivée multiplicatif
+      const inboxFactor = i / 100;
+      const openRaw = (c * 0.4 + co * 0.1) * 0.5;
+      const open = Math.round(openRaw * inboxFactor);
+      const replyRaw = (c / 100) * (co / 100) * (i / 100) * 12;
+      const reply = Math.round(replyRaw * 10) / 10;
+      return { inbox, open, reply };
+    };
+
+    // Classe seuil pour les KPIs (sur l'echelle 0-100 normalisee)
+    const kpiClass = (pct: number, max: number): string => {
+      const ratio = pct / max;
+      if (ratio < 0.3) return 'is-bad';
+      if (ratio < 0.7) return 'is-mid';
+      return 'is-good';
+    };
+
+    // DOM refs
+    const sliders = Array.from(section.querySelectorAll<HTMLElement>('.mx-slider'));
+    const recipient = section.querySelector<HTMLElement>('[data-role="recipient"]');
+    const subject = section.querySelector<HTMLElement>('[data-role="subject"]');
+    const content = section.querySelector<HTMLElement>('[data-role="content"]');
+    const mail = section.querySelector<HTMLElement>('[data-role="mail"]');
+    const statusEl = section.querySelector<HTMLElement>('[data-role="status"]');
+    const statusIcon = section.querySelector<HTMLElement>('[data-role="status-icon"]');
+    const statusText = section.querySelector<HTMLElement>('[data-role="status-text"]');
+    const kpis = Array.from(section.querySelectorAll<HTMLElement>('.mx-kpi'));
+
+    // Cache des derniers tiers pour eviter de fader si rien ne change
+    const lastTier: Record<string, string> = { ciblage: '', copy: '', infra: '' };
+
+    // Met a jour la position du knob / fill d'un slider
+    const renderSlider = (sliderEl: HTMLElement) => {
+      const pilier = sliderEl.dataset.pilier!;
+      const value = state[pilier];
+      const knob = sliderEl.querySelector<HTMLElement>('[data-role="knob"]')!;
+      const fill = sliderEl.querySelector<HTMLElement>('[data-role="fill"]')!;
+      const valueEl = sliderEl.querySelector<HTMLElement>('[data-role="value"]')!;
+      const track = sliderEl.querySelector<HTMLElement>('[data-role="track"]')!;
+
+      valueEl.textContent = String(value);
+      track.setAttribute('aria-valuenow', String(value));
+
+      if (isMobile()) {
+        knob.style.left = value + '%';
+        knob.style.bottom = '';
+        fill.style.width = value + '%';
+        fill.style.height = '';
+      } else {
+        knob.style.bottom = value + '%';
+        knob.style.left = '';
+        fill.style.height = value + '%';
+        fill.style.width = '';
+      }
+    };
+
+    // Met a jour le bloc resultat (email + KPIs)
+    const renderResult = () => {
+      const tCib = tier(state.ciblage);
+      const tCopy = tier(state.copy);
+      const tInfra = tier(state.infra);
+
+      // Destinataire
+      if (recipient && lastTier.ciblage !== tCib) {
+        recipient.textContent = RECIPIENTS[tCib];
+        recipient.classList.remove('is-good', 'is-mid', 'is-bad');
+        recipient.classList.add(tCib === 'high' ? 'is-good' : tCib === 'mid' ? 'is-mid' : 'is-bad');
+        lastTier.ciblage = tCib;
+      }
+
+      // Sujet + corps (copy)
+      if (lastTier.copy !== tCopy) {
+        if (subject) subject.textContent = SUBJECTS[tCopy];
+        if (content) {
+          if (reduceMotion) {
+            content.innerHTML = BODIES[tCopy];
+          } else {
+            content.classList.add('is-fading');
+            window.setTimeout(() => {
+              content.innerHTML = BODIES[tCopy];
+              content.classList.remove('is-fading');
+            }, 200);
+          }
+        }
+        lastTier.copy = tCopy;
+      }
+
+      // Status infra
+      if (lastTier.infra !== tInfra && statusEl && statusIcon && statusText && mail) {
+        statusEl.classList.remove('is-good', 'is-mid', 'is-bad');
+        const cls = tInfra === 'high' ? 'is-good' : tInfra === 'mid' ? 'is-mid' : 'is-bad';
+        statusEl.classList.add(cls);
+        const info = STATUS[tInfra === 'high' ? 'good' : tInfra === 'mid' ? 'mid' : 'bad'];
+        statusIcon.textContent = info.icon;
+        statusText.textContent = info.text;
+        mail.classList.toggle('is-spam', tInfra === 'low');
+        lastTier.infra = tInfra;
+      }
+
+      // KPIs
+      const { inbox, open, reply } = computeKpis(state.ciblage, state.copy, state.infra);
+      kpis.forEach((kpi) => {
+        const kind = kpi.dataset.kpi!;
+        const valueEl = kpi.querySelector<HTMLElement>('[data-role="kpi-value"]');
+        const fillEl = kpi.querySelector<HTMLElement>('[data-role="kpi-fill"]');
+        if (!valueEl || !fillEl) return;
+        let pct = 0;
+        let max = 100;
+        let displayValue = '';
+        if (kind === 'inbox') {
+          pct = inbox;
+          max = 85;
+          displayValue = inbox + '%';
+        } else if (kind === 'open') {
+          pct = open;
+          max = 25;
+          displayValue = open + '%';
+        } else {
+          pct = reply;
+          max = 12;
+          displayValue = reply.toString().replace('.', ',') + '%';
+        }
+        valueEl.textContent = displayValue;
+        const widthPct = Math.min(100, (pct / max) * 100);
+        fillEl.style.width = widthPct + '%';
+        fillEl.classList.remove('is-good', 'is-mid', 'is-bad');
+        fillEl.classList.add(kpiClass(pct, max));
+      });
+    };
+
+    // Render global
+    const renderAll = () => {
+      sliders.forEach(renderSlider);
+      renderResult();
+    };
+
+    // Calcule la valeur 0-100 a partir d'un evenement (souris ou tactile)
+    const valueFromEvent = (track: HTMLElement, clientX: number, clientY: number): number => {
+      const rect = track.getBoundingClientRect();
+      let raw: number;
+      if (isMobile()) {
+        raw = ((clientX - rect.left) / rect.width) * 100;
+      } else {
+        raw = ((rect.bottom - clientY) / rect.height) * 100;
+      }
+      return Math.max(0, Math.min(100, Math.round(raw)));
+    };
+
+    // Attache drag + clavier sur chaque slider
+    sliders.forEach((sliderEl) => {
+      const pilier = sliderEl.dataset.pilier!;
+      const track = sliderEl.querySelector<HTMLElement>('[data-role="track"]')!;
+      const randomBtn = sliderEl.querySelector<HTMLElement>('[data-role="random"]');
+
+      let dragging = false;
+
+      const onPointerMove = (clientX: number, clientY: number) => {
+        state[pilier] = valueFromEvent(track, clientX, clientY);
+        renderSlider(sliderEl);
+        renderResult();
+      };
+
+      // Souris
+      const onMouseDown = (e: MouseEvent) => {
+        dragging = true;
+        track.focus();
+        onPointerMove(e.clientX, e.clientY);
+        e.preventDefault();
+      };
+      const onMouseMove = (e: MouseEvent) => {
+        if (!dragging) return;
+        onPointerMove(e.clientX, e.clientY);
+      };
+      const onMouseUp = () => { dragging = false; };
+
+      track.addEventListener('mousedown', onMouseDown);
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+
+      // Tactile
+      const onTouchStart = (e: TouchEvent) => {
+        if (e.touches.length === 0) return;
+        dragging = true;
+        const t = e.touches[0];
+        onPointerMove(t.clientX, t.clientY);
+        e.preventDefault();
+      };
+      const onTouchMove = (e: TouchEvent) => {
+        if (!dragging || e.touches.length === 0) return;
+        const t = e.touches[0];
+        onPointerMove(t.clientX, t.clientY);
+        e.preventDefault();
+      };
+      const onTouchEnd = () => { dragging = false; };
+
+      track.addEventListener('touchstart', onTouchStart, { passive: false });
+      track.addEventListener('touchmove', onTouchMove, { passive: false });
+      track.addEventListener('touchend', onTouchEnd);
+
+      // Clavier
+      track.addEventListener('keydown', (e: KeyboardEvent) => {
+        let delta = 0;
+        if (e.key === 'ArrowUp' || e.key === 'ArrowRight') delta = 5;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') delta = -5;
+        if (e.key === 'PageUp') delta = 10;
+        if (e.key === 'PageDown') delta = -10;
+        if (e.key === 'Home') { state[pilier] = 0; renderSlider(sliderEl); renderResult(); e.preventDefault(); return; }
+        if (e.key === 'End') { state[pilier] = 100; renderSlider(sliderEl); renderResult(); e.preventDefault(); return; }
+        if (delta !== 0) {
+          state[pilier] = Math.max(0, Math.min(100, state[pilier] + delta));
+          renderSlider(sliderEl);
+          renderResult();
+          e.preventDefault();
+        }
+      });
+
+      // Bouton aleatoire
+      if (randomBtn) {
+        randomBtn.addEventListener('click', () => {
+          animateTo({ [pilier]: Math.floor(Math.random() * 101) });
+        });
+      }
+    });
+
+    // Animation des presets (interpolation easing 0.8s)
+    let animFrame: number | null = null;
+    const animateTo = (target: Partial<Record<string, number>>, duration = 800) => {
+      if (animFrame !== null) cancelAnimationFrame(animFrame);
+      const start = performance.now();
+      const initial: Record<string, number> = {};
+      Object.keys(target).forEach((k) => { initial[k] = state[k]; });
+
+      const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+      if (reduceMotion) {
+        Object.keys(target).forEach((k) => { state[k] = target[k]!; });
+        renderAll();
+        return;
+      }
+
+      const step = (now: number) => {
+        const elapsed = now - start;
+        const t = Math.min(1, elapsed / duration);
+        const e = easeOutCubic(t);
+        Object.keys(target).forEach((k) => {
+          state[k] = Math.round(initial[k] + (target[k]! - initial[k]) * e);
+        });
+        renderAll();
+        if (t < 1) {
+          animFrame = requestAnimationFrame(step);
+        } else {
+          animFrame = null;
+        }
+      };
+      animFrame = requestAnimationFrame(step);
+    };
+
+    // Presets
+    section.querySelectorAll<HTMLElement>('[data-preset]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const preset = btn.dataset.preset;
+        if (preset === 'as') {
+          animateTo({ ciblage: 92, copy: 88, infra: 95 });
+        } else if (preset === 'classique') {
+          animateTo({ ciblage: 25, copy: 30, infra: 35 });
+        }
+      });
+    });
+
+    // Re-render sur resize (passage desktop <-> mobile)
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(renderAll, 100);
+    });
+
+    // Init
+    renderAll();
+  })();
+</script>
