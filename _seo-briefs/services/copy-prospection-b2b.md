@@ -105,7 +105,7 @@ Les chiffres ci-dessous sont validés par les clients concernés avant publicati
 
 **Dunforce : 14 % de taux de réponse** sur une cible réputée difficile, les bailleurs sociaux. Pour situer ce chiffre : les baromètres du secteur placent le taux de réponse moyen d'une campagne de cold email B2B entre 3 et 5 %. Un ciblage étroit et un message qui parle le vocabulaire du secteur font l'écart.
 
-Trois de nos clients, Komon, Daisy app et Alison, racontent aussi leur collaboration en vidéo, sans script imposé. Les interviews sont visibles plus bas sur cette page.
+Trois de nos clients, Komon, Daisy app et Les Épaulettes, racontent aussi leur collaboration en vidéo, sans script imposé. Les interviews sont visibles plus bas sur cette page.
 
 ## Pourquoi Agence Simple plutôt qu'une autre
 
@@ -189,7 +189,7 @@ Les 12 liens du brief Sacha sont posés. Pas de page cas client Dunforce dans le
 ## Vidéos témoignages (section "Ce que ça donne", après les 3 cas écrits)
 - Komon : https://www.youtube-nocookie.com/embed/-GaYHXJR-Hc
 - Daisy app : https://www.youtube-nocookie.com/embed/fepN_sOkUAo
-- Alison : https://www.youtube-nocookie.com/embed/h7vkCT5aDhY (nom de la boîte à confirmer avec Kenzy avant mise en ligne)
+- Les Épaulettes (Alison) : https://www.youtube-nocookie.com/embed/h7vkCT5aDhY
 Intégration : facade lite-youtube ou thumbnail cliquable (pas d'iframe direct, LCP), 3 cards horizontales sous le paragraphe "Trois de nos clients...". Ajouter schema VideoObject par vidéo.
 
 ## Schemas JSON-LD à activer

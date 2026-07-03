@@ -7,7 +7,7 @@ Chaîne : Kenzy GASMI.
 |--------|----------|-----------|---------------|
 | Komon | `-GaYHXJR-Hc` | https://www.youtube.com/embed/-GaYHXJR-Hc | Komon x Agence Simple |
 | Daisy app | `fepN_sOkUAo` | https://www.youtube.com/embed/fepN_sOkUAo | Daisy app |
-| Alison (boîte à confirmer avec Kenzy) | `h7vkCT5aDhY` | https://www.youtube.com/embed/h7vkCT5aDhY | riverside alison & kenzy magic episode feb 25, 2026 |
+| Les Épaulettes (Alison) | `h7vkCT5aDhY` | https://www.youtube.com/embed/h7vkCT5aDhY | riverside alison & kenzy magic episode feb 25, 2026 |
 
 ## Usage prévu
 
@@ -24,5 +24,5 @@ Chaîne : Kenzy GASMI.
 
 ## À confirmer avec Kenzy
 
-- Nom de la boîte d'Alison (titre vidéo pas explicite).
+- ~~Nom de la boîte d'Alison~~ : confirmé le 2026-07-03, c'est **Les Épaulettes** (logo déjà présent dans le marquee via nestore.png).
 - Autorisation d'utiliser les 3 vidéos sur le nouveau site : OK donné le 2026-07-03.
