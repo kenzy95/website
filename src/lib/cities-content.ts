@@ -103,4 +103,71 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
       },
     ],
   },
+  lyon: {
+    slug: 'lyon',
+    serviceType: 'B2B Lead Generation - Lyon',
+    heroLead:
+      "Lyon est le deuxième pôle économique français et un territoire à la personnalité industrielle marquée : chimie et santé dans la Vallée de la Chimie et autour de Lyonbiopôle, mécanique, agroalimentaire, et un secteur numérique en croissance autour de la Part-Dieu et de la Confluence. Cette diversité produit un vivier de comptes B2B dense mais moins saturé qu'à Paris, ce qui en fait un terrain de prospection intéressant.",
+    heroSub:
+      "Nous accompagnons des clients lyonnais et de toute la région Auvergne-Rhône-Alpes depuis notre siège parisien, en visio le plus souvent, en présentiel quand le déplacement se justifie. La géographie ne change pas la méthode : cibler juste, écrire vrai, délivrer, qualifier.",
+    intro: [
+      "Prospecter à Lyon, c'est composer avec un tissu économique double : d'un côté une industrie établie, faite d'ETI familiales et de sous-traitants techniques au cycle d'achat long ; de l'autre un écosystème tech et service plus jeune, plus réactif, qui se prospecte comme une scale-up parisienne. Les deux ne demandent ni le même message ni le même canal, et confondre les deux est la première erreur d'une campagne mal cadrée sur ce territoire.",
+      "L'avantage de Lyon, c'est que la cible y est identifiable et joignable sans être sur-sollicitée. Un dirigeant d'ETI industrielle rhônalpine reçoit nettement moins de prospection froide qu'un homologue parisien, ce qui laisse plus de place à un message soigné pour émerger. Encore faut-il parler sa langue : références concrètes, preuve d'usage, ton posé. C'est exactement le type d'adaptation que nous faisons compte par compte.",
+    ],
+    cibles: [
+      {
+        titre: 'ETI et PME industrielles',
+        texte:
+          "Le socle industriel de la région, mécanique, chimie, agroalimentaire, plasturgie, regroupe des ETI et PME souvent familiales. Ces comptes se prospectent avec un registre qualitatif, orienté références et fiabilité, et un cycle d'achat que nous respectons plutôt que de le brusquer.",
+      },
+      {
+        titre: 'Éditeurs SaaS et sociétés tech',
+        texte:
+          "L'écosystème numérique lyonnais, concentré autour de la Part-Dieu, de la Confluence et de plusieurs incubateurs, produit des éditeurs et sociétés de service tech qui se lisent par signaux et se prospectent efficacement en cold email comme sur LinkedIn.",
+      },
+      {
+        titre: 'Santé, biotech et medtech',
+        texte:
+          "Le pôle santé lyonnais, structuré autour de Lyonbiopôle et d'un tissu de laboratoires et de medtech, appelle une prospection précise, respectueuse des interlocuteurs techniques et des contraintes réglementaires du secteur.",
+      },
+    ],
+    distance: [
+      "Pour un client lyonnais, l'essentiel du dispositif se pilote à distance : sourcing des comptes dans la région, écriture des séquences, gestion de la délivrabilité, qualification des réponses. C'est ce travail continu, invisible mais décisif, qui fait le rendement d'une campagne, pas la présence d'un bureau au coin de la rue.",
+      "Quand un déplacement a du sens, un cadrage stratégique important, un point de bilan, nous montons à Lyon plutôt qu'en visio. Mais nous sommes transparents : nous ne sommes pas une agence lyonnaise, nous sommes une équipe parisienne qui prospecte pour des clients partout en France, Lyon compris, avec le même niveau d'exigence.",
+    ],
+    casClient: {
+      texte:
+        "Notre performance ne dépend pas de la ville du client : nous avons généré 41 rendez-vous qualifiés en cinq semaines pour Happycolis, sur une cible opérationnelle exigeante. La même mécanique de ciblage et de copy s'applique à une ETI industrielle rhônalpine comme à n'importe quel compte français, avec sur Lyon la possibilité de points en présentiel.",
+    },
+    maillage: {
+      service: { href: '/services/cold-email', label: 'notre agence cold email' },
+      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
+      article: {
+        href: '/blog/sales-navigator-guide-ciblage',
+        label: 'notre guide du ciblage sur Sales Navigator',
+      },
+    },
+    faq: [
+      {
+        question: "Avez-vous un bureau à Lyon ?",
+        answer:
+          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré. Nous prospectons pour des clients lyonnais et de toute la région Auvergne-Rhône-Alpes à distance, avec des déplacements possibles quand un rendez-vous important le justifie. Nous préférons être clairs là-dessus plutôt que d'afficher une fausse adresse locale.",
+      },
+      {
+        question: "La prospection fonctionne-t-elle sur des ETI industrielles rhônalpines ?",
+        answer:
+          "Oui, à condition d'adapter le registre. Une ETI familiale de la mécanique ou de la chimie n'a pas le même cycle d'achat ni la même sensibilité qu'une scale-up. Nous travaillons un message plus qualitatif, orienté références et preuve, et nous respectons un tempo d'achat plus long plutôt que de forcer la vente.",
+      },
+      {
+        question: "Quelles cibles atteignez-vous sur la région lyonnaise ?",
+        answer:
+          "Principalement les ETI et PME industrielles, les éditeurs SaaS et sociétés tech du bassin Part-Dieu et Confluence, et le pôle santé, biotech et medtech structuré autour de Lyonbiopôle. Chaque type de cible appelle un canal et un ton différents, que nous calibrons compte par compte.",
+      },
+      {
+        question: "Pourquoi prospecter à Lyon plutôt que de viser uniquement Paris ?",
+        answer:
+          "Parce que la cible y est moins sur-sollicitée. Un décideur rhônalpin reçoit moins de prospection froide qu'un parisien, ce qui laisse plus de place à un message soigné pour émerger. La contrepartie est un tissu plus hétérogène, industriel et tech mêlés, qui exige un ciblage rigoureux pour ne pas diluer l'effort.",
+      },
+    ],
+  },
 };
