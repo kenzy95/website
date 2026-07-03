@@ -142,7 +142,7 @@ Voir section 10.
 
 ## 7. Maillage interne obligatoire
 
-- Vers `/services/prospection-b2b` – anchor : « notre offre de prospection B2B clé en main »
+- Vers `/` – anchor : « notre offre de prospection B2B clé en main »
 - Vers `/services/cold-email` – anchor : « le canal cold email dans le forfait SDR »
 - Vers `/services/linkedin-outreach` – anchor : « le canal LinkedIn dans le forfait SDR »
 - Vers `/comparatifs/sdr-interne-vs-agence-externalisee` – anchor : « comparatif complet SDR interne vs agence externalisée »

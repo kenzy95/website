@@ -135,7 +135,7 @@ Voir section 10.
 
 ## 7. Maillage interne obligatoire
 
-- Vers `/services/prospection-b2b` – anchor : « notre offre de prospection B2B complète »
+- Vers `/` – anchor : « notre offre de prospection B2B clé en main »
 - Vers `/services/linkedin-outreach` – anchor : « prospection LinkedIn en complément »
 - Vers `/services/sdr-externalise` – anchor : « SDR externalisé en marque blanche »
 - Vers `/secteurs/saas` – anchor : « cold email pour éditeurs SaaS »
