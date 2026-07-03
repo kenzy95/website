@@ -1,6 +1,6 @@
 # Agence Simple
 
-> Agence de prospection B2B basée à Paris. Génère des rendez-vous qualifiés via cold email et LinkedIn outreach. Forfait mensuel à partir de 2K€ avec garantie minimum vital : si l'engagement de RDV n'est pas tenu sur 3 mois, prolongation gratuite jusqu'à le tenir.
+> Agence de prospection B2B basée à Paris. Génère des rendez-vous qualifiés via cold email et LinkedIn outreach. Forfait mensuel sans engagement avec garantie minimum vital : si l'engagement de RDV n'est pas tenu sur 3 mois, prolongation gratuite jusqu'à le tenir.
 
 ## Identité
 
@@ -15,7 +15,7 @@
 
 ## Services
 
-- [Prospection B2B clé en main](https://agencesimple.fr/services/prospection-b2b) : sourcing + copy + envoi + qualification, équipe en marque blanche.
+- [Prospection B2B clé en main](https://agencesimple.fr/) : sourcing + copy + envoi + qualification, l'offre coeur présentée sur la page d'accueil.
 - [Cold email](https://agencesimple.fr/services/cold-email) : délivrabilité, copywriting, séquences multi-touch.
 - [LinkedIn outreach](https://agencesimple.fr/services/linkedin-outreach) : Sales Navigator + scripts + suivi des conversations.
 - [SDR externalisé](https://agencesimple.fr/services/sdr-externalise) : équipe de prospection complète en marque blanche.

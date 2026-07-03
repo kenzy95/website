@@ -41,8 +41,8 @@ export const SITE = {
     linkedin: 'https://www.linkedin.com/in/kenzy-gasmi-66694095',
   },
 
+  /* Prospection B2B clé en main = la home (décision mono-offre 2026-07-03). */
   services: [
-    { slug: 'prospection-b2b', name: 'Prospection B2B', shortDesc: 'Génération de RDV qualifiés clé en main' },
     { slug: 'cold-email', name: 'Cold email', shortDesc: 'Délivrabilité, copy, séquences' },
     { slug: 'linkedin-outreach', name: 'LinkedIn outreach', shortDesc: 'Sales Navigator + scripts' },
     { slug: 'sdr-externalise', name: 'SDR externalisé', shortDesc: 'Équipe de prospection en marque blanche' },

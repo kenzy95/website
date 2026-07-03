@@ -24,6 +24,7 @@ import ToolsConstellation from '@components/ToolsConstellation.astro';
 import FaqSection from '@components/FaqSection.astro';
 import FinalCta from '@components/FinalCta.astro';
 import { localBusinessSchema, faqSchema } from '@lib/schema';
+import { HOME_FAQ } from '@lib/content-data';
 
 /**
  * Home Agence Simple v3 - reprise dynamique Framer + charte v2.
@@ -34,14 +35,13 @@ import { localBusinessSchema, faqSchema } from '@lib/schema';
 
 const title = 'Agence prospection B2B Paris - rendez-vous garantis';
 const description =
-  "Agence Simple génère des rendez-vous B2B qualifiés. Forfait 2 000 € par mois, sans engagement. Si on ne tient pas le minimum sur 3 mois, on continue gratuitement.";
+  "Agence de prospection B2B : rendez-vous qualifiés par cold email et LinkedIn. Forfait mensuel sans engagement, garantie minimum vital incluse.";
 
-const faq = [
-  { question: 'Comment vous calculez le minimum vital ?', answer: 'On regarde votre taux de conversion en clientèle et combien de clients il vous faut pour rentabiliser. On en déduit ensemble un seuil chiffré.' },
-  { question: 'Et si je n\'atteins pas le minimum ?', answer: 'On continue gratuitement jusqu\'à l\'atteindre. Pas de petites lignes, pas de remboursement compliqué.' },
+/* Schema FAQPage synchronise avec la FAQ visible (FaqSection <- HOME_FAQ). */
+const schemas = [
+  localBusinessSchema(),
+  faqSchema(HOME_FAQ.map((f) => ({ question: f.q, answer: f.a }))),
 ];
-
-const schemas = [localBusinessSchema(), faqSchema(faq)];
 ---
 
 <BaseLayout
@@ -71,7 +71,7 @@ const schemas = [localBusinessSchema(), faqSchema(faq)];
       <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin), pb 12 pour aerer avant le dashboard -->
       <div class="relative z-10 -mt-64 sm:-mt-72 pb-12 sm:pb-16 text-center px-5" style="background-color: var(--color-encre);">
         <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(--text-body-lg) leading-(--leading-relaxed)">
-          Une équipe complète de prospection qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
+          Une équipe complète de prospection B2B qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
         </p>
 
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">

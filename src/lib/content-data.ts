@@ -15,18 +15,12 @@ export interface ServicePage {
   serviceType: string;
 }
 
+/**
+ * Décision SEO 2026-07-03 (mono-offre) : la requête "agence prospection b2b"
+ * est visée par la HOME, pas par une page service dédiée (cannibalisation).
+ * Les 3 services restants visent des requêtes canal/format distinctes.
+ */
 export const SERVICES: ServicePage[] = [
-  {
-    slug: 'prospection-b2b',
-    shortName: 'Prospection B2B',
-    title: 'Agence de prospection B2B',
-    description:
-      "Génération de rendez-vous qualifiés B2B clé en main : sourcing, copy, envoi, qualification. Forfait mensuel avec garantie minimum vital.",
-    metaDescription:
-      "Agence de prospection B2B à Paris. RDV qualifiés via cold email et LinkedIn. Forfait mensuel transparent, garantie minimum vital, sans engagement.",
-    keyword: 'agence prospection b2b',
-    serviceType: 'B2B Lead Generation',
-  },
   {
     slug: 'cold-email',
     shortName: 'Cold email',
@@ -320,5 +314,51 @@ export const COMPARISONS: Comparison[] = [
     metaDescription:
       "Agence ou freelance pour la prospection B2B ? Comparatif sur la capacité, la résilience, la spécialisation, la facturation, la marge d'erreur.",
     description: 'Quand prendre une agence, quand prendre un freelance.',
+  },
+];
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+/**
+ * FAQ de la home : source unique partagée entre FaqSection.astro (rendu visible)
+ * et index.astro (schema FAQPage). Le schema DOIT refléter les questions visibles.
+ * Règles Kenzy 2026-07-03 : aucun prix en euros, voix « équipe », cohérence avec
+ * la card « Aucun engagement » (pas de durée minimum).
+ */
+export const HOME_FAQ: FaqItem[] = [
+  {
+    q: 'Comment fonctionne le modèle « payez seulement quand vous avez un RDV qualifié » ?',
+    a: "Notre modèle est basé sur la performance : vous payez pour des rendez-vous qualifiés livrés, pas pour un volume de messages envoyés. Nous identifions, contactons et qualifions les prospects par cold email et LinkedIn avant de fixer le rendez-vous. Au lancement, des frais de set-up couvrent l'infrastructure, les outils et le copywriting.",
+  },
+  {
+    q: "Qu'est-ce qui est inclus dans le forfait mensuel ?",
+    a: "La stratégie de campagne, le sourcing des prospects, l'enrichissement des contacts, l'infrastructure email dédiée, le copywriting personnalisé, le pilotage hebdomadaire et un reporting transparent. Les outils sont refacturés au coût réel, sans marge.",
+  },
+  {
+    q: 'Combien de RDV qualifiés par mois puis-je espérer ?',
+    a: "Cela dépend de votre cible, de votre panier moyen et du canal. Plutôt que d'afficher une fourchette générique, nous définissons un minimum vital chiffré au démarrage, calibré sur votre cas, et nous nous engageons dessus contractuellement.",
+  },
+  {
+    q: 'Comment vous calculez le minimum vital ?',
+    a: "On regarde votre taux de conversion en clientèle et combien de clients il vous faut pour rentabiliser la mission. On en déduit ensemble un seuil chiffré de RDV qualifiés par mois, écrit dans le contrat.",
+  },
+  {
+    q: "Et si le minimum vital n'est pas atteint ?",
+    a: "On continue gratuitement jusqu'à l'atteindre. Pas de petites lignes, pas de remboursement compliqué à demander. On reste, on travaille, on livre.",
+  },
+  {
+    q: "Qui définit ce qu'est un RDV qualifié ?",
+    a: "Vous, et vous seul. Chaque RDV vous est remis avec le profil de l'interlocuteur, son contexte et la conversation d'origine. Si vous marquez un RDV comme non qualifié, il sort du décompte de l'engagement. Cette règle est écrite dans le contrat.",
+  },
+  {
+    q: 'Suis-je engagé sur la durée ?',
+    a: "Non. Le forfait est mensuel, résiliable avec un préavis de 30 jours, sans pénalité. La garantie minimum vital reste active tant que le contrat court.",
+  },
+  {
+    q: 'Utilisez-vous mes propres domaines email ?',
+    a: "Non. Nous prospectons depuis des domaines secondaires dédiés, jamais depuis votre domaine principal : sa réputation d'envoi reste intacte pour vos emails du quotidien. Vous gardez la propriété des domaines créés pour la mission.",
   },
 ];

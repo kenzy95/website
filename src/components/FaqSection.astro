@@ -1,35 +1,14 @@
 ---
 /**
- * FAQ section - 6 questions/reponses charte v2 + Framer.
- * <details>/<summary> natif pour accessibilite et zero JS.
+ * FAQ section - charte v2, <details>/<summary> natif pour accessibilite, zero JS.
+ * Source unique : HOME_FAQ (content-data.ts), partagee avec le schema FAQPage
+ * injecte par index.astro. Le schema doit toujours refleter le visible.
+ * Regles 2026-07-03 : aucun prix en euros, voix equipe, pas de duree minimum
+ * (coherence avec la card "Aucun engagement").
  */
+import { HOME_FAQ } from '@lib/content-data';
 
-const faqs = [
-  {
-    q: 'Comment fonctionne votre service de génération de leads avec paiement à la prise de rendez-vous ?',
-    a: "Notre service se base sur un modèle de paiement à la performance. Cela signifie que vous ne payez que lorsque nous réussissons à organiser un rendez-vous qualifié avec un prospect intéressé. Nous utilisons des techniques avancées de prospection par cold email pour identifier, contacter et qualifier les prospects avant de fixer un rendez-vous. (NB : il sera demandé au lancement de la collaboration des frais de set-up pour pouvoir couvrir les besoins en outils, infrastructure et copy.)",
-  },
-  {
-    q: "Qu'est-ce qui est inclus dans le forfait mensuel ?",
-    a: "Le forfait comprend : la stratégie de campagne, le sourcing des prospects, l'enrichissement des contacts, l'infrastructure email (~785 €/mois facturée au coût réel sans markup), le copywriting personnalisé, le pilotage hebdomadaire, et un reporting transparent en accès direct.",
-  },
-  {
-    q: 'Combien de RDV qualifiés par mois je peux espérer ?',
-    a: "Cela dépend de votre ICP et de votre ticket moyen. Sur un cas typique B2B avec un ticket > 2 000 €, on est sur une fourchette de 4 à 12 RDV qualifiés par mois. On définit ensemble un minimum vital chiffré au démarrage et on s'engage dessus contractuellement.",
-  },
-  {
-    q: "Et si vous n'atteignez pas le minimum vital ?",
-    a: "On continue gratuitement jusqu'à l'atteindre. Pas de petites lignes, pas de remboursement compliqué à demander. On reste, on travaille, on livre.",
-  },
-  {
-    q: "Quelle est la durée d'engagement minimum ?",
-    a: "Trois mois minimum, le temps d'amortir le warmup technique des boîtes mail. Au-delà, vous partez quand vous voulez, sans pénalité, avec un préavis de 30 jours.",
-  },
-  {
-    q: "Qui est mon interlocuteur ?",
-    a: "Moi, Kenzy. Pas de chargé de compte ni d'équipe junior. Vous parlez directement à la personne qui pilote vos campagnes du brief jusqu'au reporting.",
-  },
-];
+const faqs = HOME_FAQ;
 ---
 
 <section class="faq-section">

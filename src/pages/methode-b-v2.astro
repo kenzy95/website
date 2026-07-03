@@ -1,0 +1,19 @@
+---
+/**
+ * Preview Direction B v2 - Venn enrichi avec signaux + orbite outils + sortie RDV.
+ * Evolution de la direction B (Diagramme de Forces).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MethodePreviewNavV2 from '@components/methode/MethodePreviewNavV2.astro';
+import MethodeVennEnrichi from '@components/methode/MethodeVennEnrichi.astro';
+
+const title = 'Preview Methode B v2 — Venn Enrichi';
+const description = "Direction B enrichie : signaux entrants, outils orbitaux, sortie RDV.";
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <MethodePreviewNavV2 current="B" />
+  <main>
+    <MethodeVennEnrichi />
+  </main>
+</BaseLayout>
