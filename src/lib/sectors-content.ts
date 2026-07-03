@@ -189,4 +189,83 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
       },
     ],
   },
+
+  'cabinet-conseil': {
+    slug: 'cabinet-conseil',
+    serviceType: 'B2B Lead Generation - Cabinet de conseil',
+    heroLead:
+      "Un cabinet de conseil ne se vend pas au volume : il se vend à l'autorité, à la relation partner-led et à la pertinence de l'expertise sur un problème précis de dirigeant. La prospection sortante d'un cabinet doit donc respecter le niveau de l'interlocuteur, souvent C-level, et s'inscrire dans un cycle long. Cette page explique comment nous ouvrons ces conversations sans dévaloriser votre positionnement.",
+    heroSub:
+      "Le but n'est pas de générer des demandes de devis, mais d'installer un premier échange crédible avec un décideur senior, sur un sujet où votre cabinet a une vraie légitimité à faire valoir.",
+    intro: [
+      "La prospection pour un cabinet de conseil obéit à des codes que la vente logicielle ignore. Votre interlocuteur est souvent un dirigeant ou un membre du comité exécutif, sollicité en permanence, qui juge un message d'abord à sa pertinence intellectuelle. Une accroche maladroite ou trop commerciale ferme la porte immédiatement et abîme la perception de votre marque. À l'inverse, un message qui démontre une compréhension fine de son enjeu ouvre une conversation que la relation partner-led transformera ensuite en mission.",
+      "L'autre particularité, c'est le rôle du contenu et de la preuve d'autorité. Un cabinet se choisit sur sa capacité à éclairer une décision, pas sur un argument de prix ou de délai. La prospection efficace s'appuie donc sur des angles de fond : un point de vue tranché sur une évolution du secteur du prospect, une lecture d'un enjeu réglementaire ou stratégique. Nous construisons ces angles avec vous pour que chaque prise de contact renforce votre positionnement au lieu de le banaliser.",
+    ],
+    painPoints: [
+      {
+        titre: 'Un message trop commercial qui dévalorise l\'expertise',
+        texte:
+          "Un dirigeant repère instantanément une sollicitation générique et l'assimile à du démarchage. Pour un cabinet, c'est doublement coûteux : la porte se ferme et l'image se dégrade. Nous calibrons chaque message sur le registre du pair qui apporte un éclairage, pas du prestataire qui cherche un rendez-vous à tout prix.",
+      },
+      {
+        titre: 'Des cibles C-level très difficiles à atteindre',
+        texte:
+          "Les décideurs seniors filtrent leurs sollicitations et délèguent une partie de leur boîte. Les atteindre demande un ciblage précis, un angle qui justifie leur attention et parfois un chemin par leur entourage direct. Nous traitons cet accès comme un travail d'orfèvre, pas comme un envoi de masse.",
+      },
+      {
+        titre: 'Un cycle de décision long et non linéaire',
+        texte:
+          "Une mission de conseil se déclenche souvent des mois après le premier contact, au moment où l'enjeu devient prioritaire. Une prospection qui pousse à la signature immédiate rate ce timing. Nous entretenons une présence de fond, faite d'apports de valeur espacés, qui vous garde en tête jusqu'au déclencheur.",
+      },
+      {
+        titre: 'Une expertise mal traduite en accroche',
+        texte:
+          "Les consultants raisonnent en méthodologies et en cadres. Le dirigeant, lui, pense en enjeux et en risques. Nous traduisons votre expertise en une lecture concrète du problème que vit l'interlocuteur, formulée dans son langage, pour que la valeur soit perçue dès la première ligne.",
+      },
+    ],
+    approche: [
+      "Côté ciblage, nous partons de votre positionnement d'autorité pour identifier les entreprises et les dirigeants pour qui votre expertise est immédiatement pertinente, en croisant secteur, taille, et signaux stratégiques : nomination récente, enjeu réglementaire, opération de croissance. La cible d'un cabinet se compte en dizaines de comptes prioritaires, pas en milliers, et se travaille en profondeur.",
+      "Côté message, nous construisons des angles de fond. Plutôt qu'une proposition de service, la prise de contact partage un point de vue ou une observation pertinente sur l'enjeu du dirigeant, puis propose un échange d'égal à égal. Ce registre partner-led respecte le niveau de l'interlocuteur et positionne votre cabinet comme un apporteur d'éclairage, pas comme un fournisseur en quête de mandat.",
+      "Côté canal, LinkedIn prime pour son registre professionnel et sa capacité à installer une relation avant le rendez-vous, appuyé le cas échéant par votre production de contenu. L'email prend le relais pour approfondir avec une note de fond. La cadence reste lente et qualitative, cohérente avec un cycle long où chaque interaction doit renforcer votre crédibilité.",
+    ],
+    casClient: {
+      texte:
+        "Sur les cibles exigeantes où la qualité de l'accroche conditionne tout, nous avons atteint 14 % de taux de réponse pour Dunforce en travaillant l'angle plutôt que le volume. Pour un cabinet de conseil, la même logique s'applique : c'est la pertinence perçue du premier message, adressé au bon dirigeant, qui décide de l'ouverture de la relation.",
+    },
+    maillage: {
+      service: { href: '/services/linkedin-outreach', label: 'notre prospection LinkedIn ciblée' },
+      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de réponse par la qualité de l\'accroche (Dunforce)' },
+      article: {
+        href: '/blog/prospection-linkedin-methode',
+        label: 'la méthode complète de prospection LinkedIn',
+      },
+    },
+    faq: [
+      {
+        question: "Comment prospecter des dirigeants sans nuire à l'image du cabinet ?",
+        answer:
+          "En adoptant le registre du pair qui apporte un éclairage, pas celui du prestataire qui quémande un rendez-vous. Chaque message part d'une observation pertinente sur l'enjeu du dirigeant et propose un échange d'égal à égal. Ce positionnement partner-led ouvre la conversation tout en renforçant votre autorité, au lieu de la banaliser.",
+      },
+      {
+        question: "Peut-on vraiment atteindre des cibles C-level en prospection sortante ?",
+        answer:
+          "Oui, mais pas par le volume. L'accès aux décideurs seniors se gagne par un ciblage précis, un angle qui justifie leur attention et parfois un chemin par leur entourage direct. Nous traitons chaque compte prioritaire individuellement, ce qui est possible parce que la cible d'un cabinet se compte en dizaines, pas en milliers.",
+      },
+      {
+        question: "Le contenu et l'autorité jouent-ils un rôle dans votre approche ?",
+        answer:
+          "Un rôle central. Un cabinet se choisit sur sa capacité à éclairer une décision. Nous construisons des angles de fond, points de vue tranchés ou lectures d'enjeux, qui servent d'accroche et positionnent votre expertise. Si vous produisez du contenu, nous l'articulons à la prospection pour appuyer la crédibilité avant le rendez-vous.",
+      },
+      {
+        question: "Comment gérez-vous un cycle de décision de plusieurs mois ?",
+        answer:
+          "En entretenant une présence de fond plutôt qu'en poussant à la signature. Le premier contact ouvre une relation ; des apports de valeur espacés la maintiennent jusqu'au moment où l'enjeu devient prioritaire pour le dirigeant. Cette constance qualitative capte le déclencheur au bon moment, là où une relance agressive aurait fait fuir.",
+      },
+      {
+        question: "Quel canal privilégier pour un cabinet de conseil ?",
+        answer:
+          "LinkedIn en premier, pour son registre professionnel et sa capacité à installer une relation avant le rendez-vous, complété par votre production de contenu si elle existe. L'email approfondit avec une note de fond. La cadence reste lente et qualitative, chaque interaction devant renforcer votre crédibilité auprès d'un décideur senior.",
+      },
+    ],
+  },
 };
