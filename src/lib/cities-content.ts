@@ -237,4 +237,71 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
       },
     ],
   },
+  lille: {
+    slug: 'lille',
+    serviceType: 'B2B Lead Generation - Lille',
+    heroLead:
+      "Lille combine un héritage retail et distribution puissant, avec la présence de grands sièges de la grande distribution et de leur écosystème de fournisseurs, et un pôle numérique dynamique autour d'Euratechnologies et de la Plaine Images. Sa position frontalière avec la Belgique élargit encore le terrain de jeu. Pour l'outbound, cette double identité, commerce et tech, ouvre des cibles B2B variées et accessibles.",
+    heroSub:
+      "Nous accompagnons des clients lillois et de tous les Hauts-de-France depuis Paris, à une heure de TGV, à distance pour l'essentiel et en présentiel quand cela se justifie. La méthode reste la même quelle que soit la ville : cibler juste, écrire vrai, délivrer, qualifier.",
+    intro: [
+      "Prospecter à Lille, c'est bénéficier d'un tissu B2B structuré par la distribution. La région concentre des sièges de la grande distribution et toute une chaîne de fournisseurs, prestataires et éditeurs qui gravitent autour du retail. Ces comptes ont une culture de la négociation forte, ils attendent du concret et vont vite à l'essentiel, ce qui récompense un message direct et sans détour.",
+      "À côté de ce socle commercial, le pôle tech lillois, structuré autour d'Euratechnologies et de la Plaine Images, produit un flux d'éditeurs SaaS et de sociétés numériques qui se prospectent comme partout ailleurs, par signaux et personnalisation. La proximité de Paris, à une heure de train, rend d'ailleurs les points en présentiel simples quand un dossier le mérite, sans que cela change la façon dont la campagne se pilote.",
+    ],
+    cibles: [
+      {
+        titre: 'Retail B2B et fournisseurs de la distribution',
+        texte:
+          "L'écosystème qui gravite autour des sièges de la grande distribution, fournisseurs, prestataires logistiques, éditeurs de solutions retail, forme une cible dense. Ces comptes attendent un message direct, chiffré et concret, en phase avec une culture de la négociation exigeante.",
+      },
+      {
+        titre: 'Éditeurs SaaS et sociétés tech',
+        texte:
+          "Le pôle numérique d'Euratechnologies et de la Plaine Images regroupe des éditeurs et sociétés de service tech qui se lisent par signaux, recrutements, levées, adoption d'outils, et se prospectent efficacement en cold email comme sur LinkedIn.",
+      },
+      {
+        titre: 'Services aux entreprises et acteurs transfrontaliers',
+        texte:
+          "Le tissu de services professionnels des Hauts-de-France, souvent tourné aussi vers la Belgique, offre des comptes intéressants pour une prospection méthodique. La dimension transfrontalière ouvre des segments que nous savons cibler et adresser proprement.",
+      },
+    ],
+    distance: [
+      "Pour un client lillois, l'essentiel du dispositif se pilote à distance : identification des comptes de la région, écriture des séquences, gestion de la délivrabilité, qualification des réponses. C'est ce travail de fond, continu, qui produit les rendez-vous, pas la présence d'un bureau sur la Grand-Place.",
+      "La proximité de Paris facilite les rencontres : une heure de TGV suffit pour un cadrage important ou un point de bilan en présentiel. Mais nous restons transparents sur notre nature : une équipe parisienne qui prospecte pour des clients dans toute la France, Hauts-de-France compris, avec le même niveau d'exigence, et non une agence lilloise de façade.",
+    ],
+    casClient: {
+      texte:
+        "Notre performance ne tient pas à la géographie du client : nous avons obtenu 14 % de taux de réponse pour Dunforce sur une cible de bailleurs sociaux, un segment difficile à ouvrir. La même rigueur de ciblage, de copy et de délivrabilité s'applique à un fournisseur retail lillois comme à n'importe quel compte français, avec sur Lille des rencontres en présentiel facilitées par le TGV.",
+    },
+    maillage: {
+      service: { href: '/services/cold-email', label: 'notre agence cold email' },
+      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de taux de réponse pour Dunforce' },
+      article: {
+        href: '/blog/delivrabilite-email-spf-dkim-dmarc',
+        label: 'notre guide de la délivrabilité email (SPF, DKIM, DMARC)',
+      },
+    },
+    faq: [
+      {
+        question: "Avez-vous une agence à Lille ?",
+        answer:
+          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré, à une heure de TGV de Lille. Nous prospectons pour des clients lillois et de tous les Hauts-de-France à distance, avec des déplacements simples quand un rendez-vous le justifie. Nous préférons être clairs plutôt que d'afficher une fausse adresse locale.",
+      },
+      {
+        question: "La prospection est-elle adaptée aux acteurs du retail et de la distribution ?",
+        answer:
+          "Oui, à condition d'assumer un message direct. La culture de la négociation est forte dans l'écosystème de la distribution lilloise : les décideurs attendent du concret, des chiffres et une promesse claire, pas un mail alambiqué. Nous calibrons un copy franc et argumenté, qui va vite à l'essentiel.",
+      },
+      {
+        question: "Prenez-vous en compte la dimension transfrontalière avec la Belgique ?",
+        answer:
+          "Quand c'est pertinent, oui. Une partie du tissu économique des Hauts-de-France est tournée vers la Belgique, ce qui ouvre des segments supplémentaires. Nous savons cibler et adresser ces comptes, en adaptant la langue et le registre au marché visé, dans le respect des règles de prospection en vigueur.",
+      },
+      {
+        question: "Quelles cibles atteignez-vous dans les Hauts-de-France ?",
+        answer:
+          "Principalement le retail B2B et les fournisseurs de la distribution, les éditeurs SaaS et sociétés tech d'Euratechnologies et de la Plaine Images, et le tissu de services aux entreprises, dont des acteurs transfrontaliers. Chaque cible appelle un canal et un ton propres, que nous ajustons compte par compte.",
+      },
+    ],
+  },
 };
