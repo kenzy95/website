@@ -190,6 +190,27 @@ export function faqSchema(items: { question: string; answer: string }[]) {
   };
 }
 
+interface VideoObjectParams {
+  name: string;
+  description: string;
+  embedUrl: string;
+  thumbnailUrl: string;
+  uploadDate: string;
+}
+
+export function videoObjectSchema(params: VideoObjectParams) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: params.name,
+    description: params.description,
+    thumbnailUrl: params.thumbnailUrl,
+    uploadDate: params.uploadDate,
+    embedUrl: params.embedUrl,
+    publisher: { '@id': ORG_ID },
+  };
+}
+
 export function howToSchema(params: {
   name: string;
   description: string;

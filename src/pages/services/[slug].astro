@@ -8,10 +8,12 @@ import { serviceSchema } from '@lib/schema';
 import { SITE } from '@lib/site';
 
 export function getStaticPaths() {
-  return SERVICES.map((service) => ({
-    params: { slug: service.slug },
-    props: { service },
-  }));
+  return SERVICES.filter((service) => service.slug !== 'prospection-b2b').map(
+    (service) => ({
+      params: { slug: service.slug },
+      props: { service },
+    })
+  );
 }
 
 const { service } = Astro.props;
