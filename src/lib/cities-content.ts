@@ -304,4 +304,71 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
       },
     ],
   },
+  marseille: {
+    slug: 'marseille',
+    serviceType: 'B2B Lead Generation - Marseille',
+    heroLead:
+      "Marseille est d'abord une place maritime et logistique : le Grand Port maritime, premier port français, structure tout un écosystème de transport, de commerce et de services associés. Autour, un tissu dense de PME souvent familiales et un pôle tech qui monte, notamment autour d'Aix, dessinent un terrain B2B varié. La prospection y demande de composer avec des cycles d'achat parfois plus longs et une culture relationnelle marquée.",
+    heroSub:
+      "Nous accompagnons des clients marseillais et de toute la région PACA depuis notre siège parisien, à distance pour l'essentiel, en présentiel quand un déplacement se justifie. La méthode ne change pas avec la géographie : cibler juste, écrire vrai, délivrer, qualifier.",
+    intro: [
+      "Prospecter à Marseille, c'est intégrer une dimension relationnelle plus forte qu'ailleurs. Une partie du tissu économique repose sur des PME familiales où la confiance et la recommandation comptent autant que l'argumentaire. Un cold email brutal y fonctionne mal ; un message qui montre qu'on a compris le métier et le contexte ouvre bien plus de portes. C'est ce travail de personnalisation réelle qui fait la différence sur ce territoire.",
+      "L'autre pilier, c'est l'écosystème maritime et logistique, avec le Grand Port et sa chaîne d'acteurs, transport, commerce international, services portuaires. Ces comptes ont des cycles d'achat souvent longs et des interlocuteurs très sollicités en interne. Nous adaptons le tempo et le canal en conséquence, en privilégiant une approche progressive plutôt qu'une pression commerciale qui se retournerait contre le client.",
+    ],
+    cibles: [
+      {
+        titre: 'Maritime, logistique et commerce international',
+        texte:
+          "L'écosystème du Grand Port maritime, transporteurs, commissionnaires, services portuaires, acteurs de l'import-export, forme une cible structurante de la région. Ces comptes se prospectent avec un tempo adapté à des cycles d'achat longs et une approche progressive plutôt qu'une relance agressive.",
+      },
+      {
+        titre: 'PME familiales et entreprises régionales',
+        texte:
+          "Une large part du tissu marseillais repose sur des PME familiales où la relation prime. Nous privilégions un message personnalisé, qui prouve la compréhension du métier, et un registre de confiance, bien plus efficace qu'une approche standardisée sur ce type d'interlocuteur.",
+      },
+      {
+        titre: 'Tech et services aux entreprises',
+        texte:
+          "Le pôle tech de l'aire Aix-Marseille et le tissu de services professionnels produisent des éditeurs et sociétés de service qui se prospectent par signaux et personnalisation. Ces cibles réagissent bien à une approche méthodique, en cold email comme sur LinkedIn.",
+      },
+    ],
+    distance: [
+      "Pour un client marseillais, tout le dispositif de fond se pilote à distance : identification des comptes de la région, écriture des séquences, gestion de la délivrabilité, qualification des réponses. C'est ce travail continu qui produit les rendez-vous, indépendamment de la présence physique d'une équipe sur le Vieux-Port.",
+      "Quand un moment clé le justifie, un cadrage stratégique, un bilan important, nous nous déplaçons à Marseille. Mais nous sommes clairs sur ce que nous sommes : pas une agence marseillaise, une équipe parisienne qui prospecte pour des clients partout en France, la région PACA comprise, avec le même niveau d'exigence.",
+    ],
+    casClient: {
+      texte:
+        "Notre résultat ne dépend pas de la ville du client : nous avons généré 41 rendez-vous qualifiés en cinq semaines pour Happycolis, sur une cible opérationnelle exigeante. Cette mécanique de ciblage et de copy s'applique aussi bien à une PME familiale marseillaise qu'à un acteur logistique régional, avec sur Marseille la possibilité de points en présentiel.",
+    },
+    maillage: {
+      service: { href: '/services/linkedin-outreach', label: 'notre agence de prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
+      article: {
+        href: '/blog/prospection-linkedin-methode',
+        label: 'notre méthode de prospection sur LinkedIn',
+      },
+    },
+    faq: [
+      {
+        question: "Êtes-vous implantés à Marseille ?",
+        answer:
+          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré. Nous prospectons pour des clients marseillais et de toute la région PACA à distance, avec des déplacements ponctuels quand un rendez-vous important le justifie. Nous préférons l'annoncer clairement plutôt que d'afficher une fausse implantation locale.",
+      },
+      {
+        question: "La prospection fonctionne-t-elle avec des PME familiales attachées à la relation ?",
+        answer:
+          "Oui, à condition de soigner la personnalisation. Sur des PME familiales où la confiance prime, un message générique tombe à plat. Nous construisons une approche qui montre la compréhension du métier et du contexte, sur un registre de confiance. C'est plus long à préparer, mais bien plus efficace que l'envoi de masse.",
+      },
+      {
+        question: "Comment gérez-vous les cycles d'achat longs du maritime et de la logistique ?",
+        answer:
+          "En adaptant le tempo. Les acteurs du Grand Port et de la logistique ont des cycles d'achat étendus et des décideurs très sollicités en interne. Nous privilégions une approche progressive, avec des relances espacées et un contenu utile à chaque contact, plutôt qu'une pression commerciale qui grillerait le compte.",
+      },
+      {
+        question: "Quelles cibles atteignez-vous en région PACA ?",
+        answer:
+          "Principalement l'écosystème maritime, logistique et commerce international du Grand Port, les PME familiales et entreprises régionales, et le pôle tech et services de l'aire Aix-Marseille. Chaque cible appelle un canal et un ton différents, que nous ajustons compte par compte pour respecter la culture locale.",
+      },
+    ],
+  },
 };
