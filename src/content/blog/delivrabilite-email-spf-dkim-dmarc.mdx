@@ -1,0 +1,72 @@
+---
+title: "Délivrabilité email : SPF, DKIM, DMARC expliqués simplement"
+description: "Comprendre la délivrabilité en cold email : à quoi servent SPF, DKIM et DMARC, comment chauffer un domaine et éviter le spam, sans jargon technique inutile."
+publishedAt: "2026-07-04"
+author: "Kenzy Gasmi"
+cover: "/images/blog/delivrabilite-email-spf-dkim-dmarc.svg"
+coverAlt: "Illustration éditoriale : délivrabilité email, SPF DKIM DMARC, cocon cold email Agence Simple"
+keywords:
+  - "délivrabilité cold email"
+  - "SPF DKIM DMARC"
+  - "délivrabilité email"
+  - "éviter le spam cold email"
+bucket: "A"
+schema: "Article"
+---
+
+Vous pouvez écrire le meilleur cold email du monde : s'il atterrit dans les indésirables, personne ne le lira. La délivrabilité, c'est-à-dire la capacité de vos messages à arriver en boîte de réception principale plutôt qu'en spam, est le socle invisible de toute campagne de prospection. Elle repose sur trois réglages techniques mal compris, SPF, DKIM et DMARC, et sur une discipline d'envoi. Voici de quoi il s'agit, sans jargon.
+
+## Pourquoi un email finit en spam
+
+Quand vous envoyez un message, le serveur du destinataire (Google, Microsoft, ou un autre) se pose une question simple : « Cet expéditeur est-il légitime, et ses messages sont-ils désirés ? » Pour répondre, il vérifie deux choses. D'abord l'authentification : le message vient-il vraiment du domaine qu'il prétend représenter ? Ensuite la réputation : ce domaine a-t-il l'habitude d'envoyer des messages que les gens ouvrent, ou des messages que les gens signalent et suppriment ?
+
+SPF, DKIM et DMARC répondent à la première question, l'authentification. La réputation, elle, se construit dans le temps par votre comportement d'envoi. Les deux sont indispensables : un domaine parfaitement authentifié mais qui envoie mille messages froids dès le premier jour finira quand même en spam.
+
+## SPF : qui a le droit d'envoyer en votre nom
+
+SPF (Sender Policy Framework) est une liste, publiée dans les réglages de votre domaine, des serveurs autorisés à envoyer des emails en son nom. Quand un message arrive, le serveur destinataire regarde cette liste : si l'expéditeur réel n'y figure pas, c'est un signal négatif fort.
+
+L'analogie la plus parlante : SPF est le tampon sur une enveloppe qui indique quels bureaux de poste ont le droit d'expédier votre courrier. Si une lettre part d'un bureau non listé, le facteur se méfie. Concrètement, SPF est un enregistrement texte ajouté à la zone DNS de votre domaine. Un seul enregistrement SPF est autorisé par domaine, et il doit lister tous vos outils d'envoi légitimes.
+
+## DKIM : la signature qui prouve que le message n'a pas été altéré
+
+DKIM (DomainKeys Identified Mail) ajoute à chaque email une signature cryptographique invisible. Le serveur destinataire utilise une clé publique, elle aussi publiée dans votre DNS, pour vérifier deux choses : que le message vient bien de votre domaine, et qu'il n'a pas été modifié en cours de route.
+
+Si SPF est le tampon sur l'enveloppe, DKIM est le sceau de cire sur le rabat : intact, il prouve que personne n'a ouvert le courrier entre l'expédition et la réception. Sans DKIM, un message reste vulnérable à l'usurpation et perd en crédibilité aux yeux des filtres. La configuration se fait une fois, dans les réglages DNS, à partir d'une clé fournie par votre outil d'envoi.
+
+## DMARC : la règle du jeu quand un contrôle échoue
+
+DMARC (Domain-based Message Authentication, Reporting and Conformance) s'appuie sur les deux précédents. Il indique au serveur destinataire quoi faire quand un message échoue aux vérifications SPF ou DKIM : le laisser passer, le mettre en quarantaine, ou le rejeter. Il permet aussi de recevoir des rapports sur les messages envoyés en votre nom, y compris les tentatives d'usurpation.
+
+DMARC est le règlement affiché à l'entrée : il dit au facteur comment traiter une lettre dont le tampon ou le sceau ne colle pas. Sans DMARC, chaque serveur applique sa propre politique, souvent plus sévère. Avec un DMARC bien configuré, vous reprenez la main sur la réputation de votre domaine. Depuis 2024, les grands fournisseurs comme Google et Yahoo exigent d'ailleurs ces trois réglages pour les envois en volume : ce n'est plus une option, c'est une condition d'entrée.
+
+## Le domaine d'envoi : ne jamais prospecter depuis son domaine principal
+
+Voici le réglage le plus important, et le plus souvent négligé. Vous ne devez jamais envoyer de cold emails depuis votre domaine principal, celui de vos factures et de vos échanges quotidiens. Une campagne de prospection génère mécaniquement des signalements et des rebonds ; si elle abîme la réputation de votre domaine principal, ce sont tous vos emails professionnels qui finiront en spam, y compris ceux à vos clients.
+
+La règle que nous appliquons systématiquement : prospecter depuis des domaines secondaires dédiés, proches du domaine principal (par exemple un équivalent en « hello-votremarque.com »). Chaque domaine secondaire porte ses propres réglages SPF, DKIM et DMARC, et un petit nombre de boîtes d'envoi. Ainsi, quoi qu'il arrive à la réputation de ces domaines, votre marque principale reste protégée. C'est une brique centrale de nos [campagnes de cold email B2B](/services/cold-email) : le domaine de nos clients n'est jamais exposé.
+
+## Chauffer un domaine : la patience avant le volume
+
+Un domaine neuf n'a aucune réputation. Si vous lui faites envoyer 400 messages froids dès le premier jour, les filtres le classeront comme suspect en quelques heures. La montée en réputation, ou « warm-up », consiste à augmenter progressivement le volume d'envoi sur plusieurs semaines, en commençant par quelques messages par jour et par boîte, pour habituer les fournisseurs à voir ce domaine émettre du courrier normal et bien reçu.
+
+Cette phase se compte en semaines, pas en jours. Elle explique en partie pourquoi les premiers rendez-vous d'une campagne arrivent en général en semaine trois ou quatre : le temps d'écrire les messages, mais aussi le temps de préparer une infrastructure d'envoi saine. Vouloir accélérer cette étape, c'est griller ses domaines et repartir de zéro.
+
+## Les signaux de réputation à surveiller
+
+Une fois les campagnes lancées, quelques indicateurs vous disent si votre délivrabilité tient :
+
+- **Le taux de rebond (bounce).** Trop d'adresses invalides signale une liste mal vérifiée et pénalise le domaine. D'où l'importance de nettoyer les listes avant tout envoi.
+- **Le taux de plainte (spam complaint).** Chaque signalement pèse lourd. Un ciblage précis et un message pertinent le réduisent naturellement.
+- **Le taux d'ouverture.** Un taux qui s'effondre est souvent le premier symptôme d'un problème de placement en boîte principale, avant même que les réponses ne chutent.
+- **Le volume par boîte.** Rester sous un plafond raisonnable par domaine et par jour préserve la réputation. C'est l'une des raisons pour lesquelles nous plafonnons volontairement nos envois à 300 à 400 messages par jour et par client.
+
+## Technique et rédaction avancent ensemble
+
+La délivrabilité et la qualité du message ne sont pas deux sujets séparés : ils se renforcent. Un message pertinent, adressé à la bonne cible, génère peu de plaintes et beaucoup d'ouvertures, ce qui améliore la réputation, ce qui améliore le placement en boîte, ce qui améliore encore les réponses. À l'inverse, un mauvais ciblage abîme la technique. Si vous voulez travailler l'autre versant, nous détaillons la méthode de rédaction dans notre article sur [comment écrire un cold email B2B qui obtient des réponses](/blog/comment-ecrire-cold-email-b2b), et les repères de performance dans celui sur les [benchmarks de taux de réponse en cold email](/blog/taux-reponse-cold-email-benchmarks).
+
+## En résumé
+
+SPF, DKIM et DMARC authentifient vos messages ; le domaine secondaire dédié protège votre marque ; le warm-up construit la réputation ; le suivi des rebonds, des plaintes et des ouvertures vous alerte avant la chute. Aucun de ces réglages n'est spectaculaire, mais leur absence explique la majorité des campagnes qui n'obtiennent aucune réponse pour une raison que personne ne voit : les messages n'arrivent tout simplement jamais.
+
+C'est un travail d'infrastructure exigeant, souvent invisible pour le client final. C'est aussi celui que nous prenons en charge de bout en bout : la partie la moins glamour de la prospection, mais celle qui conditionne tout le reste.
