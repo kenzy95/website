@@ -268,4 +268,83 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
       },
     ],
   },
+
+  'scale-up-post-levee': {
+    slug: 'scale-up-post-levee',
+    serviceType: 'B2B Lead Generation - Scale-up',
+    heroLead:
+      "Une scale-up qui vient de lever a un problème simple et brutal : le board attend de la croissance tout de suite, mais le premier Head of Sales n'est pas encore recruté et l'équipe commerciale n'existe qu'à moitié. La prospection sortante doit alors se déployer vite, sans attendre l'organisation cible. Cette page explique comment nous montons une machine outbound opérationnelle pendant que vous construisez votre équipe.",
+    heroSub:
+      "L'objectif n'est pas de remplacer votre future équipe commerciale, mais de tenir la pression des premiers mois post-levée en alimentant le pipeline dès maintenant, sans brûler des mois en recrutement et en rampe.",
+    intro: [
+      "La prospection pour une scale-up post-levée se joue sous contrainte de temps. Après une Series A ou B, le plan de croissance présenté aux investisseurs suppose une machine commerciale qui, dans les faits, reste largement à construire. Recruter un Head of Sales, puis des SDR, puis les faire monter en compétence prend des mois pendant lesquels le pipeline se doit d'exister. C'est précisément la fenêtre où une équipe outbound externe apporte le plus de valeur : elle absorbe la pression immédiate sans attendre que l'organisation cible soit en place.",
+      "L'autre spécificité, c'est que tout est encore en mouvement : l'ICP se précise, le message se teste, les segments se départagent. Une scale-up n'a pas le luxe d'un playbook figé. Nous déployons donc une démarche volontairement itérative, capable de tester plusieurs cibles et plusieurs angles en parallèle sur les premières semaines, pour identifier vite ce qui convertit et fournir à votre future équipe un socle documenté plutôt qu'une page blanche.",
+    ],
+    painPoints: [
+      {
+        titre: 'La pression du board sans équipe pour l\'absorber',
+        texte:
+          "Le plan de croissance est signé, mais l'équipe commerciale n'est pas encore là. Chaque mois sans pipeline creuse l'écart avec les objectifs annoncés. Nous déployons une capacité outbound immédiate, jusqu'à 300 à 400 messages par jour, pour tenir la cadence pendant que vous recrutez.",
+      },
+      {
+        titre: 'Un ICP encore flou qui coûte cher à tester en interne',
+        texte:
+          "Tester plusieurs cibles avec une équipe naissante disperse une ressource rare et ralentit tout. Nous menons ces tests en parallèle, sur plusieurs segments et angles, et remontons rapidement ce qui répond, sans immobiliser vos premiers commerciaux sur de l'exploration.",
+      },
+      {
+        titre: 'Le temps de recrutement et de rampe qui joue contre vous',
+        texte:
+          "Entre le sourcing d'un Head of Sales, son intégration et la montée en régime des SDR, plusieurs trimestres passent. La machine outbound externe démarre en quelques semaines et comble ce trou de pipeline le temps que l'équipe interne devienne autonome.",
+      },
+      {
+        titre: 'Un socle non documenté à transmettre à la future équipe',
+        texte:
+          "Beaucoup de scale-up découvrent, une fois l'équipe en place, qu'aucun apprentissage n'a été capitalisé. Nous documentons les cibles, angles et messages qui fonctionnent, pour que votre Head of Sales hérite d'un playbook validé plutôt que de repartir de zéro.",
+      },
+    ],
+    approche: [
+      "Côté ciblage, nous cadrons votre ICP avec vous puis le déclinons en plusieurs segments testables. Comme le marché n'est pas encore tranché, nous privilégions une exploration structurée sur les premières semaines : plusieurs cibles sourcées, priorisées par potentiel, avec une lecture rapide de ce qui réagit. L'objectif est de converger vite vers les segments qui remplissent réellement l'agenda.",
+      "Côté message, nous testons plusieurs angles en parallèle plutôt que de parier sur un seul. Une scale-up a souvent plusieurs promesses possibles selon le segment ; nous les mettons à l'épreuve simultanément et gardons celles qui convertissent. Chaque variante s'appuie sur une accroche spécifique au prospect, jamais sur un template générique qui se remarque au premier coup d'oeil.",
+      "Côté canal, nous ouvrons le cold email et LinkedIn ensemble pour maximiser la couverture pendant la fenêtre critique, avec une capacité montée rapidement via plusieurs domaines et boîtes dédiés. Le rythme est soutenu mais maîtrisé pour préserver la délivrabilité. Tout est piloté pour livrer du rendez-vous dès que possible, sans sacrifier la durabilité de l'infrastructure.",
+    ],
+    casClient: {
+      texte:
+        "Sur une verticale SaaS proche de l'univers scale-up, nous avons livré 151 rendez-vous qualifiés à Invent-App, avec plus de 90 % jugés qualifiés par le client, en itérant sur les angles jusqu'à trouver la mécanique gagnante. C'est exactement le type de montée en volume rapide et documentée qu'une scale-up post-levée recherche pour absorber ses premiers mois.",
+    },
+    maillage: {
+      service: { href: '/services/sdr-externalise', label: 'notre SDR externalisé en marque blanche' },
+      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      article: {
+        href: '/blog/externaliser-prospection-b2b-guide',
+        label: 'le guide pour externaliser sa prospection B2B',
+      },
+    },
+    faq: [
+      {
+        question: "En combien de temps une machine outbound est-elle opérationnelle ?",
+        answer:
+          "Comptez deux à quatre semaines : cadrage de l'ICP, sourcing des premières bases, configuration de l'infrastructure email et warm-up en parallèle. Les premiers rendez-vous suivent dès le démarrage des envois. C'est bien plus rapide que le temps de recruter, intégrer et faire monter en régime une équipe commerciale interne.",
+      },
+      {
+        question: "Est-ce que vous remplacez notre future équipe commerciale ?",
+        answer:
+          "Non, nous comblons le trou de pipeline en attendant qu'elle existe et soit autonome. Notre rôle est d'absorber la pression des premiers mois post-levée et de documenter ce qui fonctionne. Quand votre Head of Sales et vos SDR sont en place, vous récupérez un playbook validé plutôt qu'une page blanche.",
+      },
+      {
+        question: "Comment gérez-vous un ICP qui n'est pas encore stabilisé ?",
+        answer:
+          "En le traitant comme une hypothèse à tester. Nous déclinons votre cible en plusieurs segments, les sourçons et les mettons à l'épreuve en parallèle sur les premières semaines. La lecture rapide des réponses nous fait converger vers les segments qui remplissent réellement l'agenda, sans immobiliser vos premiers commerciaux sur de l'exploration.",
+      },
+      {
+        question: "Quel volume pouvez-vous tenir pendant la phase critique ?",
+        answer:
+          "Nous montons une capacité pouvant atteindre 300 à 400 messages par jour, répartie sur plusieurs domaines et boîtes dédiés pour préserver la délivrabilité. Ce volume permet de tenir la cadence attendue par le board sans brûler l'infrastructure, contrairement aux promesses de volumes irréalistes par boîte que certains outils affichent.",
+      },
+      {
+        question: "Y a-t-il un engagement de durée après une levée ?",
+        answer:
+          "Non. Le forfait est mensuel, résiliable avec un préavis de 30 jours, sans durée minimum. Cette souplesse est utile pour une scale-up : vous gardez la main pour internaliser dès que votre équipe est prête, tout en conservant la garantie de rendez-vous tant que la mission court.",
+      },
+    ],
+  },
 };
