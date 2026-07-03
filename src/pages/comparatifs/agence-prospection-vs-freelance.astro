@@ -1,0 +1,585 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { COMPARISONS } from '@lib/content-data';
+import { articleSchema, faqSchema, breadcrumbSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Comparatif statique agence de prospection vs freelance.
+ * Comparatif honnête : le freelance a de vrais atouts (agilité, coût, proximité), l'agence
+ * apporte résilience et largeur de compétences. Notre position est nuancée en fin de page.
+ * Aucun prix de l'offre Agence Simple.
+ * Schemas : Article + BreadcrumbList + FAQPage (FAQ visible).
+ */
+
+const comparison = COMPARISONS.find((c) => c.slug === 'agence-prospection-vs-freelance')!;
+const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+
+const breadcrumb = [
+  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'Agence vs freelance' },
+];
+
+const faq = [
+  {
+    question: 'Un freelance revient-il moins cher qu\'une agence ?',
+    answer:
+      "Souvent à la ligne de facture, oui, car un freelance n'a pas de structure à amortir. Mais la comparaison honnête intègre ce que vous devez alors porter vous-même : le pilotage, la relecture, la coordination des outils et le risque d'interruption si la personne est indisponible. Une agence facture plus, mais absorbe ces coûts cachés et cette variabilité.",
+  },
+  {
+    question: 'Que se passe-t-il si mon freelance tombe malade ou disparait ?',
+    answer:
+      "C'est le principal risque du modèle freelance : une seule personne porte toute la mission, sans relais naturel. En cas de maladie, de congés ou de départ, la prospection s'arrête. Une agence mutualise plusieurs intervenants et une méthode documentée, ce qui assure la continuité même quand un membre de l'équipe est absent.",
+  },
+  {
+    question: 'Un freelance peut-il couvrir tous les besoins de la prospection ?',
+    answer:
+      "Rarement seul et à haut niveau sur toute la chaine. La prospection sortante mobilise du ciblage, du copywriting, de la délivrabilité technique, du pilotage et de l'analyse. Un excellent freelance couvre bien deux ou trois de ces briques, plus difficilement toutes. Une agence répartit ces compétences entre des profils spécialisés.",
+  },
+  {
+    question: 'Dans quels cas le freelance est-il le meilleur choix ?',
+    answer:
+      "Quand le besoin est cadré, ponctuel ou à faible volume, quand vous savez déjà piloter la prospection en interne et qu'il vous manque surtout une paire de mains sur une brique précise. Le freelance brille aussi par sa réactivité et sa relation directe. Dès que le besoin devient stratégique, continu et multi-compétences, l'agence prend l'avantage.",
+  },
+];
+
+const schemas = [
+  articleSchema({
+    headline: comparison.title,
+    description: comparison.metaDescription,
+    url,
+    image: `${SITE.url}/images/blog/externaliser-prospection-b2b-guide.svg`,
+    datePublished: '2026-07-04',
+    dateModified: '2026-07-04',
+  }),
+  breadcrumbSchema([
+    { name: 'Accueil', url: `${SITE.url}/` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'Agence vs freelance', url },
+  ]),
+  faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={`${comparison.title} | Agence Simple`}
+  description={comparison.metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Comparatif honnête</p>
+        <h1 class="hero__h1">Agence de prospection vs freelance</h1>
+        <p class="hero__lead">
+          Confier sa prospection à un freelance ou à une agence, ce n'est pas la même promesse. L'un
+          offre l'agilité et la proximité, l'autre la résilience et la largeur de compétences. Voici
+          comment savoir lequel correspond à votre besoin.
+        </p>
+        <p class="hero__sub">
+          Nous sommes une agence qui travaille avec des freelances, donc nous connaissons les deux
+          faces. Cette page ne dénigre pas le modèle freelance : elle vous aide à choisir selon votre
+          situation.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#tableau" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir le tableau comparatif
+          </ArrowButton>
+        </div>
+      </Container>
+    </section>
+
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="deux-modeles">Les deux modèles ont de vrais atouts</h2>
+          <p>
+            Un freelance en prospection, c'est un interlocuteur unique, souvent très réactif, avec qui
+            la relation est directe et sans intermédiaire. Il coûte généralement moins cher à la ligne
+            de facture, s'engage vite et adapte son rythme au vôtre. Sur un besoin cadré, une brique
+            précise ou un volume modéré, c'est un choix pertinent et économique.
+          </p>
+          <p>
+            Une agence, c'est une structure : plusieurs profils spécialisés, une méthode documentée,
+            des outils déjà en place et une continuité de service qui ne dépend pas d'une seule
+            personne. Elle facture davantage, car elle porte ces coûts et cette résilience, mais elle
+            absorbe la variabilité et couvre l'ensemble de la chaine, du ciblage à l'analyse.
+          </p>
+          <p>
+            La bonne question n'est donc pas de savoir lequel est meilleur, mais lequel correspond à la
+            nature de votre besoin : ponctuel et cadré, ou continu et stratégique.
+          </p>
+
+          <h2 id="resilience">La résilience, le vrai point de bascule</h2>
+          <p>
+            La différence la plus lourde de conséquences se joue sur la continuité. Un freelance porte
+            seul toute la mission. S'il est malade, en congés, débordé par un autre client ou s'il
+            arrête, votre prospection s'arrête avec lui, sans relais naturel. Ce risque est acceptable
+            sur un besoin ponctuel, il devient dangereux quand la prospection est un canal
+            d'acquisition central.
+          </p>
+          <p>
+            Une agence mutualise plusieurs intervenants autour d'une méthode écrite. L'absence d'un
+            membre ne stoppe pas la machine, parce que la connaissance ne vit pas dans une seule tête.
+            C'est cette continuité que l'on paie, et elle vaut cher le jour où un imprévu survient. Nous
+            expliquons pourquoi cette structuration compte dans notre
+            <a href="/blog/externaliser-prospection-b2b-guide">guide pour externaliser sa prospection B2B</a>.
+          </p>
+
+          <h2 id="tableau">Le tableau comparatif, critère par critère</h2>
+        </div>
+
+        <div class="prose-col">
+          <div class="compare" role="table" aria-label="Agence de prospection vs freelance">
+            <div class="compare__row compare__row--head" role="row">
+              <span role="columnheader">Critère</span>
+              <span role="columnheader">Agence</span>
+              <span role="columnheader">Freelance</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût facturé</span>
+              <span>Plus élevé, structure et résilience incluses</span>
+              <span>Plus bas, pas de structure à amortir</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Résilience</span>
+              <span>Forte : plusieurs intervenants, méthode écrite</span>
+              <span>Faible : une seule personne porte tout</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Largeur de compétences</span>
+              <span>Ciblage, copy, technique, pilotage, analyse</span>
+              <span>Excellent sur deux ou trois briques</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Réactivité et proximité</span>
+              <span>Bonne, via un interlocuteur dédié</span>
+              <span>Très forte : relation directe, sans filtre</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Marge d'erreur</span>
+              <span>Absorbée par l'équipe et le process</span>
+              <span>Portée seul, sans filet</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Scalabilité</span>
+              <span>Élevée : capacité mutualisée</span>
+              <span>Limitée par le temps d'une personne</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Idéal pour</span>
+              <span>Besoin continu, stratégique, multi-compétences</span>
+              <span>Besoin cadré, ponctuel, à faible volume</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="decision">Comment décider dans votre cas</h2>
+          <p>
+            Posez-vous d'abord la question du rôle de la prospection dans votre acquisition. Si c'est un
+            canal central, sur lequel repose une part de votre croissance, la continuité et la largeur
+            de compétences d'une agence justifient son coût. Si c'est un complément ponctuel ou un test
+            sur une brique précise, un freelance réactif fait très bien l'affaire pour moins cher.
+          </p>
+          <p>
+            Regardez ensuite votre capacité à piloter. Un freelance demande d'être encadré : cible,
+            message, cadence, arbitrages. Si vous savez faire ce pilotage en interne, le freelance
+            devient une paire de mains efficace. Si vous voulez déléguer aussi la stratégie et le
+            pilotage, l'agence prend en charge l'ensemble et vous rend du temps.
+          </p>
+          <p>
+            Enfin, évaluez votre tolérance à l'interruption. Si un arrêt de deux semaines vous coûte
+            cher, le modèle à personne unique est risqué. Si vous pouvez absorber une pause, le
+            freelance reste une option saine et économique.
+          </p>
+
+          <h2 id="notre-position">Notre position, en toute transparence</h2>
+          <p>
+            Nous sommes une agence, et nous travaillons avec des freelances de talent. Cela nous place
+            bien pour être francs : le freelance n'est pas un sous-choix, c'est le bon choix dans
+            beaucoup de situations, notamment quand le besoin est cadré, que vous pilotez déjà et que le
+            budget est serré. Prétendre le contraire serait malhonnête.
+          </p>
+          <p>
+            Là où l'agence prend nettement l'avantage, c'est quand la prospection devient un canal
+            central, continu et exigeant sur plusieurs compétences à la fois. La résilience, la méthode
+            documentée et la capacité à absorber les imprévus valent alors leur prix. Notre parti pris
+            assumé est de combiner le meilleur des deux mondes : une structure d'agence qui pilote et
+            garantit la continuité, servie par des profils spécialisés. C'est le modèle de notre
+            <a href="/">agence de prospection B2B</a>, décrit en détail sur notre page
+            <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+          </p>
+        </div>
+
+        <div class="panel panel--inclus">
+          <p class="panel__intro">Pour aller plus loin</p>
+          <ul class="feature-list">
+            <li>
+              Pourquoi et comment structurer l'externalisation : <a href="/blog/externaliser-prospection-b2b-guide">notre guide complet</a>.
+            </li>
+            <li>
+              Le format externalisé décrit en détail : <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            </li>
+            <li>
+              L'arbitrage interne vs externe : <a href="/comparatifs/sdr-interne-vs-agence-externalisee">SDR interne vs agence externalisée</a>.
+            </li>
+            <li>
+              Le modèle complet d'Agence Simple : <a href="/">notre agence de prospection B2B</a>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faq.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Agence ou freelance pour votre cas ?</h2>
+        <p class="final__p">
+          En vingt minutes de diagnostic gratuit, nous regardons le rôle de la prospection dans votre
+          acquisition, votre capacité à piloter et votre tolérance à l'interruption, puis nous vous
+          disons franchement quel modèle vous sert le mieux. Même si la réponse est un freelance.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .compare {
+    margin-top: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .compare__row:first-child {
+    border-top: 0;
+  }
+  @media (min-width: 640px) {
+    .compare__row {
+      grid-template-columns: 0.8fr 1.1fr 1.1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+  .compare__row span {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .compare__row [role='rowheader'] {
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .compare__row--head {
+    background: var(--color-encre);
+  }
+  .compare__row--head span {
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .panel {
+    margin-top: 3rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel__intro {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-orange);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>

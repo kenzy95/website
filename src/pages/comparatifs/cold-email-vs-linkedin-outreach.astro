@@ -1,0 +1,585 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { COMPARISONS } from '@lib/content-data';
+import { articleSchema, faqSchema, breadcrumbSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Comparatif statique cold email vs LinkedIn outreach.
+ * Comparatif honnête : chaque canal a son terrain de jeu, la conclusion est souvent le
+ * multicanal. Aucun prix de l'offre Agence Simple.
+ * Schemas : Article + BreadcrumbList + FAQPage (FAQ visible).
+ */
+
+const comparison = COMPARISONS.find((c) => c.slug === 'cold-email-vs-linkedin-outreach')!;
+const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+
+const breadcrumb = [
+  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'Cold email vs LinkedIn' },
+];
+
+const faq = [
+  {
+    question: 'Cold email ou LinkedIn : lequel génère le plus de rendez-vous ?',
+    answer:
+      "Cela dépend de votre cible. Le cold email domine sur le volume et sur les décideurs opérationnels et intermédiaires dont l'adresse professionnelle est exploitable. LinkedIn produit moins de contacts mais des conversations souvent plus qualitatives, particulièrement auprès des dirigeants et des cibles sensibles au personal branding. À cible équivalente, c'est la qualité du ciblage et du message qui fait l'écart, pas le canal seul.",
+  },
+  {
+    question: 'Peut-on faire de la prospection sans envoyer d\'emails à froid ?',
+    answer:
+      "Oui, LinkedIn seul peut suffire sur des marchés de niche, à faible volume, où chaque compte compte et où l'approche relationnelle prime. C'est souvent le cas pour des cibles C-level ou des paniers moyens élevés avec un cycle de décision long. En revanche, dès que vous cherchez du volume, le cold email reste incontournable.",
+  },
+  {
+    question: 'Faut-il vraiment combiner les deux canaux ?',
+    answer:
+      "Dans la majorité des cas, oui. Une visite de profil et une demande de connexion LinkedIn réchauffent un contact avant l'email, et un email peut relancer une conversation LinkedIn restée sans réponse. Le multicanal orchestré augmente le taux de réponse global sans multiplier la charge, à condition de garder une cadence maitrisée pour ne pas paraitre insistant.",
+  },
+  {
+    question: 'Quel canal est le plus risqué pour ma réputation ?',
+    answer:
+      "Les deux ont leurs garde-fous. Le cold email mal configuré abime la délivrabilité de votre domaine, ce qui se prévient avec une infrastructure dédiée et un réchauffage sérieux. LinkedIn sanctionne les volumes trop agressifs par des restrictions de compte. Dans les deux cas, le risque vient de la précipitation, pas du canal : un rythme raisonnable et un ciblage propre le neutralisent.",
+  },
+];
+
+const schemas = [
+  articleSchema({
+    headline: comparison.title,
+    description: comparison.metaDescription,
+    url,
+    image: `${SITE.url}/images/blog/prospection-linkedin-methode.svg`,
+    datePublished: '2026-07-04',
+    dateModified: '2026-07-04',
+  }),
+  breadcrumbSchema([
+    { name: 'Accueil', url: `${SITE.url}/` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'Cold email vs LinkedIn', url },
+  ]),
+  faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={`${comparison.title} | Agence Simple`}
+  description={comparison.metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Comparatif honnête</p>
+        <h1 class="hero__h1">Cold email vs LinkedIn outreach</h1>
+        <p class="hero__lead">
+          Deux canaux sortants, deux terrains de jeu différents. L'un vise le volume et la
+          reproductibilité, l'autre la conversation et la relation. Voici comment choisir le bon selon
+          votre cible et votre objectif, sans caricature.
+        </p>
+        <p class="hero__sub">
+          Nous opérons les deux au quotidien. Cette page ne défend aucun canal par principe : elle vous
+          aide à savoir lequel, ou quelle combinaison, sert votre cas.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#tableau" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir le tableau comparatif
+          </ArrowButton>
+        </div>
+      </Container>
+    </section>
+
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="deux-canaux">Deux canaux, deux logiques</h2>
+          <p>
+            Le cold email, c'est l'envoi de messages écrits à des adresses professionnelles ciblées, à
+            un volume que l'on peut monter tout en gardant un fort niveau de personnalisation. Sa force
+            tient à la reproductibilité : une fois l'infrastructure d'envoi montée et le message
+            calibré, vous touchez un grand nombre de décideurs pour un coût marginal faible. Sa limite,
+            c'est qu'il exige une délivrabilité irréprochable et une cible dont l'email est exploitable.
+          </p>
+          <p>
+            LinkedIn outreach, c'est l'approche via le réseau social professionnel : visite de profil,
+            demande de connexion, message direct, interaction sur les publications. Sa force tient à la
+            dimension relationnelle et à la visibilité de l'identité : votre prospect voit qui vous
+            êtes, votre parcours, votre entreprise. Sa limite, c'est le volume plus contraint et la
+            sensibilité de la plateforme aux approches trop mécaniques.
+          </p>
+          <p>
+            Aucun des deux n'est meilleur dans l'absolu. Ils excellent sur des cibles et des objectifs
+            différents, et se renforcent quand on les combine intelligemment.
+          </p>
+
+          <h2 id="cible">La cible décide plus que le canal</h2>
+          <p>
+            Le premier réflexe n'est pas de choisir un canal, mais de décrire précisément qui vous
+            voulez atteindre. Un décideur opérationnel ou intermédiaire, joignable sur une adresse
+            professionnelle claire, se travaille très bien au cold email, à volume, avec un message
+            direct qui va au problème. Un dirigeant, un profil C-level ou une cible sensible au
+            personal branding et au relationnel répondra souvent mieux à une approche LinkedIn, plus
+            progressive et plus incarnée.
+          </p>
+          <p>
+            Le panier moyen et le cycle de vente comptent aussi. Un cycle court à panier modéré
+            supporte le volume du cold email. Un cycle long à panier élevé, où chaque compte pèse
+            lourd, justifie l'investissement relationnel de LinkedIn, quitte à traiter moins de
+            contacts mais mieux. Nous détaillons la façon de cadrer cette cible dans notre article sur
+            <a href="/blog/definir-client-ideal-ciblage-b2b">comment définir son client idéal en B2B</a>.
+          </p>
+
+          <h2 id="tableau">Le tableau comparatif, critère par critère</h2>
+        </div>
+
+        <div class="prose-col">
+          <div class="compare" role="table" aria-label="Cold email vs LinkedIn outreach">
+            <div class="compare__row compare__row--head" role="row">
+              <span role="columnheader">Critère</span>
+              <span role="columnheader">Cold email</span>
+              <span role="columnheader">LinkedIn outreach</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Volume atteignable</span>
+              <span>Élevé, montée en charge maitrisée</span>
+              <span>Plus contraint par la plateforme</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Qualité de la conversation</span>
+              <span>Directe, orientée problème</span>
+              <span>Relationnelle, progressive</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Cible idéale</span>
+              <span>Décideurs opérationnels et intermédiaires</span>
+              <span>Dirigeants, C-level, cibles branding</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Visibilité de l'identité</span>
+              <span>Faible : le message porte tout</span>
+              <span>Forte : profil, parcours, entreprise visibles</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût par lead</span>
+              <span>Bas à volume, une fois l'infra montée</span>
+              <span>Plus élevé, temps par contact supérieur</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Principal point de vigilance</span>
+              <span>Délivrabilité du domaine</span>
+              <span>Limites de compte si volume agressif</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Mise en place</span>
+              <span>Infrastructure d'envoi à préparer</span>
+              <span>Compte et Sales Navigator à cadrer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="decision">Comment décider dans votre cas</h2>
+          <p>
+            Si votre cible est large, joignable par email et que vous cherchez du volume de rendez-vous
+            à coût maitrisé, le cold email est votre point de départ naturel. C'est le levier le plus
+            scalable, à condition de soigner la délivrabilité et la pertinence du message. Le format
+            complet est décrit sur notre page <a href="/services/cold-email">cold email</a>.
+          </p>
+          <p>
+            Si votre cible est resserrée, haut placée, sensible à la relation et à la réputation, ou si
+            l'email professionnel est difficile à obtenir proprement, LinkedIn prend l'avantage. Vous
+            traitez moins de comptes, mais chaque approche est plus incarnée et mieux acceptée. Le
+            détail se trouve sur notre page <a href="/services/linkedin-outreach">LinkedIn outreach</a>.
+          </p>
+          <p>
+            Dans la plupart des cas réels, la vraie réponse n'est pas l'un contre l'autre, mais l'un
+            avec l'autre. Une séquence multicanale bien orchestrée utilise LinkedIn pour réchauffer et
+            l'email pour porter le volume, chaque canal relançant l'autre au bon moment.
+          </p>
+
+          <h2 id="notre-position">Notre position, en toute transparence</h2>
+          <p>
+            Nous n'avons aucun intérêt à vous vendre un canal plutôt qu'un autre, puisque nous opérons
+            les deux. Notre conviction, forgée sur le terrain, est que le multicanal orchestré est le
+            plus rentable dès que la cible et le volume le permettent. La visite et la connexion
+            LinkedIn installent la reconnaissance, l'email porte le message au volume nécessaire, et la
+            combinaison des deux fait grimper le taux de réponse global sans alourdir la charge.
+          </p>
+          <p>
+            Mais nous refusons le dogme. Sur une niche étroite, LinkedIn seul est parfois le bon choix.
+            Sur une cible très large et opérationnelle, le cold email seul suffit souvent à remplir
+            l'agenda. Le rôle honnête est de partir de votre cible, pas d'un canal préféré, et de ne
+            monter que ce qui sert vos rendez-vous. C'est l'approche de notre
+            <a href="/">agence de prospection B2B</a>.
+          </p>
+        </div>
+
+        <div class="panel panel--inclus">
+          <p class="panel__intro">Pour aller plus loin</p>
+          <ul class="feature-list">
+            <li>
+              Le canal email dans le détail : <a href="/services/cold-email">notre service cold email</a>.
+            </li>
+            <li>
+              Le canal LinkedIn dans le détail : <a href="/services/linkedin-outreach">notre service LinkedIn outreach</a>.
+            </li>
+            <li>
+              Bien cadrer sa cible avant de choisir : <a href="/blog/definir-client-ideal-ciblage-b2b">définir son client idéal en B2B</a>.
+            </li>
+            <li>
+              Les repères de performance en cold email : <a href="/blog/taux-reponse-cold-email-benchmarks">taux de réponse et benchmarks</a>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faq.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Quel canal pour votre cible ?</h2>
+        <p class="final__p">
+          En vingt minutes de diagnostic gratuit, nous regardons votre cible, votre panier moyen et
+          votre cycle de vente, puis nous vous disons franchement quel canal, ou quelle combinaison,
+          remplira le mieux votre agenda. Sans discours de vente.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .compare {
+    margin-top: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .compare__row:first-child {
+    border-top: 0;
+  }
+  @media (min-width: 640px) {
+    .compare__row {
+      grid-template-columns: 0.8fr 1.1fr 1.1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+  .compare__row span {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .compare__row [role='rowheader'] {
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .compare__row--head {
+    background: var(--color-encre);
+  }
+  .compare__row--head span {
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .panel {
+    margin-top: 3rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel__intro {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-orange);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>
