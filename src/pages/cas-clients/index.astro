@@ -9,7 +9,6 @@ import HighlightMarker from '@components/ui/HighlightMarker.astro';
 import Breadcrumb from '@components/Breadcrumb.astro';
 import VideoFacade from '@components/VideoFacade.astro';
 import { videoObjectSchema } from '@lib/schema';
-import { SITE } from '@lib/site';
 
 /**
  * Hub cas clients : charte v2 (hero encre + glows, corps creme arrondi).
@@ -19,8 +18,6 @@ import { SITE } from '@lib/site';
  * des 3 cas ecrits, jamais melangees. Schemas : VideoObject x3 ; BreadcrumbList
  * via Breadcrumb.
  */
-
-const url = `${SITE.url}/cas-clients`;
 
 const metaTitle = 'Cas clients prospection B2B : chiffres vérifiés | Agence Simple';
 const metaDescription =
