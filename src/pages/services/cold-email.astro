@@ -1,0 +1,920 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { SERVICES } from '@lib/content-data';
+import { serviceSchema, faqSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Page service Cold email : copy long-form (copy-cold-email.md).
+ * Angle autorite technique : delivrabilite expliquee ligne par ligne.
+ * Design aligne charte v2 : hero encre + glows, corps creme arrondi,
+ * delivrabilite en cards numerotees, resultats en stat cards, CTA final encre.
+ * Schemas : Service (Cold Email Outreach) + FAQPage ; BreadcrumbList via Breadcrumb.
+ * PAS de VideoObject, PAS de HowTo sur cette page.
+ */
+
+const service = SERVICES.find((s) => s.slug === 'cold-email')!;
+const url = `${SITE.url}/services/cold-email`;
+
+const metaTitle = 'Agence cold email B2B avec vraie délivrabilité | Agence Simple';
+const metaDescription =
+  'Agence cold email B2B : délivrabilité, copy, séquences. Configuration SPF/DKIM/DMARC, warm-up, A/B test. Forfait mensuel sans engagement.';
+
+const breadcrumb = [
+  { name: 'Services', href: '/services' },
+  { name: 'Cold email' },
+];
+
+const toc = [
+  { label: 'Définition', href: '#definition' },
+  { label: 'Pour qui', href: '#pour-qui' },
+  { label: 'Le copy', href: '#copy' },
+  { label: 'Délivrabilité', href: '#delivrabilite' },
+  { label: 'La stack', href: '#stack' },
+  { label: 'Ce qui est inclus', href: '#inclus' },
+  { label: 'Résultats', href: '#resultats' },
+  { label: 'Combien ça coûte', href: '#cout' },
+];
+
+const etapes = [
+  {
+    titre: 'Authentification SPF, DKIM, DMARC',
+    periode: 'Fondation',
+    texte:
+      "Trois enregistrements DNS qui prouvent aux serveurs Gmail, Outlook et Yahoo que vos emails sont légitimes. SPF autorise vos serveurs d'envoi, DKIM signe cryptographiquement chaque message, DMARC dicte quoi faire en cas d'échec. Non négociable : sans ces trois enregistrements, un email part directement en spam.",
+  },
+  {
+    titre: 'Domaines secondaires dédiés',
+    periode: 'Isolation',
+    texte:
+      "On ne prospecte jamais depuis votre domaine principal. On monte des domaines secondaires proches, réservés à la prospection. Si l'un se dégrade, on le remplace sans jamais toucher à la réputation de votre domaine business.",
+  },
+  {
+    titre: 'Warm-up de 4 à 6 semaines',
+    periode: 'Montée en réputation',
+    texte:
+      "Chaque nouvelle boîte envoie d'abord un tout petit volume, qui augmente progressivement sur plusieurs semaines, pour construire une réputation d'expéditeur avant le moindre envoi commercial. Une boîte neuve qui envoie une campagne dès le premier jour est classée spam immédiatement.",
+  },
+  {
+    titre: 'Monitoring quotidien',
+    periode: 'Surveillance',
+    texte:
+      "On suit la réputation via Google Postmaster, MXToolbox et les taux d'ouverture réels. À la moindre dégradation, on isole la boîte ou le domaine concerné, on baisse le volume et on relance un warm-up. Aucun envoi n'est fait sur un domaine à réputation dégradée.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Est-ce que le cold email B2B est légal en France et en Europe ?",
+    answer:
+      "Oui, sous conditions strictes. Le RGPD autorise l'envoi de cold emails à des professionnels sur la base de l'intérêt légitime (article 6.1.f), à condition que le message soit en rapport direct avec la fonction de la personne contactée, qu'un lien de désinscription soit présent, et qu'un registre des traitements soit tenu. On applique ces règles sur chaque campagne.",
+  },
+  {
+    question: "Pourquoi utiliser un domaine secondaire au lieu de mon domaine principal ?",
+    answer:
+      "Le cold email détériore mécaniquement la réputation du domaine expéditeur (signalements spam, bounces, désinscriptions). Utiliser un domaine secondaire dédié, par exemple hello-agencesimple.com, isole votre domaine principal de tout risque. Si le domaine secondaire se dégrade, on en rachète un nouveau sans impact sur vos emails business.",
+  },
+  {
+    question: "Quels sont les taux d'ouverture et de réponse à attendre ?",
+    answer:
+      "Sur du B2B ciblé et bien configuré : taux d'ouverture entre 40 et 60 %, taux de réponse entre 3 et 10 %, taux de rendez-vous entre 2 et 6 %. En dessous, il y a un problème de délivrabilité, de copy ou de ciblage. Nettement au dessus, souvent un doute sur la méthode de mesure.",
+  },
+  {
+    question: "C'est quoi le warm-up et pourquoi c'est nécessaire ?",
+    answer:
+      "Le warm-up consiste à envoyer progressivement des emails depuis une nouvelle boîte, un petit volume au départ qui augmente sur 4 à 6 semaines, pour construire une réputation d'expéditeur légitime auprès de Gmail, Outlook et Yahoo. Sans warm-up, une nouvelle boîte est classée en spam dès la première campagne.",
+  },
+  {
+    question: "Combien d'emails par jour par boîte ?",
+    answer:
+      "Maximum 30 à 50 par jour et par boîte, pour rester dans les seuils de délivrabilité de Google et Microsoft. Certaines agences promettent 500 par boîte : c'est faux, elles brûlent leurs domaines en deux semaines. Sur un client, on ouvre 10 à 15 boîtes pour atteindre 300 à 400 envois par jour.",
+  },
+  {
+    question: "Utilisez-vous Lemlist, Instantly, Woodpecker ?",
+    answer:
+      "On utilise Instantly par défaut, pour son meilleur ratio délivrabilité, gestion multi-boîtes et prix. Lemlist est bon sur le nurturing multicanal mais surcoûte pour du cold pur. Woodpecker reste solide mais a pris du retard côté délivrabilité. On refacture l'outil au coût réel, sans marge.",
+  },
+  {
+    question: "Combien de temps entre le brief et les premiers emails envoyés ?",
+    answer:
+      "Entre deux et quatre semaines. Semaine 1 : cadrage et sourcing de la base. Semaine 2 : configuration des domaines, boîtes et copy. Semaines 3 à 6 : warm-up en parallèle du cadrage final. Les envois commerciaux démarrent dès que le warm-up est prêt.",
+  },
+  {
+    question: "Que se passe-t-il si mes emails finissent en spam ?",
+    answer:
+      "On surveille la délivrabilité chaque jour via Google Postmaster, MXToolbox et les taux d'ouverture. En cas de dégradation, on isole le domaine ou la boîte concernée, on réduit le volume et on relance un warm-up. Aucun envoi n'est fait sur un domaine à réputation dégradée. Une détérioration passagère fait partie du métier, la casse permanente non.",
+  },
+];
+
+const schemas = [
+  serviceSchema({
+    name: service.title,
+    description: service.description,
+    url,
+    serviceType: service.serviceType,
+  }),
+  faqSchema(faqItems.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <!-- ============ HERO ENCRE + GLOWS ============ -->
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[20rem] h-[20rem] top-10 left-1/3 opacity-30"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Service · Cold email</p>
+        <h1 class="hero__h1">
+          Agence cold email B2B :
+          <span class="accent-display">délivrabilité</span>, copy, séquences.
+          On explique ce qu'on fait,
+          <HighlightMarker>ligne par ligne</HighlightMarker>
+        </h1>
+        <p class="hero__lead">
+          La plupart des agences de cold email vendent une boîte noire. Vous payez, des emails partent,
+          un reporting arrive, et vous ne savez ni comment l'infrastructure est montée, ni pourquoi vos
+          taux d'ouverture s'effondrent au bout de trois semaines. Cette page fait l'inverse : elle
+          explique en détail ce que nous faisons, de la configuration technique au copywriting, pour que
+          vous puissiez juger avant de signer.
+        </p>
+        <p class="hero__sub">
+          Le cold email fonctionne encore très bien en B2B, à une condition : que la délivrabilité soit
+          traitée comme un métier à part entière, pas comme une case à cocher. C'est là que se joue la
+          différence entre une campagne qui remplit un agenda et une campagne qui finit en spam.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#delivrabilite" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir la délivrabilité
+          </ArrowButton>
+        </div>
+
+        <nav class="toc" aria-label="Sommaire">
+          <p class="toc__title">Sur cette page</p>
+          <ol class="toc__list">
+            {toc.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </Container>
+    </section>
+
+    <!-- ============ CORPS CREME ============ -->
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <!-- Définition -->
+          <h2 id="definition">Ce qu'on entend par cold email (et ce que ce n'est pas)</h2>
+          <p>
+            Le cold email, c'est un email non sollicité envoyé à un décideur B2B identifié, en rapport
+            direct avec sa fonction, dans le respect du RGPD au titre de l'intérêt légitime
+            professionnel. Chaque message porte un lien de désinscription et s'inscrit dans un registre
+            des traitements. Ce n'est pas du flou juridique : le cadre existe et nous l'appliquons.
+          </p>
+          <p>
+            Ce n'est pas du spam grand public, ni du cold email B2C. Ce n'est pas non plus de l'emailing
+            marketing au sens Mailchimp : pas d'envoi de masse à une base opt-in existante, pas de
+            newsletter, pas de nurturing. Un cold email part d'une boîte qui ressemble à une boîte
+            humaine, vers une personne précise, avec un motif précis. La confusion entre les deux est la
+            première cause de domaines cramés.
+          </p>
+
+          <!-- Pour qui -->
+          <h2 id="pour-qui">Pour qui c'est fait</h2>
+          <p>
+            Le cold email a du sens pour les éditeurs SaaS, les ESN, les scale-up et les cabinets de
+            conseil dont le panier moyen annuel se compte en plusieurs milliers d'euros par client et
+            dont la cible est identifiable par email via LinkedIn et l'enrichissement de données. C'est
+            particulièrement adapté au <a href="/secteurs/saas">cold email pour éditeurs SaaS</a> qui
+            cherchent un canal sortant scalable en complément de l'inbound.
+          </p>
+          <p>
+            Ce n'est pas fait pour le B2C, pour les secteurs sans email professionnel exploitable, ni
+            pour les offres à très petit ticket où le coût d'acquisition par email dépasse la marge. Si
+            votre cible ne se trouve pas dans une base enrichissable, ou si votre panier moyen est trop
+            faible, nous vous le dirons au premier appel plutôt que de vous vendre une campagne qui ne
+            sera jamais rentable.
+          </p>
+
+          <!-- Copy -->
+          <h2 id="copy">Notre approche du copy cold email</h2>
+          <p>
+            Les templates gratuits qui circulaient il y a trois ans ne marchent plus. Ils sont saturés
+            dans toutes les boîtes, repérés par les filtres anti-spam, et désormais reproduits à
+            l'identique par les modèles de langage. Un « J'espère que vous allez bien » suivi d'un pitch
+            générique se supprime en une seconde.
+          </p>
+          <p>
+            Nos séquences reposent sur trois ingrédients. Un opener spécifique, ancré dans une
+            observation réelle sur le prospect ou son entreprise, pas une formule d'introduction. Une
+            offre lisible, qui dit ce que vous faites et pour qui, sans superlatifs. Et un appel à
+            l'action à faible friction, qui propose un créneau ou une question fermée plutôt qu'un
+            engagement lourd.
+          </p>
+          <p>
+            La personnalisation se fait à l'échelle via des variables enrichies et une couche
+            d'intelligence artificielle qui lit la page d'accueil du prospect pour en extraire un angle.
+            Concrètement, on remplace « J'espère que vous allez bien » par une phrase du type « En
+            regardant votre page produit, j'ai vu que vous veniez de lancer telle fonctionnalité ». La
+            différence de taux de réponse entre les deux ouvertures n'est pas marginale, elle est
+            structurelle.
+          </p>
+
+          <!-- Délivrabilité -->
+          <h2 id="delivrabilite">La délivrabilité : la vraie bataille</h2>
+          <p>
+            Le copy ne sert à rien si l'email n'arrive pas. La délivrabilité est la partie la moins
+            visible et la plus déterminante du métier. Voici les quatre piliers que nous montons pour
+            chaque client, dans l'ordre.
+          </p>
+        </div>
+
+        <div class="steps">
+          {etapes.map((e, i) => (
+            <div class="step-card">
+              <div class="step-card__head">
+                <span class="step-card__num">0{i + 1}</span>
+                <span class="step-card__periode">{e.periode}</span>
+              </div>
+              <h3 class="step-card__title">{e.titre}</h3>
+              <p class="step-card__body">{e.texte}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Une règle en découle, que certaines agences refusent d'admettre : le volume par boîte est
+            plafonné. On envoie entre 30 et 50 emails par jour et par boîte, jamais les 500 promis par
+            certains outils. Pour atteindre 300 à 400 envois par jour sur un client, on ouvre dix à
+            quinze boîtes réparties sur plusieurs domaines. C'est plus lent à monter, et c'est la seule
+            façon de tenir dans la durée.
+          </p>
+
+          <!-- Stack -->
+          <h2 id="stack">La stack outils qu'on utilise, et pourquoi</h2>
+          <p>
+            Nous envoyons par défaut avec Instantly, qui offre le meilleur compromis entre
+            délivrabilité, gestion multi-boîtes et pilotage. L'infrastructure de boîtes repose sur Google
+            Workspace et Zapmail. L'enrichissement des adresses passe par Icypeas et Dropcontact, les
+            enrichissements sur mesure par Clay, et la vérification finale par UseBouncer avant tout
+            envoi.
+          </p>
+          <p>
+            Nous avons évalué les alternatives. Lemlist est solide sur le multicanal et le nurturing,
+            mais surcoûte pour du cold pur. Woodpecker reste correct mais a pris du retard côté
+            délivrabilité. Dans tous les cas, un principe ne bouge pas : les outils sont refacturés au
+            coût réel, sans marge cachée. Vous payez Instantly, Icypeas et les autres à leur prix, nous
+            facturons notre travail.
+          </p>
+
+          <!-- Séquence -->
+          <h2 id="sequence">Structure d'une séquence qui convertit</h2>
+          <p>
+            Une séquence type compte quatre touches réparties sur une douzaine de jours : un email
+            initial, deux relances qui apportent chacune un angle nouveau, et un dernier message de
+            clôture qui laisse la porte ouverte. L'objet est court et va droit au sujet, sans fausse
+            familiarité du type « Hello ». Le premier email ne porte pas de pixel de tracking, dont la
+            présence dégrade la délivrabilité. Et chaque variante tourne en plusieurs versions pour
+            préserver l'unicité des messages aux yeux des filtres.
+          </p>
+          <p>
+            Cette mécanique est adaptée à chaque cible. Elle se pilote selon
+            <a href="/methode">la méthode Agence Simple</a>, la même trame de cadrage, de test et
+            d'itération que sur les autres canaux.
+          </p>
+
+          <!-- Inclus -->
+          <h2 id="inclus">Ce qui est inclus dans le forfait cold email</h2>
+        </div>
+
+        <div class="panel panel--inclus">
+          <ul class="feature-list">
+            <li>
+              La configuration complète de l'infrastructure : domaines secondaires, enregistrements DNS,
+              boîtes mail, warm-up. Vous ne touchez à rien de technique.
+            </li>
+            <li>
+              L'écriture des séquences, en deux à trois variantes A/B, relues et validées par vos soins
+              avant tout envoi.
+            </li>
+            <li>
+              Le sourcing de la base cible, via nos spécialistes de list-building et Sales Navigator,
+              avec vérification des adresses.
+            </li>
+            <li>
+              L'envoi et le pilotage quotidien : rotation des boîtes, suivi de la délivrabilité,
+              arbitrages sur les angles.
+            </li>
+            <li>
+              La qualification des réponses par un humain, qui transforme chaque réponse positive en
+              rendez-vous posé dans votre agenda.
+            </li>
+            <li>
+              Le reporting mensuel avec les vrais chiffres et l'accès direct au fondateur, Kenzy, sur
+              Slack ou WhatsApp.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <!-- Exclus -->
+          <h2 id="pas-inclus">Ce qui n'est PAS inclus</h2>
+        </div>
+
+        <div class="panel panel--exclus">
+          <ul class="feature-list feature-list--neg">
+            <li>
+              Pas de vente derrière le rendez-vous. On ouvre la conversation, vous menez le closing. Si
+              vous voulez qu'une équipe prenne aussi en charge la relation, regardez le
+              <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            </li>
+            <li>
+              Pas d'email marketing : ni newsletter, ni séquence de nurturing inbound, ni relance sur
+              base opt-in existante.
+            </li>
+            <li>
+              Pas de gestion de votre boîte email principale ni de vos campagnes internes.
+            </li>
+            <li>
+              Pas de récupération d'un domaine déjà cramé. On repart systématiquement sur des domaines
+              secondaires vierges, c'est plus sûr et plus rapide.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Sur la vente proprement dite, notre parti pris est assumé : personne ne connaît votre produit
+            mieux que vous. Si vous cherchez un cran de plus sur la dimension équipe, il est décrit dans
+            notre offre de <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+          </p>
+
+          <!-- Résultats -->
+          <h2 id="resultats">Ce que ça donne : nos résultats en cold email</h2>
+          <p>
+            Les chiffres ci-dessous sont validés par les clients concernés avant publication. Ce sont des
+            campagnes réelles, datées, pas des moyennes de plaquette.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__num">41</span>
+            <span class="stat-card__label">RDV qualifiés en 5 semaines</span>
+            <p class="stat-card__body">
+              <strong>Happycolis.</strong> Une cible e-commerce et logistique, autour de 7 % de taux de
+              réponse, un angle unique testé puis décliné semaine après semaine.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">151</span>
+            <span class="stat-card__label">RDV qualifiés générés</span>
+            <p class="stat-card__body">
+              <strong>Invent-App.</strong> Plus de 90 % de rendez-vous jugés qualifiés par le client. Le
+              déroulé est dans le cas client
+              <a href="/cas-clients/invent-app">151 RDV qualifiés via cold email pour Invent-App</a>.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">14 %</span>
+            <span class="stat-card__label">de taux de réponse</span>
+            <p class="stat-card__body">
+              <strong>Dunforce.</strong> Sur une cible réputée difficile, les bailleurs sociaux. Le
+              détail est dans le cas client
+              <a href="/cas-clients/dunforce">14 % de taux de réponse pour Dunforce</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Pour situer ces chiffres : sur une cible B2B bien configurée, on vise un taux d'ouverture
+            entre 40 et 60 %, un taux de réponse entre 3 et 10 %, et un taux de rendez-vous entre 2 et
+            6 %. En dessous, il y a un problème de délivrabilité, de copy ou de ciblage. Nettement au
+            dessus, il y a souvent un doute sur la méthode de mesure. Nous préférons annoncer des
+            fourchettes que nous tenons.
+          </p>
+
+          <!-- Coût -->
+          <h2 id="cout">Combien ça coûte</h2>
+          <p>
+            Le cold email chez Agence Simple est un forfait mensuel, sans engagement de durée et sans
+            marge sur les outils. Le montant dépend du volume visé et de la complexité de la cible : le
+            détail de la structure est sur la page <a href="/tarifs">nos tarifs cold email</a>.
+          </p>
+          <p>
+            Rapporté à un SDR interne, salaire chargé plus outils plus management plus les mois de montée
+            en régime, un forfait démarre plus vite et se résilie en un mois si le compte n'y est pas.
+            Les deux modèles se défendent selon votre stade, et nous avons posé les critères dans notre
+            comparatif
+            <a href="/comparatifs/sdr-interne-vs-agence-externalisee">SDR interne vs agence externalisée</a>.
+          </p>
+          <p>
+            Si vous hésitez entre les canaux, le
+            <a href="/comparatifs/cold-email-vs-linkedin-outreach">comparatif cold email vs LinkedIn outreach</a>
+            explique lequel privilégier selon votre cible, et la
+            <a href="/services/linkedin-outreach">prospection LinkedIn en complément</a> se combine
+            souvent avec le cold email dans une même campagne. Le format complet, avec les deux canaux
+            orchestrés, est décrit dans <a href="/">notre offre de prospection B2B clé en main</a>.
+          </p>
+          <p>
+            Enfin, comme sur toutes nos missions, la garantie minimum vital s'applique : un nombre de
+            rendez-vous engagé par mois, et une prolongation gratuite si l'objectif n'est pas tenu sur
+            trois mois.
+          </p>
+
+          <!-- FAQ -->
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faqItems.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <!-- ============ CTA FINAL : BANDE ENCRE + GLOWS ============ -->
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Prendre rendez-vous</h2>
+        <p class="final__p">
+          Le premier rendez-vous est un diagnostic gratuit de 30 minutes avec Kenzy. On regarde votre
+          cible, votre panier moyen et votre stade, et on vous dit franchement si le cold email est le
+          bon canal pour vous. Si la réponse est non, vous repartez avec les raisons. Si c'est oui, vous
+          recevez une proposition avec un engagement chiffré de rendez-vous.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <!-- CTA sticky mobile -->
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  /* ============ HERO (dark) ============ */
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .accent-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .toc {
+    margin-top: 3.5rem;
+    max-width: 46rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+  }
+  .toc__title {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .toc__list {
+    margin-top: 0.85rem;
+    display: grid;
+    gap: 0.5rem 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .toc__list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .toc__list li {
+    list-style: none;
+  }
+  .toc__list a {
+    color: rgba(250, 247, 242, 0.85);
+    text-decoration: none;
+    font-size: var(--text-body);
+    font-weight: 500;
+    transition: color 180ms ease;
+  }
+  .toc__list a:hover {
+    color: var(--color-bleu);
+  }
+
+  /* ============ CORPS CREME ============ */
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+  .inline-cta {
+    font-weight: 600;
+  }
+
+  /* Méthode : cards numérotées */
+  .steps {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .step-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.75rem 1.6rem 1.6rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .step-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .step-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.9rem;
+    color: var(--color-bleu);
+    line-height: 1;
+  }
+  .step-card__periode {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .step-card__title {
+    margin-top: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-encre);
+  }
+  .step-card__body {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* Panels inclus / exclus */
+  .panel {
+    margin-top: 1.75rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel--exclus {
+    background: var(--color-encre);
+    box-shadow: 0 14px 40px -18px rgba(15, 27, 63, 0.5);
+  }
+  .panel--exclus .feature-list li {
+    color: rgba(250, 247, 242, 0.82);
+  }
+  .panel--exclus :global(a) {
+    color: #7cbdff;
+    text-decoration-color: rgba(124, 189, 255, 0.4);
+  }
+  .panel--exclus :global(a:hover) {
+    text-decoration-color: #7cbdff;
+  }
+
+  /* Listes */
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list--flat {
+    margin-top: 1.25rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+  .feature-list--neg li::before {
+    content: '✕';
+    color: var(--color-orange);
+  }
+
+  /* Stat cards résultats */
+  .stats {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.9rem 1.6rem 1.7rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--color-bleu);
+  }
+  .stat-card__label {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .stat-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* FAQ accordion */
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  /* ============ CTA FINAL (dark) ============ */
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  /* Sticky mobile CTA */
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>
