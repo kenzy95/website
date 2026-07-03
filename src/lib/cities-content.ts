@@ -170,4 +170,71 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
       },
     ],
   },
+  bordeaux: {
+    slug: 'bordeaux',
+    serviceType: 'B2B Lead Generation - Bordeaux',
+    heroLead:
+      "Bordeaux a changé de visage : à la filière viticole et agroalimentaire historique s'est ajouté un écosystème tech jeune, porté par des lieux comme la French Tech Bordeaux et une nouvelle vague de start-up early-stage. Cette métropole en croissance attire des fondateurs et des PME qui découvrent souvent la prospection structurée, ce qui en fait un terrain à fort potentiel pour l'outbound bien mené.",
+    heroSub:
+      "Nous accompagnons des clients bordelais et de toute la Nouvelle-Aquitaine depuis Paris, à distance pour l'essentiel, en présentiel quand le déplacement est justifié. La méthode ne bouge pas avec la géographie : cibler juste, écrire vrai, délivrer, qualifier.",
+    intro: [
+      "Prospecter à Bordeaux, c'est souvent adresser des entreprises pour qui la prospection sortante est neuve. Beaucoup de PME régionales et de jeunes pousses ont grandi par le bouche-à-oreille, le réseau local ou l'inbound, et n'ont jamais structuré de machine outbound. C'est une opportunité : la cible n'est pas blasée par des dizaines de sollicitations mal faites, un message juste y a d'autant plus d'impact.",
+      "L'autre spécificité bordelaise, c'est la coexistence de mondes très différents : la tech early-stage qui se prospecte vite et par signaux, et l'agroalimentaire ou le viticole, plus traditionnels, où la relation et la crédibilité priment sur la vitesse. Traiter ces deux univers avec la même trame serait une faute. Nous calibrons le ciblage et le ton compte par compte, en fonction de ce que le compte attend vraiment.",
+    ],
+    cibles: [
+      {
+        titre: 'Start-up et scale-up early-stage',
+        texte:
+          "L'écosystème French Tech bordelais produit des jeunes sociétés qui doivent aller chercher leurs premiers clients au-delà de leur réseau. Une machine outbound déployée vite leur donne un canal d'acquisition prévisible, le temps que l'équipe commerciale interne se constitue.",
+      },
+      {
+        titre: 'Agroalimentaire, vin et spiritueux',
+        texte:
+          "La filière historique de la région, du négoce viticole aux acteurs de l'agroalimentaire, se prospecte sur un registre relationnel et crédible. Nous privilégions un message posé, orienté références et compréhension du métier, plutôt qu'une approche agressive qui ferait fuir ces interlocuteurs.",
+      },
+      {
+        titre: 'Services aux entreprises et PME en croissance',
+        texte:
+          "Le tissu de services professionnels bordelais, conseil, agences, sociétés de service, regroupe des PME qui découvrent souvent la prospection structurée. Ces comptes réagissent bien à une approche méthodique et personnalisée, à condition de bien définir en amont leur client idéal.",
+      },
+    ],
+    distance: [
+      "Pour un client bordelais, tout le dispositif de fond se pilote à distance : identification des comptes dans la région, écriture des séquences, gestion de la délivrabilité, qualification des réponses. Ce travail continu est ce qui produit les rendez-vous, indépendamment de la présence physique d'une équipe sur place.",
+      "Quand un moment clé le justifie, un cadrage initial, un point de bilan, nous nous déplaçons à Bordeaux. Mais nous restons honnêtes sur ce que nous sommes : pas une agence bordelaise, une équipe parisienne qui prospecte pour des clients de toute la France, la Nouvelle-Aquitaine comprise, avec la même exigence partout.",
+    ],
+    casClient: {
+      texte:
+        "Notre résultat ne dépend pas de la géographie : nous avons livré 151 rendez-vous qualifiés à Invent-App sur une verticale SaaS, dont plus de 90 % jugés qualifiés. Cette mécanique de ciblage et de copy s'applique aussi bien à une start-up early-stage bordelaise qu'à une PME de service régionale, avec sur Bordeaux la possibilité de se voir en présentiel.",
+    },
+    maillage: {
+      service: { href: '/services/linkedin-outreach', label: 'notre agence de prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      article: {
+        href: '/blog/definir-client-ideal-ciblage-b2b',
+        label: 'notre méthode pour définir son client idéal',
+      },
+    },
+    faq: [
+      {
+        question: "Êtes-vous une agence bordelaise ?",
+        answer:
+          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré. Nous prospectons pour des clients bordelais et de toute la Nouvelle-Aquitaine à distance, avec des déplacements ponctuels quand un rendez-vous le justifie. Nous préférons l'annoncer clairement plutôt que d'afficher une fausse implantation locale.",
+      },
+      {
+        question: "La prospection marche-t-elle si mon marché n'a pas l'habitude d'être démarché ?",
+        answer:
+          "C'est souvent un avantage. Sur un marché peu sollicité, comme beaucoup de PME et de jeunes pousses bordelaises, un message juste et personnalisé émerge plus facilement que là où les décideurs reçoivent des dizaines de mails froids par semaine. La condition, c'est un ciblage précis et un copy soigné, jamais un envoi de masse générique.",
+      },
+      {
+        question: "Comment adaptez-vous l'approche entre tech et agroalimentaire ?",
+        answer:
+          "Ce sont deux logiques distinctes. La tech early-stage se prospecte par signaux, avec un ton direct et une promesse claire. Le viticole et l'agroalimentaire demandent un registre plus relationnel, orienté crédibilité et compréhension du métier. Nous ne réutilisons pas la même trame d'un univers à l'autre, nous la construisons pour chaque cible.",
+      },
+      {
+        question: "Quelles cibles atteignez-vous en Nouvelle-Aquitaine ?",
+        answer:
+          "Principalement les start-up et scale-up early-stage de l'écosystème French Tech, la filière agroalimentaire, vin et spiritueux, et le tissu de services aux entreprises et de PME en croissance. Chaque profil appelle un canal et un ton propres, que nous définissons après avoir clarifié le client idéal.",
+      },
+    ],
+  },
 };
