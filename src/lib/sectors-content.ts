@@ -347,4 +347,83 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
       },
     ],
   },
+
+  agences: {
+    slug: 'agences',
+    serviceType: 'B2B Lead Generation - Marque blanche pour agences',
+    heroLead:
+      "Une agence marketing ou digitale à qui ses clients réclament de la prospection a deux options : recruter et manager une équipe outbound en interne, ou la déléguer en marque blanche et facturer sa marge. La seconde est plus rapide et moins risquée. Cette page explique comment nous opérons sous votre marque, de façon invisible pour votre client, pour que vous ajoutiez la prospection à votre catalogue sans changer de métier.",
+    heroSub:
+      "L'enjeu n'est pas de vous vendre un service de plus, mais de vous donner une capacité de production que vous revendez à vos clients comme la vôtre, avec la qualité et la discrétion que cela impose.",
+    intro: [
+      "La prospection en marque blanche pour une agence répond à une demande précise : vos clients veulent des rendez-vous, et vous ne voulez ni les décevoir ni bâtir un pôle outbound de toutes pièces. Monter cette compétence en interne suppose de recruter des profils rares, d'acheter et de maîtriser une stack technique, de gérer la délivrabilité au quotidien : un métier entier, avec ses risques, pour une ligne de votre offre. La marque blanche vous donne le résultat sans le chantier.",
+      "La spécificité de cette relation, c'est la discrétion et l'exigence de qualité. Nous opérons sous votre nom, dans vos codes, sans jamais apparaître face au client final. Chaque livrable doit tenir votre standard, parce que c'est votre réputation qui est engagée, pas la nôtre. Cela change la manière de travailler : plus de cadrage en amont, une coordination fluide avec vous, et une capacité à absorber plusieurs de vos clients en parallèle sans perte de qualité.",
+    ],
+    painPoints: [
+      {
+        titre: 'Une demande client à laquelle vous ne pouvez pas dire non',
+        texte:
+          "Vos clients attendent des rendez-vous et regardent ailleurs si vous ne les fournissez pas. Bâtir un pôle outbound à la hâte pour répondre présente un risque de qualité. Nous vous donnons une capacité immédiate à revendre, pour saisir la demande sans improviser une équipe.",
+      },
+      {
+        titre: 'Le coût et le risque de recruter en interne',
+        texte:
+          "Un SDR, un outil de sending, la gestion de la délivrabilité, le management : monter cela en interne pour une ligne d'offre est lourd et incertain. En marque blanche, vous transformez ce coût fixe en coût variable indexé sur vos ventes, sans immobiliser de capital ni de temps de direction.",
+      },
+      {
+        titre: 'La réputation de votre agence engagée à chaque envoi',
+        texte:
+          "Une campagne mal délivrée ou un copy approximatif sous votre marque abîme votre image auprès de votre propre client. Nous appliquons les mêmes standards de délivrabilité et de copy que sur nos missions directes, parce que c'est votre nom qui est en jeu à chaque message envoyé.",
+      },
+      {
+        titre: 'La difficulté de scaler sur plusieurs clients à la fois',
+        texte:
+          "Servir un client outbound est déjà exigeant ; en servir cinq en parallèle avec une petite équipe est ingérable. Notre capacité de production, jusqu'à 300 à 400 messages par jour et par client, absorbe plusieurs de vos comptes simultanément sans que la qualité décroche.",
+      },
+    ],
+    approche: [
+      "Côté organisation, nous nous plaçons en sous-traitant invisible : vous gardez la relation client, la facturation et la marque, nous produisons. Le cadrage se fait avec vous, les livrables sortent à votre standard et sous votre nom, et votre client ne nous voit jamais. Cette coordination fluide vous permet de vendre la prospection comme une compétence interne.",
+      "Côté exécution, chaque client que vous nous confiez bénéficie du même socle que nos missions directes : ciblage précis, copy travaillé, infrastructure de délivrabilité montée dans les règles, qualification humaine des réponses. Nous adaptons le ciblage et le message au secteur de chacun de vos clients, sans recycler une trame unique d'un compte à l'autre.",
+      "Côté canal, nous ouvrons cold email et LinkedIn selon la cible de chaque client, avec une capacité montée sur des domaines et boîtes dédiés à chaque compte pour cloisonner les réputations. Le pilotage quotidien reste de notre côté ; vous recevez un reporting clair à reformater à votre marque et à présenter à votre client comme le vôtre.",
+    ],
+    casClient: {
+      texte:
+        "Sur une cible e-commerce et logistique, exactement le type de compte qu'une agence peut nous confier en marque blanche, nous avons livré 41 rendez-vous qualifiés à Happycolis en 5 semaines, autour de 7 % de taux de réponse. Ce résultat, produit à notre standard, est celui que vous revendez à votre client sous votre nom.",
+    },
+    maillage: {
+      service: { href: '/services/sdr-externalise', label: 'notre SDR externalisé en marque blanche' },
+      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV en 5 semaines pour Happycolis' },
+      article: {
+        href: '/blog/cout-sdr-interne-vs-agence',
+        label: 'le coût d\'un SDR interne face à une agence',
+      },
+    },
+    faq: [
+      {
+        question: "Comment fonctionne la prospection en marque blanche pour une agence ?",
+        answer:
+          "Nous opérons sous votre nom, sans jamais apparaître face à votre client. Vous gardez la relation, la marque et la facturation ; nous produisons le ciblage, le copy, l'envoi et la qualification. Vous recevez des livrables et un reporting à votre standard, que vous présentez comme réalisés en interne. Votre client ne nous connaît pas.",
+      },
+      {
+        question: "Votre intervention est-elle vraiment invisible pour notre client ?",
+        answer:
+          "Oui. Domaines, boîtes d'envoi, copy et reporting sortent sous votre marque et dans vos codes. Nous ne prenons aucun contact direct avec votre client final et n'apparaissons sur aucun livrable. La discrétion fait partie du cahier des charges de la marque blanche, au même titre que la qualité de production.",
+      },
+      {
+        question: "Pourquoi ne pas recruter une équipe outbound en interne ?",
+        answer:
+          "Parce que c'est un métier entier, avec ses risques, monté pour une seule ligne de votre offre : profils rares à recruter, stack à acheter et maîtriser, délivrabilité à gérer chaque jour, management à assurer. La marque blanche transforme ce coût fixe et incertain en coût variable indexé sur vos ventes, disponible immédiatement.",
+      },
+      {
+        question: "Pouvez-vous gérer plusieurs de nos clients en parallèle ?",
+        answer:
+          "Oui, avec une infrastructure dédiée par client pour cloisonner les réputations d'envoi et une capacité pouvant atteindre 300 à 400 messages par jour par compte. Chaque client reçoit un ciblage et un message adaptés à son secteur, sans trame recyclée d'un compte à l'autre. La qualité ne décroche pas quand le nombre de comptes augmente.",
+      },
+      {
+        question: "Comment se répartit la marge entre votre agence et la nôtre ?",
+        answer:
+          "Vous nous rémunérez pour la production et vous fixez librement le prix de revente à votre client : la marge est la vôtre. Sans engagement de durée de notre côté, préavis de 30 jours, vous gardez la main sur la relation commerciale et sur votre positionnement tarifaire, que nous n'avons pas à connaître.",
+      },
+    ],
+  },
 };
