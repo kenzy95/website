@@ -110,4 +110,83 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
       },
     ],
   },
+
+  esn: {
+    slug: 'esn',
+    serviceType: 'B2B Lead Generation - ESN',
+    heroLead:
+      "Vendre une ESN, ce n'est pas vendre un produit : c'est vendre une capacité à staffer, des références sectorielles et une confiance qui se construit avant l'appel d'offres. La prospection sortante d'une société de services se joue donc sur la crédibilité et le timing, bien plus que sur le volume brut. Cette page détaille comment nous adressons les décideurs achats et métier d'une ESN.",
+    heroSub:
+      "L'enjeu n'est pas d'annoncer que vous avez des consultants disponibles, mais d'arriver dans le champ de vision du bon donneur d'ordre au moment où un besoin de compétences se dessine, avec les bonnes preuves.",
+    intro: [
+      "La prospection pour une ESN se distingue par la nature de ce que vous vendez : de la compétence humaine, mobilisable, référencée. Le prospect n'achète pas une fonctionnalité mais la certitude que vous saurez staffer un profil rare dans les délais, sur son secteur, avec des références comparables. Cette dimension confiance change tout dans le message : une accroche efficace met en avant une référence pertinente ou une expertise verticale précise, pas une liste de technologies génériques que toutes les ESN affichent.",
+      "L'autre spécificité, c'est le circuit de décision. Entre le responsable achats qui pilote le référencement fournisseur, le manager métier qui exprime le besoin réel et la direction technique qui valide les profils, plusieurs interlocuteurs coexistent. Nous cartographions ce circuit pour chaque compte cible et adressons le bon message à chaque rôle, plutôt que d'envoyer un pitch unique dans une organisation où la décision se partage.",
+    ],
+    painPoints: [
+      {
+        titre: 'Un discours indifférencié face à des concurrents nombreux',
+        texte:
+          "Le marché des ESN est dense et les messages se ressemblent : disponibilité de consultants, expertise large, engagement qualité. Ces formules ne distinguent personne. Nous ancrons chaque prise de contact dans une référence sectorielle vérifiable ou une expertise précise, la seule chose qui vous sépare vraiment du concurrent d'à côté.",
+      },
+      {
+        titre: 'Un référencement fournisseur difficile à percer',
+        texte:
+          "Les grands comptes travaillent avec des panels fermés et un référencement lourd. Y entrer demande de viser les bons interlocuteurs achats et de documenter votre légitimité en amont. Nous identifions ces contacts et construisons une approche patiente, orientée mise en relation plutôt que vente directe.",
+      },
+      {
+        titre: 'Des signaux de besoin invisibles sans veille',
+        texte:
+          "Un recrutement massif de profils techniques, un projet de transformation annoncé, un appel d'offres à venir : ces signaux indiquent un besoin de renfort proche. Sans veille structurée, votre ESN les découvre trop tard, une fois le staffing déjà attribué. Nous surveillons ces indices pour arriver avant la mise en concurrence.",
+      },
+      {
+        titre: 'Une relation qui se construit sur la durée',
+        texte:
+          "En prestation de services, le premier contact aboutit rarement à un contrat immédiat : il ouvre une relation qui mûrit jusqu'au bon projet. Une prospection qui cherche la signature dès le premier email échoue. Nous privilégions un rythme de nurturing qui garde votre nom présent sans saturer l'interlocuteur.",
+      },
+    ],
+    approche: [
+      "Côté ciblage, nous croisons les comptes de votre secteur de prédilection avec des signaux de renfort : recrutements techniques en volume, projets de transformation, ouvertures de postes de direction de programme. Nous identifions dans chaque compte le responsable achats, le manager opérationnel et le référent technique, pour couvrir le circuit de décision réel d'une prestation de services.",
+      "Côté message, nous remplaçons les formules génériques par des preuves. Une accroche efficace pour une ESN cite une mission comparable, un secteur maîtrisé ou une compétence rare que vous savez staffer, puis propose un échange court pour être référencé le jour où le besoin tombe. La personnalisation s'appuie sur le contexte réel du compte, pas sur une variable prénom.",
+      "Côté canal, LinkedIn joue un rôle central : les décideurs achats et métier y sont actifs et la mise en relation professionnelle y est légitime. Le cold email complète pour documenter votre légitimité et relancer avec des références. Le rythme reste mesuré, cohérent avec un cycle de décision long où la constance compte plus que la fréquence.",
+    ],
+    casClient: {
+      texte:
+        "Sur des cibles B2B réputées difficiles d'accès, où la crédibilité conditionne la première réponse, nous avons atteint 14 % de taux de réponse pour Dunforce sur la population des bailleurs sociaux. La logique est transposable à une ESN qui vise un secteur exigeant : une accroche ancrée dans une référence pertinente ouvre des portes qu'un pitch générique laisse fermées.",
+    },
+    maillage: {
+      service: { href: '/services/linkedin-outreach', label: 'notre prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de réponse sur une cible difficile (Dunforce)' },
+      article: {
+        href: '/blog/sales-navigator-guide-ciblage',
+        label: 'le guide du ciblage avec Sales Navigator',
+      },
+    },
+    faq: [
+      {
+        question: "Comment prospecter pour une ESN sans ressembler à toutes les autres ?",
+        answer:
+          "En abandonnant le discours de disponibilité générique au profit de preuves concrètes : une référence sur le secteur du prospect, une expertise rare que vous savez staffer, une mission comparable réussie. C'est la spécificité vérifiable qui distingue votre message, pas l'annonce de consultants libres que toutes les ESN affichent.",
+      },
+      {
+        question: "Faut-il viser les achats ou les opérationnels dans une ESN cible ?",
+        answer:
+          "Les deux, avec un message adapté à chacun. Le responsable achats pilote le référencement fournisseur, le manager métier exprime le besoin réel, la direction technique valide les profils. Nous cartographions ce circuit par compte et adressons le bon angle à chaque rôle, au lieu d'un pitch unique dans une décision partagée.",
+      },
+      {
+        question: "Quels signaux indiquent qu'une entreprise va avoir besoin d'une ESN ?",
+        answer:
+          "Un recrutement massif de profils techniques, un projet de transformation annoncé, l'ouverture de postes de direction de programme, une levée destinée à accélérer la roadmap. Ces événements précèdent un besoin de renfort. Les surveiller permet d'entrer en contact avant que le staffing ne soit attribué à un concurrent déjà référencé.",
+      },
+      {
+        question: "Le cycle de décision est long : la prospection sortante est-elle rentable ?",
+        answer:
+          "Oui, à condition de raisonner en ouverture de relation plutôt qu'en signature immédiate. Le premier contact vise à être référencé et à rester présent jusqu'au bon projet. Un rythme de relance mesuré, orienté valeur et références, maintient votre nom dans le champ de vision sans saturer un interlocuteur qui décidera plus tard.",
+      },
+      {
+        question: "LinkedIn ou email pour prospecter des donneurs d'ordre d'ESN ?",
+        answer:
+          "LinkedIn en priorité, car les décideurs achats et métier y sont actifs et la mise en relation professionnelle y est naturelle pour une prestation de services. L'email complète en documentant votre légitimité et en relançant avec des références. Nous orchestrons souvent les deux, avec un tempo cohérent avec un cycle long.",
+      },
+    ],
+  },
 };
