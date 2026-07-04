@@ -4,7 +4,7 @@ import Container from '@components/ui/Container.astro';
 import Section from '@components/ui/Section.astro';
 import CtaBlock from '@components/CtaBlock.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { articleSchema } from '@lib/schema';
+import { articleSchema, howToSchema } from '@lib/schema';
 import { SITE } from '@lib/site';
 
 export async function getStaticPaths() {
@@ -29,7 +29,7 @@ const breadcrumb = [
   { name: article.data.title },
 ];
 
-const schemas = [
+const schemas: Record<string, unknown>[] = [
   articleSchema({
     headline: article.data.title,
     description: article.data.description,
@@ -40,6 +40,23 @@ const schemas = [
     authorName: article.data.author,
   }),
 ];
+
+/* Frontmatter schema: "HowTo" -> HowTo en plus de Article, etapes = les H2 du body */
+if (article.data.schema === 'HowTo') {
+  const steps = [...article.body.matchAll(/^##\s+(.+)$/gm)]
+    .map((m) => m[1].trim())
+    .filter((h) => !/^(faq|questions|conclusion|pour aller plus loin)/i.test(h))
+    .map((name) => ({ name, text: name }));
+  if (steps.length >= 2) {
+    schemas.push(
+      howToSchema({
+        name: article.data.title,
+        description: article.data.description,
+        steps,
+      })
+    );
+  }
+}
 ---
 
 <PageLayout

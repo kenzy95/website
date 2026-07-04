@@ -46,11 +46,11 @@ export const SERVICES: ServicePage[] = [
   {
     slug: 'sdr-externalise',
     shortName: 'SDR externalisé',
-    title: 'SDR externalisé en marque blanche',
+    title: 'SDR externalisé : équipe de prospection complète',
     description:
       "Une équipe de prospection complète en marque blanche, sans recruter. Capacité 300-400 messages/jour, qualification en amont, RDV livrés sur votre agenda.",
     metaDescription:
-      "SDR externalisé en marque blanche. Équipe complète sans recrutement, 300-400 msg/jour, RDV qualifiés sur votre agenda. Garantie minimum vital.",
+      "SDR externalisé : équipe de prospection complète sans recrutement, 300-400 msg/jour, RDV qualifiés sur votre agenda. Garantie minimum vital.",
     keyword: 'agence sdr externalisé',
     serviceType: 'Outsourced SDR',
   },
@@ -103,12 +103,12 @@ export const SECTORS: SectorPage[] = [
   {
     slug: 'scale-up-post-levee',
     shortName: 'Scale-up post-levée',
-    title: 'Prospection scale-up post-levée',
+    title: 'Prospection B2B pour startups et scale-up post-levée',
     description:
       "Pression deadline, board, mission impossible avant le premier Head of Sales. On déploie une machine outbound en 3 semaines pour absorber les premiers mois post-Series A.",
     metaDescription:
       "Agence prospection scale-up post-levée : machine outbound déployée en 3 semaines. Garantie de RDV pour absorber les premiers mois post-Series A.",
-    keyword: 'agence prospection scale-up',
+    keyword: 'prospection startup',
     angle: 'pression Series A, premier Head of Sales pas encore recruté, runway',
   },
   {
@@ -298,7 +298,7 @@ export const COMPARISONS: Comparison[] = [
     slug: 'sdr-interne-vs-agence-externalisee',
     title: 'SDR interne vs agence externalisée : comparatif honnête',
     metaDescription:
-      "SDR interne ou agence externalisée ? Comparatif coût, vitesse de mise en route, scalabilité, maitrise du process, risque, ROI.",
+      "SDR interne ou agence externalisée ? Comparatif pour décider : vitesse de mise en route, scalabilité, maîtrise du process, risque, coût complet.",
     description: 'Comparatif sincère des deux modèles pour décider sur la base des chiffres.',
   },
   {

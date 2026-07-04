@@ -74,6 +74,7 @@ export function localBusinessSchema() {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': `${SITE.url}/#localbusiness`,
+    parentOrganization: { '@id': ORG_ID },
     name: SITE.name,
     image: `${SITE.url}/logo.png`,
     url: SITE.url,
