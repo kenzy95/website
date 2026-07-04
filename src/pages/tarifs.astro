@@ -4,9 +4,10 @@ import Container from '@components/ui/Container.astro';
 import Section from '@components/ui/Section.astro';
 import CtaBlock from '@components/CtaBlock.astro';
 
+/* Règle Kenzy 2026-07-04 : aucun prix affiché. Le devis se construit après échange. */
 const title = 'Tarifs Agence Simple';
 const description =
-  "Forfait mensuel transparent à partir de 2 000 € HT. Pas de mark-up sur les outils, pas d'engagement long, garantie minimum vital incluse.";
+  "Forfait mensuel transparent, sans engagement. Pas de mark-up sur les outils, garantie minimum vital incluse. Devis précis après un premier échange.";
 
 const breadcrumb = [{ name: 'Tarifs' }];
 ---
@@ -21,13 +22,13 @@ const breadcrumb = [{ name: 'Tarifs' }];
 
   <Section spacing="md">
     <Container size="default">
-      <!-- TODO Théo : grille tarifaire claire
-           Forfait standard : à partir de 2000 € HT/mois
-           Inclus : sourcing, copy, envoi, qualification, reporting hebdo, accès Slack
-           Non inclus : outils (Lemlist, Aimfox, etc. facturés au coût réel sans mark-up)
-           Garantie minimum vital expliquée chiffrée
+      <!-- TODO Théo : page tarifs SANS montant (règle Kenzy 2026-07-04)
+           Structure du forfait : ce qui est inclus (sourcing, copy, envoi, qualification, reporting)
+           Outils facturés au coût réel sans mark-up
+           Garantie minimum vital expliquée (engagement chiffré de RDV, prolongation gratuite)
+           Les 2 variables qui font le devis : volume cible + complexité de la cible
            FAQ tarifs (5 questions) -> schema FAQPage
-           Tableau comparatif vs SDR interne sur la page comparatif (lien). -->
+           Lien comparatif SDR interne vs agence. -->
       <p class="text-(--text-body) text-(--color-gris)">Détails tarifaires en cours de rédaction.</p>
     </Container>
   </Section>
