@@ -303,7 +303,7 @@ export const COMPARISONS: Comparison[] = [
   },
   {
     slug: 'cold-email-vs-linkedin-outreach',
-    title: 'Cold email vs LinkedIn outreach : quel canal pour quel objectif',
+    title: 'Cold email vs LinkedIn : quel canal pour votre prospection',
     metaDescription:
       "Cold email ou LinkedIn outreach ? Comparatif volume, taux de réponse, qualité des conversations, coût par lead, par segment cible.",
     description: 'Quel canal est le bon pour votre cible et votre objectif ?',

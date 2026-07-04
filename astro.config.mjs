@@ -28,7 +28,9 @@ export default defineConfig({
     filter: (page) =>
       !page.includes('/legal/') &&
       !page.includes('/404') &&
-      !page.includes('/draft'),
+      !page.includes('/draft') &&
+      // Explorations design methode : noindex, donc hors sitemap (signaux coherents)
+      !/\/methode-[0-9a-z]/.test(page),
     i18n: undefined,
   }), react()],
   vite: {
