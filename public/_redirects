@@ -27,8 +27,8 @@
 /review                               /                              301
 
 # --- L'agence (variantes encodees incluses) ---
-/L'agence                             /a-propos                      301
-/L%27agence                           /a-propos                      301
+/L'agence                             /                              301
+/L%27agence                           /                              301
 
 # --- Mentions legales (variantes encodees incluses) ---
 /Mentions-légales                     /legal/mentions-legales        301
