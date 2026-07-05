@@ -172,35 +172,37 @@ body[data-theme='dark'] {
 }
 
 /* === Lamp Effect (Aceternity port) — animations CSS au mount === */
+/* Allumage via transform: scaleX (compose, ignore par le CLS) au lieu de width.
+   Les elements gardent leur largeur finale posee par les classes Tailwind. */
 .lamp-cone-anim {
   opacity: 0.5;
   animation: lamp-cone-grow 0.8s ease-in-out 0.3s forwards;
 }
 .lamp-bar-anim {
-  width: 30rem;
+  transform: scaleX(0.43);
   animation: lamp-bar-grow 0.8s ease-in-out 0.3s forwards;
 }
 .lamp-halo-narrow-anim {
-  width: 14rem;
+  transform: scaleX(0.35);
   animation: lamp-halo-narrow-grow 0.8s ease-in-out 0.3s forwards;
 }
 @keyframes lamp-cone-grow {
-  from { opacity: 0.5; width: 30rem; }
-  to { opacity: 1; width: 70rem; }
+  from { opacity: 0.5; transform: scaleX(0.43); }
+  to { opacity: 1; transform: scaleX(1); }
 }
 @keyframes lamp-bar-grow {
-  from { width: 30rem; }
-  to { width: 70rem; }
+  from { transform: scaleX(0.43); }
+  to { transform: scaleX(1); }
 }
 @keyframes lamp-halo-narrow-grow {
-  from { width: 14rem; }
-  to { width: 40rem; }
+  from { transform: scaleX(0.35); }
+  to { transform: scaleX(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   .lamp-cone-anim, .lamp-bar-anim, .lamp-halo-narrow-anim {
     animation: none;
   }
-  .lamp-cone-anim { opacity: 1; width: 70rem; }
-  .lamp-bar-anim { width: 70rem; }
-  .lamp-halo-narrow-anim { width: 40rem; }
+  .lamp-cone-anim { opacity: 1; transform: scaleX(1); }
+  .lamp-bar-anim { transform: scaleX(1); }
+  .lamp-halo-narrow-anim { transform: scaleX(1); }
 }

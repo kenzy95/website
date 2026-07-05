@@ -29,6 +29,7 @@ export const LampContainer = ({
           style={{
             backgroundImage:
               "conic-gradient(from 70deg at center top, #1E90FF, transparent, transparent)",
+            transformOrigin: "right center",
           }}
           className="lamp-cone-anim absolute inset-auto right-1/2 h-56 overflow-visible w-[70rem] text-white"
         >
@@ -39,6 +40,7 @@ export const LampContainer = ({
           style={{
             backgroundImage:
               "conic-gradient(from 290deg at center top, transparent, transparent, #1E90FF)",
+            transformOrigin: "left center",
           }}
           className="lamp-cone-anim absolute inset-auto left-1/2 h-56 w-[70rem] text-white"
         >
