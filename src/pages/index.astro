@@ -9,7 +9,8 @@ import { LampContainer } from '@components/ui/Lamp';
 import LogoMarquee from '@components/LogoMarquee.astro';
 import PartnerWilco from '@components/PartnerWilco.astro';
 import GuaranteeCards from '@components/GuaranteeCards.astro';
-import LeadGenSection from '@components/LeadGenSection.astro';
+import BigStatement from '@components/BigStatement.astro';
+import MethodeVennEnrichi from '@components/methode/MethodeVennEnrichi.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import WhatWeDo from '@components/animations/WhatWeDo.astro';
 import ScrollExpansionHero from '@components/animations/ScrollExpansionHero.astro';
@@ -17,7 +18,6 @@ import StoryScroll from '@components/animations/StoryScroll.astro';
 import StorySection from '@components/animations/StorySection.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
 import ServiceTakeover from '@components/ServiceTakeover.astro';
-import ProcessSteps from '@components/ProcessSteps.astro';
 import RoiCalculator from '@components/RoiCalculator.astro';
 import ClientInterviews from '@components/ClientInterviews.astro';
 import ToolsConstellation from '@components/ToolsConstellation.astro';
@@ -92,24 +92,27 @@ const schemas = [
       </ContainerScroll>
     </section>
 
-    <!-- ============ PARTENAIRE WILCO (avant LogoMarquee comme sur agencesimple.fr Framer) ============ -->
+    <!-- ============ 2. ILS NOUS FONT CONFIANCE : encart Wilco (reduit, chevauchement) + logos ============ -->
     <PartnerWilco />
-
-    <!-- ============ LOGOS CLIENTS (MARQUEE) ============ -->
     <LogoMarquee />
 
-    <!-- ============ 2 CARDS BICOLORES GARANTIES ============ -->
+    <!-- ============ 3. AVANTAGES CLES : frais + garantie minimum + aucun engagement ============ -->
     <GuaranteeCards />
 
-    <!-- ============ SECTION "RDV QUALIFIES" + 2 CARDS INFRA/OPTIM ============ -->
-    <LeadGenSection />
+    <!-- ============ 4. CE QU'ON FAIT POUR VOUS : sphere multi-services ============ -->
+    <div id="comment-ca-marche">
+      <WhatWeDo />
+    </div>
 
-    <!-- ============ CE QU'ON FAIT (split text + sphere) ============ -->
-    <WhatWeDo />
+    <!-- ============ 4bis. STATEMENT : RDV qualifies / vous faites la vente ============ -->
+    <BigStatement />
 
-    <!-- ============ SCROLL EXPANSION HERO : gestion complète prospection ============ -->
+    <!-- ============ 5. CE QU'ON PREND EN CHARGE (5 cards detaillees) ============ -->
+    <ServiceTakeover />
+
+    <!-- ============ 6. GESTION COMPLETE : expansion sur calendrier plein de RDV ============ -->
     <ScrollExpansionHero
-      mediaSrc="/images/mockup-macbook.jpg"
+      mediaSrc="/images/calendrier-rdv.webp"
       mediaType="image"
       bgImageSrc="/images/workshop-postits.jpg"
       title="Gestion complète"
@@ -118,13 +121,13 @@ const schemas = [
     >
       <div class="max-w-3xl mx-auto text-center text-(--color-creme)">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
-          Ce qu'on prend en charge
+          Le résultat concret
         </p>
         <h3
           class="mt-5 leading-(--leading-title)"
           style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(1.75rem, 3vw, 2.5rem);"
         >
-          De la stratégie à la prise de RDV, tout sauf la vente.
+          Un agenda qui se remplit de RDV qualifiés.
         </h3>
         <p class="mt-6 text-(--color-creme)/75 text-(--text-body-lg) leading-(--leading-relaxed)">
           Stratégie, sourcing, infrastructure email, outils, copywriting, pilotage hebdo.
@@ -133,68 +136,85 @@ const schemas = [
       </div>
     </ScrollExpansionHero>
 
-    <!-- ============ CE QU'ON PREND EN CHARGE (5 cards) ============ -->
-    <ServiceTakeover />
+    <!-- ============ 7. METHODOLOGIE : Ciblage x Copy x Infra (Venn enrichi) ============ -->
+    <MethodeVennEnrichi />
 
-    <!-- ============ PROCESSUS (4 etapes + sticky visuel) ============ -->
-    <ProcessSteps />
-
-    <!-- ============ STORY SCROLL placeholder (a remplir par Kenzy plus tard) ============ -->
-    <StoryScroll ariaLabel="Story scroll Agence Simple">
-      {/* Layout identique au pattern source GSAP : eyebrow + hr + titre enorme + body + hr */}
-      <StorySection bg="creme" ariaLabel="Story 1">
+    <!-- ============ 8. PROCESS : les 4 etapes en story scroll ============ -->
+    <StoryScroll ariaLabel="Le process Agence Simple en 4 etapes">
+      <StorySection bg="creme" ariaLabel="Process etape 1">
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
-            Histoire — 01
+            Process · Semaine 1
           </p>
           <h2
             class="mt-5 leading-(--leading-tight)"
             style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-encre);"
           >
-            Première page du<br />story scroll.
+            On cadre<br />votre cible.
           </h2>
           <p class="mt-6 text-(--color-encre)/65 text-(--text-body-lg) max-w-2xl mx-auto">
-            Placeholder — à remplir avec ton contenu (chiffres clés, anecdote client, manifeste illustré...).
+            Un atelier pour définir les segments visés, les angles de message et les critères
+            d'exclusion. Vous validez le document stratégique avant que le moindre message parte.
           </p>
         </div>
       </StorySection>
 
-      <StorySection bg="encre" ariaLabel="Story 2">
+      <StorySection bg="encre" ariaLabel="Process etape 2">
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
-            Histoire — 02
+            Process · Semaine 2
           </p>
           <h2
             class="mt-5 leading-(--leading-tight)"
             style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-creme);"
           >
-            Deuxième page<br />du deck.
+            Listes, copy,<br />infrastructure.
           </h2>
           <p class="mt-6 text-(--color-creme)/65 text-(--text-body-lg) max-w-2xl mx-auto">
-            La section s'empile sur la précédente avec une rotation depuis 30 degrés.
+            Listes construites sur mesure, séquences rédigées et validées par vous mot par mot,
+            domaines dédiés montés en réputation. Votre domaine principal n'est jamais exposé.
           </p>
         </div>
       </StorySection>
 
-      <StorySection bg="orange-soft" ariaLabel="Story 3">
+      <StorySection bg="orange-soft" ariaLabel="Process etape 3">
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-encre)">
-            Histoire — 03
+            Process · Semaines 3 à 6
           </p>
           <h2
             class="mt-5 leading-(--leading-tight)"
             style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-encre);"
           >
-            Troisième et dernière<br />page.
+            Lancement<br />et itérations.
           </h2>
           <p class="mt-6 text-(--color-encre)/65 text-(--text-body-lg) max-w-2xl mx-auto">
-            Le scroll continue normalement après. Tu peux ajouter autant de sections que tu veux.
+            Envois progressifs pour protéger la délivrabilité, arbitrages chaque semaine :
+            on coupe ce qui ne répond pas, on double sur ce qui fonctionne.
+          </p>
+        </div>
+      </StorySection>
+
+      <StorySection bg="bleu-soft" ariaLabel="Process etape 4">
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+            Process · Mois 2 et suivants
+          </p>
+          <h2
+            class="mt-5 leading-(--leading-tight)"
+            style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--color-encre);"
+          >
+            Des RDV dans<br />votre agenda.
+          </h2>
+          <p class="mt-6 text-(--color-encre)/65 text-(--text-body-lg) max-w-2xl mx-auto">
+            Chaque réponse positive est qualifiée puis transformée en rendez-vous posé dans votre
+            agenda, avec le contexte complet. Reporting mensuel avec les vrais chiffres.
           </p>
         </div>
       </StorySection>
     </StoryScroll>
 
-    <!-- ============ CALCULATEUR ROI COLD EMAIL ============ -->
+    <!-- ============ 9. CALCULATEUR ROI COLD EMAIL ============ -->
     <RoiCalculator />
 
     <!-- ============ CONSTELLATION OUTILS ============ -->

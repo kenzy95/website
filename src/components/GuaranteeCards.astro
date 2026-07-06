@@ -11,7 +11,7 @@ import GlowCard from './ui/GlowCard.astro';
 
 <section class="py-16 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
-    <div class="grid gap-5 md:grid-cols-2">
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       <!-- Card 1 : Frais en charge - fond orange plein, glow bleu (contraste) -->
       <GlowCard glowColor="blue" radius={32}>
         <div class="guarantee-card guarantee-card--orange">
@@ -26,7 +26,22 @@ import GlowCard from './ui/GlowCard.astro';
         </div>
       </GlowCard>
 
-      <!-- Card 2 : Aucun engagement - fond encre profond + texture, glow orange (chaleur) -->
+      <!-- Card 2 : Garantie minimum vital - fond bleu vif, glow orange -->
+      <GlowCard glowColor="orange" radius={32}>
+        <div class="guarantee-card guarantee-card--bleu">
+          <span class="guarantee-card__eyebrow">Garantie minimum vital</span>
+          <h3 class="guarantee-card__title">
+            Un minimum<br />de RDV.<br />Garanti.
+          </h3>
+          <p class="guarantee-card__body">
+            Un nombre de RDV qualifiés est fixé dans le contrat. S'il n'est pas
+            atteint, on continue gratuitement jusqu'à l'atteindre. Et vous êtes
+            seul juge de la qualification.
+          </p>
+        </div>
+      </GlowCard>
+
+      <!-- Card 3 : Aucun engagement - fond encre profond + texture, glow orange (chaleur) -->
       <GlowCard glowColor="orange" radius={32}>
         <div class="guarantee-card guarantee-card--encre">
           <span class="guarantee-card__eyebrow">Liberté totale</span>
@@ -74,6 +89,26 @@ import GlowCard from './ui/GlowCard.astro';
     z-index: 0;
     pointer-events: none;
   }
+
+  .guarantee-card--bleu {
+    background: #1E90FF;
+    color: #FFFFFF;
+  }
+  .guarantee-card--bleu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at bottom right, rgba(15, 27, 63, 0.25), transparent 60%),
+      radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.22), transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .guarantee-card--bleu .guarantee-card__eyebrow {
+    color: #FFFFFF;
+    opacity: 0.85;
+  }
+  .guarantee-card--bleu .guarantee-card__body { color: rgba(255, 255, 255, 0.9); }
 
   .guarantee-card--encre {
     background: #0a132e;
