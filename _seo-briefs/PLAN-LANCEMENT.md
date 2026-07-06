@@ -69,7 +69,7 @@ Chaque publication est annoncée par un post LinkedIn de Kenzy (reprendre l'angl
 
 ## 5. J45-90 : assets citables
 
-- [ ] Enrichir les 3 calculateurs `/outils/*` d'une méthodologie visible (300-400 mots : hypothèses, charges patronales, sources) puis les pousser via posts LinkedIn
+- [x] Calculateurs construits AVEC méthodologie transparente et sources (fait 2026-07-04). Reste : les pousser via posts LinkedIn.
 - [ ] Présence communautés FR (Reddit r/entrepreneur_fr, Slack sales) : répondre en citant les données du blog, sans spam
 - [ ] Test GEO mensuel : demander à ChatGPT/Perplexity "meilleure agence de prospection B2B" et "combien coûte une agence de prospection", noter qui est cité (journal : memory/seo-patterns.md)
 
