@@ -14,31 +14,30 @@ Tout est prêt sauf les éléments marqués KENZY (actions personnelles ou arbit
 
 ## 2. Publication échelonnée du blog (mécanique prête)
 
-Etat au lancement : SEULS 2 articles publiés, le reste en `draft: true` (flag déjà supporté par le template, les drafts ne sont ni buildés ni dans le sitemap).
+Etat au lancement (décision Kenzy 2026-07-04) : **6 articles publiés à J0**, les 3 restants en `draft: true` (flag supporté par le template, les drafts ne sont ni buildés ni dans le sitemap).
 
 Au jour J, lancer :
 
 ```bash
 cd ~/Desktop/agencesimple-site
-# passe tout en draft SAUF les 2 articles J0
-for f in src/content/blog/*.mdx; do
-  case "$f" in
-    *externaliser-prospection-b2b-guide*|*comment-ecrire-cold-email-b2b*) ;;
-    *) grep -q '^draft:' "$f" || sed -i '' 's/^author:/draft: true\nauthor:/' "$f" ;;
-  esac
+# passe en draft les 3 articles gardés pour les semaines suivantes
+for f in src/content/blog/prospection-linkedin-methode.mdx \
+         src/content/blog/sales-navigator-guide-ciblage.mdx \
+         src/content/blog/meilleures-agences-prospection-b2b.mdx; do
+  grep -q '^draft:' "$f" || sed -i '' 's/^author:/draft: true\nauthor:/' "$f"
 done
+# et mettre le publishedAt des 6 articles publiés à la date réelle du jour J
 ```
 
 Puis chaque semaine, pour publier un article : retirer sa ligne `draft: true` ET mettre `publishedAt` à la date réelle du jour, commit, push (le déploiement Cloudflare rebuild).
 
 | Semaine | Articles publiés |
 |---|---|
-| J0 | externaliser-prospection-b2b-guide, comment-ecrire-cold-email-b2b |
-| S+1 | cout-sdr-interne-vs-agence, delivrabilite-email-spf-dkim-dmarc |
-| S+2 | taux-reponse-cold-email-benchmarks, definir-client-ideal-ciblage-b2b |
-| S+3 | prospection-linkedin-methode, sales-navigator-guide-ciblage |
-| S+4 | meilleures-agences-prospection-b2b (le listicle, annoncé par un post LinkedIn) |
-| S+5 et suite | 1 article/semaine de la roadmap audit (n°2 : prix du marché de la prospection) |
+| J0 | externaliser-prospection-b2b-guide, comment-ecrire-cold-email-b2b, cout-sdr-interne-vs-agence, delivrabilite-email-spf-dkim-dmarc, taux-reponse-cold-email-benchmarks, definir-client-ideal-ciblage-b2b |
+| S+1 | prospection-linkedin-methode |
+| S+2 | sales-navigator-guide-ciblage (cocon LinkedIn complet, poser les liens retour) |
+| S+3 | meilleures-agences-prospection-b2b (le listicle, annoncé par un post LinkedIn) |
+| S+4 et suite | 1 article/semaine de la roadmap audit (n°2 : prix du marché de la prospection) |
 
 Chaque publication est annoncée par un post LinkedIn de Kenzy (reprendre l'angle chiffré de l'article).
 
