@@ -7,9 +7,9 @@ Tout est prêt sauf les éléments marqués KENZY (actions personnelles ou arbit
 - [ ] KENZY : remplir ou retirer les sections StoryScroll de la home (textes "Placeholder" et "Histoire 01/02/03" visibles)
 - [ ] KENZY : arbitrage H1 home (proposition Sacha : "L'agence de prospection B2B qui ne facture que les RDV qualifiés")
 - [ ] Basculer le blog en mode lancement (voir section 2, une commande)
-- [ ] Lighthouse mobile sur la home buildée : LCP < 2,5 s, INP < 200 ms (l'île React de la lamp fait 184 Ko ; si rouge, refaire l'effet en CSS pur)
+- [x] Lighthouse mobile home : FAIT le 2026-07-04, score 84, LCP 2,4 s, CLS 0,004 (images WebP + animations lamp en transform). Revalider une fois le StoryScroll rempli.
 - [ ] Vérifier `public/_redirects` actif après le premier déploiement Cloudflare Pages (tester /articles/happycolis, /fr/, /L'agence)
-- [ ] Créer la propriété Google Search Console + soumettre `sitemap-index.xml` + demander l'indexation manuelle de : home, 3 services, cas-clients, les 2 articles J0
+- [ ] Créer la propriété Google Search Console + soumettre `sitemap-index.xml` + demander l'indexation manuelle de : home, 3 services, cas-clients, les 6 articles J0
 - [ ] Brancher un analytics respectueux (Plausible ou GA4) si souhaité
 
 ## 2. Publication échelonnée du blog (mécanique prête)
