@@ -11,6 +11,8 @@
 
 interface Props {
   mediaSrc: string;
+  /** Visuel de l'etat compact (ex: agenda mobile) : cross-fade vers mediaSrc a l'expansion */
+  mediaSmallSrc?: string;
   mediaType?: 'image' | 'video';
   posterSrc?: string;
   bgImageSrc: string;
@@ -21,6 +23,7 @@ interface Props {
 
 const {
   mediaSrc,
+  mediaSmallSrc,
   mediaType = 'image',
   posterSrc,
   bgImageSrc,
@@ -59,6 +62,9 @@ const restOfTitle = parts.slice(1).join(' ');
           <img src={mediaSrc} alt={title} class="seh-media__el" loading="lazy" />
         )
       }
+      {mediaSmallSrc && (
+        <img src={mediaSmallSrc} alt="" class="seh-media__small" loading="lazy" aria-hidden="true" />
+      )}
       <div class="seh-media__overlay"></div>
 
       {
@@ -134,10 +140,12 @@ const restOfTitle = parts.slice(1).join(' ');
 <style>
   .seh-section {
     --progress: 0;
-    /* Hauteur 200vh : 100vh sticky + 100vh scroll = duree complete d'expansion */
-    height: 200vh;
+    /* Hauteur 320vh : 100vh sticky + 220vh de course = la page reste epinglee
+       pendant toute l'expansion (feedback Kenzy 2026-07-05) */
+    height: 320vh;
     position: relative;
-    overflow: hidden;
+    /* JAMAIS overflow hidden ici : ca casse position sticky de .seh-sticky */
+    overflow: clip;
   }
   .seh-sticky {
     position: sticky;
@@ -176,19 +184,19 @@ const restOfTitle = parts.slice(1).join(' ');
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* width: 300px init -> 1550px expanded (1250 * progress) */
-    width: calc(300px + var(--progress) * 1250px);
-    height: calc(400px + var(--progress) * 400px);
-    max-width: 95vw;
-    max-height: 85vh;
+    /* format telephone au depart -> quasi plein ecran a l'arrivee */
+    width: calc(320px + var(--progress) * (92vw - 320px));
+    height: calc(480px + var(--progress) * (86vh - 480px));
+    max-width: 92vw;
+    max-height: 86vh;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 25px 60px -20px rgba(0, 0, 0, 0.5);
   }
   @media (max-width: 768px) {
     .seh-media {
-      width: calc(300px + var(--progress) * 650px);
-      height: calc(400px + var(--progress) * 200px);
+      width: calc(260px + var(--progress) * (94vw - 260px));
+      height: calc(420px + var(--progress) * (70vh - 420px));
     }
   }
   .seh-media__el {
@@ -196,6 +204,17 @@ const restOfTitle = parts.slice(1).join(' ');
     height: 100%;
     object-fit: cover;
     border-radius: 16px;
+  }
+  /* Etat compact : visible au depart, cede la place au media principal (fade sur le 1er tiers) */
+  .seh-media__small {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 16px;
+    opacity: clamp(0, calc(1 - (var(--progress) - 0.3) * 3.3), 1);
   }
   .seh-media__overlay {
     position: absolute;
