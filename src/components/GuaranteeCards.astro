@@ -12,21 +12,7 @@ import GlowCard from './ui/GlowCard.astro';
 <section class="py-16 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
     <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      <!-- Card 1 : Frais en charge - fond orange plein, glow bleu (contraste) -->
-      <GlowCard glowColor="blue" radius={32}>
-        <div class="guarantee-card guarantee-card--orange">
-          <span class="guarantee-card__eyebrow">Inclus dans le forfait</span>
-          <h3 class="guarantee-card__title">
-            Nous prenons<br />tous les frais<br />en charge.
-          </h3>
-          <p class="guarantee-card__body">
-            Outils, infrastructure, copywriting, suivi : tout est compris dans
-            le forfait mensuel. Pas de frais cachés, pas de mark-up sur les outils.
-          </p>
-        </div>
-      </GlowCard>
-
-      <!-- Card 2 : Garantie minimum vital - fond bleu vif, glow orange -->
+      <!-- Card 1 : Garantie minimum vital - fond encre, glow orange -->
       <GlowCard glowColor="orange" radius={32}>
         <div class="guarantee-card guarantee-card--encre guarantee-card--minimum">
           <span class="guarantee-card__eyebrow">Garantie minimum vital</span>
@@ -36,6 +22,20 @@ import GlowCard from './ui/GlowCard.astro';
           <p class="guarantee-card__body">
             Un nombre de RDV qualifiés est fixé dans le contrat. Pas atteint ?
             On continue gratuitement jusqu'à l'atteindre.
+          </p>
+        </div>
+      </GlowCard>
+
+      <!-- Card 2 (centre) : Frais en charge - fond orange plein, glow bleu (contraste) -->
+      <GlowCard glowColor="blue" radius={32}>
+        <div class="guarantee-card guarantee-card--orange">
+          <span class="guarantee-card__eyebrow">Inclus dans le forfait</span>
+          <h3 class="guarantee-card__title">
+            Nous prenons<br />tous les frais<br />en charge.
+          </h3>
+          <p class="guarantee-card__body">
+            Outils, infrastructure, copywriting, suivi : tout est compris dans
+            le forfait mensuel. Pas de frais cachés, pas de mark-up sur les outils.
           </p>
         </div>
       </GlowCard>
