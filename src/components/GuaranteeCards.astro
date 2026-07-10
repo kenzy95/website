@@ -28,15 +28,14 @@ import GlowCard from './ui/GlowCard.astro';
 
       <!-- Card 2 : Garantie minimum vital - fond bleu vif, glow orange -->
       <GlowCard glowColor="orange" radius={32}>
-        <div class="guarantee-card guarantee-card--bleu">
+        <div class="guarantee-card guarantee-card--encre guarantee-card--minimum">
           <span class="guarantee-card__eyebrow">Garantie minimum vital</span>
           <h3 class="guarantee-card__title">
             Un minimum<br />de RDV.<br />Garanti.
           </h3>
           <p class="guarantee-card__body">
-            Un nombre de RDV qualifiés est fixé dans le contrat. S'il n'est pas
-            atteint, on continue gratuitement jusqu'à l'atteindre. Et vous êtes
-            seul juge de la qualification.
+            Un nombre de RDV qualifiés est fixé dans le contrat. Pas atteint ?
+            On continue gratuitement jusqu'à l'atteindre.
           </p>
         </div>
       </GlowCard>
@@ -72,7 +71,13 @@ import GlowCard from './ui/GlowCard.astro';
     justify-content: space-between;
   }
   @media (min-width: 768px) {
-    .guarantee-card { padding: 4rem 3rem; min-height: 24rem; }
+    .guarantee-card { padding: 2.75rem 2.5rem; min-height: 24rem; }
+  }
+  /* Format carre (Kenzy) : les 3 cards gardent la proportion des encarts d'origine */
+  @media (min-width: 1024px) {
+    .guarantee-card { aspect-ratio: 1 / 1; min-height: 0; }
+    .guarantee-card__body { margin-top: 1.25rem; font-size: 0.95rem; }
+    .guarantee-card__title { margin-top: 1rem; }
   }
 
   .guarantee-card--orange {
@@ -90,25 +95,14 @@ import GlowCard from './ui/GlowCard.astro';
     pointer-events: none;
   }
 
-  .guarantee-card--bleu {
-    background: #1E90FF;
-    color: #FFFFFF;
-  }
-  .guarantee-card--bleu::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+  /* Card minimum : meme DA encre que 'Aucun engagement', sans la texture cuivre */
+  .guarantee-card--minimum::before {
+    background-image: none;
     background:
-      radial-gradient(ellipse at bottom right, rgba(15, 27, 63, 0.25), transparent 60%),
-      radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.22), transparent 55%);
-    z-index: 0;
-    pointer-events: none;
+      radial-gradient(ellipse at top right, rgba(30, 144, 255, 0.15), transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(244, 123, 63, 0.12), transparent 55%);
+    opacity: 1;
   }
-  .guarantee-card--bleu .guarantee-card__eyebrow {
-    color: #FFFFFF;
-    opacity: 0.85;
-  }
-  .guarantee-card--bleu .guarantee-card__body { color: rgba(255, 255, 255, 0.9); }
 
   .guarantee-card--encre {
     background: #0a132e;
@@ -161,7 +155,7 @@ import GlowCard from './ui/GlowCard.astro';
     z-index: 1;
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    font-size: clamp(1.9rem, 2.6vw, 2.5rem);
     line-height: 1.05;
     letter-spacing: -0.03em;
     margin-top: 1.5rem;

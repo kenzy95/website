@@ -86,6 +86,15 @@
         <h3 class="wwd-card__title">Reporting &amp; itérations</h3>
         <p class="wwd-card__body">Bilan mensuel chiffré, recommandations d'itération, A/B tests sur le ciblage et le copy.</p>
       </div>
+
+      {/* Phase 3 : le statement efface tout le reste */}
+      <div class="wwd-statement">
+        <p class="wwd-statement__text">
+          Nous vous générons des
+          <span class="wwd-statement__marker">RDV qualifiés</span><br />
+          <span class="wwd-statement__accent">Vous faites la vente.</span>
+        </p>
+      </div>
     </div>
   </div>
 </section>
@@ -129,15 +138,25 @@
 <style>
   .wwd-section {
     --progress: 0;
-    /* Stages : tous calcules a partir de --progress, clampes [0,1] */
-    --p-title: clamp(0, calc(var(--progress) * 3.33), 1);
-    --p-sphere: clamp(0, calc((var(--progress) - 0.2) * 2.857), 1);
-    /* 8 cards : 4 lignes x 2 colonnes - apparition par ligne, sequence en cascade */
-    --p-row1: clamp(0, calc((var(--progress) - 0.3) * 5), 1);
-    --p-row2: clamp(0, calc((var(--progress) - 0.4) * 5), 1);
-    --p-row3: clamp(0, calc((var(--progress) - 0.5) * 5), 1);
-    --p-row4: clamp(0, calc((var(--progress) - 0.6) * 5), 1);
-    height: 350vh;
+    /* Choregraphie 3 phases dans la MEME section sticky (Kenzy 2026-07-05) :
+       1. titre + sphere apparaissent -> 2. titre disparait, les 8 services defilent
+       un par un -> 3. tout disparait, le statement s'affiche. */
+    --p-title: clamp(0, calc(var(--progress) * 8), 1);
+    --p-title-out: clamp(0, calc((var(--progress) - 0.2) * 12.5), 1);
+    --p-sphere: clamp(0, calc((var(--progress) - 0.06) * 8), 1);
+    /* 8 cards en sequence stricte (une apres l'autre) */
+    --p-c1: clamp(0, calc((var(--progress) - 0.26) * 16.67), 1);
+    --p-c2: clamp(0, calc((var(--progress) - 0.305) * 16.67), 1);
+    --p-c3: clamp(0, calc((var(--progress) - 0.35) * 16.67), 1);
+    --p-c4: clamp(0, calc((var(--progress) - 0.395) * 16.67), 1);
+    --p-c5: clamp(0, calc((var(--progress) - 0.44) * 16.67), 1);
+    --p-c6: clamp(0, calc((var(--progress) - 0.485) * 16.67), 1);
+    --p-c7: clamp(0, calc((var(--progress) - 0.53) * 16.67), 1);
+    --p-c8: clamp(0, calc((var(--progress) - 0.575) * 16.67), 1);
+    /* Sortie globale (cards + sphere) puis entree du statement */
+    --p-out: clamp(0, calc((var(--progress) - 0.66) * 12.5), 1);
+    --p-statement: clamp(0, calc((var(--progress) - 0.70) * 10), 1);
+    height: 550vh;
     position: relative;
   }
   .wwd-sticky {
@@ -180,6 +199,9 @@
   }
   .wwd-word-wrap {
     flex-shrink: 0;
+    /* Phase 2 : les mots du titre s'effacent, la sphere (dans le spacer) reste */
+    opacity: calc(1 - var(--p-title-out));
+    transform: translateY(calc(var(--p-title-out) * -30px));
   }
   .wwd-word {
     font-family: var(--font-sans);
@@ -209,7 +231,7 @@
     height: clamp(10rem, 34vw, 34rem);
     transform: translate(-50%, -50%) translateZ(calc((1 - var(--p-sphere)) * -847px));
     transform-style: preserve-3d;
-    opacity: var(--p-sphere);
+    opacity: calc(var(--p-sphere) * (1 - var(--p-out)));
     pointer-events: none;
   }
 
@@ -297,49 +319,49 @@
   /* Colonne gauche : cards 1-4 espacees verticalement */
   .wwd-card--1 {
     top: 3%; left: 2%;
-    opacity: var(--p-row1);
-    transform: translateY(calc((1 - var(--p-row1)) * 20px));
+    opacity: calc(var(--p-c1) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c1)) * 20px));
   }
   .wwd-card--2 {
     top: 27%; left: 2%;
-    opacity: var(--p-row2);
-    transform: translateY(calc((1 - var(--p-row2)) * 20px));
+    opacity: calc(var(--p-c3) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c3)) * 20px));
   }
   .wwd-card--3 {
     top: 51%; left: 2%;
-    opacity: var(--p-row3);
-    transform: translateY(calc((1 - var(--p-row3)) * 20px));
+    opacity: calc(var(--p-c5) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c5)) * 20px));
   }
   .wwd-card--4 {
     top: 75%; left: 2%;
-    opacity: var(--p-row4);
-    transform: translateY(calc((1 - var(--p-row4)) * 20px));
+    opacity: calc(var(--p-c7) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c7)) * 20px));
   }
 
   /* Colonne droite : cards 5-8 espacees verticalement, alignees a droite */
   .wwd-card--5 {
     top: 3%; right: 2%;
     text-align: right;
-    opacity: var(--p-row1);
-    transform: translateY(calc((1 - var(--p-row1)) * 20px));
+    opacity: calc(var(--p-c2) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c2)) * 20px));
   }
   .wwd-card--6 {
     top: 27%; right: 2%;
     text-align: right;
-    opacity: var(--p-row2);
-    transform: translateY(calc((1 - var(--p-row2)) * 20px));
+    opacity: calc(var(--p-c4) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c4)) * 20px));
   }
   .wwd-card--7 {
     top: 51%; right: 2%;
     text-align: right;
-    opacity: var(--p-row3);
-    transform: translateY(calc((1 - var(--p-row3)) * 20px));
+    opacity: calc(var(--p-c6) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c6)) * 20px));
   }
   .wwd-card--8 {
     top: 75%; right: 2%;
     text-align: right;
-    opacity: var(--p-row4);
-    transform: translateY(calc((1 - var(--p-row4)) * 20px));
+    opacity: calc(var(--p-c8) * (1 - var(--p-out)));
+    transform: translateY(calc((1 - var(--p-c8)) * 20px));
   }
 
   @media (max-width: 1024px) {
@@ -348,6 +370,50 @@
     .wwd-card__body { font-size: 0.8125rem; }
     .wwd-card__num { font-size: 0.875rem; }
   }
+  /* Phase 3 : statement plein cadre */
+  .wwd-statement {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 1.5rem;
+    opacity: var(--p-statement);
+    transform: translateY(calc((1 - var(--p-statement)) * 40px));
+    pointer-events: none;
+  }
+  .wwd-statement__text {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--color-creme);
+    max-width: 70rem;
+  }
+  .wwd-statement__marker {
+    position: relative;
+    display: inline-block;
+  }
+  .wwd-statement__marker::before {
+    content: '';
+    position: absolute;
+    inset: 0.55em -0.08em 0.02em;
+    background: var(--color-orange);
+    opacity: 0.95;
+    border-radius: 3px;
+    transform: rotate(-1deg);
+    z-index: -1;
+  }
+  .wwd-statement__accent {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+
   /* Mobile : on cache les cards (a refaire en grid stack si besoin) */
   @media (max-width: 768px) {
     .wwd-card { display: none; }
