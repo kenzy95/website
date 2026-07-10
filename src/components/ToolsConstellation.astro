@@ -1,21 +1,29 @@
 ---
 /**
- * Constellation d'outils tech (reprise du Framer).
- * Icones unicode dans cards rondes flottant aleatoirement autour d'un cercle central.
- * Pas d'image (charte v2 bannit), pas de stock, juste CSS pur + emojis tech.
+ * Section outils, pattern "animated beam" (ref MagicUI animated-beam, 21st.dev) :
+ * 8 outils en 2 colonnes relies au hub central Agence Simple par des courbes,
+ * un faisceau lumineux voyage le long de chaque courbe vers le hub.
+ * SVG + CSS pur (stroke-dashoffset anime, pathLength normalise a 100),
+ * zero JS. Nodes HTML positionnes en % sur le meme repere que le viewBox 800x480.
  */
 
-const tools = [
-  { label: 'Instantly', symbol: '📧', x: 18, y: 25, size: 56 },
-  { label: 'Sales Navigator', symbol: '◆', x: 38, y: 12, size: 64 },
-  { label: 'Clay', symbol: '✦', x: 62, y: 18, size: 56 },
-  { label: 'Lemlist', symbol: '◉', x: 82, y: 28, size: 60 },
-  { label: 'Aimfox', symbol: '◈', x: 12, y: 55, size: 52 },
-  { label: 'UseBouncer', symbol: '✓', x: 90, y: 58, size: 56 },
-  { label: 'Make', symbol: '⚡', x: 32, y: 68, size: 60 },
-  { label: 'Zapier', symbol: '⚙', x: 68, y: 70, size: 56 },
-  { label: 'HubSpot', symbol: '◐', x: 50, y: 80, size: 64 },
+type Node = { label: string; symbol: string; x: number; y: number; path: string; beam: 'orange' | 'bleu' };
+
+const NODES: Node[] = [
+  // Colonne gauche (beams orange)
+  { label: 'Sales Navigator', symbol: '◆', x: 90,  y: 70,  path: 'M 128 70 C 250 70, 240 240, 326 240',   beam: 'orange' },
+  { label: 'Instantly',       symbol: '📧', x: 70, y: 180, path: 'M 108 180 C 220 180, 230 240, 326 240', beam: 'orange' },
+  { label: 'Aimfox',          symbol: '◈', x: 70,  y: 300, path: 'M 108 300 C 220 300, 230 240, 326 240', beam: 'orange' },
+  { label: 'Make',            symbol: '⚡', x: 90, y: 410, path: 'M 128 410 C 250 410, 240 240, 326 240', beam: 'orange' },
+  // Colonne droite (beams bleu)
+  { label: 'Clay',       symbol: '✦', x: 710, y: 70,  path: 'M 672 70 C 550 70, 560 240, 474 240',   beam: 'bleu' },
+  { label: 'Lemlist',    symbol: '◉', x: 730, y: 180, path: 'M 692 180 C 580 180, 570 240, 474 240', beam: 'bleu' },
+  { label: 'UseBouncer', symbol: '✓', x: 730, y: 300, path: 'M 692 300 C 580 300, 570 240, 474 240', beam: 'bleu' },
+  { label: 'Zapier',     symbol: '⚙', x: 710, y: 410, path: 'M 672 410 C 550 410, 560 240, 474 240', beam: 'bleu' },
 ];
+
+/* Coordonnees viewBox -> % du conteneur (800 x 480) */
+const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
 ---
 
 <section class="tools-section">
@@ -35,24 +43,33 @@ const tools = [
       </p>
     </div>
 
-    <div class="tools-constellation">
-      <!-- Cercle central -->
+    <div class="beam-stage">
+      <svg class="beam-svg" viewBox="0 0 800 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        {NODES.map((n, i) => (
+          <>
+            <path d={n.path} class="beam-base" />
+            <path
+              d={n.path}
+              class:list={['beam-light', n.beam === 'orange' ? 'beam-light--orange' : 'beam-light--bleu']}
+              pathLength="100"
+              style={`animation-delay:${i * 0.55}s`}
+            />
+          </>
+        ))}
+      </svg>
+
+      {NODES.map((n) => (
+        <div class="tool-node" style={pct(n)}>
+          <span class="tool-node__symbol" aria-hidden="true">{n.symbol}</span>
+          <span class="tool-node__label">{n.label}</span>
+        </div>
+      ))}
+
+      <!-- Hub central -->
       <div class="tools-core">
         <span class="tools-core__icon">⌘</span>
         <span class="tools-core__label">Agence Simple</span>
       </div>
-      <!-- Icones flottants -->
-      {
-        tools.map((t, i) => (
-          <div
-            class="tool-pill"
-            style={`left:${t.x}%;top:${t.y}%;width:${t.size}px;height:${t.size}px;animation-delay:${i * 0.4}s`}
-          >
-            <span class="tool-pill__symbol" aria-hidden="true">{t.symbol}</span>
-            <span class="tool-pill__label">{t.label}</span>
-          </div>
-        ))
-      }
     </div>
   </div>
 </section>
@@ -62,14 +79,77 @@ const tools = [
     padding: 5rem 0 4rem;
   }
 
-  .tools-constellation {
+  .beam-stage {
     position: relative;
-    height: 28rem;
     max-width: 50rem;
     margin: 0 auto;
+    aspect-ratio: 800 / 480;
+    min-height: 20rem;
   }
-  @media (min-width: 768px) {
-    .tools-constellation { height: 32rem; }
+
+  .beam-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .beam-base {
+    stroke: rgba(250, 247, 242, 0.1);
+    stroke-width: 1.5;
+  }
+
+  /* Faisceau : segment de 12 unites sur un cycle de 200 (pause d'un demi-cycle),
+     dashoffset decroit -> le segment voyage de l'outil vers le hub */
+  .beam-light {
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 12 188;
+    stroke-dashoffset: 200;
+    animation: beam-travel 3.2s linear infinite;
+  }
+  .beam-light--orange {
+    stroke: var(--color-orange);
+    filter: drop-shadow(0 0 6px rgba(244, 123, 63, 0.8));
+  }
+  .beam-light--bleu {
+    stroke: #1e90ff;
+    filter: drop-shadow(0 0 6px rgba(30, 144, 255, 0.8));
+  }
+
+  @keyframes beam-travel {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .tool-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: clamp(2.75rem, 7vw, 3.75rem);
+    aspect-ratio: 1;
+    background: rgba(250, 247, 242, 0.06);
+    border: 1px solid rgba(250, 247, 242, 0.14);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-creme);
+    z-index: 1;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  .tool-node__symbol {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--color-orange);
+  }
+  .tool-node__label {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.58rem, 1.4vw, 0.72rem);
+    color: rgba(250, 247, 242, 0.55);
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   .tools-core {
@@ -77,11 +157,11 @@ const tools = [
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 9rem;
-    height: 9rem;
+    width: clamp(6.5rem, 16vw, 9rem);
+    aspect-ratio: 1;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #1a2750, #0a132e);
-    border: 1px solid rgba(30, 144, 255, 0.2);
+    border: 1px solid rgba(30, 144, 255, 0.25);
     box-shadow:
       0 0 60px rgba(30, 144, 255, 0.25),
       inset 0 0 30px rgba(0, 0, 0, 0.5);
@@ -93,53 +173,18 @@ const tools = [
     z-index: 2;
   }
   .tools-core__icon {
-    font-size: 2rem;
-    color: #1E90FF;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: #1e90ff;
   }
   .tools-core__label {
     font-family: var(--font-logo);
     font-weight: 800;
-    font-size: 0.75rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
     color: var(--color-creme);
     letter-spacing: 0.04em;
   }
 
-  .tool-pill {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background: rgba(250, 247, 242, 0.06);
-    border: 1px solid rgba(250, 247, 242, 0.12);
-    backdrop-filter: blur(8px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-creme);
-    z-index: 1;
-    animation: tool-float 6s ease-in-out infinite;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  }
-  .tool-pill__symbol {
-    font-size: 1.3rem;
-    color: var(--color-orange);
-  }
-  .tool-pill__label {
-    position: absolute;
-    bottom: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.7rem;
-    color: rgba(250, 247, 242, 0.55);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  @keyframes tool-float {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-10px); }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .tool-pill { animation: none; }
+    .beam-light { animation: none; opacity: 0; }
   }
 </style>
