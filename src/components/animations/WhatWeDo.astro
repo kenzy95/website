@@ -123,9 +123,17 @@
           ticking = false;
         });
       }
+      function measureShift() {
+        var words = section.querySelectorAll('.wwd-word-wrap');
+        if (words.length === 2) {
+          var shift = (words[1].getBoundingClientRect().width - words[0].getBoundingClientRect().width) / 2;
+          section.style.setProperty('--sphere-shift', shift.toFixed(1) + 'px');
+        }
+      }
+      measureShift();
       update();
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll, { passive: true });
+      window.addEventListener('resize', function () { measureShift(); onScroll(); }, { passive: true });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
@@ -198,23 +206,18 @@
     transform: translateY(calc((1 - var(--p-title)) * 50px));
     z-index: 3;
   }
-  /* Mots en colonnes egales de part et d'autre : le spacer (et la sphere dedans)
-     est ainsi au centre EXACT du viewport */
   .wwd-word-wrap {
-    flex: 1 1 0;
-    min-width: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
     /* Phase 2 : les mots du titre s'effacent, la sphere (dans le spacer) reste */
     opacity: calc(1 - var(--p-title-out));
     transform: translateY(calc(var(--p-title-out) * -30px));
   }
-  .wwd-word-wrap:first-child { text-align: right; }
-  .wwd-word-wrap:last-child { text-align: left; }
   .wwd-word {
     font-family: var(--font-sans);
     font-weight: 700;
-    /* Taille garantie : la demi-colonne fait (container - sphere)/2, et
-       'qu'on fait pour vous' mesure ~10.5em -> f <= (C - S)/23 avec marge */
-    font-size: min(3.6rem, calc((min(100vw, 1280px) - min(28vw, 28rem)) / 22));
+    font-size: clamp(2rem, 5.5vw, 4.5rem);
     line-height: 0.95;
     letter-spacing: -0.04em;
     color: var(--color-creme);
@@ -225,7 +228,7 @@
   .wwd-spacer {
     flex-shrink: 0;
     position: relative;
-    width: calc(var(--p-sphere) * clamp(9rem, 28vw, 28rem));
+    width: calc(var(--p-sphere) * clamp(9rem, 28vw, 28rem) * 0.72);
     height: clamp(9rem, 28vw, 28rem);
     transition: none;
   }
@@ -237,7 +240,9 @@
     left: 50%;
     width: clamp(9rem, 28vw, 28rem);
     height: clamp(9rem, 28vw, 28rem);
-    transform: translate(-50%, -50%) translateZ(calc((1 - var(--p-sphere)) * -847px));
+    transform: translate(-50%, -50%)
+      translateX(calc(var(--p-title-out) * var(--sphere-shift, 0px)))
+      translateZ(calc((1 - var(--p-sphere)) * -847px));
     transform-style: preserve-3d;
     opacity: calc(var(--p-sphere) * (1 - var(--p-out)));
     pointer-events: none;
