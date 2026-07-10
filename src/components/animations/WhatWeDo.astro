@@ -212,7 +212,9 @@
   .wwd-word {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: clamp(1.6rem, 4.2vw, 3.6rem); /* doit tenir dans une demi-colonne */
+    /* Taille garantie : la demi-colonne fait (container - sphere)/2, et
+       'qu'on fait pour vous' mesure ~10.5em -> f <= (C - S)/23 avec marge */
+    font-size: min(3.6rem, calc((min(100vw, 1280px) - min(28vw, 28rem)) / 22));
     line-height: 0.95;
     letter-spacing: -0.04em;
     color: var(--color-creme);
