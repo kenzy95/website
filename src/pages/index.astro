@@ -16,6 +16,7 @@ import ScrollExpansionHero from '@components/animations/ScrollExpansionHero.astr
 import StoryScroll from '@components/animations/StoryScroll.astro';
 import StorySection from '@components/animations/StorySection.astro';
 import MailboxDashboard from '@components/MailboxDashboard.astro';
+import ShaderBg from '@components/ui/ShaderBg';
 import ServiceTakeover from '@components/ServiceTakeover.astro';
 import RoiCalculator from '@components/RoiCalculator.astro';
 import ClientInterviews from '@components/ClientInterviews.astro';
@@ -116,6 +117,7 @@ const schemas = [
       date="De A à Z"
       scrollToExpand="Faites défiler pour découvrir"
     >
+      <ShaderBg client:load slot="background" />
       <div class="max-w-3xl mx-auto text-center text-(--color-creme)">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
           Le résultat concret

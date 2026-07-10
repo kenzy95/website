@@ -42,6 +42,8 @@ const restOfTitle = parts.slice(1).join(' ');
     <!-- Background image qui fade -->
     <div class="seh-bg">
       <img src={bgImageSrc} alt="" class="seh-bg__img" loading="lazy" />
+      {/* Fond anime optionnel (ex: ShaderGradient en client:visible), monte par-dessus le poster */}
+      <slot name="background" />
       <div class="seh-bg__overlay"></div>
     </div>
 
