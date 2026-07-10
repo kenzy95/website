@@ -42,6 +42,18 @@ const schemas = [
   localBusinessSchema(),
   faqSchema(HOME_FAQ.map((f) => ({ question: f.q, answer: f.a }))),
 ];
+
+/* Config ShaderGradient de reference (Kenzy) : seules les 3 couleurs changent
+   par fiche process, le mouvement (uSpeed 0.4, uDensity 1.3...) reste identique. */
+const shaderUrl = (c1: string, c2: string, c3: string) =>
+  `https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23${c1}&color2=%23${c2}&color3=%23${c3}&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=4&uTime=0&wireframe=false`;
+
+const STORY_SHADERS = {
+  cadrage: shaderUrl('dbba95', 'f2e3cf', '99a0e1'),
+  infra: shaderUrl('0f1b3f', '2a3fbf', '7a5fd0'),
+  lancement: shaderUrl('ff5005', 'dbba95', '99a0e1'),
+  agenda: shaderUrl('99a0e1', 'c5caf2', 'dbba95'),
+};
 ---
 
 <BaseLayout
@@ -141,6 +153,7 @@ const schemas = [
     <!-- ============ 8. PROCESS : les 4 etapes en story scroll ============ -->
     <StoryScroll ariaLabel="Le process Agence Simple en 4 etapes">
       <StorySection bg="custom" customBg="url('/images/story-cadrage.webp') center / cover no-repeat" textColor="var(--color-encre)" ariaLabel="Process etape 1">
+        <ShaderBg client:load urlString={STORY_SHADERS.cadrage} slot="background" />
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
             Process · Semaine 1
@@ -159,6 +172,7 @@ const schemas = [
       </StorySection>
 
       <StorySection bg="custom" customBg="url('/images/story-infra.webp') center / cover no-repeat" textColor="var(--color-creme)" ariaLabel="Process etape 2">
+        <ShaderBg client:load urlString={STORY_SHADERS.infra} slot="background" />
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
             Process · Semaine 2
@@ -177,6 +191,7 @@ const schemas = [
       </StorySection>
 
       <StorySection bg="custom" customBg="url('/images/story-lancement.webp') center / cover no-repeat" textColor="var(--color-encre)" ariaLabel="Process etape 3">
+        <ShaderBg client:load urlString={STORY_SHADERS.lancement} slot="background" />
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-encre)">
             Process · Semaines 3 à 6
@@ -195,6 +210,7 @@ const schemas = [
       </StorySection>
 
       <StorySection bg="custom" customBg="url('/images/story-agenda.webp') center / cover no-repeat" textColor="var(--color-encre)" ariaLabel="Process etape 4">
+        <ShaderBg client:load urlString={STORY_SHADERS.agenda} slot="background" />
         <div class="mx-auto max-w-4xl text-center">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
             Process · Mois 2 et suivants

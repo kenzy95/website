@@ -49,6 +49,11 @@ const customStyle = [
   style={customStyle || undefined}
 >
   <div class="story-section__card">
+    {Astro.slots.has('background') && (
+      <div class="story-section__bg" aria-hidden="true">
+        <slot name="background" />
+      </div>
+    )}
     <div class="story-section__inner">
       <slot />
     </div>
@@ -97,8 +102,17 @@ const customStyle = [
     }
   }
 
+  /* Fond anime (ShaderGradient) : couche absolue sous le contenu,
+     le --card-bg (webp) reste visible en poster pendant le chargement */
+  .story-section__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
   .story-section__inner {
     position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

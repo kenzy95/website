@@ -8,7 +8,7 @@ const ShaderScene = lazy(() => import('./ShaderScene'));
  * scroll (getBoundingClientRect), deliberement PAS d'IntersectionObserver :
  * il ne fire pas dans les fenetres non rendues et depend du compositeur.
  */
-export default function ShaderBg() {
+export default function ShaderBg({ urlString }: { urlString?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -39,7 +39,7 @@ export default function ShaderBg() {
     <div ref={ref} style={{ position: 'absolute', inset: 0 }}>
       {inView && (
         <Suspense fallback={null}>
-          <ShaderScene />
+          <ShaderScene urlString={urlString} />
         </Suspense>
       )}
     </div>
