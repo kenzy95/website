@@ -5,7 +5,6 @@ import Footer from '@components/Footer.astro';
 import ArrowButton from '@components/ui/ArrowButton.astro';
 import GlassButton from '@components/ui/GlassButton.astro';
 import HighlightMarker from '@components/ui/HighlightMarker.astro';
-import { LampContainer } from '@components/ui/Lamp';
 import LogoMarquee from '@components/LogoMarquee.astro';
 import PartnerWilco from '@components/PartnerWilco.astro';
 import GuaranteeCards from '@components/GuaranteeCards.astro';
@@ -48,6 +47,11 @@ const schemas = [
 const shaderUrl = (c1: string, c2: string, c3: string) =>
   `https://www.shadergradient.co/customize?animate=on&axesHelper=off&brightness=1.2&cAzimuthAngle=180&cDistance=3.6&cPolarAngle=90&cameraZoom=1&color1=%23${c1}&color2=%23${c2}&color3=%23${c3}&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=off&lightType=3d&pixelDensity=1&positionX=-1.4&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=10&rotationZ=50&shader=defaults&type=plane&uAmplitude=1&uDensity=1.3&uFrequency=5.5&uSpeed=0.4&uStrength=4&uTime=0&wireframe=false`;
 
+/* Fond hero : gradient ShaderGradient 'Interstellar' (config exacte Kenzy),
+   sphere orange/bleu animee sur fond noir, rendu par ShaderBg (lazy three.js). */
+const HERO_SHADER =
+  'https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.8&cAzimuthAngle=67&cDistance=0.5&cPolarAngle=107&cameraZoom=15.1&color1=%23709ac4&color2=%23ff810a&color3=%23ceb990&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=env&pixelDensity=1&positionX=-0.1&positionY=0&positionZ=0&range=disabled&rangeEnd=40&rangeStart=0&reflection=0.4&rotationX=0&rotationY=130&rotationZ=70&shader=defaults&type=sphere&uAmplitude=3.2&uDensity=0.8&uFrequency=5.5&uSpeed=0.3&uStrength=0.3&uTime=0&wireframe=false';
+
 const STORY_SHADERS = {
   cadrage: shaderUrl('dbba95', 'f2e3cf', '99a0e1'),
   infra: shaderUrl('0f1b3f', '2a3fbf', '7a5fd0'),
@@ -65,12 +69,14 @@ const STORY_SHADERS = {
   <Header slot="header" variant="dark" />
 
   <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
-    <!-- ============ HERO (Aceternity Lamp Effect, charte bleu) ============ -->
-    <section class="relative overflow-hidden">
-      <LampContainer client:load>
+    <!-- ============ HERO : gradient Interstellar anime en fond ============ -->
+    <section class="hero-shader relative overflow-hidden">
+      <ShaderBg client:load urlString={HERO_SHADER} />
+      <div class="hero-shader__scrim" aria-hidden="true"></div>
+      <div class="relative z-10 min-h-[92vh] flex flex-col items-center justify-center text-center px-5 pt-20 pb-10">
         <h1
-          class="mt-8 py-4 leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
-          style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme);"
+          class="py-4 leading-(--leading-tight) tracking-tight max-w-5xl mx-auto text-center"
+          style="font-family: var(--font-sans); font-weight: 700; font-size: var(--text-h1-hero); color: var(--color-creme); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);"
         >
           Payez
           <HighlightMarker>seulement</HighlightMarker>
@@ -78,11 +84,8 @@ const STORY_SHADERS = {
           un
           <span style="font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-bleu);">RDV qualifié</span>.
         </h1>
-      </LampContainer>
 
-      <!-- Paragraphe + CTAs : overlap le bas de la lamp (negative margin), pb 12 pour aerer avant le dashboard -->
-      <div class="relative z-10 -mt-64 sm:-mt-72 pb-12 sm:pb-16 text-center px-5" style="background-color: var(--color-encre);">
-        <p class="text-(--color-creme)/75 max-w-2xl mx-auto text-(length:--text-body-lg) leading-(--leading-relaxed)">
+        <p class="mt-6 text-(--color-creme)/85 max-w-2xl mx-auto text-(length:--text-body-lg) leading-(--leading-relaxed)" style="text-shadow: 0 1px 18px rgba(0, 0, 0, 0.5);">
           Une équipe complète de prospection B2B qui prend tout en charge. On vous livre des rendez-vous qualifiés. Vous décidez s'ils sont bons.
         </p>
 
@@ -247,3 +250,20 @@ const STORY_SHADERS = {
 
   <Footer slot="footer" />
 </BaseLayout>
+
+<style>
+  /* Hero shader : fond noir en attendant le canvas (le shader interstellar
+     a un bgColor noir), scrim bas pour fondre vers l'encre de la suite */
+  .hero-shader {
+    background: radial-gradient(ellipse 90% 70% at 60% 40%, #16233f, #000000);
+  }
+  .hero-shader__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 78% 60% at 50% 44%, rgba(8, 14, 34, 0.52), transparent 72%),
+      linear-gradient(180deg, rgba(15, 27, 63, 0.4), transparent 22%, transparent 62%, #0F1B3F 96%);
+  }
+</style>
