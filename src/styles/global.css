@@ -38,12 +38,14 @@
 
   /* Hierarchie typographique */
   --text-h1-hero: clamp(2.75rem, 6vw, 5.25rem);
+  --text-h1: clamp(2.25rem, 4.5vw, 3.5rem);
   --text-h2: clamp(2rem, 4vw, 3.25rem);
   --text-h3: clamp(1.25rem, 2vw, 1.75rem);
   --text-citation: clamp(1.5rem, 2.5vw, 2.25rem);
   --text-body-lg: clamp(1.0625rem, 1.4vw, 1.25rem);
   --text-body: 1rem;
   --text-caption: 0.875rem;
+  --text-small: 0.875rem;
   --text-eyebrow: 0.8125rem;
 
   --leading-tight: 1.05;

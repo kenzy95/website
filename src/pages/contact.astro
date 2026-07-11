@@ -16,8 +16,8 @@ const schemas = [contactPointSchema()];
 <PageLayout title={title} description={description} breadcrumb={breadcrumb} schemas={schemas}>
   <Section spacing="lg">
     <Container size="default">
-      <h1 class="text-(--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
-      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{description}</p>
+      <h1 class="text-(length:--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(length:--text-body) text-(--color-gris) max-w-2xl">{description}</p>
     </Container>
   </Section>
 
@@ -25,8 +25,8 @@ const schemas = [contactPointSchema()];
     <Container size="default">
       <div class="grid gap-12 md:grid-cols-2">
         <div>
-          <h2 class="text-(--text-h3) font-semibold">Réserver un créneau</h2>
-          <p class="mt-3 text-(--text-body) text-(--color-gris)">
+          <h2 class="text-(length:--text-h3) font-semibold">Réserver un créneau</h2>
+          <p class="mt-3 text-(length:--text-body) text-(--color-gris)">
             20 minutes en visio. Cadrage du besoin et avis honnête sur ce qu'on peut faire pour vous.
           </p>
           <!-- Calendly inline : charge en lazy quand le bloc devient visible (perf mobile) -->
@@ -45,8 +45,8 @@ const schemas = [contactPointSchema()];
         </div>
 
         <div>
-          <h2 class="text-(--text-h3) font-semibold">Coordonnées directes</h2>
-          <ul class="mt-4 space-y-3 text-(--text-body)">
+          <h2 class="text-(length:--text-h3) font-semibold">Coordonnées directes</h2>
+          <ul class="mt-4 space-y-3 text-(length:--text-body)">
             <li>
               <span class="text-(--color-gris)">Email :</span>{' '}
               <a href={`mailto:${SITE.contact.email}`} class="text-(--color-bleu) underline-offset-4 hover:underline">
@@ -72,7 +72,7 @@ const schemas = [contactPointSchema()];
             </li>
           </ul>
 
-          <address class="not-italic mt-8 text-(--text-body) text-(--color-gris)">
+          <address class="not-italic mt-8 text-(length:--text-body) text-(--color-gris)">
             {SITE.contact.address.street}<br />
             {SITE.contact.address.postalCode} {SITE.contact.address.city}<br />
             France

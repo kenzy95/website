@@ -61,7 +61,7 @@ const linkGroups = [
       >
         Le seul juge, c'est vous.
       </p>
-      <p class="mt-6 text-(--text-body) text-(--color-creme)/70 max-w-xl mx-auto">
+      <p class="mt-6 text-(length:--text-body) text-(--color-creme)/70 max-w-xl mx-auto">
         Pas d'engagement. Pas de jargon. Pas de slides. Vous payez. On livre. Vous décidez si c'est bon.
       </p>
     </div>
@@ -70,10 +70,10 @@ const linkGroups = [
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-10 pt-12 border-t border-(--color-creme)/10">
       <div class="col-span-2 md:col-span-3 lg:col-span-1">
         <LogoWordmark variant="creme" size="md" />
-        <p class="mt-4 text-(--text-caption) text-(--color-creme)/70 leading-(--leading-normal)">
+        <p class="mt-4 text-(length:--text-caption) text-(--color-creme)/70 leading-(--leading-normal)">
           Agence de prospection B2B basée à Paris.
         </p>
-        <address class="not-italic mt-6 text-(--text-caption) text-(--color-creme)/70 leading-relaxed">
+        <address class="not-italic mt-6 text-(length:--text-caption) text-(--color-creme)/70 leading-relaxed">
           {SITE.contact.address.street}<br />
           {SITE.contact.address.postalCode} {SITE.contact.address.city}
         </address>
@@ -82,7 +82,7 @@ const linkGroups = [
       {
         linkGroups.map((group) => (
           <nav aria-label={group.title}>
-            <h2 class="text-(--text-eyebrow) font-semibold uppercase tracking-wider text-(--color-orange)">
+            <h2 class="text-(length:--text-eyebrow) font-semibold uppercase tracking-wider text-(--color-orange)">
               {group.title}
             </h2>
             <ul class="mt-4 space-y-2.5">
@@ -92,7 +92,7 @@ const linkGroups = [
                     href={link.href}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                     target={link.external ? '_blank' : undefined}
-                    class="text-(--text-caption) text-(--color-creme)/85 hover:text-(--color-bleu) transition-colors"
+                    class="text-(length:--text-caption) text-(--color-creme)/85 hover:text-(--color-bleu) transition-colors"
                   >
                     {link.label}
                   </a>
@@ -105,7 +105,7 @@ const linkGroups = [
     </div>
 
     <!-- Mention legale + signature -->
-    <div class="mt-16 pt-8 border-t border-(--color-creme)/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-(--text-eyebrow) text-(--color-creme)/60">
+    <div class="mt-16 pt-8 border-t border-(--color-creme)/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-(length:--text-eyebrow) text-(--color-creme)/60">
       <p>© {year} {SITE.legalName} - SIRET {SITE.legal.siret}</p>
       <p style="font-family: var(--font-display); font-style: italic;">Le seul juge, c'est vous.</p>
     </div>

@@ -27,8 +27,8 @@ const meetings = [
       <span class="block w-2.5 h-2.5 rounded-full bg-amber-300/60" aria-hidden="true"></span>
       <span class="block w-2.5 h-2.5 rounded-full bg-green-400/60" aria-hidden="true"></span>
     </div>
-    <p class="text-(--text-eyebrow) text-(--color-gris) font-medium tracking-wide">Meeting Point - Mai 2026</p>
-    <div class="flex items-center gap-1.5 text-(--text-eyebrow) text-(--color-gris)">
+    <p class="text-(length:--text-eyebrow) text-(--color-gris) font-medium tracking-wide">Meeting Point - Mai 2026</p>
+    <div class="flex items-center gap-1.5 text-(length:--text-eyebrow) text-(--color-gris)">
       <span class="block w-1.5 h-1.5 rounded-full bg-(--color-bleu) animate-pulse" aria-hidden="true"></span>
       <span>4 cette semaine</span>
     </div>
@@ -40,18 +40,18 @@ const meetings = [
       meetings.map((m) => (
         <li class="flex items-center gap-4 px-5 py-4 hover:bg-(--color-creme-card)/50 transition-colors">
           <div class="flex-shrink-0 w-12 text-center">
-            <p class="text-(--text-caption) font-semibold text-(--color-encre) uppercase tracking-wide">
+            <p class="text-(length:--text-caption) font-semibold text-(--color-encre) uppercase tracking-wide">
               {m.day.slice(0, 3)}
             </p>
-            <p class="text-(--text-eyebrow) text-(--color-gris) tabular-nums">{m.time}</p>
+            <p class="text-(length:--text-eyebrow) text-(--color-gris) tabular-nums">{m.time}</p>
           </div>
           <div class="flex-1 min-w-0">
-            <p class="text-(--text-body) font-semibold text-(--color-encre) truncate">{m.client}</p>
-            <p class="text-(--text-caption) text-(--color-gris) truncate">
+            <p class="text-(length:--text-body) font-semibold text-(--color-encre) truncate">{m.client}</p>
+            <p class="text-(length:--text-caption) text-(--color-gris) truncate">
               {m.role} - {m.company}
             </p>
           </div>
-          <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-(--text-eyebrow) font-medium bg-(--color-bleu-soft) text-(--color-encre)">
+          <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-(length:--text-eyebrow) font-medium bg-(--color-bleu-soft) text-(--color-encre)">
             RDV
           </span>
         </li>
@@ -61,6 +61,6 @@ const meetings = [
 
   <!-- Footer mockup -->
   <div class="px-5 py-3 bg-(--color-creme-card) border-t border-(--color-gris-light)">
-    <p class="text-(--text-eyebrow) text-(--color-gris) text-center">Mise a jour il y a 4 minutes</p>
+    <p class="text-(length:--text-eyebrow) text-(--color-gris) text-center">Mise a jour il y a 4 minutes</p>
   </div>
 </div>

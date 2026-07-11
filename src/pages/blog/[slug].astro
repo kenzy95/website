@@ -70,13 +70,13 @@ if (article.data.schema === 'HowTo') {
 >
   <Section spacing="lg">
     <Container size="narrow">
-      <p class="text-(--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
+      <p class="text-(length:--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">
         Article · {article.data.author}
       </p>
-      <h1 class="mt-4 text-(--text-h1) font-bold leading-(--leading-tight)">
+      <h1 class="mt-4 text-(length:--text-h1) font-bold leading-(--leading-tight)">
         {article.data.title}
       </h1>
-      <p class="mt-4 text-(--text-small) text-(--color-gris)">
+      <p class="mt-4 text-(length:--text-small) text-(--color-gris)">
         Publié le{' '}
         {new Date(article.data.publishedAt).toLocaleDateString('fr-FR', {
           year: 'numeric',

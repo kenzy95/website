@@ -16,8 +16,8 @@ const breadcrumb = [{ name: 'Comparatifs' }];
 <PageLayout title={title} description={description} breadcrumb={breadcrumb}>
   <Section spacing="lg">
     <Container size="default">
-      <h1 class="text-(--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
-      <p class="mt-6 text-(--text-body) text-(--color-gris) max-w-2xl">{description}</p>
+      <h1 class="text-(length:--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(length:--text-body) text-(--color-gris) max-w-2xl">{description}</p>
     </Container>
   </Section>
 
@@ -28,9 +28,9 @@ const breadcrumb = [{ name: 'Comparatifs' }];
           COMPARISONS.map((c) => (
             <li>
               <Card href={`/comparatifs/${c.slug}`}>
-                <h2 class="text-(--text-h3) font-semibold">{c.title}</h2>
-                <p class="mt-3 text-(--text-body) text-(--color-gris)">{c.description}</p>
-                <span class="mt-4 inline-block text-(--text-small) text-(--color-bleu) underline-offset-4 hover:underline">
+                <h2 class="text-(length:--text-h3) font-semibold">{c.title}</h2>
+                <p class="mt-3 text-(length:--text-body) text-(--color-gris)">{c.description}</p>
+                <span class="mt-4 inline-block text-(length:--text-small) text-(--color-bleu) underline-offset-4 hover:underline">
                   Lire le comparatif →
                 </span>
               </Card>
