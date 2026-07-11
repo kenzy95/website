@@ -7,19 +7,19 @@
  * zero JS. Nodes HTML positionnes en % sur le meme repere que le viewBox 800x480.
  */
 
-type Node = { label: string; symbol: string; x: number; y: number; path: string; beam: 'orange' | 'bleu' };
+type Node = { label: string; logo: string; x: number; y: number; path: string; beam: 'orange' | 'bleu' };
 
 const NODES: Node[] = [
   // Colonne gauche (beams orange)
-  { label: 'Sales Navigator', symbol: '◆', x: 90,  y: 70,  path: 'M 128 70 C 250 70, 240 240, 326 240',   beam: 'orange' },
-  { label: 'Instantly',       symbol: '📧', x: 70, y: 180, path: 'M 108 180 C 220 180, 230 240, 326 240', beam: 'orange' },
-  { label: 'Aimfox',          symbol: '◈', x: 70,  y: 300, path: 'M 108 300 C 220 300, 230 240, 326 240', beam: 'orange' },
-  { label: 'Make',            symbol: '⚡', x: 90, y: 410, path: 'M 128 410 C 250 410, 240 240, 326 240', beam: 'orange' },
+  { label: 'Sales Navigator', logo: '/logos/tools/linkedin.svg',  x: 90,  y: 70,  path: 'M 128 70 C 250 70, 240 240, 326 240',   beam: 'orange' },
+  { label: 'Instantly',       logo: '/logos/tools/instantly.png', x: 70,  y: 180, path: 'M 108 180 C 220 180, 230 240, 326 240', beam: 'orange' },
+  { label: 'Aimfox',          logo: '/logos/tools/aimfox.svg',    x: 70,  y: 300, path: 'M 108 300 C 220 300, 230 240, 326 240', beam: 'orange' },
+  { label: 'Make',            logo: '/logos/tools/make.svg',      x: 90,  y: 410, path: 'M 128 410 C 250 410, 240 240, 326 240', beam: 'orange' },
   // Colonne droite (beams bleu)
-  { label: 'Clay',       symbol: '✦', x: 710, y: 70,  path: 'M 672 70 C 550 70, 560 240, 474 240',   beam: 'bleu' },
-  { label: 'Lemlist',    symbol: '◉', x: 730, y: 180, path: 'M 692 180 C 580 180, 570 240, 474 240', beam: 'bleu' },
-  { label: 'UseBouncer', symbol: '✓', x: 730, y: 300, path: 'M 692 300 C 580 300, 570 240, 474 240', beam: 'bleu' },
-  { label: 'Zapier',     symbol: '⚙', x: 710, y: 410, path: 'M 672 410 C 550 410, 560 240, 474 240', beam: 'bleu' },
+  { label: 'Clay',       logo: '/logos/tools/clay.png',       x: 710, y: 70,  path: 'M 672 70 C 550 70, 560 240, 474 240',   beam: 'bleu' },
+  { label: 'Lemlist',    logo: '/logos/tools/lemlist.svg',    x: 730, y: 180, path: 'M 692 180 C 580 180, 570 240, 474 240', beam: 'bleu' },
+  { label: 'UseBouncer', logo: '/logos/tools/usebouncer.png', x: 730, y: 300, path: 'M 692 300 C 580 300, 570 240, 474 240', beam: 'bleu' },
+  { label: 'Zapier',     logo: '/logos/tools/zapier.svg',     x: 710, y: 410, path: 'M 672 410 C 550 410, 560 240, 474 240', beam: 'bleu' },
 ];
 
 /* Coordonnees viewBox -> % du conteneur (800 x 480) */
@@ -60,7 +60,7 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
 
       {NODES.map((n) => (
         <div class="tool-node" style={pct(n)}>
-          <span class="tool-node__symbol" aria-hidden="true">{n.symbol}</span>
+          <img class="tool-node__logo" src={n.logo} alt={`Logo ${n.label}`} width="40" height="40" loading="lazy" />
           <span class="tool-node__label">{n.label}</span>
         </div>
       ))}
@@ -137,9 +137,11 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
     z-index: 1;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   }
-  .tool-node__symbol {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: var(--color-orange);
+  .tool-node__logo {
+    width: 56%;
+    height: 56%;
+    object-fit: contain;
+    border-radius: 22%;
   }
   .tool-node__label {
     position: absolute;
