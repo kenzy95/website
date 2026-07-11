@@ -31,7 +31,7 @@ export const LampContainer = ({
               "conic-gradient(from 70deg at center top, #1E90FF, transparent, transparent)",
             transformOrigin: "right center",
           }}
-          className="lamp-cone-anim absolute inset-auto right-1/2 h-56 overflow-visible w-[70rem] text-white"
+          className="lamp-cone-anim absolute inset-auto right-1/2 h-56 overflow-visible w-[26rem] md:w-[70rem] text-white"
         >
           <div className="absolute  w-[100%] left-0 bg-[#0F1B3F] h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
           <div className="absolute  w-40 h-[100%] left-0 bg-[#0F1B3F]  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
@@ -42,7 +42,7 @@ export const LampContainer = ({
               "conic-gradient(from 290deg at center top, transparent, transparent, #1E90FF)",
             transformOrigin: "left center",
           }}
-          className="lamp-cone-anim absolute inset-auto left-1/2 h-56 w-[70rem] text-white"
+          className="lamp-cone-anim absolute inset-auto left-1/2 h-56 w-[26rem] md:w-[70rem] text-white"
         >
           <div className="absolute  w-40 h-[100%] right-0 bg-[#0F1B3F]  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
           <div className="absolute  w-[100%] right-0 bg-[#0F1B3F] h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
@@ -51,7 +51,7 @@ export const LampContainer = ({
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
         {/* Halo trapeze inverse (large) : largeur 68rem (= barre - marge blur) avec blur leger */}
         <div
-          className="absolute inset-auto z-30 h-72 w-[68rem] -translate-y-[2rem] pointer-events-none"
+          className="absolute inset-auto z-30 h-72 w-[24rem] md:w-[68rem] -translate-y-[2rem] pointer-events-none"
           style={{ filter: "blur(14px)" }}
         >
           <div
@@ -66,7 +66,7 @@ export const LampContainer = ({
 
         {/* Halo trapeze inverse (etroit, coeur intense) : anim CSS 14 -> 40rem */}
         <div
-          className="lamp-halo-narrow-anim absolute inset-auto z-30 h-56 w-[40rem] -translate-y-[2rem] pointer-events-none"
+          className="lamp-halo-narrow-anim absolute inset-auto z-30 h-56 w-[16rem] md:w-[40rem] -translate-y-[2rem] pointer-events-none"
           style={{ filter: "blur(12px)" }}
         >
           <div
@@ -80,7 +80,7 @@ export const LampContainer = ({
         </div>
         {/* Barre : z-50, largeur 70rem (matche le halo), anim CSS */}
         <div
-          className="lamp-bar-anim absolute inset-auto z-50 h-0.5 w-[70rem] -translate-y-[6rem] bg-[#1E90FF] "
+          className="lamp-bar-anim absolute inset-auto z-50 h-0.5 w-[26rem] md:w-[70rem] -translate-y-[6rem] bg-[#1E90FF] "
         ></div>
 
         {/* Masque haut : couvre tout au-dessus de la barre */}

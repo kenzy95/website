@@ -85,7 +85,10 @@ const { ariaLabel = 'Story scroll', class: className = '' } = Astro.props as Pro
   .story-scroll {
     position: relative;
     width: 100%;
-    /* PAS d'overflow hidden : casserait le sticky des sections enfants */
+    /* PAS d'overflow hidden : casserait le sticky des sections enfants.
+       overflow-x clip (pas hidden) : les cards pivotees (rotate 30deg)
+       debordent sinon du viewport mobile et elargissent la page. */
+    overflow-x: clip;
   }
   /* Z-index incrementiel pour empiler les sections successives */
   .story-scroll > [data-story-section]:nth-child(1) { z-index: 1; }

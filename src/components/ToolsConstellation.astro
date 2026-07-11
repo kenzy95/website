@@ -87,8 +87,15 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
     position: relative;
     max-width: 50rem;
     margin: 0 auto;
+    /* Pas de min-height : combinee a l'aspect-ratio elle forcait une
+       largeur > viewport sur mobile (533px pour 375). */
     aspect-ratio: 800 / 480;
-    min-height: 20rem;
+  }
+  /* Mobile : format plus vertical pour aerer les 12 nodes, labels masques
+     (ils chevauchent les nodes suivants, les logos suffisent) */
+  @media (max-width: 640px) {
+    .beam-stage { aspect-ratio: 800 / 640; }
+    .tool-node__label { display: none; }
   }
 
   .beam-svg {

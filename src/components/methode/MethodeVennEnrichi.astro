@@ -860,8 +860,27 @@
     .label-titre  { font-size: 0.75rem; }
     .label-sous   { font-size: 0.65rem; }
     .label-num    { font-size: 0.6rem; }
-    .venn-label-ciblage { top: 22%; }
-    .venn-label-copy    { top: 22%; }
+    /* Mobile : les labels absolus (ancres au wrapper chips+venn) tombaient
+       sur les chips passees en 2 colonnes. Re-agencement en grid :
+       chips -> rangee de 3 labels statiques -> venn. */
+    .venn-svg-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+    .signals-row { grid-column: 1 / -1; order: 1; }
+    .signals-wires { display: none; }
+    .venn-label,
+    .venn-label-infra {
+      position: static;
+      order: 2;
+      transform: none;
+      align-items: center;
+      text-align: center;
+    }
+    .venn-label-infra:hover,
+    .venn-label-infra.is-hovered { transform: translateY(-2px); }
+    .venn-svg { grid-column: 1 / -1; order: 3; }
     .bandeau-pane { inset: 1.25rem; }
     .venn-bandeau { padding: 1.25rem; }
     .bandeau-stats { flex-direction: column; gap: 0.75rem; }
