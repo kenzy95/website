@@ -11,16 +11,19 @@ import LogoWordmark from './ui/LogoWordmark.astro';
 type Node = { label: string; logo: string; x: number; y: number; path: string; beam: 'orange' | 'bleu' };
 
 const NODES: Node[] = [
-  // Colonne gauche (beams orange)
-  { label: 'Sales Navigator', logo: '/logos/tools/linkedin.svg',  x: 90,  y: 70,  path: 'M 128 70 C 250 70, 240 240, 326 240',   beam: 'orange' },
-  { label: 'Instantly',       logo: '/logos/tools/instantly.png', x: 70,  y: 180, path: 'M 108 180 C 220 180, 230 240, 326 240', beam: 'orange' },
-  { label: 'Aimfox',          logo: '/logos/tools/aimfox.svg',    x: 70,  y: 300, path: 'M 108 300 C 220 300, 230 240, 326 240', beam: 'orange' },
-  { label: 'Make',            logo: '/logos/tools/make.svg',      x: 90,  y: 410, path: 'M 128 410 C 250 410, 240 240, 326 240', beam: 'orange' },
-  // Colonne droite (beams bleu)
-  { label: 'Clay',       logo: '/logos/tools/clay.png',       x: 710, y: 70,  path: 'M 672 70 C 550 70, 560 240, 474 240',   beam: 'bleu' },
-  { label: 'Lemlist',    logo: '/logos/tools/lemlist.svg',    x: 730, y: 180, path: 'M 692 180 C 580 180, 570 240, 474 240', beam: 'bleu' },
-  { label: 'UseBouncer', logo: '/logos/tools/usebouncer.png', x: 730, y: 300, path: 'M 692 300 C 580 300, 570 240, 474 240', beam: 'bleu' },
-  { label: 'Zapier',     logo: '/logos/tools/zapier.svg',     x: 710, y: 410, path: 'M 672 410 C 550 410, 560 240, 474 240', beam: 'bleu' },
+  // Colonne gauche, 6 nodes (beams orange)
+  { label: 'Sales Navigator', logo: '/logos/tools/linkedin.svg',  x: 90, y: 45,  path: 'M 128 45 C 250 45, 240 240, 326 240',   beam: 'orange' },
+  { label: 'Instantly',       logo: '/logos/tools/instantly.png', x: 70, y: 123, path: 'M 108 123 C 230 123, 230 240, 326 240', beam: 'orange' },
+  { label: 'Aimfox',          logo: '/logos/tools/aimfox.svg',    x: 60, y: 201, path: 'M 98 201 C 220 201, 235 240, 326 240',  beam: 'orange' },
+  { label: 'Trigify',         logo: '/logos/tools/trigify.svg',   x: 60, y: 279, path: 'M 98 279 C 220 279, 235 240, 326 240',  beam: 'orange' },
+  { label: 'Icypeas',         logo: '/logos/tools/icypeas.png',   x: 70, y: 357, path: 'M 108 357 C 230 357, 230 240, 326 240', beam: 'orange' },
+  { label: 'Make',            logo: '/logos/tools/make.svg',      x: 90, y: 435, path: 'M 128 435 C 250 435, 240 240, 326 240', beam: 'orange' },
+  // Colonne droite, 5 nodes (beams bleu)
+  { label: 'Clay',         logo: '/logos/tools/clay.png',       x: 710, y: 60,  path: 'M 672 60 C 550 60, 560 240, 474 240',   beam: 'bleu' },
+  { label: 'Lemlist',      logo: '/logos/tools/lemlist.svg',    x: 725, y: 150, path: 'M 687 150 C 570 150, 565 240, 474 240', beam: 'bleu' },
+  { label: 'UseBouncer',   logo: '/logos/tools/usebouncer.png', x: 730, y: 240, path: 'M 692 240 C 600 240, 560 240, 474 240', beam: 'bleu' },
+  { label: 'Claude',       logo: '/logos/tools/claude.svg',     x: 725, y: 330, path: 'M 687 330 C 570 330, 565 240, 474 240', beam: 'bleu' },
+  { label: 'data.gouv.fr', logo: '/logos/tools/datagouv.svg',   x: 710, y: 420, path: 'M 672 420 C 550 420, 560 240, 474 240', beam: 'bleu' },
 ];
 
 /* Coordonnees viewBox -> % du conteneur (800 x 480) */
@@ -124,7 +127,7 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
   .tool-node {
     position: absolute;
     transform: translate(-50%, -50%);
-    width: clamp(2.75rem, 7vw, 3.75rem);
+    width: clamp(2.5rem, 6.5vw, 3.4rem);
     aspect-ratio: 1;
     background: rgba(250, 247, 242, 0.06);
     border: 1px solid rgba(250, 247, 242, 0.14);
