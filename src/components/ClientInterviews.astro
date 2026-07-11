@@ -11,6 +11,36 @@ interface Interview {
   after: string;
 }
 
+/* Interviews video YouTube (reprises du site Framer), affichees en facade :
+   miniature locale + bouton play, l'iframe youtube-nocookie ne charge qu'au clic. */
+interface VideoInterview {
+  client: string;
+  hook: string;
+  youtubeId: string;
+  thumb: string;
+}
+
+const videos: VideoInterview[] = [
+  {
+    client: 'Les Épaulettes',
+    hook: 'Développement du pôle B2B',
+    youtubeId: 'h7vkCT5aDhY',
+    thumb: '/images/interviews/interview-epaulettes.webp',
+  },
+  {
+    client: 'Komon',
+    hook: '30 RDV le premier mois',
+    youtubeId: '-GaYHXJR-Hc',
+    thumb: '/images/interviews/interview-komon.webp',
+  },
+  {
+    client: 'Daisy app',
+    hook: '5 clients en 1 mois',
+    youtubeId: 'fepN_sOkUAo',
+    thumb: '/images/interviews/interview-daisy.webp',
+  },
+];
+
 const interviews: Interview[] = [
   {
     client: 'Les Épaulettes',
@@ -56,6 +86,39 @@ const interviews: Interview[] = [
       </h2>
     </div>
 
+    <ul class="videos-grid">
+      {
+        videos.map((v) => (
+          <li class="video-card">
+            <button
+              type="button"
+              class="video-card__player"
+              data-youtube-id={v.youtubeId}
+              aria-label={`Lire l'interview de ${v.client} : ${v.hook}`}
+            >
+              <img
+                src={v.thumb}
+                alt={`Interview ${v.client} — ${v.hook}`}
+                width="1280"
+                height="720"
+                loading="lazy"
+                class="video-card__thumb"
+              />
+              <span class="video-card__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26">
+                  <path d="M8 5.14v13.72c0 .8.87 1.3 1.56.88l10.54-6.86a1.04 1.04 0 0 0 0-1.76L9.56 4.26A1.04 1.04 0 0 0 8 5.14Z" />
+                </svg>
+              </span>
+            </button>
+            <p class="video-card__caption">
+              <span class="video-card__client">{v.client}</span>
+              <span class="video-card__hook">{v.hook}</span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
     <ul class="interviews-grid">
       {
         interviews.map((iv) => (
@@ -93,6 +156,91 @@ const interviews: Interview[] = [
     border-radius: 32px 32px 0 0;
     margin-top: 2rem;
   }
+  /* Grille des 3 videos */
+  .videos-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    margin-bottom: 3.5rem;
+  }
+  @media (min-width: 768px) {
+    .videos-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .video-card__player {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    box-shadow: 0 6px 24px rgba(15, 27, 63, 0.12);
+    background: #0F1B3F;
+    padding: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .video-card__player:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 34px rgba(15, 27, 63, 0.2);
+  }
+  .video-card__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .video-card__player:hover .video-card__thumb { transform: scale(1.04); }
+  .video-card__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: rgba(250, 247, 242, 0.92);
+    color: #0F1B3F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    box-shadow: 0 8px 24px rgba(15, 27, 63, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .video-card__player:hover .video-card__play {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #F47B3F;
+    color: #FAF7F2;
+  }
+  .video-card__player iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .video-card__caption {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0 0.25rem;
+  }
+  .video-card__client {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #0F1B3F;
+  }
+  .video-card__hook {
+    font-size: 0.82rem;
+    color: rgba(15, 27, 63, 0.6);
+  }
+
   .interviews-grid {
     display: grid;
     gap: 1.5rem;
@@ -178,3 +326,21 @@ const interviews: Interview[] = [
     color: rgba(15, 27, 63, 0.85);
   }
 </style>
+
+<script>
+  // Facade YouTube : l'iframe (youtube-nocookie, autoplay) remplace la
+  // miniature au clic, une seule video chargee a la fois.
+  document.querySelectorAll<HTMLButtonElement>('.video-card__player').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.youtubeId;
+      if (!id || btn.querySelector('iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.title = btn.getAttribute('aria-label') ?? 'Interview client';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      btn.append(iframe);
+      btn.querySelector('.video-card__play')?.remove();
+    }, { once: true });
+  });
+</script>
