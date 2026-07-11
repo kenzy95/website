@@ -6,6 +6,7 @@
  * SVG + CSS pur (stroke-dashoffset anime, pathLength normalise a 100),
  * zero JS. Nodes HTML positionnes en % sur le meme repere que le viewBox 800x480.
  */
+import LogoWordmark from './ui/LogoWordmark.astro';
 
 type Node = { label: string; logo: string; x: number; y: number; path: string; beam: 'orange' | 'bleu' };
 
@@ -65,10 +66,9 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
         </div>
       ))}
 
-      <!-- Hub central -->
+      <!-- Hub central : logo officiel -->
       <div class="tools-core">
-        <span class="tools-core__icon">⌘</span>
-        <span class="tools-core__label">Agence Simple</span>
+        <LogoWordmark size="md" variant="creme" asLink={false} class="tools-core__logo" />
       </div>
     </div>
   </div>
@@ -174,16 +174,8 @@ const pct = (n: Node) => `left:${(n.x / 800) * 100}%;top:${(n.y / 480) * 100}%`;
     gap: 0.4rem;
     z-index: 2;
   }
-  .tools-core__icon {
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    color: #1e90ff;
-  }
-  .tools-core__label {
-    font-family: var(--font-logo);
-    font-weight: 800;
-    font-size: clamp(0.6rem, 1.5vw, 0.75rem);
-    color: var(--color-creme);
-    letter-spacing: 0.04em;
+  .tools-core :global(.tools-core__logo) {
+    font-size: clamp(1.1rem, 2.6vw, 1.625rem) !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
