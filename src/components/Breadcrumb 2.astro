@@ -1,0 +1,46 @@
+---
+import { breadcrumbSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+interface Props {
+  items: { name: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+
+const schemaItems = [
+  { name: 'Accueil', url: SITE.url },
+  ...items.map((item) => ({
+    name: item.name,
+    url: item.href ? `${SITE.url}${item.href}` : Astro.url.toString(),
+  })),
+];
+
+const schema = breadcrumbSchema(schemaItems);
+---
+
+<nav aria-label="Fil d'Ariane" class="text-(length:--text-small) text-(--color-gris)">
+  <ol class="flex flex-wrap items-center gap-2">
+    <li>
+      <a href="/" class="hover:text-(--color-bleu) hover:underline underline-offset-4">Accueil</a>
+    </li>
+    {
+      items.map((item, i) => (
+        <>
+          <li aria-hidden="true" class="text-(--color-gris)/50">/</li>
+          <li>
+            {item.href && i < items.length - 1 ? (
+              <a href={item.href} class="hover:text-(--color-bleu) hover:underline underline-offset-4">
+                {item.name}
+              </a>
+            ) : (
+              <span aria-current="page" class="text-(--color-encre)">{item.name}</span>
+            )}
+          </li>
+        </>
+      ))
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

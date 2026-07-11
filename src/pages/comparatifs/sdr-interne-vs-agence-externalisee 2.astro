@@ -1,0 +1,599 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { COMPARISONS } from '@lib/content-data';
+import { articleSchema, faqSchema, breadcrumbSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Comparatif statique SDR interne vs agence externalisée.
+ * Comparatif honnête : les deux modèles se défendent, notre position est affichée en fin
+ * de page sans forcer la main. Données marché sourcées (salaires SDR, charges) tolérées ici,
+ * reprises de l'article blog cout-sdr-interne-vs-agence. Aucun prix de l'offre Agence Simple.
+ * Schemas : Article + BreadcrumbList + FAQPage (FAQ visible).
+ */
+
+const comparison = COMPARISONS.find((c) => c.slug === 'sdr-interne-vs-agence-externalisee')!;
+const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+
+const breadcrumb = [
+  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'SDR interne vs agence' },
+];
+
+const faq = [
+  {
+    question: 'Un SDR interne est-il moins cher qu\'une agence ?',
+    answer:
+      "Pas quand on compare ce qui est comparable. Le salaire affiché n'est que la partie visible : il faut y ajouter environ 40 à 45 % de charges patronales, la part variable, les outils, l'infrastructure d'envoi et le temps de management. Rapporté au coût réellement complet du poste, l'écart de prix brut entre les deux modèles se réduit fortement, et c'est le nombre de rendez-vous produits qui doit trancher.",
+  },
+  {
+    question: 'Combien de temps avant les premiers rendez-vous dans chaque cas ?',
+    answer:
+      "Un SDR interne demande d'abord plusieurs semaines de recrutement, puis une montée en compétence avant d'être productif, soit souvent trois à quatre mois avant un flux régulier de rendez-vous qualifiés. Une agence déjà outillée et rodée démarre en trois à cinq semaines, car l'infrastructure et la méthode existent déjà.",
+  },
+  {
+    question: 'Quel modèle choisir si je veux tout maitriser en interne ?',
+    answer:
+      "Si votre priorité absolue est la maitrise du savoir-faire et que vous acceptez le coût et le délai d'un recrutement, l'internalisation a du sens, surtout à volume élevé et durable. Beaucoup d'équipes commencent pourtant par externaliser pour valider que le canal sortant fonctionne sur leur marché, avant d'internaliser une fois le playbook prouvé.",
+  },
+  {
+    question: 'Peut-on combiner les deux modèles ?',
+    answer:
+      "Oui, et c'est fréquent. Une agence peut démarrer la machine, construire le playbook et générer les premiers rendez-vous pendant que vous recrutez, puis passer le relais à un SDR interne formé sur une méthode déjà éprouvée. L'externalisation sert alors d'accélérateur et de dérisqueur avant l'internalisation.",
+  },
+];
+
+const schemas = [
+  articleSchema({
+    headline: comparison.title,
+    description: comparison.metaDescription,
+    url,
+    image: `${SITE.url}/images/blog/cout-sdr-interne-vs-agence.svg`,
+    datePublished: '2026-07-04',
+    dateModified: '2026-07-04',
+  }),
+  breadcrumbSchema([
+    { name: 'Accueil', url: `${SITE.url}/` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'SDR interne vs agence', url },
+  ]),
+  faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={`${comparison.seoTitle ?? comparison.title} | Agence Simple`}
+  description={comparison.metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Comparatif honnête</p>
+        <h1 class="hero__h1">SDR interne vs agence externalisée</h1>
+        <p class="hero__lead">
+          Deux façons d'aller chercher des rendez-vous à froid, deux logiques de coût et de risque
+          différentes. Voici une comparaison sincère pour décider sur la base des chiffres, pas des
+          arguments commerciaux.
+        </p>
+        <p class="hero__sub">
+          Nous sommes une agence, nous le disons franchement. Cette page n'a pas pour but de vous
+          pousser vers l'externalisation, mais de vous donner les critères pour trancher dans votre
+          contexte.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#tableau" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir le tableau comparatif
+          </ArrowButton>
+        </div>
+      </Container>
+    </section>
+
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="deux-modeles">Les deux modèles se défendent vraiment</h2>
+          <p>
+            Un SDR interne, c'est-à-dire un commercial dédié à la prise de rendez-vous, connaît votre
+            produit de l'intérieur, vit votre contexte au quotidien et fait partie de votre équipe. Sur
+            un marché que vous comptez travailler pendant des années, à volume élevé, c'est un actif
+            précieux qui accumule de la connaissance et gagne en efficacité avec le temps.
+          </p>
+          <p>
+            Une agence externalisée démarre plus vite, ne se manage pas, ne part pas avec sa boite de
+            connaissances et absorbe la variabilité. L'infrastructure d'envoi, les outils et la méthode
+            existent déjà. Vous payez un service, pas un poste chargé. En contrepartie, une agence part
+            avec une longueur de retard sur la connaissance fine de votre produit, qu'un bon brief et un
+            pilotage régulier permettent de rattraper.
+          </p>
+          <p>
+            Aucun des deux n'est intrinsèquement supérieur. Le bon choix dépend de votre stade, de votre
+            trésorerie, de votre volume cible et de votre tolérance au risque de recrutement. Regardons
+            les postes qui font vraiment la différence.
+          </p>
+
+          <h2 id="cout">Le coût réel, pas le salaire affiché</h2>
+          <p>
+            L'erreur la plus fréquente consiste à comparer un salaire brut à un forfait d'agence. Ce
+            sont deux montants qui ne recouvrent pas les mêmes choses. En France, les grilles publiques
+            situent la rémunération fixe d'un SDR débutant à confirmé le plus souvent entre 32 000 et
+            45 000 euros bruts annuels, à laquelle s'ajoute une part variable de l'ordre de 15 à 30 %
+            du fixe. Sur une base prudente de 38 000 euros de fixe, les charges patronales, qui ajoutent
+            environ 40 à 45 %, portent le coût employeur autour de 54 000 euros par an, avant même de
+            compter le variable.
+          </p>
+          <p>
+            À ce total chargé s'ajoutent les outils, à savoir le ciblage type Sales Navigator, la
+            solution d'envoi et de séquençage, l'enrichissement et la vérification des adresses, l'
+            infrastructure de domaines et de boites secondaires, plus un CRM. Puis le poste le plus
+            oublié : le temps de management. Un SDR seul, sans personne pour cadrer sa cible, relire ses
+            messages et corriger sa trajectoire, produit rarement de bons résultats, et ce temps a une
+            valeur même s'il n'apparait sur aucune facture. Nous détaillons le calcul complet dans notre
+            article sur <a href="/blog/cout-sdr-interne-vs-agence">le coût réel d'un SDR interne</a>.
+          </p>
+          <p>
+            Une agence mutualise tous ces postes : les outils sont déjà là, l'infrastructure est déjà
+            montée et entretenue, l'équipe est rodée aux méthodes et le cadrage fait partie du service.
+            Nous ne donnons pas de tarif ici, parce que le bon montant dépend de votre cible, de votre
+            volume et de vos canaux. Ce que nous affirmons, c'est que la seule comparaison qui a du sens
+            met en face du forfait d'agence le coût réellement complet du poste interne.
+          </p>
+
+          <h2 id="tableau">Le tableau comparatif, critère par critère</h2>
+        </div>
+
+        <div class="prose-col">
+          <div class="compare" role="table" aria-label="SDR interne vs agence externalisée">
+            <div class="compare__row compare__row--head" role="row">
+              <span role="columnheader">Critère</span>
+              <span role="columnheader">SDR interne</span>
+              <span role="columnheader">Agence externalisée</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût complet</span>
+              <span>Salaire chargé, variable, outils, infrastructure, management</span>
+              <span>Forfait de service, outils au coût réel, cadrage inclus</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Délai avant premier RDV</span>
+              <span>Trois à quatre mois (recrutement plus rampe)</span>
+              <span>Trois à cinq semaines</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Scalabilité</span>
+              <span>Lente : chaque hausse passe par un recrutement</span>
+              <span>Rapide : le volume s'ajuste sur la mission</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Maitrise du savoir-faire</span>
+              <span>Forte : la connaissance reste chez vous</span>
+              <span>Partagée : transférable via reporting et brief</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Alignement produit</span>
+              <span>Meilleur : immersion quotidienne</span>
+              <span>Bon : dépend de la qualité du brief</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût de rupture</span>
+              <span>Élevé : plusieurs mois de salaire, gestion RH</span>
+              <span>Faible : un mois de préavis</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Risque</span>
+              <span>Erreur de casting, turnover des SDR</span>
+              <span>Dépendance externe, à cadrer contractuellement</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="decision">Comment décider dans votre cas</h2>
+          <p>
+            Trois questions suffisent le plus souvent à orienter le choix. La première : avez-vous déjà
+            prouvé que la prospection sortante fonctionne sur votre marché ? Si non, externaliser
+            d'abord permet de valider le canal sans porter un recrutement, puis d'internaliser une fois
+            le playbook établi. Si oui, et si le volume est durablement élevé, l'internalisation devient
+            un investissement rentable.
+          </p>
+          <p>
+            La deuxième : quelle est votre échéance ? Si vous avez besoin de rendez-vous dans le
+            trimestre, le délai de recrutement et de montée en régime d'un SDR interne joue contre vous.
+            Une agence déjà opérationnelle produit plus tôt. La troisième : quelle est votre tolérance
+            au risque de casting ? Un recrutement raté coûte plusieurs mois de salaire et un temps que
+            vous ne rattrapez pas, là où une mission d'agence se résilie avec un simple préavis.
+          </p>
+          <p>
+            Enfin, un facteur pèse souvent plus que le prix : le ciblage. Le meilleur SDR comme la
+            meilleure agence échoueront si le client idéal est mal défini. Avant de trancher entre
+            interne et externe, assurez-vous de savoir décrire précisément qui vous voulez atteindre.
+          </p>
+
+          <h2 id="notre-position">Notre position, en toute transparence</h2>
+          <p>
+            Nous sommes une agence, donc nous avons un intérêt évident. Voilà pourquoi nous préférons
+            être clairs. Pour une entreprise qui n'a pas encore validé son canal sortant, ou qui veut
+            des rendez-vous rapidement sans immobiliser un recrutement, l'externalisation est le
+            meilleur point de départ : elle dérisque, elle démarre vite et elle se quitte facilement.
+          </p>
+          <p>
+            Pour une équipe qui a déjà un canal sortant prouvé, un volume élevé et durable et l'
+            appétit de tout maitriser en interne, recruter un SDR finit par être le bon choix. Dans ce
+            cas, le rôle honnête d'une agence est de construire le playbook et de vous aider à passer le
+            relais, pas de vous garder captif. C'est exactement ce que propose notre
+            <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>, et c'est ce cadre
+            que nous posons dès le premier échange, avant même de parler chiffres.
+          </p>
+        </div>
+
+        <div class="panel panel--inclus">
+          <p class="panel__intro">Pour aller plus loin</p>
+          <ul class="feature-list">
+            <li>
+              Le calcul complet du coût d'un poste interne : <a href="/blog/cout-sdr-interne-vs-agence">combien coûte vraiment un SDR interne</a>.
+            </li>
+            <li>
+              Le format externalisé décrit en détail : <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            </li>
+            <li>
+              L'autre grand arbitrage de structure : <a href="/comparatifs/agence-prospection-vs-freelance">agence de prospection vs freelance</a>.
+            </li>
+            <li>
+              Le modèle complet d'Agence Simple : <a href="/">notre agence de prospection B2B</a>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faq.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Le bon choix dépend de votre situation</h2>
+        <p class="final__p">
+          En vingt minutes de diagnostic gratuit, nous posons avec vous le coût complet de l'option
+          interne face à ce qu'une externalisation apporterait, et nous vous disons franchement lequel
+          des deux modèles sert le mieux votre stade et votre trésorerie. Sans discours de vente.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .compare {
+    margin-top: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .compare__row:first-child {
+    border-top: 0;
+  }
+  @media (min-width: 640px) {
+    .compare__row {
+      grid-template-columns: 0.8fr 1.1fr 1.1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+  .compare__row span {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .compare__row [role='rowheader'] {
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .compare__row--head {
+    background: var(--color-encre);
+  }
+  .compare__row--head span {
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .panel {
+    margin-top: 3rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel__intro {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-orange);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>

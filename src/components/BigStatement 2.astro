@@ -1,0 +1,55 @@
+---
+/**
+ * Bloc statement plein ecran : la phrase qui resume le modele, seule,
+ * en enorme, sur fond encre + glows. "Efface tout le reste" (Kenzy 2026-07-05).
+ */
+import HighlightMarker from './ui/HighlightMarker.astro';
+---
+
+<section class="statement" aria-label="Notre engagement">
+  <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] top-10 -left-24 opacity-45"></div>
+  <div aria-hidden="true" class="glow-orange w-[26rem] h-[26rem] bottom-0 -right-16 opacity-35"></div>
+
+  <div class="statement__inner">
+    <p class="statement__text">
+      Nous vous générons des
+      <HighlightMarker>RDV qualifiés</HighlightMarker><br />
+      <span class="statement__accent">Vous faites la vente.</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .statement {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-encre);
+    padding: 9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .statement { padding: 13rem 2rem; }
+  }
+  .statement__inner {
+    position: relative;
+    z-index: 10;
+    max-width: 70rem;
+    text-align: center;
+  }
+  .statement__text {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--color-creme);
+  }
+  .statement__accent {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+</style>

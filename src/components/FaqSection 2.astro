@@ -1,0 +1,112 @@
+---
+/**
+ * FAQ section - charte v2, <details>/<summary> natif pour accessibilite, zero JS.
+ * Source unique : HOME_FAQ (content-data.ts), partagee avec le schema FAQPage
+ * injecte par index.astro. Le schema doit toujours refleter le visible.
+ * Regles 2026-07-03 : aucun prix en euros, voix equipe, pas de duree minimum
+ * (coherence avec la card "Aucun engagement").
+ */
+import { HOME_FAQ } from '@lib/content-data';
+
+const faqs = HOME_FAQ;
+---
+
+<section class="faq-section">
+  <div class="mx-auto max-w-4xl px-6">
+    <div class="mb-12">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        FAQ
+      </p>
+      <h2
+        class="mt-5 text-(--color-creme) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2.25rem, 5vw, 4rem); letter-spacing: -0.03em;"
+      >
+        Questions fréquentes.
+      </h2>
+    </div>
+
+    <ul class="faq-list">
+      {
+        faqs.map((faq) => (
+          <li class="faq-item">
+            <details>
+              <summary>
+                <span class="faq-item__q">{faq.q}</span>
+                <span class="faq-item__toggle" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="2" y1="7" x2="12" y2="7"/>
+                    <line x1="7" y1="2" x2="7" y2="12" class="faq-item__toggle-v"/>
+                  </svg>
+                </span>
+              </summary>
+              <p class="faq-item__a">{faq.a}</p>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 5rem 0 6rem;
+  }
+
+  .faq-list {
+    border-top: 1px solid rgba(250, 247, 242, 0.08);
+  }
+  .faq-item {
+    border-bottom: 1px solid rgba(250, 247, 242, 0.08);
+  }
+  .faq-item details {
+    width: 100%;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-creme);
+    transition: color 200ms ease;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: #1E90FF; }
+  .faq-item__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq-item__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(250, 247, 242, 0.05);
+    border: 1px solid rgba(250, 247, 242, 0.12);
+    color: var(--color-creme);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq-item details[open] .faq-item__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #FFFFFF;
+  }
+  .faq-item details[open] .faq-item__toggle-v {
+    display: none;
+  }
+  .faq-item__a {
+    padding: 0 0 1.75rem 0;
+    color: rgba(250, 247, 242, 0.65);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    max-width: 56rem;
+  }
+</style>

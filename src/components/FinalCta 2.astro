@@ -1,0 +1,62 @@
+---
+/**
+ * CTA final - section pleine largeur avec gros titre + bouton bleu vif.
+ * Charte v2 : bleu vif rare et precieux, glow orange en arriere-plan.
+ */
+import ArrowButton from './ui/ArrowButton.astro';
+---
+
+<section class="final-cta">
+  <div aria-hidden="true" class="final-cta__glow final-cta__glow--orange"></div>
+  <div aria-hidden="true" class="final-cta__glow final-cta__glow--bleu"></div>
+
+  <div class="mx-auto max-w-4xl px-6 text-center relative">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+      Réserver un appel
+    </p>
+    <h2
+      class="mt-6 text-(--color-creme) leading-(--leading-tight)"
+      style="font-family: var(--font-display); font-weight: 600; font-style: italic; font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: -0.02em;"
+    >
+      Voyons si on peut tenir<br />votre minimum vital.
+    </h2>
+    <p class="mt-8 text-(--color-creme)/75 text-(length:--text-body-lg) max-w-2xl mx-auto leading-(--leading-relaxed)">
+      20 minutes en visio. On regarde vos chiffres, on vous dit franchement
+      si c'est faisable. Si oui, on signe la semaine d'après.
+    </p>
+    <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+      <ArrowButton href="/contact" variant="bleu" size="lg">Réserver un appel</ArrowButton>
+      <ArrowButton href="/cas-clients" variant="ghost-dark" size="lg" withArrow={false}>
+        Voir les cas clients
+      </ArrowButton>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: 8rem 0 9rem;
+  }
+  .final-cta__glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .final-cta__glow--orange {
+    background: radial-gradient(circle, rgba(244, 123, 63, 0.3), transparent 70%);
+    width: 36rem;
+    height: 36rem;
+    top: -10rem;
+    left: -10rem;
+  }
+  .final-cta__glow--bleu {
+    background: radial-gradient(circle, rgba(30, 144, 255, 0.25), transparent 70%);
+    width: 32rem;
+    height: 32rem;
+    bottom: -10rem;
+    right: -10rem;
+  }
+</style>

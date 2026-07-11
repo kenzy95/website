@@ -1,0 +1,1025 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { SERVICES } from '@lib/content-data';
+import { serviceSchema, faqSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Page service SDR externalise : copy long-form (copy-sdr-externalise.md).
+ * Design aligne charte v2 : hero encre + glows, corps creme arrondi, methode
+ * en cards numerotees, resultats en stat cards, CTA final en bande encre.
+ * Schemas : Service (Outsourced SDR) + FAQPage ; BreadcrumbList via Breadcrumb.
+ * PAS de VideoObject sur cette page.
+ */
+
+const service = SERVICES.find((s) => s.slug === 'sdr-externalise')!;
+const url = `${SITE.url}/services/sdr-externalise`;
+
+const metaTitle = 'SDR externalisé : équipe de prospection complète | Agence Simple';
+const metaDescription =
+  'SDR externalisé : une équipe de prospection complète sans recrutement, 300-400 messages par jour, RDV qualifiés sur votre agenda. Garantie minimum vital.';
+
+const breadcrumb = [
+  { name: 'Services', href: '/services' },
+  { name: 'SDR externalisé' },
+];
+
+const toc = [
+  { label: 'Définition', href: '#definition' },
+  { label: 'Quand externaliser', href: '#quand' },
+  { label: 'Interne vs externalisé', href: '#comparatif' },
+  { label: 'Marque blanche', href: '#marque-blanche' },
+  { label: 'Mise en place', href: '#process' },
+  { label: 'Ce qui est inclus', href: '#inclus' },
+  { label: 'Résultats', href: '#resultats' },
+  { label: 'Combien ça coûte', href: '#cout' },
+];
+
+const etapes = [
+  {
+    titre: 'Cadrage ICP et accès outils',
+    periode: 'Semaine 1',
+    texte:
+      "Atelier de cadrage : qui sont vos meilleurs clients, quels signaux rendent un prospect mûr, quels segments exclure. On récupère les accès aux outils et on rédige le brief des séquences. Vous validez la cible avant le moindre envoi.",
+  },
+  {
+    titre: 'Configuration et rédaction',
+    periode: 'Semaine 2',
+    texte:
+      "Montage de l'infrastructure d'envoi (domaines, boîtes, warm-up), rédaction des séquences email et LinkedIn, validation par vos soins. Rien ne part sans votre relecture.",
+  },
+  {
+    titre: 'Warm-up et premiers envois',
+    periode: 'Semaines 3 à 6',
+    texte:
+      "Les boîtes chauffent en parallèle du sourcing, les premiers envois démarrent progressivement pour protéger la délivrabilité. Les premiers rendez-vous se prennent en général en semaine quatre ou cinq.",
+  },
+  {
+    titre: 'Régime de croisière',
+    periode: 'Mois 2 et suivants',
+    texte:
+      "Nouvelles listes chaque mois, itérations sur les segments et le copy, reporting mensuel avec les vrais chiffres. Ajustements de l'ICP tous les trimestres.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "C'est quoi un SDR externalisé exactement ?",
+    answer:
+      "Un SDR externalisé, c'est une équipe extérieure qui prend en charge la prospection commerciale sortante (cold email, LinkedIn, qualification des réponses) au nom d'une entreprise. Contrairement à un freelance qui n'opère qu'une brique, il couvre l'ensemble du cycle : sourcing, copywriting, envoi, réponse aux prospects, prise de rendez-vous. Le livrable est un flux de rendez-vous qualifiés sur l'agenda du client.",
+  },
+  {
+    question: 'Combien coûte un SDR externalisé par rapport à un SDR interne ?',
+    answer:
+      "Le forfait est mensuel et dépend du volume visé. Rapporté au coût complet d'un SDR interne (salaire chargé, management, outils, formation, sans compter les mois de rampe à faible productivité), l'externalisation revient de l'ordre de trois fois moins cher, hors alignement produit interne. Vous recevez un devis précis après un premier échange.",
+  },
+  {
+    question: "En marque blanche, mes prospects sauront-ils que c'est externalisé ?",
+    answer:
+      "Non, sauf si vous le décidez. On envoie depuis une adresse au nom d'une personne de votre côté, on répond en son nom, et les rendez-vous atterrissent sur son agenda. Le prospect voit un interlocuteur interne, pas une agence. Certains clients préfèrent la transparence : on s'adapte au choix.",
+  },
+  {
+    question: 'Vous prenez combien de clients en parallèle ?',
+    answer:
+      "On plafonne à 8 ou 10 clients actifs en parallèle. Au-delà, la qualité du suivi et du reporting se dégrade. Ce n'est pas un choix commercial mais un choix de délivrabilité opérationnelle. Si on est au plafond, on met en liste d'attente.",
+  },
+  {
+    question: "Que se passe-t-il si vos freelances s'en vont ?",
+    answer:
+      "On travaille avec trois à quatre freelances validés par métier (sourcing, copy, closing), pas un seul. Si un part, on redistribue sans discontinuité. Contrairement à un SDR interne qui part avec sa boîte de connaissances, la structure est documentée et transférable. Zéro dépendance à un individu.",
+  },
+  {
+    question: 'En combien de temps la machine est en route ?',
+    answer:
+      "Entre trois et cinq semaines. Semaine 1 : cadrage. Semaine 2 : setup infrastructure et copy. Semaines 3 à 6 : warm-up en parallèle du sourcing. Premiers rendez-vous pris en semaine quatre ou cinq. Régime de croisière au mois deux.",
+  },
+  {
+    question: 'Puis-je arrêter quand je veux ?',
+    answer:
+      "Oui, avec un mois de préavis. Le forfait est mensuel, sans engagement annuel. La garantie minimum vital reste due tant que le contrat est actif. Aucune pénalité de sortie.",
+  },
+  {
+    question: 'Vous facturez au succès, au rendez-vous ou à la signature ?',
+    answer:
+      "Non, uniquement en forfait mensuel. Facturer au succès pousse à baisser la qualité (plus de rendez-vous, moins de qualifiés) et à saturer la cible. Le forfait aligne l'agence sur la qualité durable. Si l'engagement chiffré n'est pas tenu sur trois mois, on prolonge gratuitement jusqu'à le tenir.",
+  },
+];
+
+const schemas = [
+  serviceSchema({
+    name: service.title,
+    description: service.description,
+    url,
+    serviceType: service.serviceType,
+  }),
+  faqSchema(faqItems.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <!-- ============ HERO ENCRE + GLOWS ============ -->
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[20rem] h-[20rem] top-10 left-1/3 opacity-30"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Service · SDR externalisé</p>
+        <h1 class="hero__h1">
+          SDR externalisé : une
+          <span class="accent-display">équipe de prospection complète</span>,
+          <HighlightMarker>sans recruter</HighlightMarker>
+        </h1>
+        <p class="hero__lead">
+          Vous hésitez entre embaucher votre premier SDR et confier votre prospection à une équipe
+          externe. C'est la bonne question à se poser, et elle mérite mieux qu'un argumentaire de
+          vente. Cette page pose les faits : ce qu'est un SDR externalisé chez Agence Simple, quand ça
+          a du sens et quand ça n'en a pas, comment fonctionne la marque blanche, et ce que le forfait
+          couvre exactement. À la fin, vous aurez de quoi trancher, même si votre décision est de
+          recruter en interne.
+        </p>
+        <p class="hero__sub">
+          Un SDR externalisé, ce n'est pas un freelance qui envoie quelques emails. C'est une équipe
+          opérationnelle complète qui prend en charge la prospection sortante de bout en bout et livre
+          des rendez-vous qualifiés sur votre agenda, chaque mois.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#process" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir la mise en place
+          </ArrowButton>
+        </div>
+
+        <nav class="toc" aria-label="Sommaire">
+          <p class="toc__title">Sur cette page</p>
+          <ol class="toc__list">
+            {toc.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </Container>
+    </section>
+
+    <!-- ============ CORPS CREME ============ -->
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <!-- Définition -->
+          <h2 id="definition">SDR externalisé : ce que ça veut dire concrètement</h2>
+          <p>
+            Un SDR externalisé, c'est une équipe extérieure qui opère votre prospection commerciale
+            sortante au nom de votre entreprise : sourcing des cibles, copywriting des séquences,
+            envoi, réponse aux prospects, qualification, prise de rendez-vous. Le livrable n'est pas un
+            rapport ni un plan d'action : c'est un flux de rendez-vous qualifiés posés dans l'agenda de
+            votre commercial.
+          </p>
+          <p>
+            Ce n'est pas un freelance qui opère une seule brique de la chaîne. Un freelance rédige, ou
+            source, ou envoie, rarement les trois avec la même rigueur. Ce n'est pas non plus un
+            cabinet de conseil en vente qui vous remet une stratégie et vous laisse l'exécuter. Nous
+            sommes une équipe purement opérationnelle : nous faisons le travail, nous ne le documentons
+            pas pour que vous le fassiez.
+          </p>
+          <p>
+            Concrètement, vous récupérez la même chose qu'avec un SDR interne performant, sans le
+            recrutement, sans le management quotidien et sans le risque de départ. Le reste de cette
+            page détaille exactement comment, à commencer par la question qui compte le plus : est-ce
+            que ça vaut le coup pour vous.
+          </p>
+
+          <!-- Quand -->
+          <h2 id="quand">Quand externaliser sa prospection (et quand s'en abstenir)</h2>
+          <p>
+            Externaliser fait sens dans des situations précises. Vous n'avez pas encore d'équipe
+            commerciale et le cycle de recrutement d'un bon SDR dépasse trois mois. Vous devez tester un
+            nouveau segment de marché rapidement, sans embaucher pour un pari incertain. Vous venez de
+            lever et le board attend une machine outbound qui tourne avant la prochaine échéance. Ou
+            votre activité connaît une saisonnalité forte qui rend l'embauche permanente peu
+            rationnelle.
+          </p>
+          <p>
+            Externaliser n'a pas de sens dans d'autres cas, et nous le disons au premier appel. Si
+            votre produit n'a pas encore trouvé son marché, un SDR externalisé ne va pas régler le
+            problème : il va le rendre visible plus vite, ce qui est utile pour vous mais douloureux si
+            vous attendiez des signatures. Si votre panier moyen est trop faible, l'économie ne tient
+            pas, aucun canal sortant ne sera rentable. Et si votre cible se travaille sur le terrain
+            plutôt que par email ou LinkedIn, la prospection digitale n'est pas le bon outil.
+          </p>
+          <p>
+            La règle est simple : si votre adéquation produit-marché n'est pas démontrée, un SDR
+            externalisé va cristalliser le problème, pas le résoudre. Nous préférons vous l'annoncer
+            avant de signer.
+          </p>
+
+          <!-- Comparatif -->
+          <h2 id="comparatif">SDR interne ou SDR externalisé : le vrai comparatif</h2>
+          <p>
+            Les deux modèles se défendent. Un SDR interne connaît mieux votre produit, vit votre
+            contexte au quotidien et fait partie de votre équipe. Un SDR externalisé démarre plus vite,
+            ne se gère pas et ne part pas avec sa boîte de connaissances. Plutôt que de pousser
+            artificiellement l'externalisation, voici les critères qui font vraiment la différence.
+          </p>
+        </div>
+
+        <div class="prose-col">
+          <div class="compare" role="table" aria-label="SDR interne vs SDR externalisé">
+            <div class="compare__row compare__row--head" role="row">
+              <span role="columnheader">Critère</span>
+              <span role="columnheader">SDR interne</span>
+              <span role="columnheader">SDR externalisé</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût</span>
+              <span>Salaire chargé, management, outils, rampe</span>
+              <span>Forfait mensuel unique, outils au coût réel</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Délai avant premier RDV</span>
+              <span>Trois à quatre mois</span>
+              <span>Trois à cinq semaines</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Coût de rupture</span>
+              <span>Plusieurs mois de salaire et gestion RH</span>
+              <span>Un mois de préavis</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Reporting</span>
+              <span>Dépend du manager</span>
+              <span>Reporting mensuel structuré</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Risque de désengagement</span>
+              <span>Élevé (turnover des SDR)</span>
+              <span>Faible (structure freelance résiliente)</span>
+            </div>
+            <div class="compare__row" role="row">
+              <span role="rowheader">Alignement produit</span>
+              <span>Meilleur (interne)</span>
+              <span>Bon (dépend de la qualité du brief)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Sur le coût réel, l'écart penche nettement en faveur de l'externalisation, de l'ordre d'un à
+            trois une fois additionnés le salaire chargé, le management, les outils et les mois de rampe
+            à faible productivité. Nous avons documenté le calcul complet dans notre
+            <a href="/comparatifs/sdr-interne-vs-agence-externalisee">comparatif SDR interne vs agence externalisée</a>,
+            et un <a href="/outils/calculateur-cout-sdr-interne-vs-agence">calculateur du coût d'un SDR interne</a>
+            qui pose vos propres chiffres. La même logique s'applique face à un indépendant : notre
+            <a href="/comparatifs/agence-prospection-vs-freelance">comparatif agence vs freelance en prospection</a>
+            explique pourquoi une équipe couvre des angles morts qu'un solo ne peut pas tenir.
+          </p>
+
+          <!-- Marque blanche -->
+          <h2 id="marque-blanche">SDR en marque blanche : comment ça fonctionne</h2>
+          <p>
+            La marque blanche, c'est la possibilité d'opérer votre prospection sans que le prospect
+            sache qu'elle est externalisée. Vous fournissez une adresse dédiée au nom d'une personne de
+            votre côté, par exemple sarah@votre-entreprise.com. Nous prospectons depuis cette adresse,
+            nous répondons au nom de cette personne, et les rendez-vous atterrissent directement sur
+            l'agenda de la personne concernée. Le prospect voit un interlocuteur au sein de votre
+            entreprise, pas une agence. Vous êtes une agence marketing et cherchez de la marque blanche pour
+            revendre la prospection à vos clients ? C'est une offre distincte, décrite sur la page
+            <a href="/secteurs/agences">prospection B2B en marque blanche pour agences</a>.
+          </p>
+          <p>
+            Certains clients préfèrent la transparence et assument l'externalisation auprès de leurs
+            prospects. Les deux fonctionnent, c'est votre choix, et nous nous y adaptons.
+          </p>
+          <p>
+            Il y a une ligne que nous ne franchissons jamais : nous n'utilisons pas de fausse identité.
+            Les noms qui signent les messages sont soit des personnes réelles de votre équipe, soit des
+            libellés clairement identifiés comme rattachés à votre marque. La marque blanche opère la
+            discrétion, pas la tromperie.
+          </p>
+
+          <!-- Process -->
+          <h2 id="process">La stack et la mise en place, semaine par semaine</h2>
+          <p>
+            Pour un client, nous déployons une infrastructure complète : domaines secondaires et boîtes
+            email dédiées pour préserver votre domaine principal, un compte Sales Navigator et Aimfox
+            pour <a href="/services/linkedin-outreach">le canal LinkedIn dans le forfait SDR</a>,
+            Instantly pour <a href="/services/cold-email">le canal cold email dans le forfait SDR</a>,
+            une base cible sourcée à la main via nos spécialistes de recherche, un copy travaillé en
+            plusieurs variantes A/B, un humain qui qualifie chaque réponse, et un reporting mensuel
+            partagé.
+          </p>
+          <p>La mise en route suit un rythme précis, du cadrage au régime de croisière.</p>
+        </div>
+
+        <div class="steps">
+          {etapes.map((e, i) => (
+            <div class="step-card">
+              <div class="step-card__head">
+                <span class="step-card__num">0{i + 1}</span>
+                <span class="step-card__periode">{e.periode}</span>
+              </div>
+              <h3 class="step-card__title">Étape {i + 1} : {e.titre}</h3>
+              <p class="step-card__body">{e.texte}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="prose-col">
+          <!-- Inclus -->
+          <h2 id="inclus">Ce qui est inclus dans le forfait</h2>
+        </div>
+
+        <div class="panel panel--inclus">
+          <ul class="feature-list">
+            <li>
+              L'équipe opérationnelle complète : sourcing des cibles, copywriting, envoi, qualification
+              des réponses, prise de rendez-vous et reporting. Une seule chaîne, un seul interlocuteur.
+            </li>
+            <li>
+              L'accès direct au fondateur, Kenzy, sur Slack ou WhatsApp. Pas de chef de projet en façade
+              avec la production ailleurs.
+            </li>
+            <li>
+              L'infrastructure d'envoi : domaines secondaires dédiés, boîtes mail, montée en réputation,
+              rotation des envois. Votre domaine principal n'est jamais exposé.
+            </li>
+            <li>
+              Le reporting mensuel avec les vrais chiffres : envois, taux de réponse, rendez-vous
+              livrés, écart par rapport à l'engagement.
+            </li>
+            <li>
+              Les adaptations trimestrielles de la cible et du copy, pour suivre l'évolution de votre
+              marché.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Le tout est piloté selon notre méthode en 4 étapes, décrite plus haut, la même sur les
+            deux canaux, adaptée à votre cible.
+          </p>
+
+          <!-- Exclus -->
+          <h2 id="pas-inclus">Ce qui n'est PAS inclus</h2>
+        </div>
+
+        <div class="panel panel--exclus">
+          <ul class="feature-list feature-list--neg">
+            <li>
+              Nous ne tenons pas les rendez-vous commerciaux à votre place. Nous prenons le rendez-vous,
+              vous menez la vente. Personne ne connaît votre produit mieux que vous.
+            </li>
+            <li>
+              Pas de closing ni de suivi commercial après le rendez-vous. La conversion en client reste
+              chez vous.
+            </li>
+            <li>
+              Pas d'account management ni de customer success sur vos clients existants. Nous ouvrons le
+              pipeline, nous ne le gérons pas après.
+            </li>
+            <li>
+              Pas de production de contenu inbound : ni posts LinkedIn ghostwrités, ni SEO, ni blog.
+              Nous faisons de la prospection sortante.
+            </li>
+            <li>
+              Pas de CRM sur mesure de votre côté. Nous pouvons pousser les rendez-vous dans un CRM
+              existant via une automatisation, mais nous ne le construisons pas.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <!-- Résultats -->
+          <h2 id="resultats">Ce que ça donne : nos résultats en mode SDR externalisé</h2>
+          <p>
+            Les chiffres ci-dessous sont validés par les clients concernés avant publication. Pas de
+            moyenne invérifiable, pas de promesse en « jusqu'à ».
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__num">151</span>
+            <span class="stat-card__label">RDV qualifiés générés</span>
+            <p class="stat-card__body">
+              <strong>Invent-App.</strong> Une collaboration dans la durée sur le marché de
+              l'événementiel, en mode équipe externalisée sur les deux canaux. Le déroulé complet est
+              dans le cas client <a href="/cas-clients/invent-app">151 RDV livrés pour Invent-App</a>.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">41</span>
+            <span class="stat-card__label">RDV qualifiés en 5 semaines</span>
+            <p class="stat-card__body">
+              <strong>Happycolis.</strong> Une cible e-commerce et logistique, un angle unique testé
+              puis décliné, un rythme d'itération hebdomadaire.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">3 à 5</span>
+            <span class="stat-card__label">semaines avant les premiers RDV</span>
+            <p class="stat-card__body">
+              Le délai type entre le cadrage et les premiers rendez-vous pris, warm-up compris.
+            </p>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            La question honnête, c'est de savoir si le résultat vaut celui d'un SDR interne. Sur le
+            volume et la qualité des rendez-vous, oui. Sur l'alignement produit, un SDR interne garde un
+            léger avantage parce qu'il vit votre contexte au quotidien. Cet écart se comble par un bon
+            brief et des points réguliers, mais nous ne prétendons pas qu'il n'existe pas.
+          </p>
+
+          <!-- Coût -->
+          <h2 id="cout">Combien ça coûte</h2>
+          <p>
+            Le forfait est mensuel et dépend du volume visé et de la complexité de la cible. Nous ne
+            facturons jamais au succès, pour une raison simple : facturer au rendez-vous pousse
+            mécaniquement à en produire beaucoup, donc à en baisser la qualité. Le forfait aligne notre
+            intérêt sur le vôtre, à savoir des rendez-vous réellement qualifiés dans la durée.
+          </p>
+          <p>
+            Rapporté au coût complet d'un SDR interne, salaire chargé plus management plus outils plus
+            les mois de rampe, l'externalisation revient nettement moins cher et démarre bien plus vite.
+            Vous recevez un devis précis après un premier échange, <a href="/contact">réservez un créneau</a>. Et parce que
+            nous engageons un nombre de rendez-vous par mois via la garantie minimum vital, si
+            l'objectif n'est pas tenu sur trois mois, nous prolongeons gratuitement jusqu'à l'atteindre.
+          </p>
+          <p>
+            Si vous voulez le format complet, avec les deux canaux orchestrés et le hub de méthode, il
+            est décrit dans <a href="/">notre offre de prospection B2B clé en main</a>. Ce format SDR va
+            un cran plus loin sur la dimension équipe et marque blanche.
+          </p>
+
+          <!-- Profils -->
+          <h2 id="profils">Pour quels profils</h2>
+          <p>
+            Ce format convient particulièrement à deux profils. Les
+            <a href="/secteurs/scale-up-post-levee">scale-up post-Series A</a> qui doivent transformer
+            une levée en pipeline avant la prochaine étape, sans attendre trois mois de recrutement. Et
+            les <a href="/secteurs/agences">agences qui veulent un SDR en marque blanche</a> pour leurs
+            propres clients, sans monter une cellule outbound en interne.
+          </p>
+
+          <!-- Pour aller plus loin -->
+          <h2>Pour aller plus loin</h2>
+          <p>
+            Ces guides du blog détaillent l'arbitrage entre internaliser et externaliser, et
+            le vrai coût de la démarche, si vous voulez creuser avant d'en parler avec nous.
+          </p>
+          <ul class="feature-list feature-list--flat">
+            <li><a href="/blog/externaliser-prospection-b2b-guide">Externaliser sa prospection B2B : le guide complet</a></li>
+            <li><a href="/blog/cout-sdr-interne-vs-agence">Combien coûte un SDR interne ? Le vrai calcul</a></li>
+          </ul>
+
+          <!-- FAQ -->
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faqItems.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  {item.question === 'Combien coûte un SDR externalisé par rapport à un SDR interne ?' ? (
+                    <p class="faq__a">
+                      Le forfait est mensuel et dépend du volume visé. Rapporté au coût complet d'un SDR
+                      interne (salaire chargé, management, outils, formation, sans compter les mois de
+                      rampe à faible productivité), l'externalisation revient de l'ordre de trois fois
+                      moins cher, hors alignement produit interne. Vous recevez un devis précis après un
+                      premier échange.
+                    </p>
+                  ) : (
+                    <p class="faq__a">{item.answer}</p>
+                  )}
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <!-- ============ CTA FINAL : BANDE ENCRE + GLOWS ============ -->
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Prendre rendez-vous</h2>
+        <p class="final__p">
+          Le premier rendez-vous est un diagnostic gratuit de 30 minutes avec l'équipe. Nous regardons
+          votre cible, votre panier moyen et votre stade, et nous vous disons franchement si un SDR
+          externalisé est le bon choix pour vous, ou si vous avez plutôt intérêt à recruter. Si la
+          réponse est non, vous repartez avec les raisons. Si c'est oui, vous recevez une proposition
+          avec un engagement chiffré de rendez-vous.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <!-- CTA sticky mobile -->
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  /* ============ HERO (dark) ============ */
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .accent-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .toc {
+    margin-top: 3.5rem;
+    max-width: 46rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+  }
+  .toc__title {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .toc__list {
+    margin-top: 0.85rem;
+    display: grid;
+    gap: 0.5rem 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .toc__list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .toc__list li {
+    list-style: none;
+  }
+  .toc__list a {
+    color: rgba(250, 247, 242, 0.85);
+    text-decoration: none;
+    font-size: var(--text-body);
+    font-weight: 500;
+    transition: color 180ms ease;
+  }
+  .toc__list a:hover {
+    color: var(--color-bleu);
+  }
+
+  /* ============ CORPS CREME ============ */
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+  .inline-cta {
+    font-weight: 600;
+  }
+
+  /* Méthode : cards numérotées */
+  .steps {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .step-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.75rem 1.6rem 1.6rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .step-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .step-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.9rem;
+    color: var(--color-bleu);
+    line-height: 1;
+  }
+  .step-card__periode {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .step-card__title {
+    margin-top: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-encre);
+  }
+  .step-card__body {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* Panels inclus / exclus */
+  .panel {
+    margin-top: 1.75rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel--exclus {
+    background: var(--color-encre);
+    box-shadow: 0 14px 40px -18px rgba(15, 27, 63, 0.5);
+  }
+  .panel--exclus .feature-list li {
+    color: rgba(250, 247, 242, 0.82);
+  }
+  .panel--exclus :global(a) {
+    color: #7cbdff;
+    text-decoration-color: rgba(124, 189, 255, 0.4);
+  }
+  .panel--exclus :global(a:hover) {
+    text-decoration-color: #7cbdff;
+  }
+
+  /* Listes */
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list--flat {
+    margin-top: 1.25rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+  .feature-list--neg li::before {
+    content: '✕';
+    color: var(--color-orange);
+  }
+
+  /* Tableau comparatif */
+  .compare {
+    margin-top: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .compare__row:first-child {
+    border-top: 0;
+  }
+  @media (min-width: 640px) {
+    .compare__row {
+      grid-template-columns: 0.8fr 1.1fr 1.1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+  .compare__row span {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .compare__row [role='rowheader'] {
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .compare__row--head {
+    background: var(--color-encre);
+  }
+  .compare__row--head span {
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Stat cards résultats */
+  .stats {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.9rem 1.6rem 1.7rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--color-bleu);
+  }
+  .stat-card__label {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .stat-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* FAQ accordion */
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  /* ============ CTA FINAL (dark) ============ */
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  /* Sticky mobile CTA */
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>

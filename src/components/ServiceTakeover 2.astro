@@ -1,0 +1,243 @@
+---
+/**
+ * Section "Ce qu'on prend en charge" - 5 cards.
+ * Fond creme (alterne avec sections dark pour rythme visuel charte v2).
+ * Cards : 1 maitre (encre fond fonce) + 4 secondaires (creme card subtle).
+ */
+
+const items = [
+  {
+    title: 'La stratégie',
+    body: "On définit avec vous l'angle, les avantages à mettre en avant, et la problématique cible. Pas de copy générique.",
+    bullets: [
+      'Comment présenter votre offre',
+      "Quels avantages concurrentiels",
+      "Quel problème votre cible essaie de résoudre",
+    ],
+    icon: '✦',
+    master: false,
+  },
+  {
+    title: "L'identification des prospects",
+    body: "On construit des listes de prospects composées de vos personas cibles. Sourcing manuel + scraping.",
+    bullets: ['Sales Navigator', 'Enrichissement Clay', 'Vérification UseBouncer'],
+    icon: '◎',
+    master: true,
+  },
+  {
+    title: "L'enrichissement des contacts",
+    body: "On trouve le point de contact direct de chaque décideur. Email pro vérifié + numéro si pertinent.",
+    bullets: ['Email pro vérifié', 'Scoring qualité', 'Bounce < 5%'],
+    icon: '◈',
+    master: false,
+  },
+  {
+    title: "La création de l'infrastructure",
+    body: "Domaines secondaires dédiés, paramétrage SPF/DKIM/DMARC, warmup, logiciel d'envoi. On protège votre domaine principal.",
+    bullets: ['Domaines secondaires', 'Warmup 2-3 semaines', 'SPF / DKIM / DMARC'],
+    icon: '◉',
+    master: false,
+  },
+  {
+    title: 'Le prix de tous les outils',
+    body: "Instantly, Sales Navigator, Clay, UseBouncer, Aimfox, Google Workspace... environ 785 €/mois facturés au coût réel, sans mark-up.",
+    bullets: ['~785 € / mois inclus', 'Pas de markup', 'Facturé au coût réel'],
+    icon: '✣',
+    master: false,
+  },
+];
+
+import GlowCard from './ui/GlowCard.astro';
+---
+
+<section class="takeover-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-3xl mb-14">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Ce qu'on prend en charge
+      </p>
+      <h2
+        class="mt-5 leading-(--leading-title) text-(--color-encre)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em;"
+      >
+        Tout, sauf la vente.
+      </h2>
+      <p class="mt-6 text-(--color-encre)/70 text-(length:--text-body-lg) max-w-2xl">
+        Stratégie, listes, infrastructure, outils. Vous récupérez les RDV qualifiés
+        directement dans votre agenda. Vous concentrez votre énergie là où c'est utile.
+      </p>
+    </div>
+
+    <div class="takeover-grid">
+      {
+        items.map((item, i) => (
+          <GlowCard
+            glowColor={i % 2 === 0 ? 'blue' : 'orange'}
+            radius={22}
+            class={`takeover-card-slot takeover-card--${i + 1}`}
+          >
+            <div class:list={['takeover-card', item.master && 'takeover-card--master']}>
+              <div class="takeover-card__head">
+                <span class="takeover-card__icon" aria-hidden="true">{item.icon}</span>
+                <span class="takeover-card__num">0{i + 1}</span>
+              </div>
+              <h3 class="takeover-card__title">{item.title}</h3>
+              <p class="takeover-card__body">{item.body}</p>
+              <ul class="takeover-card__bullets">
+                {item.bullets.map((b) => (
+                  <li>
+                    <span class="takeover-card__check" aria-hidden="true">✓</span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </GlowCard>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section creme : background ressort de la section dark globale */
+  .takeover-section {
+    background: var(--color-creme);
+    padding: 6rem 0 5rem;
+    border-radius: 32px 32px 0 0;
+    margin-top: 2rem;
+  }
+  @media (min-width: 768px) {
+    .takeover-section { padding: 8rem 0 7rem; }
+  }
+
+  .takeover-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .takeover-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .takeover-grid { grid-template-columns: repeat(6, 1fr); }
+    /* :global() casse le scope Astro pour matcher les wrappers GlowCard (autre scope) */
+    .takeover-grid > :global(:nth-child(1)),
+    .takeover-grid > :global(:nth-child(2)),
+    .takeover-grid > :global(:nth-child(3)) {
+      grid-column: span 2;
+    }
+    .takeover-grid > :global(:nth-child(4)) {
+      grid-column: 2 / span 2;
+    }
+    .takeover-grid > :global(:nth-child(5)) {
+      grid-column: 4 / span 2;
+    }
+  }
+
+  /* Wrapper GlowCard doit fill sa cellule grid - :global() pour casser le scope */
+  .takeover-grid > :global(.takeover-card-slot) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .takeover-grid > :global(.takeover-card-slot) > :global(*) {
+    flex: 1;
+    height: 100%;
+  }
+
+  .takeover-card {
+    position: relative;
+    overflow: hidden;
+    background: #FFFFFF;
+    color: #0F1B3F;
+    padding: 1.75rem 1.5rem 1.5rem;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .takeover-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  /* Card maitre : fond encre, contraste fort, met en avant l'identification prospects */
+  .takeover-card--master {
+    background: #0F1B3F;
+    color: #FAF7F2;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 30px -10px rgba(15, 27, 63, 0.5);
+  }
+  .takeover-card--master .takeover-card__title { color: #FAF7F2; }
+  .takeover-card--master .takeover-card__body { color: rgba(250, 247, 242, 0.78); }
+  .takeover-card--master .takeover-card__bullets {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .takeover-card--master .takeover-card__icon {
+    background: rgba(244, 123, 63, 0.2);
+    color: #F47B3F;
+  }
+  .takeover-card--master .takeover-card__num { color: rgba(244, 123, 63, 0.9); }
+  .takeover-card--master .takeover-card__check { color: #F47B3F; }
+
+  .takeover-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .takeover-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 12px;
+    background: rgba(30, 144, 255, 0.12);
+    color: #1E90FF;
+    font-size: 1.1rem;
+  }
+  .takeover-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #F47B3F;
+  }
+  .takeover-card__title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.25;
+    color: #0F1B3F;
+    letter-spacing: -0.01em;
+  }
+  .takeover-card__body {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(15, 27, 63, 0.72);
+  }
+  .takeover-card__bullets {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: rgba(15, 27, 63, 0.78);
+  }
+  .takeover-card__bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .takeover-card__check {
+    color: #1E90FF;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+</style>

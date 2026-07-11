@@ -1,0 +1,57 @@
+---
+/**
+ * Logo officiel Agence Simple v2.
+ * Spec charte : Plus Jakarta Sans ExtraBold (800), letter-spacing -0.04em,
+ * encre #0F1B3F, point bleu vif #1E90FF rond, diametre 0.18em,
+ * marge 0.05em a gauche, 0.04em sous baseline.
+ * Le point est un cercle SVG, pas un caractere typographique.
+ */
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'encre' | 'creme' | 'auto';
+  href?: string;
+  class?: string;
+  asLink?: boolean;
+}
+
+type Size = NonNullable<Props['size']>;
+type Variant = NonNullable<Props['variant']>;
+
+const {
+  size = 'md',
+  variant = 'encre',
+  href = '/',
+  class: className = '',
+  asLink = true,
+} = Astro.props as Props;
+
+const fontSizes: Record<Size, string> = {
+  sm: '1.25rem',
+  md: '1.625rem',
+  lg: '2.25rem',
+  xl: '4rem',
+};
+
+const colors: Record<Variant, string> = {
+  encre: 'var(--color-encre)',
+  creme: 'var(--color-creme)',
+  auto: 'currentColor',
+};
+
+const Tag = asLink ? 'a' : 'span';
+const fontSize = fontSizes[size];
+const color = colors[variant];
+---
+
+<Tag
+  href={asLink ? href : undefined}
+  aria-label={asLink ? "Agence Simple - retour a l'accueil" : 'Agence Simple'}
+  class={`inline-flex items-baseline ${className}`}
+  style={`font-family: var(--font-logo); font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-size: ${fontSize}; color: ${color};`}
+>
+  Simple<span
+    aria-hidden="true"
+    style="display: inline-block; width: 0.18em; height: 0.18em; margin-left: 0.05em; margin-bottom: 0.04em; border-radius: 50%; background: var(--color-bleu); align-self: flex-end; transform: translateY(-0.04em);"
+  ></span>
+</Tag>

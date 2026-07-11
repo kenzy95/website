@@ -1,0 +1,900 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { SERVICES } from '@lib/content-data';
+import { serviceSchema, faqSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Page service LinkedIn outreach : copy long-form (copy-linkedin-outreach.md).
+ * Angle : rythme humain assume (20-25 msg/jour), anti mass-message, Aimfox
+ * plutot que les extensions Chrome. Design aligne charte v2 : hero encre + glows,
+ * corps creme arrondi, sequence de scripts en cards numerotees, resultats en
+ * stat cards, CTA final encre.
+ * Schemas : Service (LinkedIn Outreach) + FAQPage ; BreadcrumbList via Breadcrumb.
+ * PAS de VideoObject sur cette page.
+ */
+
+const service = SERVICES.find((s) => s.slug === 'linkedin-outreach')!;
+const url = `${SITE.url}/services/linkedin-outreach`;
+
+const metaTitle = 'Agence prospection LinkedIn, rythme humain | Agence Simple';
+const metaDescription =
+  'Agence prospection LinkedIn B2B : ciblage Sales Navigator, scripts personnalisés, rythme réaliste. Forfait mensuel avec garantie de RDV.';
+
+const breadcrumb = [
+  { name: 'Services', href: '/services' },
+  { name: 'LinkedIn outreach' },
+];
+
+const toc = [
+  { label: 'Ce qui marche', href: '#marche' },
+  { label: 'Pour qui', href: '#pour-qui' },
+  { label: 'Comment on procède', href: '#process' },
+  { label: 'Le plafond 25 messages', href: '#plafond' },
+  { label: 'Nos scripts', href: '#scripts' },
+  { label: 'Ce qui est inclus', href: '#inclus' },
+  { label: 'Résultats', href: '#resultats' },
+  { label: 'Combien ça coûte', href: '#cout' },
+];
+
+const etapes = [
+  {
+    titre: 'Note de connexion',
+    periode: 'Jour 0',
+    texte:
+      "Deux cents caractères maximum, avec un opener spécifique observé sur le profil. On bannit le « J'ai vu que vous étiez tel poste, j'aimerais échanger » au profit d'une phrase du type « En regardant votre profil et le lancement de telle offre, je me demandais comment vous gériez tel point précis ».",
+  },
+  {
+    titre: 'Message privé',
+    periode: 'Jour +3 après acceptation',
+    texte:
+      "On laisse passer quelques jours avant de reprendre contact. Le message donne le contexte, présente l'offre en une phrase et propose un appel à l'action à choix multiple, jamais un engagement lourd.",
+  },
+  {
+    titre: 'Follow-up',
+    periode: 'Jour +7',
+    texte:
+      "Une relance courte, qui rappelle le sujet sans réciter le premier message. La plupart des réponses positives arrivent à cette étape, pas à la première.",
+  },
+  {
+    titre: 'Break-up',
+    periode: 'Jour +14',
+    texte:
+      "Un dernier message qui clôt la séquence sans forcer, et laisse la porte ouverte pour revenir plus tard. Un break-up bien écrit rouvre plus de conversations qu'une relance insistante.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Est-ce que la prospection LinkedIn automatisée est autorisée ?",
+    answer:
+      "LinkedIn tolère l'automatisation via son API officielle et via des outils validés comme Aimfox. LinkedIn sanctionne l'automatisation par extension Chrome qui usurpe l'interface (Waalaxy, Dux-Soup, Phantombuster) : compte en warning, restriction, ou bannissement à moyen terme. On travaille uniquement avec des outils sur l'API officielle.",
+  },
+  {
+    question: "Vais-je perdre l'accès à mon compte LinkedIn ?",
+    answer:
+      "Non, si on respecte les seuils. On plafonne à 20 à 25 nouvelles connexions par jour et 25 à 30 messages par jour, ce qui est en dessous des limites de détection de LinkedIn. Le compte reste actif et intact. En trois ans d'opérations, on n'a jamais fait bannir un compte client.",
+  },
+  {
+    question: "Combien de RDV par mois via LinkedIn ?",
+    answer:
+      "Entre 8 et 15 rendez-vous par mois avec du LinkedIn seul, entre 15 et 25 en multicanal LinkedIn et email. Le volume dépend de la cible, de la qualité du profil du client (un fondateur avec une activité LinkedIn réelle convertit mieux qu'un compte anonyme) et de l'offre.",
+  },
+  {
+    question: "Faut-il un abonnement Sales Navigator ?",
+    answer:
+      "Oui. Sales Navigator est nécessaire pour le ciblage précis : filtres avancés, recherches booléennes, alertes de changement de poste. La version Advanced est requise. Vous réglez l'abonnement directement, nous ne prenons pas de marge.",
+  },
+  {
+    question: "Est-ce que vous écrivez du contenu LinkedIn pour moi ?",
+    answer:
+      "Non, ce n'est pas notre métier. On peut coacher le fondateur sur la ligne éditoriale et la fréquence, mais on ne ghostwritera pas les posts. Un fondateur qui publie deux fois par semaine avec un ton authentique double souvent les taux de conversion de sa prospection sortante.",
+  },
+  {
+    question: "Combien de temps entre le brief et les premiers messages ?",
+    answer:
+      "Entre cinq et dix jours. Semaine 1 : cadrage du ciblage, accès à Aimfox, écriture des scripts. L'envoi commercial démarre en fin de semaine 1 ou en semaine 2. Contrairement à l'email, il n'y a pas de warm-up sur LinkedIn : le compte est déjà chaud.",
+  },
+  {
+    question: "Vous répondez aux messages à ma place ?",
+    answer:
+      "Un closer côté Agence Simple qualifie les réponses et propose des créneaux de rendez-vous, en votre nom, avec votre validation sur les messages sensibles. Vous gardez le dernier mot avant tout envoi à un prospect senior. L'objectif est que le prospect ne se rende pas compte que ce n'est pas vous qui répondez.",
+  },
+  {
+    question: "LinkedIn ou cold email : quel canal choisir ?",
+    answer:
+      "Cela dépend de la cible et du budget. LinkedIn est meilleur pour les C-level, les cycles longs et les cibles sensibles au personal branding. Le cold email est meilleur pour les volumes élevés et les décideurs opérationnels ou intermédiaires. Idéalement les deux, en multicanal orchestré. Notre comparatif cold email vs LinkedIn outreach entre dans le détail.",
+  },
+];
+
+const schemas = [
+  serviceSchema({
+    name: service.title,
+    description: service.description,
+    url,
+    serviceType: service.serviceType,
+  }),
+  faqSchema(faqItems.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <!-- ============ HERO ENCRE + GLOWS ============ -->
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[20rem] h-[20rem] top-10 left-1/3 opacity-30"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Service · LinkedIn outreach</p>
+        <h1 class="hero__h1">
+          Agence prospection LinkedIn :
+          <span class="accent-display">Sales Navigator</span>, scripts personnalisés,
+          <HighlightMarker>rythme humain</HighlightMarker>
+        </h1>
+        <p class="hero__lead">
+          La plupart des agences LinkedIn vendent du volume : cent connexions par jour, mille messages
+          par semaine, un compte qui tourne à plein régime. Le résultat est presque toujours le même :
+          un compte en warning au bout de trois semaines, des prospects agacés, et une personal brand
+          abîmée. Notre approche est l'inverse assumé du mass-message.
+        </p>
+        <p class="hero__sub">
+          On envoie vingt à vingt-cinq connexions par jour, avec des scripts écrits pour une personne
+          précise, et on l'explique noir sur blanc sur cette page. Moins spectaculaire à l'entrée, bien
+          plus rentable dans la durée.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#scripts" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir nos scripts
+          </ArrowButton>
+        </div>
+
+        <nav class="toc" aria-label="Sommaire">
+          <p class="toc__title">Sur cette page</p>
+          <ol class="toc__list">
+            {toc.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </Container>
+    </section>
+
+    <!-- ============ CORPS CREME ============ -->
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <!-- Ce qui marche -->
+          <h2 id="marche">La prospection LinkedIn en 2026 : ce qui marche, ce qui ne marche plus</h2>
+          <p>
+            Ce qui marche encore très bien : une approche un à un réellement personnalisée, une note de
+            connexion ancrée dans une observation concrète sur le profil ou l'entreprise, un follow-up en
+            message privé trois à cinq jours après l'acceptation, et un contenu éditorial publié en
+            parallèle par le fondateur.
+          </p>
+          <p>
+            Ce qui ne marche plus : les notes de connexion génériques, le message automatique envoyé le
+            jour même de l'acceptation, la séquence multi-touch compressée sur vingt-quatre heures, et
+            tout volume au delà d'une trentaine de messages par jour. LinkedIn a nettement durci ses
+            détections en 2025 et 2026 : l'algorithme repère les comportements non humains et restreint
+            en priorité les outils qui usurpent son interface. Prospecter sur LinkedIn aujourd'hui, c'est
+            accepter un rythme lent et régulier, pas industriel.
+          </p>
+
+          <!-- Pour qui -->
+          <h2 id="pour-qui">Pour qui c'est fait</h2>
+          <p>
+            LinkedIn a du sens pour les éditeurs SaaS, les cabinets de conseil, les ESN et les scale-up
+            qui ciblent des décideurs présents et actifs sur le réseau : C-level, VP Sales, Head of Data,
+            DRH, direction de la communication. Sur ces cibles, LinkedIn résonne souvent mieux que
+            l'email froid. C'est particulièrement vrai pour la
+            <a href="/secteurs/saas">prospection LinkedIn pour SaaS B2B</a> et pour la
+            <a href="/secteurs/cabinet-conseil">prospection LinkedIn pour cabinets conseil</a>, deux
+            univers où la relation prime sur le volume.
+          </p>
+          <p>
+            Ce n'est pas fait pour les cibles absentes de LinkedIn : artisans, métiers de terrain,
+            direction publique. Ce n'est pas fait non plus pour les objectifs de volume élevé : le canal
+            plafonne, et personne ne fait cinquante rendez-vous par mois via LinkedIn seul sans cramer un
+            compte. Si vous visez ce volume, le canal email est plus adapté, et nous vous le dirons
+            franchement.
+          </p>
+
+          <!-- Process -->
+          <h2 id="process">Comment on procède</h2>
+          <p>
+            Le ciblage se fait via Sales Navigator, avec des recherches booléennes, des filtres avancés
+            et les signaux d'intention disponibles. On enrichit ensuite chaque profil : validation de
+            l'URL LinkedIn, dédoublonnage, exclusion de vos clients existants. On écrit les scripts en
+            partant d'une observation réelle sur le profil ou l'entreprise, avec une offre lisible et un
+            appel à l'action à faible friction. L'envoi passe par Aimfox, un outil qui opère via l'API
+            officielle de LinkedIn, au rythme humain décrit plus bas. Enfin, un closer qualifie les
+            réponses et propose les créneaux de rendez-vous.
+          </p>
+          <p>
+            L'ensemble est piloté selon la méthode Agence Simple décrite plus haut, la même trame de
+            cadrage, de test et d'itération que sur le canal email.
+          </p>
+
+          <!-- Plafond -->
+          <h2 id="plafond">Pourquoi on plafonne à 25 messages par jour</h2>
+          <p>
+            C'est le cœur de notre positionnement, alors autant l'expliquer. LinkedIn détecte les
+            comportements non humains : un rythme trop régulier, un timing mécanique, un volume trop
+            élevé. Un compte repéré passe en warning, puis en restriction. Une restriction, c'est deux
+            semaines de perdues au minimum, et parfois un bannissement définitif au bout du chemin.
+          </p>
+          <p>
+            On préfère donc vingt-cinq messages par jour tenus pendant six mois à un compte cramé au bout
+            de trois semaines. La règle est simple : mieux vaut dix rendez-vous par mois pendant un an que
+            trente le premier mois puis plus rien ensuite. C'est moins spectaculaire à l'entrée, c'est
+            bien plus rentable à l'arrivée.
+          </p>
+
+          <!-- Scripts -->
+          <h2 id="scripts">Nos scripts LinkedIn : l'anatomie d'une séquence</h2>
+          <p>
+            Une séquence type compte quatre touches réparties sur deux semaines, chacune avec un rôle
+            précis.
+          </p>
+        </div>
+
+        <div class="steps">
+          {etapes.map((e, i) => (
+            <div class="step-card">
+              <div class="step-card__head">
+                <span class="step-card__num">0{i + 1}</span>
+                <span class="step-card__periode">{e.periode}</span>
+              </div>
+              <h3 class="step-card__title">Étape {i + 1} : {e.titre}</h3>
+              <p class="step-card__body">{e.texte}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="prose-col">
+          <!-- Stack -->
+          <h2 id="stack">La stack outils qu'on utilise, et pourquoi</h2>
+          <p>
+            Le ciblage repose sur Sales Navigator, en version Advanced pour les filtres avancés et les
+            alertes de changement de poste. L'envoi passe par Aimfox, qui opère via l'API officielle de
+            LinkedIn et respecte les rythmes humains. Pour le multicanal, Icypeas et Kaspr permettent de
+            récupérer les emails en complément.
+          </p>
+          <p>
+            Nous n'utilisons jamais Waalaxy, Dux-Soup ni Phantombuster. Ce sont des extensions Chrome qui
+            usurpent l'interface de LinkedIn, et c'est exactement le type d'outil que le réseau
+            sanctionne : warning, restriction, puis bannissement à moyen terme. Autre principe : vous
+            gardez la propriété de votre compte LinkedIn, nous opérons avec un accès temporaire, jamais de
+            squatting. Les abonnements Sales Navigator et Aimfox sont réglés directement par vous, au coût
+            réel, sans marge de notre côté.
+          </p>
+
+          <!-- Inclus -->
+          <h2 id="inclus">Ce qui est inclus dans le forfait</h2>
+        </div>
+
+        <div class="panel panel--inclus">
+          <ul class="feature-list">
+            <li>
+              La configuration d'Aimfox et de Sales Navigator sur votre compte, sans que vous ayez à
+              toucher au paramétrage technique.
+            </li>
+            <li>
+              Le ciblage et le sourcing des prospects via Sales Navigator, avec exclusion de vos clients
+              existants.
+            </li>
+            <li>
+              L'écriture des scripts, en deux à trois variantes, relues et validées par vos soins avant
+              tout envoi.
+            </li>
+            <li>
+              L'envoi et le pilotage quotidien, au rythme humain, avec suivi des taux d'acceptation et de
+              réponse.
+            </li>
+            <li>
+              La qualification des réponses par un closer humain, qui transforme chaque réponse positive
+              en rendez-vous posé dans votre agenda.
+            </li>
+            <li>
+              Le reporting mensuel et l'accès direct au fondateur, Kenzy, sur Slack ou WhatsApp. En
+              option, un coaching sur votre contenu LinkedIn pour renforcer l'effet inbound en parallèle.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <!-- Exclus -->
+          <h2 id="pas-inclus">Ce qui n'est PAS inclus</h2>
+        </div>
+
+        <div class="panel panel--exclus">
+          <ul class="feature-list feature-list--neg">
+            <li>
+              Pas de ghostwriting de contenu LinkedIn. On peut coacher sur la ligne éditoriale et la
+              fréquence, mais on n'écrit pas vos posts à votre place.
+            </li>
+            <li>
+              Pas de gestion libre de votre messagerie : le closer répond en votre nom, mais avec votre
+              validation sur les échanges sensibles.
+            </li>
+            <li>
+              Pas de LinkedIn Ads, qui relèvent d'un autre métier.
+            </li>
+            <li>
+              Pas de garantie de signature. On engage un nombre de rendez-vous, la conversion en client
+              reste chez vous. Si vous voulez qu'une équipe prenne aussi la relation en charge, regardez
+              le <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <!-- Résultats -->
+          <h2 id="resultats">Résultats et benchmarks</h2>
+          <p>
+            Les fourchettes ci-dessous sont celles que nous tenons sur des cibles B2B bien configurées. Ce
+            sont des ordres de grandeur réalistes, pas des promesses de plaquette.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__num">25 à 40 %</span>
+            <span class="stat-card__label">de taux d'acceptation</span>
+            <p class="stat-card__body">
+              Selon la qualité de la note de connexion et la pertinence de la cible. Un profil client
+              actif sur LinkedIn tire ce taux vers le haut.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">8 à 15</span>
+            <span class="stat-card__label">RDV par mois via LinkedIn</span>
+            <p class="stat-card__body">
+              Sur le canal LinkedIn seul. En multicanal LinkedIn et email orchestrés, la fourchette monte
+              de 15 à 25 rendez-vous par mois.
+            </p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">151</span>
+            <span class="stat-card__label">RDV multicanal Invent-App</span>
+            <p class="stat-card__body">
+              LinkedIn a contribué aux 151 rendez-vous générés sur la durée. Le déroulé est dans le cas
+              client <a href="/cas-clients/invent-app">151 RDV qualifiés multicanal pour Invent-App</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <p>
+            Le taux de réponse en message privé après acceptation se situe entre 8 et 15 %, et le taux de
+            rendez-vous entre 3 et 6 %. Le volume final dépend de la cible, de la qualité du profil du
+            client et de l'offre. Un fondateur qui publie deux fois par semaine avec un ton authentique
+            double souvent les taux de conversion de sa prospection sortante.
+          </p>
+
+          <!-- Coût -->
+          <h2 id="cout">Combien ça coûte</h2>
+          <p>
+            La prospection LinkedIn chez Agence Simple est un forfait mensuel, sans engagement de durée.
+            Le montant dépend du volume visé et de la complexité de la cible : vous recevez un devis précis
+            après un premier échange, <a href="/contact">réservez un créneau</a>. Les abonnements
+            Sales Navigator et Aimfox sont réglés directement par vous, au coût réel.
+          </p>
+          <p>
+            Si vous hésitez entre les canaux, le
+            <a href="/comparatifs/cold-email-vs-linkedin-outreach">comparatif cold email vs LinkedIn outreach</a>
+            explique lequel privilégier selon votre cible. En pratique, les deux se combinent souvent :
+            <a href="/services/cold-email">le canal cold email en complément</a> démultiplie les points de
+            contact dans une même campagne. Le format complet, avec les deux canaux orchestrés et une
+            équipe dédiée, est décrit dans <a href="/">notre offre de prospection B2B clé en main</a>.
+          </p>
+          <p>
+            Enfin, comme sur toutes nos missions, la garantie minimum vital s'applique : un nombre de
+            rendez-vous engagé par mois, et une prolongation gratuite si l'objectif n'est pas tenu sur
+            trois mois.
+          </p>
+
+          <!-- Pour aller plus loin -->
+          <h2>Pour aller plus loin</h2>
+          <p>
+            Ces guides du blog détaillent la méthode et le ciblage évoqués sur cette page, si
+            vous voulez creuser le sujet avant d'en parler avec nous.
+          </p>
+          <ul class="feature-list feature-list--flat">
+            <li><a href="/blog/prospection-linkedin-methode">Prospection LinkedIn : la méthode complète</a></li>
+            <li><a href="/blog/sales-navigator-guide-ciblage">Sales Navigator : le guide du ciblage efficace</a></li>
+          </ul>
+
+          <!-- FAQ -->
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faqItems.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </article>
+
+    <!-- ============ CTA FINAL : BANDE ENCRE + GLOWS ============ -->
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Prendre rendez-vous</h2>
+        <p class="final__p">
+          Le premier rendez-vous est un diagnostic gratuit de 30 minutes avec l'équipe. On regarde votre
+          cible, votre profil LinkedIn et votre stade, et on vous dit franchement si le canal est le bon
+          pour vous. Si la réponse est non, vous repartez avec les raisons. Si c'est oui, vous recevez une
+          proposition avec un engagement chiffré de rendez-vous.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <!-- CTA sticky mobile -->
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  /* ============ HERO (dark) ============ */
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .accent-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .toc {
+    margin-top: 3.5rem;
+    max-width: 46rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+  }
+  .toc__title {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .toc__list {
+    margin-top: 0.85rem;
+    display: grid;
+    gap: 0.5rem 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .toc__list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .toc__list li {
+    list-style: none;
+  }
+  .toc__list a {
+    color: rgba(250, 247, 242, 0.85);
+    text-decoration: none;
+    font-size: var(--text-body);
+    font-weight: 500;
+    transition: color 180ms ease;
+  }
+  .toc__list a:hover {
+    color: var(--color-bleu);
+  }
+
+  /* ============ CORPS CREME ============ */
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+  .inline-cta {
+    font-weight: 600;
+  }
+
+  /* Méthode : cards numérotées */
+  .steps {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .step-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.75rem 1.6rem 1.6rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .step-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .step-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.9rem;
+    color: var(--color-bleu);
+    line-height: 1;
+  }
+  .step-card__periode {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .step-card__title {
+    margin-top: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-encre);
+  }
+  .step-card__body {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* Panels inclus / exclus */
+  .panel {
+    margin-top: 1.75rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel--exclus {
+    background: var(--color-encre);
+    box-shadow: 0 14px 40px -18px rgba(15, 27, 63, 0.5);
+  }
+  .panel--exclus .feature-list li {
+    color: rgba(250, 247, 242, 0.82);
+  }
+  .panel--exclus :global(a) {
+    color: #7cbdff;
+    text-decoration-color: rgba(124, 189, 255, 0.4);
+  }
+  .panel--exclus :global(a:hover) {
+    text-decoration-color: #7cbdff;
+  }
+
+  /* Listes */
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list--flat {
+    margin-top: 1.25rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+  .feature-list--neg li::before {
+    content: '✕';
+    color: var(--color-orange);
+  }
+
+  /* Stat cards résultats */
+  .stats {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.9rem 1.6rem 1.7rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--color-bleu);
+  }
+  .stat-card__label {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .stat-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  /* FAQ accordion */
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  /* ============ CTA FINAL (dark) ============ */
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  /* Sticky mobile CTA */
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>

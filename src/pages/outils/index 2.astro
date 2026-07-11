@@ -1,0 +1,45 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import Card from '@components/ui/Card.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+import { TOOLS } from '@lib/content-data';
+
+const title = 'Outils gratuits prospection B2B';
+const description =
+  "Trois calculateurs gratuits pour piloter votre prospection B2B : coût réel d'un SDR interne vs agence, ROI de vos campagnes, simulateur de RDV mensuels.";
+
+const breadcrumb = [{ name: 'Outils' }];
+---
+
+<PageLayout title={title} description={description} breadcrumb={breadcrumb}>
+  <Section spacing="lg">
+    <Container size="default">
+      <h1 class="text-(length:--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-(length:--text-body) text-(--color-gris) max-w-2xl">{description}</p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="wide">
+      <ul class="grid gap-6 sm:grid-cols-3">
+        {
+          TOOLS.map((tool) => (
+            <li>
+              <Card href={`/outils/${tool.slug}`}>
+                <h2 class="text-(length:--text-h3) font-semibold">{tool.name}</h2>
+                <p class="mt-3 text-(length:--text-body) text-(--color-gris)">{tool.description}</p>
+                <span class="mt-4 inline-block text-(length:--text-small) text-(--color-bleu) underline-offset-4 hover:underline">
+                  Utiliser l'outil →
+                </span>
+              </Card>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <CtaBlock title="Discuter des chiffres avec un humain" description="20 minutes en visio pour aller plus loin que les calculateurs." />
+</PageLayout>

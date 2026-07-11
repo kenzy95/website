@@ -1,0 +1,321 @@
+---
+/**
+ * Visuel principal du hero (dans la card ContainerScroll), inspiration
+ * collage lempire adaptee charte v2 : les 3 preuves du service en une image.
+ * - Reponse positive (bulle notification, texte prospect vouvoye)
+ * - RDV pris (calendrier jour cercle + chip RDV confirme)
+ * - Business apporte (bulle finance contrat signe + courbe qui monte)
+ * Portraits N&B generes (nano banana), capsules orange/creme comme le
+ * blob lime du referent. HTML/CSS pur, positionnement en % du canvas.
+ */
+---
+
+<div class="showcase" aria-label="Apercu du service : reponses positives, rendez-vous pris, contrats signes">
+  <!-- Doodles -->
+  <svg class="showcase__doodle showcase__doodle--arrow" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <path d="M4 36 L30 10 M30 10 h-12 M30 10 v12" stroke="var(--color-orange)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+  <svg class="showcase__doodle showcase__doodle--spark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <path d="M20 4 v10 M20 26 v10 M4 20 h10 M26 20 h10" stroke="#1E90FF" stroke-width="3.5" stroke-linecap="round" />
+  </svg>
+
+  <!-- Courbe qui monte (bas droite) -->
+  <svg class="showcase__wave" viewBox="0 0 560 150" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 150 L0 120 Q70 70 140 95 Q200 115 250 75 Q310 30 380 55 Q470 85 560 25 L560 150 Z" fill="url(#wave-grad)" />
+    <defs>
+      <linearGradient id="wave-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#F47B3F" stop-opacity="0.85" />
+        <stop offset="100%" stop-color="#1E90FF" stop-opacity="0.85" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Capsule orange : femme -->
+  <div class="showcase__capsule showcase__capsule--femme">
+    <img src="/images/hero-portrait-femme.webp" alt="Dirigeante souriante" width="760" height="1018" loading="eager" fetchpriority="high" />
+  </div>
+
+  <!-- Capsule creme : homme + badge -->
+  <div class="showcase__capsule showcase__capsule--homme">
+    <img src="/images/hero-portrait-homme.webp" alt="Decideur en rendez-vous visio" width="980" height="732" loading="eager" />
+  </div>
+  <div class="showcase__badge">Directeur Commercial<br />Groupe industriel</div>
+
+  <!-- Bulle 1 : business apporte -->
+  <div class="showcase__card showcase__card--deal">
+    <div class="showcase__card-head">
+      <span class="showcase__avatar showcase__avatar--bleu">T</span>
+      <span class="showcase__card-author">Thomas · Finance</span>
+    </div>
+    <p class="showcase__card-text">Contrat signé avec le lead de mardi : 45 K€</p>
+  </div>
+
+  <!-- Bulle 2 : reponse positive -->
+  <div class="showcase__card showcase__card--reply">
+    <div class="showcase__card-head">
+      <span class="showcase__avatar showcase__avatar--orange">M</span>
+      <span class="showcase__card-author">Réponse positive</span>
+    </div>
+    <p class="showcase__card-text">« Votre message tombe bien, on cherchait un prestataire. Un créneau mardi ? »</p>
+  </div>
+
+  <!-- Calendrier : RDV pris -->
+  <div class="showcase__calendar">
+    <div class="showcase__calendar-head">
+      <span aria-hidden="true">‹</span><span>Avril</span><span aria-hidden="true">›</span>
+    </div>
+    <div class="showcase__calendar-row showcase__calendar-row--muted">
+      <span>31</span><span>1</span><span>2</span><span>3</span><span>4</span>
+    </div>
+    <div class="showcase__calendar-row">
+      <span>5</span><span>6</span><span class="is-rdv">7</span><span>8</span><span class="is-rdv2">9</span>
+    </div>
+  </div>
+
+  <!-- Chip RDV confirme -->
+  <div class="showcase__chip">
+    <span class="showcase__chip-check" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" width="12" height="12"><path d="M4 12.5 L9.5 18 L20 6.5" stroke="#FAF7F2" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </span>
+    RDV confirmé · demain 10h30
+  </div>
+
+  <!-- Rangee avatars -->
+  <div class="showcase__team" aria-hidden="true">
+    <span class="showcase__avatar showcase__avatar--orange">S</span>
+    <span class="showcase__avatar showcase__avatar--bleu">L</span>
+    <span class="showcase__avatar showcase__avatar--creme">A</span>
+    <span class="showcase__avatar showcase__avatar--encre">J</span>
+    <span class="showcase__avatar showcase__avatar--orange">R</span>
+  </div>
+</div>
+
+<style>
+  .showcase {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    background:
+      radial-gradient(ellipse 70% 60% at 30% 20%, rgba(30, 144, 255, 0.10), transparent 60%),
+      radial-gradient(ellipse 60% 55% at 85% 85%, rgba(244, 123, 63, 0.10), transparent 55%),
+      #101c42;
+  }
+  @media (min-width: 768px) {
+    .showcase { border-radius: 20px; }
+  }
+
+  /* Capsules photo */
+  .showcase__capsule {
+    position: absolute;
+    overflow: hidden;
+  }
+  .showcase__capsule img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .showcase__capsule--femme {
+    left: 26%;
+    bottom: 0;
+    width: 26%;
+    height: 82%;
+    border-radius: 999px 999px 24px 24px;
+    background: #ED7038;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .showcase__capsule--femme img {
+    mix-blend-mode: normal;
+    object-position: center 15%;
+  }
+  .showcase__capsule--homme {
+    right: 4.5%;
+    top: 7%;
+    width: 30%;
+    height: 46%;
+    border-radius: 999px;
+    background: #FAF7F2;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  .showcase__badge {
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    background: rgba(250, 247, 242, 0.10);
+    border: 1px solid rgba(250, 247, 242, 0.16);
+    backdrop-filter: blur(10px);
+    color: var(--color-creme);
+    font-size: clamp(0.6rem, 1vw, 0.8rem);
+    font-weight: 600;
+    line-height: 1.35;
+    padding: 0.6em 1em;
+    border-radius: 12px;
+  }
+
+  /* Bulles notifications */
+  .showcase__card {
+    position: absolute;
+    background: #FAF7F2;
+    color: #0F1B3F;
+    border-radius: 16px;
+    padding: clamp(0.6rem, 1.2vw, 1rem) clamp(0.7rem, 1.4vw, 1.1rem);
+    width: clamp(11rem, 24%, 17rem);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  }
+  .showcase__card--deal { left: 4%; top: 9%; }
+  .showcase__card--reply { left: 8%; bottom: 7%; z-index: 3; }
+  .showcase__card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.35rem;
+  }
+  .showcase__card-author {
+    font-size: clamp(0.58rem, 0.9vw, 0.72rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(15, 27, 63, 0.6);
+  }
+  .showcase__card--reply .showcase__card-author { color: #e06a2f; text-transform: uppercase; letter-spacing: 0.08em; }
+  .showcase__card-text {
+    font-size: clamp(0.7rem, 1.15vw, 0.92rem);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* Avatars initiales */
+  .showcase__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(1.4rem, 2.4vw, 1.9rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    font-size: clamp(0.6rem, 1vw, 0.8rem);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .showcase__avatar--bleu { background: #1E90FF; color: #FAF7F2; }
+  .showcase__avatar--orange { background: #F47B3F; color: #FAF7F2; }
+  .showcase__avatar--creme { background: #efe6d8; color: #0F1B3F; }
+  .showcase__avatar--encre { background: #0F1B3F; color: #FAF7F2; border: 1px solid rgba(250, 247, 242, 0.35); }
+
+  /* Calendrier */
+  .showcase__calendar {
+    position: absolute;
+    left: 55%;
+    top: 60%;
+    width: clamp(10rem, 22%, 15rem);
+    background: rgba(250, 247, 242, 0.08);
+    border: 1px solid rgba(250, 247, 242, 0.14);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 0.7rem 0.85rem 0.85rem;
+    color: var(--color-creme);
+    z-index: 2;
+  }
+  .showcase__calendar-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(0.62rem, 1vw, 0.8rem);
+    font-weight: 600;
+    margin-bottom: 0.55rem;
+    opacity: 0.9;
+  }
+  .showcase__calendar-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.2rem;
+    text-align: center;
+    font-size: clamp(0.6rem, 0.95vw, 0.78rem);
+  }
+  .showcase__calendar-row span { padding: 0.28em 0; border-radius: 999px; }
+  .showcase__calendar-row--muted { opacity: 0.35; }
+  .showcase__calendar-row .is-rdv {
+    background: #F47B3F;
+    color: #FAF7F2;
+    font-weight: 700;
+    box-shadow: 0 0 14px rgba(244, 123, 63, 0.55);
+  }
+  .showcase__calendar-row .is-rdv2 {
+    box-shadow: inset 0 0 0 1.5px #1E90FF;
+    color: #7cbcff;
+    font-weight: 700;
+  }
+
+  /* Chip RDV confirme */
+  .showcase__chip {
+    position: absolute;
+    left: 56%;
+    top: 46%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(15, 27, 63, 0.72);
+    border: 1px solid rgba(250, 247, 242, 0.18);
+    backdrop-filter: blur(10px);
+    color: var(--color-creme);
+    font-size: clamp(0.6rem, 0.95vw, 0.78rem);
+    font-weight: 600;
+    padding: 0.5em 0.9em;
+    border-radius: 999px;
+    z-index: 3;
+    white-space: nowrap;
+  }
+  .showcase__chip-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #F47B3F;
+    flex-shrink: 0;
+  }
+
+  /* Rangee avatars + courbe */
+  .showcase__team {
+    position: absolute;
+    right: 6%;
+    bottom: 13%;
+    display: flex;
+    z-index: 2;
+  }
+  .showcase__team .showcase__avatar {
+    width: clamp(1.9rem, 3.2vw, 2.6rem);
+    margin-left: -0.45rem;
+    border: 2px solid #101c42;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  }
+  .showcase__wave {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 58%;
+    height: 26%;
+    opacity: 0.9;
+  }
+
+  /* Doodles */
+  .showcase__doodle {
+    position: absolute;
+    width: clamp(1.2rem, 2.2vw, 2rem);
+    opacity: 0.9;
+  }
+  .showcase__doodle--arrow { left: 21%; top: 12%; transform: rotate(100deg); }
+  .showcase__doodle--spark { left: 62%; top: 10%; transform: rotate(18deg); }
+
+  /* Mobile : compo resserree, on garde femme + calendrier + reply + avatars */
+  @media (max-width: 767px) {
+    .showcase__card--deal, .showcase__badge, .showcase__chip { display: none; }
+    .showcase__capsule--femme { left: 6%; width: 44%; height: 74%; }
+    .showcase__capsule--homme { right: 4%; top: 5%; width: 42%; height: 34%; }
+    .showcase__calendar { left: 52%; top: 44%; width: 44%; }
+    .showcase__card--reply { left: 5%; bottom: 4%; width: 62%; }
+    .showcase__team { right: 4%; bottom: 6%; }
+    .showcase__doodle--spark { display: none; }
+  }
+</style>

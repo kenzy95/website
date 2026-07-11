@@ -1,0 +1,142 @@
+---
+/**
+ * GlowCard - effet spotlight curseur (adapte 21st.dev/easemize/spotlight-card)
+ *
+ * Wrapper transparent qui ajoute :
+ * - Un halo spotlight qui suit le curseur (radial-gradient en ::before, mix-blend-mode plus-lighter)
+ * - Un rim light subtil (::after avec inset shadow blanc au hover)
+ *
+ * Implementation vanilla : un listener pointermove global qui set --glow-x et
+ * --glow-y sur :root (coords viewport). Toutes les cards heritent. 60fps via rAF.
+ *
+ * Usage :
+ *   <GlowCard glowColor="blue" radius={32}>
+ *     <div class="ma-card-existante">...</div>
+ *   </GlowCard>
+ */
+interface Props {
+  glowColor?: 'blue' | 'orange' | 'purple' | 'green' | 'red';
+  radius?: number;
+  spotlightSize?: number;
+  class?: string;
+}
+
+const {
+  glowColor = 'blue',
+  radius = 22,
+  spotlightSize = 350,
+  class: extraClass = '',
+} = Astro.props as Props;
+
+// Couleurs en HSL : base hue + saturation/lightness
+const colorMap = {
+  blue: '210 100% 65%',
+  orange: '25 100% 60%',
+  purple: '280 100% 65%',
+  green: '140 80% 55%',
+  red: '0 90% 60%',
+};
+const hsl = colorMap[glowColor];
+
+const inlineVars = [
+  `--gc-color: ${hsl}`,
+  `--gc-radius: ${radius}px`,
+  `--gc-size: ${spotlightSize}px`,
+].join('; ');
+---
+
+<div class:list={['glow-card', extraClass]} style={inlineVars}>
+  <div class="glow-card__inner">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .glow-card {
+    position: relative;
+    border-radius: var(--gc-radius);
+    isolation: isolate;
+  }
+
+  /* Wrapper interne : sert de positioning context et de mask pour le spotlight */
+  .glow-card__inner {
+    position: relative;
+    border-radius: inherit;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* Spotlight : halo qui suit le curseur, par-dessus la card en plus-lighter */
+  .glow-card__inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      var(--gc-size) var(--gc-size)
+        at calc(var(--glow-x, -9999) * 1px) calc(var(--glow-y, -9999) * 1px),
+      hsl(var(--gc-color) / 0.45),
+      hsl(var(--gc-color) / 0.18) 35%,
+      transparent 70%
+    );
+    background-attachment: fixed;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms ease;
+    mix-blend-mode: plus-lighter;
+    z-index: 2;
+  }
+
+  /* Rim light : bordure interieure subtile blanc, activee au hover */
+  .glow-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      inset 0 0 0 1px hsl(var(--gc-color) / 0.55),
+      0 0 24px -4px hsl(var(--gc-color) / 0.35);
+    opacity: 0;
+    transition: opacity 250ms ease;
+    z-index: 3;
+  }
+
+  /* Activation au hover sur le wrapper */
+  .glow-card:hover .glow-card__inner::before,
+  .glow-card:hover::after {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow-card__inner::before,
+    .glow-card::after {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Listener global unique : met a jour --glow-x/--glow-y sur :root (viewport coords)
+  if (!(window as any).__glowCardAttached) {
+    (window as any).__glowCardAttached = true;
+    let raf = 0;
+    let pendingX = 0;
+    let pendingY = 0;
+    document.addEventListener(
+      'pointermove',
+      (e) => {
+        pendingX = e.clientX;
+        pendingY = e.clientY;
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          const root = document.documentElement;
+          root.style.setProperty('--glow-x', pendingX.toFixed(0));
+          root.style.setProperty('--glow-y', pendingY.toFixed(0));
+          raf = 0;
+        });
+      },
+      { passive: true },
+    );
+  }
+</script>

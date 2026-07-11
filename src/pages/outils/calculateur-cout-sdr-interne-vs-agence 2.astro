@@ -1,0 +1,118 @@
+---
+/**
+ * Calculateur : cout complet d'un SDR interne.
+ * Aucune requete SEO en propre (regle audit I1) : asset de conversion + linkable.
+ * Aucun prix Agence Simple ; les montants sont des donnees de marche saisies
+ * par le visiteur.
+ */
+import ToolLayout from '@components/outils/ToolLayout.astro';
+import CalcCard from '@components/outils/CalcCard.astro';
+import { TOOLS } from '@lib/content-data';
+
+const tool = TOOLS.find((t) => t.slug === 'calculateur-cout-sdr-interne-vs-agence')!;
+
+const inputs = [
+  { id: 'salaire', label: 'Salaire brut annuel du SDR', min: 28000, max: 55000, step: 1000, value: 38000, unit: ' €' },
+  { id: 'charges', label: 'Charges patronales', min: 38, max: 48, step: 1, value: 44, unit: ' %', hint: 'Vérifiable sur le simulateur officiel URSSAF (lien en bas de page).' },
+  { id: 'outils', label: 'Outils par mois (Sales Navigator, séquenceur, enrichissement...)', min: 0, max: 1500, step: 50, value: 600, unit: ' €' },
+  { id: 'recrutement', label: 'Coût de recrutement (cabinet ou temps interne)', min: 0, max: 15000, step: 500, value: 4000, unit: ' €' },
+  { id: 'management', label: "Temps de management d'un manager commercial", min: 0, max: 30, step: 1, value: 10, unit: ' %', hint: "Base : manager à 65 000 € brut chargé." },
+  { id: 'rampe', label: 'Mois de rampe avant pleine productivité', min: 0, max: 6, step: 1, value: 3, unit: ' mois' },
+];
+const outputs = [
+  { id: 'total', label: 'Coût total année 1', main: true },
+  { id: 'mensuel', label: 'Coût mensuel moyen' },
+  { id: 'productif', label: 'Coût par mois pleinement productif' },
+];
+---
+
+<ToolLayout
+  metaTitle={tool.seoTitle ?? tool.title}
+  metaDescription={tool.metaDescription}
+  toolName={tool.name}
+  h1="Le vrai coût d'un SDR interne,"
+  accent="poste par poste"
+  lead="Salaire chargé, outils, recrutement, management, mois de rampe : ajustez chaque variable à votre réalité et obtenez le coût complet de la première année. Sans opinion, juste l'arithmétique."
+>
+  <CalcCard slot="calc" inputs={inputs} outputs={outputs} />
+
+  <Fragment slot="methodo">
+    <h2>Comment ce calculateur fonctionne (méthodologie transparente)</h2>
+    <p>
+      Chaque sortie est une somme simple, sans coefficient caché. Le coût total de la première
+      année additionne quatre postes :
+    </p>
+    <ul>
+      <li>Le salaire chargé : salaire brut annuel multiplié par 1 + le taux de charges patronales. Le taux réel dépend de votre convention et des allègements : vérifiez le vôtre sur le simulateur URSSAF cité en bas de page.</li>
+      <li>Les outils : l'abonnement mensuel multiplié par 12. Le poste type d'un SDR combine Sales Navigator, un séquenceur email, une solution d'enrichissement de contacts et la vérification d'adresses.</li>
+      <li>Le recrutement : honoraires de cabinet (souvent 15 à 20 % du salaire annuel) ou coût du temps interne passé à sourcer, recevoir et intégrer.</li>
+      <li>Le management : le pourcentage du temps d'un manager commercial, valorisé sur une base de 65 000 € brut chargé par an. Un SDR junior seul ne produit pas sans pilotage.</li>
+    </ul>
+    <p>
+      Le coût par mois pleinement productif divise ce total par le nombre de mois réellement
+      productifs : les mois de rampe comptent pour 40 % d'un mois plein, ce qui correspond à une
+      montée en charge progressive (formation, premières listes, premiers messages, premiers
+      arbitrages). C'est ce chiffre, et pas le salaire facial, qu'il faut comparer à un devis
+      d'externalisation.
+    </p>
+    <p>
+      Ce que le calculateur ne compte pas, volontairement : le risque de départ (un SDR reste en
+      poste en moyenne moins de deux ans, et un départ remet le compteur de rampe à zéro) et le
+      coût d'opportunité des mois sans pipeline. Ces deux facteurs jouent contre l'interne, mais
+      ils ne se réduisent pas à une formule honnête.
+    </p>
+    <h2>Pour aller plus loin</h2>
+    <ul>
+      <li>La décision complète, au-delà du coût : <a href="/comparatifs/sdr-interne-vs-agence-externalisee">SDR interne ou agence externalisée, le comparatif pour décider</a>.</li>
+      <li>Le détail chiffré du marché : <a href="/blog/cout-sdr-interne-vs-agence">combien coûte un SDR interne, le vrai calcul</a>.</li>
+      <li>Si l'externalisation l'emporte : <a href="/services/sdr-externalise">notre offre de SDR externalisé</a>.</li>
+    </ul>
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://mon-entreprise.urssaf.fr/simulateurs/salaire-brut-net" rel="noopener noreferrer" target="_blank">Simulateur officiel URSSAF</a> : le coût employeur exact pour votre cas.</li>
+      <li><a href="https://www.welcometothejungle.com/fr" rel="noopener noreferrer" target="_blank">Welcome to the Jungle</a> : salaires SDR réellement affichés dans les annonces en France.</li>
+      <li><a href="https://business.linkedin.com/sales-solutions/sales-navigator" rel="noopener noreferrer" target="_blank">LinkedIn Sales Navigator</a> : la grille tarifaire publique de l'outil de base.</li>
+    </ul>
+  </Fragment>
+</ToolLayout>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var card = document.querySelector('[data-calc-card]');
+      if (!card) return;
+      var fmtEuro = function (n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; };
+      var get = function (id) { return parseFloat(card.querySelector('[data-calc-input="' + id + '"]').value); };
+      function update() {
+        var salaire = get('salaire');
+        var charges = get('charges');
+        var outils = get('outils');
+        var recrutement = get('recrutement');
+        var management = get('management');
+        var rampe = get('rampe');
+
+        var charge = salaire * (1 + charges / 100);
+        var coutManagement = 65000 * 1.45 * (management / 100);
+        var total = charge + outils * 12 + recrutement + coutManagement;
+        var moisProductifs = (12 - rampe) + rampe * 0.4;
+
+        card.querySelector('[data-calc-out="total"]').textContent = fmtEuro(total);
+        card.querySelector('[data-calc-out="mensuel"]').textContent = fmtEuro(total / 12) + ' / mois';
+        card.querySelector('[data-calc-out="productif"]').textContent = fmtEuro(total / moisProductifs) + ' / mois';
+
+        // affichage des valeurs d'input
+        var units = { salaire: ' €', charges: ' %', outils: ' €', recrutement: ' €', management: ' %', rampe: ' mois' };
+        Object.keys(units).forEach(function (id) {
+          card.querySelector('[data-calc-display="' + id + '"]').textContent =
+            get(id).toLocaleString('fr-FR') + units[id];
+        });
+      }
+      card.querySelectorAll('[data-calc-input]').forEach(function (el) {
+        el.addEventListener('input', update);
+      });
+      update();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+</script>

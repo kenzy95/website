@@ -1,0 +1,405 @@
+---
+/**
+ * Calculateur ROI Cold Email (reprise du Framer).
+ * 4 inputs (sliders + nombre) -> 3 outputs reactifs.
+ * Formule : prospects * taux_reponse_positive => reponses
+ *           reponses * taux_closing => deals
+ *           deals * valeur_deal => revenu
+ * Pure HTML/CSS + 30 lignes de JS vanilla, zero framework.
+ */
+---
+
+<section class="roi-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-3xl mb-12 text-center mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Calculateur
+      </p>
+      <h2
+        class="mt-5 text-(--color-encre) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.03em;"
+      >
+        Calculateur de ROI <span style="color: var(--color-orange); font-family: var(--font-display); font-style: italic; font-weight: 600;">Cold Email</span>
+      </h2>
+      <p class="mt-6 text-(--color-encre)/70 text-(length:--text-body-lg)">
+        Estimez le retour sur investissement de vos campagnes d'emailing à froid.
+      </p>
+    </div>
+
+    <div class="roi-card" id="roi-calc">
+      <div class="roi-inputs">
+        <!-- Input 1 : Prospects -->
+        <div class="roi-input">
+          <div class="roi-input__head">
+            <span class="roi-input__num">1</span>
+            <label for="roi-prospects" class="roi-input__label">Prospects contactés / mois</label>
+          </div>
+          <input
+            type="range"
+            id="roi-prospects"
+            min="0"
+            max="20000"
+            step="500"
+            value="5000"
+            data-roi-input="prospects"
+            aria-valuemin="0"
+            aria-valuemax="20000"
+          />
+          <div class="roi-input__legend">
+            <span>0</span>
+            <span class="roi-input__value" data-roi-display="prospects">5 000</span>
+            <span>20 000</span>
+          </div>
+        </div>
+
+        <!-- Input 2 : Taux de reponse positive -->
+        <div class="roi-input">
+          <div class="roi-input__head">
+            <span class="roi-input__num">2</span>
+            <label for="roi-reply" class="roi-input__label">Taux de réponse positive</label>
+          </div>
+          <input
+            type="range"
+            id="roi-reply"
+            min="0"
+            max="30"
+            step="0.5"
+            value="12"
+            data-roi-input="reply"
+          />
+          <div class="roi-input__legend">
+            <span>0 %</span>
+            <span class="roi-input__value" data-roi-display="reply">12 %</span>
+            <span>30 %</span>
+          </div>
+        </div>
+
+        <!-- Input 3 : Taux de closing -->
+        <div class="roi-input">
+          <div class="roi-input__head">
+            <span class="roi-input__num">3</span>
+            <label for="roi-closing" class="roi-input__label">Taux de closing</label>
+          </div>
+          <input
+            type="range"
+            id="roi-closing"
+            min="0"
+            max="100"
+            step="1"
+            value="35"
+            data-roi-input="closing"
+          />
+          <div class="roi-input__legend">
+            <span>0 %</span>
+            <span class="roi-input__value" data-roi-display="closing">35 %</span>
+            <span>100 %</span>
+          </div>
+        </div>
+
+        <!-- Input 4 : Valeur d'un deal -->
+        <div class="roi-input">
+          <div class="roi-input__head">
+            <span class="roi-input__num">4</span>
+            <label for="roi-deal" class="roi-input__label">Valeur moyenne d'un deal (€)</label>
+          </div>
+          <div class="roi-input__field">
+            <span class="roi-input__currency">€</span>
+            <input
+              type="number"
+              id="roi-deal"
+              min="0"
+              step="100"
+              value="2000"
+              data-roi-input="deal"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="roi-outputs">
+        <p class="roi-outputs__title">
+          <span class="roi-outputs__icon">↗</span>
+          Résultats estimés
+        </p>
+        <div class="roi-outputs__grid">
+          <div class="roi-output">
+            <p class="roi-output__label">Réponses positives</p>
+            <p class="roi-output__value" data-roi-out="replies">600</p>
+          </div>
+          <div class="roi-output">
+            <p class="roi-output__label">Deals conclus</p>
+            <p class="roi-output__value" data-roi-out="deals">210</p>
+          </div>
+          <div class="roi-output roi-output--highlight">
+            <p class="roi-output__label">Revenu estimé / mois</p>
+            <p class="roi-output__value" data-roi-out="revenue">420 000 €</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var root = document.getElementById('roi-calc');
+      if (!root) return;
+      var inputs = root.querySelectorAll('[data-roi-input]');
+      var displays = root.querySelectorAll('[data-roi-display]');
+      var outs = {
+        replies: root.querySelector('[data-roi-out="replies"]'),
+        deals: root.querySelector('[data-roi-out="deals"]'),
+        revenue: root.querySelector('[data-roi-out="revenue"]'),
+      };
+
+      function fmt(n) {
+        return Math.round(n).toLocaleString('fr-FR');
+      }
+      function pct(n) {
+        return (Math.round(n * 10) / 10).toLocaleString('fr-FR') + ' %';
+      }
+
+      function compute() {
+        var v = {};
+        inputs.forEach(function (i) {
+          v[i.getAttribute('data-roi-input')] = parseFloat(i.value) || 0;
+        });
+        var replies = v.prospects * (v.reply / 100);
+        var deals = replies * (v.closing / 100);
+        var revenue = deals * v.deal;
+        outs.replies.textContent = fmt(replies);
+        outs.deals.textContent = fmt(deals);
+        outs.revenue.textContent = fmt(revenue) + ' €';
+        displays.forEach(function (d) {
+          var key = d.getAttribute('data-roi-display');
+          if (key === 'prospects') d.textContent = fmt(v.prospects);
+          if (key === 'reply') d.textContent = pct(v.reply);
+          if (key === 'closing') d.textContent = pct(v.closing);
+        });
+        // Update gradient track for visual fill
+        inputs.forEach(function (i) {
+          var min = parseFloat(i.min);
+          var max = parseFloat(i.max);
+          var val = parseFloat(i.value);
+          if (max > min) {
+            var p = ((val - min) / (max - min)) * 100;
+            i.style.setProperty('--fill', p + '%');
+          }
+        });
+      }
+
+      inputs.forEach(function (i) {
+        i.addEventListener('input', compute);
+      });
+      compute();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  /* Section sur fond creme - rythme visuel charte v2 */
+  .roi-section {
+    background: var(--color-creme);
+    padding: 6rem 0 5rem;
+    border-radius: 32px 32px 0 0;
+    margin-top: 2rem;
+  }
+  .roi-card {
+    background: #FAF7F2;
+    color: #0F1B3F;
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.4);
+  }
+  @media (min-width: 768px) {
+    .roi-card { padding: 2.5rem; }
+  }
+
+  .roi-inputs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .roi-inputs { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  }
+
+  .roi-input {
+    background: rgba(15, 27, 63, 0.03);
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1rem;
+  }
+  .roi-input__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+  }
+  .roi-input__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: #F47B3F;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .roi-input__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #0F1B3F;
+  }
+  .roi-input input[type="range"] {
+    --fill: 35%;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(to right,
+      #1E90FF 0,
+      #1E90FF var(--fill),
+      rgba(15, 27, 63, 0.12) var(--fill),
+      rgba(15, 27, 63, 0.12) 100%);
+    cursor: pointer;
+    outline: none;
+  }
+  .roi-input input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 3px solid #1E90FF;
+    box-shadow: 0 4px 12px rgba(30, 144, 255, 0.4);
+    cursor: pointer;
+  }
+  .roi-input input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 3px solid #1E90FF;
+    box-shadow: 0 4px 12px rgba(30, 144, 255, 0.4);
+    cursor: pointer;
+  }
+  .roi-input__legend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.65rem;
+    font-size: 0.75rem;
+    color: #5A6478;
+  }
+  .roi-input__value {
+    background: rgba(244, 123, 63, 0.15);
+    color: #F47B3F;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .roi-input__field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0;
+  }
+  .roi-input__currency {
+    position: absolute;
+    left: 0.85rem;
+    color: #5A6478;
+    font-weight: 600;
+  }
+  .roi-input__field input[type="number"] {
+    width: 100%;
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem 0.7rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0F1B3F;
+    background: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+  }
+  .roi-input__field input[type="number"]:focus {
+    outline: 2px solid #1E90FF;
+    outline-offset: 1px;
+  }
+
+  /* === OUTPUTS === */
+  .roi-outputs {
+    margin-top: 1.5rem;
+    background: linear-gradient(135deg, rgba(244, 123, 63, 0.08), rgba(30, 144, 255, 0.06));
+    border: 1px solid rgba(244, 123, 63, 0.18);
+    border-radius: 18px;
+    padding: 1.5rem;
+  }
+  .roi-outputs__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0F1B3F;
+    margin-bottom: 1rem;
+  }
+  .roi-outputs__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 8px;
+    background: #F47B3F;
+    color: #FFFFFF;
+    font-weight: 800;
+  }
+  .roi-outputs__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .roi-outputs__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .roi-output {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .roi-output__label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5A6478;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .roi-output__value {
+    margin-top: 0.4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0F1B3F;
+    font-variant-numeric: tabular-nums;
+  }
+  .roi-output--highlight {
+    background: #F47B3F;
+    color: #FFFFFF;
+  }
+  .roi-output--highlight .roi-output__label { color: rgba(255, 255, 255, 0.85); }
+  .roi-output--highlight .roi-output__value { color: #FFFFFF; }
+</style>

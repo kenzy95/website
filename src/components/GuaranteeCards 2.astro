@@ -1,0 +1,179 @@
+---
+/**
+ * 2 cards bicolores garanties (Framer actuel) :
+ * - "Nous prenons tous les frais en charge" : fond orange plein charte v2 #F47B3F
+ * - "Aucun engagement" : fond texture cuivre/encre profond
+ * Adaptation charte v2 : remplace le rouge/orange satureé par l'orange officiel.
+ */
+import HighlightMarker from './ui/HighlightMarker.astro';
+import GlowCard from './ui/GlowCard.astro';
+---
+
+<section class="py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Card 1 : Garantie minimum vital - fond encre, glow orange -->
+      <GlowCard glowColor="orange" radius={32}>
+        <div class="guarantee-card guarantee-card--encre guarantee-card--minimum">
+          <span class="guarantee-card__eyebrow">Garantie minimum vital</span>
+          <h2 class="guarantee-card__title">
+            Un minimum<br />de RDV.<br />Garanti.
+          </h2>
+          <p class="guarantee-card__body">
+            Un nombre de RDV qualifiés est fixé dans le contrat. Pas atteint ?
+            On continue gratuitement jusqu'à l'atteindre.
+          </p>
+        </div>
+      </GlowCard>
+
+      <!-- Card 2 (centre) : Frais en charge - fond orange plein, glow bleu (contraste) -->
+      <GlowCard glowColor="blue" radius={32}>
+        <div class="guarantee-card guarantee-card--orange">
+          <span class="guarantee-card__eyebrow">Inclus dans le forfait</span>
+          <h2 class="guarantee-card__title">
+            Nous prenons<br />tous les frais<br />en charge.
+          </h2>
+          <p class="guarantee-card__body">
+            Outils, infrastructure, copywriting, suivi : tout est compris dans
+            le forfait mensuel. Pas de frais cachés, pas de mark-up sur les outils.
+          </p>
+        </div>
+      </GlowCard>
+
+      <!-- Card 3 : Aucun engagement - fond encre profond + texture, glow orange (chaleur) -->
+      <GlowCard glowColor="orange" radius={32}>
+        <div class="guarantee-card guarantee-card--encre">
+          <span class="guarantee-card__eyebrow">Liberté totale</span>
+          <h2 class="guarantee-card__title">
+            Aucun<br />engagement.
+          </h2>
+          <p class="guarantee-card__body">
+            Vous payez au mois. Si Simple ne vous est plus utile, vous partez.
+            Pas de durée minimum cachée, pas de pénalité de sortie.
+          </p>
+        </div>
+      </GlowCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .guarantee-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 3rem 2.5rem;
+    border-radius: 32px;
+    min-height: 18rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  @media (min-width: 768px) {
+    .guarantee-card { padding: 2.75rem 2.5rem; min-height: 24rem; }
+  }
+  /* Format carre (Kenzy) : les 3 cards gardent la proportion des encarts d'origine */
+  @media (min-width: 1024px) {
+    .guarantee-card { aspect-ratio: 1 / 1; min-height: 0; }
+    .guarantee-card__body { margin-top: 1.25rem; font-size: 0.95rem; }
+    .guarantee-card__title { margin-top: 1rem; }
+  }
+
+  .guarantee-card--orange {
+    background: #F47B3F;
+    color: #0F1B3F;
+  }
+  .guarantee-card--orange::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at bottom right, rgba(15, 27, 63, 0.18), transparent 60%),
+      radial-gradient(ellipse at top left, rgba(255, 235, 220, 0.3), transparent 55%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Card minimum : meme DA encre que 'Aucun engagement', sans la texture cuivre */
+  .guarantee-card--minimum::before {
+    background-image: none;
+    background:
+      radial-gradient(ellipse at top right, rgba(30, 144, 255, 0.15), transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(244, 123, 63, 0.12), transparent 55%);
+    opacity: 1;
+  }
+
+  .guarantee-card--encre {
+    background: #0a132e;
+    color: #FAF7F2;
+  }
+  /* Texture cuivre reelle : image du Framer + overlay encre pour darken */
+  .guarantee-card--encre::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/textures/copper.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.45;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .guarantee-card--encre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top left, rgba(15, 27, 63, 0.4), transparent 50%),
+      linear-gradient(135deg, rgba(15, 27, 63, 0.3), rgba(10, 19, 46, 0.6));
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .guarantee-card__eyebrow {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.75;
+  }
+  .guarantee-card--orange .guarantee-card__eyebrow {
+    color: #0F1B3F;
+    opacity: 0.7;
+  }
+  .guarantee-card--encre .guarantee-card__eyebrow {
+    color: #F47B3F;
+    opacity: 1;
+  }
+
+  .guarantee-card__title {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-top: 1.5rem;
+  }
+  .guarantee-card--encre .guarantee-card__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .guarantee-card__body {
+    position: relative;
+    z-index: 1;
+    font-size: 1rem;
+    line-height: 1.55;
+    max-width: 26rem;
+    margin-top: 2rem;
+  }
+  .guarantee-card--orange .guarantee-card__body { color: rgba(15, 27, 63, 0.85); }
+  .guarantee-card--encre .guarantee-card__body { color: rgba(250, 247, 242, 0.78); }
+</style>

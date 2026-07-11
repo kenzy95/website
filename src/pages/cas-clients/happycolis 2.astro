@@ -1,0 +1,366 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { articleSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Cas client Happycolis : reecriture fidele de la source Framer (zero emoji,
+ * zero chiffre invente). Chiffres autorises : 41 RDV en 5 semaines, 576 reponses.
+ * Design charte v2 : hero encre compact + corps creme + stat card resultats.
+ * Schemas : Article + BreadcrumbList via Breadcrumb.
+ */
+
+const url = `${SITE.url}/cas-clients/happycolis`;
+
+const metaTitle = 'Cas client Happycolis : 41 RDV en 5 semaines | Agence Simple';
+const metaDescription =
+  'Comment nous avons généré 41 RDV qualifiés en 5 semaines pour Happycolis (logistique e-commerce) : ciblage précis, cold email terrain, 576 réponses.';
+
+const breadcrumb = [
+  { name: 'Cas clients', href: '/cas-clients' },
+  { name: 'Happycolis' },
+];
+
+const schemas = [
+  articleSchema({
+    headline: 'Cas client Happycolis : 41 RDV qualifiés en 5 semaines',
+    description: metaDescription,
+    url,
+    image: `${SITE.url}/og-default.jpg`,
+    datePublished: '2025-04-01',
+    dateModified: '2026-05-03',
+  }),
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  schemas={schemas}
+  ogType="article"
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <!-- ============ HERO ENCRE COMPACT ============ -->
+    <section class="hero relative overflow-hidden pt-10 pb-16 sm:pb-20">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-orange w-[18rem] h-[18rem] top-10 left-1/4 opacity-30"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Cas client · Logistique e-commerce</p>
+        <h1 class="hero__h1">
+          Happycolis :
+          <span class="accent-display">41 rendez-vous qualifiés</span>
+          en <HighlightMarker>5 semaines</HighlightMarker>
+        </h1>
+        <p class="hero__lead">
+          Happycolis externalise la logistique des marques e-commerce. Le défi n'était pas de parler à
+          beaucoup de monde, mais de parler juste aux bons e-commerçants, ceux qui ont assez de volume
+          pour vouloir déléguer. En cinq semaines, la campagne a produit 41 rendez-vous qualifiés et
+          576 réponses.
+        </p>
+      </Container>
+    </section>
+
+    <!-- ============ CORPS CREME ============ -->
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="contexte">Le contexte</h2>
+          <p>
+            Happycolis propose aux marques e-commerce d'externaliser leur logistique : stockage,
+            préparation et expédition des commandes. Le service ne parle qu'à un profil précis, les
+            e-commerçants dont le volume de commandes est devenu assez lourd pour que la logistique
+            interne coûte du temps et de la marge.
+          </p>
+          <p>
+            Le problème de départ était clair : un ciblage trop large, des messages trop génériques, et
+            des résultats quasi nuls. Beaucoup d'e-commerçants existent, mais peu ont le volume et la
+            douleur logistique qui rendent le discours pertinent. Tant que la cible restait floue, le
+            message tombait à plat.
+          </p>
+
+          <h2 id="defis">Les défis</h2>
+          <p>
+            Trois obstacles à lever. D'abord identifier les e-commerçants qui ont un vrai besoin, avec
+            le bon volume, une croissance visible et des galères logistiques réelles. Ensuite sortir du
+            discours passe-partout sur la « logistique externalisée », qui ne dit rien à personne.
+            Enfin générer des leads réellement qualifiés, prêts à échanger, pas des curieux.
+          </p>
+
+          <h2 id="dispositif">Ce qu'on a mis en place</h2>
+          <p>
+            Le canal principal a été le cold email, monté en deux séquences testées l'une contre
+            l'autre, avec des relances personnalisées. Le ciblage a été resserré au maximum : seulement
+            des marques e-commerce affichant le bon volume de commandes, repérées par recoupement de
+            sources publiques.
+          </p>
+          <p>
+            Le copy a été écrit à partir des douleurs concrètes des e-commerçants, pas à partir des
+            arguments produit de Happycolis. Moins « agence », plus « entre pairs » : le message parlait
+            de préparation de commandes qui déborde, de délais qui glissent, de service client qui
+            encaisse les retards, plutôt que de vanter une prestation. C'est cet angle terrain qui a
+            fait la différence. La mécanique complète est décrite dans notre
+            <a href="/services/cold-email">service de cold email B2B</a>.
+          </p>
+
+          <h2 id="resultats">Les résultats</h2>
+          <p>
+            Sur cinq semaines de campagne, le ciblage précis et le message terrain ont produit un flux
+            de rendez-vous nettement au-dessus du point de départ.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__num">41</span>
+            <span class="stat-card__label">RDV qualifiés</span>
+            <p class="stat-card__body">En cinq semaines de campagne, avec des interlocuteurs réellement prêts à échanger.</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">576</span>
+            <span class="stat-card__label">réponses obtenues</span>
+            <p class="stat-card__body">Réponses positives et négatives confondues, signe d'un message qui a réellement accroché la cible.</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">5</span>
+            <span class="stat-card__label">semaines de campagne</span>
+            <p class="stat-card__body">Un délai court entre le lancement et le volume de rendez-vous atteint.</p>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="pourquoi">Pourquoi ça a fonctionné</h2>
+          <p>
+            Deux raisons, et elles tiennent ensemble. Le ciblage d'abord : uniquement des marques
+            e-commerce avec le bon volume, jamais de remplissage pour faire du nombre. Le message
+            ensuite : un ton terrain, écrit du point de vue de l'e-commerçant qui subit sa logistique,
+            pas du prestataire qui vend la sienne.
+          </p>
+          <p>
+            C'est la combinaison des deux qui crée la traction. Un bon message sur une mauvaise cible ne
+            convertit pas, et une cible parfaite avec un message générique non plus. Cette logique est
+            au cœur de <a href="/">notre offre de prospection B2B clé en main</a>.
+          </p>
+        </div>
+      </Container>
+    </article>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Votre cible ressemble à celle d'Happycolis ?</h2>
+        <p class="final__p">
+          Le premier rendez-vous est un diagnostic gratuit de 30 minutes avec l'équipe. On regarde votre
+          cible et votre offre, et on vous dit franchement si un cold email bien ciblé peut produire ce
+          type de résultats chez vous.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .accent-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .stats {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.9rem 1.6rem 1.7rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--color-bleu);
+  }
+  .stat-card__label {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .stat-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+/**
+ * Calculateur : ROI d'un dispositif de prospection B2B.
+ * Le budget saisi est celui du visiteur (interne ou agence), pas un prix Agence Simple.
+ */
+import ToolLayout from '@components/outils/ToolLayout.astro';
+import CalcCard from '@components/outils/CalcCard.astro';
+import { TOOLS } from '@lib/content-data';
+
+const tool = TOOLS.find((t) => t.slug === 'calculateur-roi-prospection')!;
+
+const inputs = [
+  { id: 'rdv', label: 'RDV qualifiés par mois', min: 2, max: 40, step: 1, value: 10 },
+  { id: 'conversion', label: 'Taux de conversion RDV vers client', min: 5, max: 60, step: 1, value: 20, unit: ' %', hint: 'Votre taux de closing réel sur des rendez-vous qualifiés.' },
+  { id: 'panier', label: 'Panier moyen annuel par client', min: 2000, max: 100000, step: 1000, value: 12000, unit: ' €' },
+  { id: 'budget', label: 'Budget prospection mensuel, tous coûts confondus', min: 500, max: 12000, step: 250, value: 3000, unit: ' €', hint: 'Interne (salaire chargé + outils) ou externalisé : le vôtre.' },
+];
+const outputs = [
+  { id: 'roi', label: 'Retour sur investissement', main: true },
+  { id: 'clients', label: 'Nouveaux clients par mois' },
+  { id: 'ca', label: "CA annuel généré par mois de prospection" },
+  { id: 'cac', label: "Coût d'acquisition par client" },
+];
+---
+
+<ToolLayout
+  metaTitle={tool.title}
+  metaDescription={tool.metaDescription}
+  toolName={tool.name}
+  h1="Le ROI de votre prospection,"
+  accent="sans promesse, juste vos chiffres"
+  lead="Quatre variables suffisent : le volume de RDV, votre taux de closing, votre panier moyen et votre budget réel. Le calculateur fait le reste et vous dit si la prospection sortante est rentable pour votre modèle."
+>
+  <CalcCard slot="calc" inputs={inputs} outputs={outputs} />
+
+  <Fragment slot="methodo">
+    <h2>Comment ce calculateur fonctionne (méthodologie transparente)</h2>
+    <p>
+      La chaîne de calcul est celle que nous utilisons en cadrage avec nos clients, sans
+      embellissement :
+    </p>
+    <ul>
+      <li>Nouveaux clients par mois = RDV qualifiés multipliés par votre taux de conversion. C'est votre closing qui fait ce chiffre, pas le prestataire : un bon dispositif de prospection livre des rendez-vous qualifiés, la vente reste chez vous.</li>
+      <li>CA annuel généré par mois de prospection = nouveaux clients multipliés par le panier moyen annuel. Si vos clients restent plusieurs années, le chiffre réel est supérieur : nous comptons volontairement une seule année.</li>
+      <li>Coût d'acquisition par client = budget mensuel divisé par les nouveaux clients du mois.</li>
+      <li>Retour sur investissement = CA généré divisé par le budget engagé sur le mois. Un ratio de 3 signifie que chaque euro investi en rapporte trois la première année.</li>
+    </ul>
+    <p>
+      Le point qui fait basculer le résultat, c'est presque toujours le panier moyen. En dessous de
+      quelques milliers d'euros par client et par an, le coût d'acquisition mange la marge et la
+      prospection sortante n'est probablement pas votre canal : nous le disons dès le premier appel,
+      y compris quand cela nous coûte un contrat. La logique complète est détaillée dans notre
+      <a href="/blog/externaliser-prospection-b2b-guide">guide de l'externalisation de la prospection B2B</a>.
+    </p>
+    <h2>Pour aller plus loin</h2>
+    <ul>
+      <li>Des chiffres réels plutôt que des projections : <a href="/cas-clients">nos cas clients documentés</a> (41 RDV en 5 semaines, 151 RDV sur 6 mois, 14 % de réponse).</li>
+      <li>Combien de RDV votre cible peut produire : <a href="/outils/simulateur-rdv-mensuels">le simulateur de RDV mensuels</a>.</li>
+      <li>Notre modèle : <a href="/">une garantie contractuelle sur le nombre de RDV qualifiés</a>, dont vous êtes seul juge.</li>
+    </ul>
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.cnil.fr/fr/la-prospection-commerciale-par-courrier-electronique" rel="noopener noreferrer" target="_blank">CNIL</a> : le cadre légal de la prospection par email en France.</li>
+      <li><a href="https://salesdorado.com" rel="noopener noreferrer" target="_blank">Salesdorado</a> : benchmarks indépendants du marché de la prospection B2B.</li>
+    </ul>
+  </Fragment>
+</ToolLayout>
+
+<script is:inline>
+  (function () {
+    function init() {
+      var card = document.querySelector('[data-calc-card]');
+      if (!card) return;
+      var get = function (id) { return parseFloat(card.querySelector('[data-calc-input="' + id + '"]').value); };
+      var fmtEuro = function (n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; };
+      function update() {
+        var rdv = get('rdv');
+        var conversion = get('conversion') / 100;
+        var panier = get('panier');
+        var budget = get('budget');
+
+        var clients = rdv * conversion;
+        var ca = clients * panier;
+        var cac = clients > 0 ? budget / clients : 0;
+        var roi = budget > 0 ? ca / budget : 0;
+
+        card.querySelector('[data-calc-out="roi"]').textContent = 'x ' + (Math.round(roi * 10) / 10).toLocaleString('fr-FR');
+        card.querySelector('[data-calc-out="clients"]').textContent = (Math.round(clients * 10) / 10).toLocaleString('fr-FR');
+        card.querySelector('[data-calc-out="ca"]').textContent = fmtEuro(ca);
+        card.querySelector('[data-calc-out="cac"]').textContent = clients > 0 ? fmtEuro(cac) : '–';
+
+        var units = { rdv: '', conversion: ' %', panier: ' €', budget: ' €' };
+        Object.keys(units).forEach(function (id) {
+          card.querySelector('[data-calc-display="' + id + '"]').textContent =
+            get(id).toLocaleString('fr-FR') + units[id];
+        });
+      }
+      card.querySelectorAll('[data-calc-input]').forEach(function (el) {
+        el.addEventListener('input', update);
+      });
+      update();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+</script>

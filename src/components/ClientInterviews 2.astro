@@ -1,0 +1,302 @@
+---
+/**
+ * Interviews clients - cards bleu pale sur fond creme (alterne avec sections dark).
+ * Les 3 clients avec interview video (reprises du Framer) ont leur video integree
+ * en haut de card, full-bleed, en facade : miniature locale + play, l'iframe
+ * youtube-nocookie ne charge qu'au clic (enablejsapi + postMessage playVideo
+ * en secours quand l'autoplay du param URL est ignore, cas Safari).
+ */
+
+interface Interview {
+  client: string;
+  logo?: string;
+  sector: string;
+  before: string;
+  after: string;
+  video?: { youtubeId: string; thumb: string; hook: string };
+}
+
+const interviews: Interview[] = [
+  {
+    client: 'Les Épaulettes',
+    logo: '/clients/epaulettes.png',
+    sector: 'Vente B2B',
+    video: {
+      youtubeId: 'h7vkCT5aDhY',
+      thumb: '/images/interviews/interview-epaulettes.webp',
+      hook: 'Développement du pôle B2B',
+    },
+    before:
+      "Les Épaulettes faisaient face à des défis importants dans leur prospection B2B. Les méthodes utilisées manquaient de structure, ce qui rendait difficile l'atteinte efficace des prospects. Les engagements initiaux étaient souvent influencés par des relations historiques, et il y avait un besoin pressant d'accélérer et d'améliorer les ventes B2B.",
+    after:
+      "L'accent mis sur le timing et la personnalisation des messages a permis d'améliorer considérablement la qualité des leads. Désormais, la grande majorité de leur activité B2B découle directement du flux de RDV qualifiés apportés.",
+  },
+  {
+    client: 'Komon',
+    sector: 'Startup B2B',
+    video: {
+      youtubeId: '-GaYHXJR-Hc',
+      thumb: '/images/interviews/interview-komon.webp',
+      hook: '30 RDV le premier mois',
+    },
+    before:
+      "Komon avait besoin d'un canal d'acquisition structuré pour aller chercher ses clients en direct, sans dépendre du réseau ni des opportunités entrantes.",
+    after:
+      "Dès le premier mois de campagne, 30 rendez-vous qualifiés ont été posés dans l'agenda de l'équipe. Ils racontent le déroulé complet dans l'interview.",
+  },
+  {
+    client: 'Daisy app',
+    logo: '/clients/daisy.png',
+    sector: 'SaaS Ateliers créatifs',
+    video: {
+      youtubeId: 'fepN_sOkUAo',
+      thumb: '/images/interviews/interview-daisy.webp',
+      hook: '5 clients en 1 mois',
+    },
+    before:
+      "Daisy, logiciel de gestion pour ateliers créatifs, cherchait à accélérer son acquisition : trouver de nouveaux clients sans y consacrer le temps que l'équipe devait garder pour le produit.",
+    after:
+      "La prospection externalisée a signé 5 nouveaux clients en un mois. Le détail de la campagne et des résultats est dans l'interview.",
+  },
+];
+---
+
+<section class="interviews-section">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="max-w-3xl mb-12 text-center mx-auto">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+        Interviews clients
+      </p>
+      <h2
+        class="mt-5 text-(--color-encre) leading-(--leading-title)"
+        style="font-family: var(--font-sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -0.03em;"
+      >
+        Ils racontent.
+      </h2>
+    </div>
+
+    <ul class="interviews-grid">
+      {
+        interviews.map((iv) => (
+          <li class="interview-card">
+            {iv.video && (
+              <button
+                type="button"
+                class="interview-card__video"
+                data-youtube-id={iv.video.youtubeId}
+                aria-label={`Lire l'interview de ${iv.client} : ${iv.video.hook}`}
+              >
+                <img
+                  src={iv.video.thumb}
+                  alt={`Interview ${iv.client} : ${iv.video.hook}`}
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  class="interview-card__video-thumb"
+                />
+                <span class="interview-card__video-play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26">
+                    <path d="M8 5.14v13.72c0 .8.87 1.3 1.56.88l10.54-6.86a1.04 1.04 0 0 0 0-1.76L9.56 4.26A1.04 1.04 0 0 0 8 5.14Z" />
+                  </svg>
+                </span>
+              </button>
+            )}
+            <div class="interview-card__head">
+              {iv.logo && (
+                <img src={iv.logo} alt={`Logo ${iv.client}`} class="interview-card__logo" loading="lazy" />
+              )}
+              <div class="interview-card__id">
+                <span class="interview-card__sector">{iv.sector}</span>
+                <h3 class="interview-card__name">{iv.client}</h3>
+              </div>
+            </div>
+            <div class="interview-card__body">
+              <div class="interview-card__col">
+                <p class="interview-card__col-label interview-card__col-label--before">Avant</p>
+                <p class="interview-card__col-text">{iv.before}</p>
+              </div>
+              <div class="interview-card__col">
+                <p class="interview-card__col-label interview-card__col-label--after">Après</p>
+                <p class="interview-card__col-text">{iv.after}</p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .interviews-section {
+    background: var(--color-creme);
+    padding: 6rem 0;
+    border-radius: 32px 32px 0 0;
+    margin-top: 2rem;
+  }
+  .interviews-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 1024px) {
+    .interviews-grid { grid-template-columns: 1fr 1fr; }
+    .interviews-grid > li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      max-width: 50%;
+      margin: 0 auto;
+    }
+  }
+  .interview-card {
+    --pad: 2rem;
+    background: #FFFFFF;
+    color: #0F1B3F;
+    border-radius: 24px;
+    padding: var(--pad);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.05);
+  }
+  @media (min-width: 768px) {
+    .interview-card { --pad: 2.5rem; }
+  }
+
+  /* Video integree full-bleed en haut de card */
+  .interview-card__video {
+    position: relative;
+    display: block;
+    margin: calc(-1 * var(--pad)) calc(-1 * var(--pad)) 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 24px 24px 0 0;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background: #0F1B3F;
+  }
+  .interview-card__video-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+  .interview-card__video:hover .interview-card__video-thumb { transform: scale(1.04); }
+  .interview-card__video-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: rgba(250, 247, 242, 0.92);
+    color: #0F1B3F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    box-shadow: 0 8px 24px rgba(15, 27, 63, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .interview-card__video:hover .interview-card__video-play {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #F47B3F;
+    color: #FAF7F2;
+  }
+  .interview-card__video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .interview-card__head {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    padding-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .interview-card__logo {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #FAF7F2;
+    padding: 6px;
+    flex-shrink: 0;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+  }
+  .interview-card__id { flex: 1; min-width: 0; }
+  .interview-card__sector {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #F47B3F;
+  }
+  .interview-card__name {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: #0F1B3F;
+  }
+  .interview-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .interview-card__col {
+    background: #FAF7F2;
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+  }
+  .interview-card__col-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .interview-card__col-label--before { color: #DC2626; }
+  .interview-card__col-label--after { color: #059669; }
+  .interview-card__col-text {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgba(15, 27, 63, 0.85);
+  }
+</style>
+
+<script>
+  // Facade YouTube : l'iframe (youtube-nocookie) remplace la miniature au clic.
+  // autoplay=1 dans l'URL + commande playVideo en postMessage a l'onload :
+  // certains navigateurs (Safari) ignorent le param URL, pas la commande.
+  document.querySelectorAll<HTMLButtonElement>('.interview-card__video').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.youtubeId;
+      if (!id || btn.querySelector('iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0&enablejsapi=1`;
+      iframe.title = btn.getAttribute('aria-label') ?? 'Interview client';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.addEventListener('load', () => {
+        setTimeout(() => {
+          iframe.contentWindow?.postMessage(
+            JSON.stringify({ event: 'command', func: 'playVideo', args: '' }),
+            '*'
+          );
+        }, 600);
+      });
+      btn.append(iframe);
+      btn.querySelector('.interview-card__video-play')?.remove();
+    }, { once: true });
+  });
+</script>

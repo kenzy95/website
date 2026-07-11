@@ -1,0 +1,373 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { articleSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Cas client Dunforce : reecriture fidele de la source Framer (zero emoji,
+ * zero chiffre invente). Chiffres autorises : 14 % de reponse, 7 leads en
+ * phase de signature, cible ~500 bailleurs sociaux.
+ * Design charte v2 : hero encre compact + corps creme + stat card resultats.
+ * Schemas : Article + BreadcrumbList via Breadcrumb.
+ */
+
+const url = `${SITE.url}/cas-clients/dunforce`;
+
+const metaTitle = 'Cas client Dunforce : 14 % de réponse | Agence Simple';
+const metaDescription =
+  'Comment nous avons atteint 14 % de réponse pour Dunforce sur les bailleurs sociaux : ciblage par fonction, messages par rôle, 7 leads en signature.';
+
+const breadcrumb = [
+  { name: 'Cas clients', href: '/cas-clients' },
+  { name: 'Dunforce' },
+];
+
+const schemas = [
+  articleSchema({
+    headline: 'Cas client Dunforce : 14 % de réponse chez les bailleurs sociaux',
+    description: metaDescription,
+    url,
+    image: `${SITE.url}/og-default.jpg`,
+    datePublished: '2025-03-01',
+    dateModified: '2026-05-03',
+  }),
+];
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  schemas={schemas}
+  ogType="article"
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <!-- ============ HERO ENCRE COMPACT ============ -->
+    <section class="hero relative overflow-hidden pt-10 pb-16 sm:pb-20">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-orange w-[18rem] h-[18rem] top-10 left-1/4 opacity-30"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Cas client · Logiciel de recouvrement</p>
+        <h1 class="hero__h1">
+          Dunforce :
+          <span class="accent-display">14 % de taux de réponse</span>
+          sur une cible <HighlightMarker>restreinte</HighlightMarker>
+        </h1>
+        <p class="hero__lead">
+          Dunforce édite un logiciel de recouvrement dédié aux bailleurs sociaux. La cible ne compte
+          qu'environ 500 organismes en France, avec plusieurs décideurs à convaincre dans chacun. La
+          campagne a atteint 14 % de taux de réponse et amené 7 leads en phase de signature.
+        </p>
+      </Container>
+    </section>
+
+    <!-- ============ CORPS CREME ============ -->
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="contexte">Le contexte</h2>
+          <p>
+            Dunforce édite un logiciel de recouvrement et de prévention des impayés, conçu pour les
+            bailleurs sociaux. L'objectif était d'accélérer l'adoption de l'outil en touchant chacun
+            des décideurs concernés au sein des organismes : responsables recouvrement, DSI, RH et
+            gestionnaires de parc, afin de multiplier les points d'entrée dans une même structure.
+          </p>
+          <p>
+            La difficulté tenait à la nature de la cible. Environ 500 bailleurs sociaux en France, des
+            équipes internes peu nombreuses, et des interlocuteurs difficiles à toucher depuis des bases
+            standards. Quand la cible est aussi restreinte, chaque contact compte et le message ne peut
+            pas se permettre d'être approximatif.
+          </p>
+
+          <h2 id="defis">Les défis</h2>
+          <p>
+            Quatre contraintes structuraient la mission. Une cible restreinte et dispersée, avec des
+            interlocuteurs souvent invisibles dans les bases classiques. Une multiplicité de fonctions,
+            chaque rôle ayant un enjeu propre qui imposait d'ajuster le message. La nécessité de créer
+            plusieurs points d'entrée dans une même organisation pour maximiser la couverture. Et une
+            approche exclusivement organique, sans publicité, par respect des contraintes du secteur.
+          </p>
+
+          <h2 id="dispositif">Ce qu'on a mis en place</h2>
+          <p>
+            Le dispositif a commencé par un ciblage ultra-précis appuyé sur des signaux d'intent. Un
+            fichier a été compilé et enrichi fonction par fonction, recouvrement, DSI, RH et gestion,
+            puis croisé avec des signaux comme les publications sur le RGPD, les projets ERP, les offres
+            d'emploi ou les transferts de parc.
+          </p>
+          <p>
+            Chaque message a ensuite été personnalisé selon le rôle visé. Au responsable recouvrement,
+            l'accent était mis sur l'automatisation poussée et le gain de temps. Au DSI, sur
+            l'intégration simple avec l'ERP, la sécurité des données et la facilité de déploiement. Aux
+            RH, sur la réduction des conflits avec les locataires et une meilleure expérience côté
+            équipes. Au gestionnaire de parc, sur la visibilité sur l'état des loyers et la réduction du
+            travail manuel.
+          </p>
+          <p>
+            L'exécution a été multicanale, email et LinkedIn, avec des séquences personnalisées par rôle,
+            des relances déclenchées après ouverture ou activité sur le site, et une synchronisation via
+            CRM pour suivre les interactions croisées au sein d'une même organisation. Ce travail fin sur
+            LinkedIn suit la logique de <a href="/services/linkedin-outreach">notre prospection LinkedIn</a>.
+          </p>
+
+          <h2 id="resultats">Les résultats</h2>
+          <p>
+            Sur une cible aussi étroite, la personnalisation par fonction a produit un niveau de réponse
+            largement au-dessus des standards du cold outreach.
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-card__num">14 %</span>
+            <span class="stat-card__label">de taux de réponse</span>
+            <p class="stat-card__body">Un niveau élevé, obtenu sur une cible restreinte grâce à la personnalisation par rôle.</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">7</span>
+            <span class="stat-card__label">leads en phase de signature</span>
+            <p class="stat-card__body">Des opportunités entrées en phase de décision au terme de la campagne.</p>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__num">4</span>
+            <span class="stat-card__label">fonctions ciblées par organisation</span>
+            <p class="stat-card__body">Recouvrement, DSI, RH et gestion de parc, chacun avec un message dédié.</p>
+          </div>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="pourquoi">Pourquoi ça a fonctionné</h2>
+          <p>
+            Plusieurs facteurs se sont additionnés. Un ciblage fin par fonction, aligné sur les enjeux
+            métiers réels de chaque rôle. Des messages adaptés selon les interlocuteurs internes, jamais
+            un discours unique. Un outreach multicanal synchronisé, qui augmentait la visibilité au sein
+            d'une même organisation. Des signaux d'intent détectés pour contacter au bon moment. Et une
+            approche organique, sans publicité, respectueuse des contraintes du secteur.
+          </p>
+          <p>
+            Cette rigueur de ciblage et de personnalisation est ce qui distingue
+            <a href="/">notre offre de prospection B2B clé en main</a> d'un envoi de masse.
+          </p>
+        </div>
+      </Container>
+    </article>
+
+    <!-- ============ CTA FINAL ============ -->
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Votre marché est étroit et exigeant ?</h2>
+        <p class="final__p">
+          Le premier rendez-vous est un diagnostic gratuit de 30 minutes avec l'équipe. On regarde la
+          taille de votre cible et le nombre de décideurs à convaincre, et on vous dit franchement si une
+          approche personnalisée par rôle peut produire ce type de résultats chez vous.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .accent-display {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .stats {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 22px;
+    padding: 1.9rem 1.6rem 1.7rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px -15px rgba(15, 27, 63, 0.18);
+  }
+  .stat-card__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 4vw, 3.4rem);
+    line-height: 1;
+    color: var(--color-bleu);
+  }
+  .stat-card__label {
+    margin-top: 0.4rem;
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+  .stat-card__body {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(15, 27, 63, 0.72);
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>
