@@ -51,7 +51,7 @@ const schemas = [
 ---
 
 <BaseLayout
-  title={`${sector.title} | Agence Simple`}
+  title={`${sector.seoTitle ?? sector.title} | Agence Simple`}
   description={sector.metaDescription}
   schemas={schemas}
   bodyClass="!bg-[#0F1B3F]"

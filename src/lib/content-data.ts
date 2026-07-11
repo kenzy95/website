@@ -58,6 +58,8 @@ export const SERVICES: ServicePage[] = [
 
 export interface SectorPage {
   slug: string;
+  /** Balise <title> courte si title depasse ~49c (suffixe marque +16c) */
+  seoTitle?: string;
   shortName: string;
   title: string;
   description: string;
@@ -104,6 +106,7 @@ export const SECTORS: SectorPage[] = [
     slug: 'scale-up-post-levee',
     shortName: 'Scale-up post-levée',
     title: 'Prospection B2B pour startups et scale-up post-levée',
+    seoTitle: 'Prospection B2B pour scale-up post-levée',
     description:
       "Pression deadline, board, mission impossible avant le premier Head of Sales. On déploie une machine outbound en 3 semaines pour absorber les premiers mois post-Series A.",
     metaDescription:
@@ -255,6 +258,7 @@ export interface Tool {
   slug: string;
   name: string;
   title: string;
+  seoTitle?: string;
   metaDescription: string;
   description: string;
 }
@@ -264,6 +268,7 @@ export const TOOLS: Tool[] = [
     slug: 'calculateur-cout-sdr-interne-vs-agence',
     name: 'Calculateur coût SDR interne vs agence',
     title: 'Calculateur : coût d\'un SDR interne vs agence externalisée',
+    seoTitle: 'Calculateur : coût SDR interne vs agence',
     metaDescription:
       "Combien coûte un SDR interne par rapport à une agence externalisée ? Calculateur transparent : salaire, charges, outils, management, rampe.",
     description: 'Comparez le coût complet d\'un SDR interne vs une agence externalisée.',
@@ -289,6 +294,7 @@ export const TOOLS: Tool[] = [
 export interface Comparison {
   slug: string;
   title: string;
+  seoTitle?: string;
   metaDescription: string;
   description: string;
 }
@@ -297,6 +303,7 @@ export const COMPARISONS: Comparison[] = [
   {
     slug: 'sdr-interne-vs-agence-externalisee',
     title: 'SDR interne vs agence externalisée : comparatif honnête',
+    seoTitle: 'SDR interne vs agence externalisée : comparatif',
     metaDescription:
       "SDR interne ou agence externalisée ? Comparatif pour décider : vitesse de mise en route, scalabilité, maîtrise du process, risque, coût complet.",
     description: 'Comparatif sincère des deux modèles pour décider sur la base des chiffres.',
@@ -304,6 +311,7 @@ export const COMPARISONS: Comparison[] = [
   {
     slug: 'cold-email-vs-linkedin-outreach',
     title: 'Cold email vs LinkedIn : quel canal pour votre prospection',
+    seoTitle: 'Cold email vs LinkedIn : quel canal choisir',
     metaDescription:
       "Cold email ou LinkedIn outreach ? Comparatif volume, taux de réponse, qualité des conversations, coût par lead, par segment cible.",
     description: 'Quel canal est le bon pour votre cible et votre objectif ?',

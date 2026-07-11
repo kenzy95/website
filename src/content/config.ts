@@ -2,6 +2,9 @@ import { defineCollection, z } from 'astro:content';
 
 const article = z.object({
   title: z.string().max(70),
+  /* Balise <title> courte (<= 49c, le suffixe " | Agence Simple" ajoute 16c).
+     Le H1 visible garde `title`. */
+  seoTitle: z.string().max(50).optional(),
   description: z.string().min(120).max(165),
   publishedAt: z.string().transform((s) => new Date(s)),
   updatedAt: z.string().transform((s) => new Date(s)).optional(),

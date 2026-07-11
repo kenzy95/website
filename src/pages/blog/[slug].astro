@@ -60,7 +60,7 @@ if (article.data.schema === 'HowTo') {
 ---
 
 <PageLayout
-  title={article.data.title}
+  title={article.data.seoTitle ?? article.data.title}
   description={article.data.description}
   breadcrumb={breadcrumb}
   schemas={schemas}
