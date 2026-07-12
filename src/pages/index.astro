@@ -69,9 +69,16 @@ const STORY_SHADERS = {
   <Header slot="header" variant="dark" />
 
   <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
-    <!-- ============ HERO : gradient Interstellar anime en fond ============ -->
-    <section class="hero-shader relative overflow-hidden">
-      <ShaderBg client:load urlString={HERO_SHADER} />
+    <!-- ============ ZONE GRADIENT : hero -> references (canvas sticky plein viewport) ============ -->
+    <div class="hero-zone relative">
+      <div class="hero-zone__bg" aria-hidden="true">
+        <div class="hero-zone__bg-sticky">
+          <ShaderBg client:load urlString={HERO_SHADER} />
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <section class="relative">
       <div class="hero-shader__scrim" aria-hidden="true"></div>
       <div class="relative z-10 min-h-[92vh] flex flex-col items-center justify-center text-center px-5 pt-20 pb-10">
         <h1
@@ -108,8 +115,13 @@ const STORY_SHADERS = {
     </section>
 
     <!-- ============ 2. ILS NOUS FONT CONFIANCE : encart Wilco (reduit, chevauchement) + logos ============ -->
-    <PartnerWilco />
-    <LogoMarquee />
+    <div class="relative z-[2]">
+      <PartnerWilco />
+      <LogoMarquee />
+    </div>
+
+      <div class="hero-zone__fade" aria-hidden="true"></div>
+    </div>
 
     <!-- ============ 3. AVANTAGES CLES : frais + garantie minimum + aucun engagement ============ -->
     <GuaranteeCards />
@@ -252,11 +264,33 @@ const STORY_SHADERS = {
 </BaseLayout>
 
 <style>
-  /* Hero shader : fond noir en attendant le canvas (le shader interstellar
-     a un bgColor noir), scrim bas pour fondre vers l'encre de la suite */
-  .hero-shader {
-    background: radial-gradient(ellipse 90% 70% at 60% 40%, #16233f, #000000);
+  /* Zone gradient : le canvas Interstellar (100vh, sticky) suit le scroll
+     du hero jusqu'aux references, fondu vers l'encre en bas de zone */
+  .hero-zone {
+    background: radial-gradient(ellipse 90% 70% at 60% 30%, #16233f, #000000);
   }
+  .hero-zone__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-zone__bg-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+  .hero-zone__fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16rem;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(180deg, transparent, #0F1B3F 88%);
+  }
+  /* Scrim de lisibilite du hero (radial centre + attenuation haut header) */
   .hero-shader__scrim {
     position: absolute;
     inset: 0;
@@ -264,6 +298,6 @@ const STORY_SHADERS = {
     pointer-events: none;
     background:
       radial-gradient(ellipse 78% 60% at 50% 44%, rgba(8, 14, 34, 0.52), transparent 72%),
-      linear-gradient(180deg, rgba(15, 27, 63, 0.4), transparent 22%, transparent 62%, #0F1B3F 96%);
+      linear-gradient(180deg, rgba(15, 27, 63, 0.4), transparent 22%);
   }
 </style>
