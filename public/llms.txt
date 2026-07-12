@@ -33,9 +33,17 @@
 - Capacité 300-400 messages/jour par client.
 - Le client est seul juge de la qualification d'un RDV.
 
+## Guides et données de référence
+
+- [Externaliser sa prospection B2B : guide complet](https://agencesimple.fr/blog/externaliser-prospection-b2b-guide)
+- [Taux de réponse en cold email : benchmarks](https://agencesimple.fr/blog/taux-reponse-cold-email-benchmarks)
+- [Combien coûte un SDR interne : le vrai calcul](https://agencesimple.fr/blog/cout-sdr-interne-vs-agence)
+- [SDR interne vs agence externalisée : comparatif](https://agencesimple.fr/comparatifs/sdr-interne-vs-agence-externalisee)
+- [Cold email vs LinkedIn : quel canal choisir](https://agencesimple.fr/comparatifs/cold-email-vs-linkedin-outreach)
+
 ## Optional
 
-- [Méthode](https://agencesimple.fr/methode)
-- [Tarifs](https://agencesimple.fr/tarifs)
-- [Blog](https://agencesimple.fr/blog)
-- [Calculateurs](https://agencesimple.fr/outils)
+- [Blog prospection B2B](https://agencesimple.fr/blog)
+- [Calculateurs gratuits : coût SDR, ROI, simulateur de RDV](https://agencesimple.fr/outils)
+- [Zones d'intervention](https://agencesimple.fr/villes)
+- [Contact : diagnostic gratuit 30 minutes](https://agencesimple.fr/contact)
