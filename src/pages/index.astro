@@ -73,7 +73,15 @@ const STORY_SHADERS = {
     <div class="hero-zone relative">
       <div class="hero-zone__bg" aria-hidden="true">
         <div class="hero-zone__bg-sticky">
-          <ShaderBg client:load urlString={HERO_SHADER} />
+          <img
+            src="/images/hero-gradient-poster.webp"
+            alt=""
+            width="1200"
+            height="750"
+            loading="eager"
+            class="hero-zone__poster"
+          />
+          <ShaderBg client:load urlString={HERO_SHADER} mode="idle" minWidth={768} />
         </div>
       </div>
 
@@ -279,6 +287,15 @@ const STORY_SHADERS = {
     position: sticky;
     top: 0;
     height: 100vh;
+  }
+  /* Poster statique du gradient : rendu immediat (et definitif sur mobile),
+     le canvas anime se monte par-dessus apres interaction/idle (desktop) */
+  .hero-zone__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .hero-zone__fade {
     position: absolute;
