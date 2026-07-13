@@ -58,6 +58,7 @@ const cases = [
 const videos = [
   {
     videoId: '-GaYHXJR-Hc',
+    uploadDate: '2026-03-21T04:24:39-07:00',
     client: 'Komon',
     title: 'Interview Komon sur la collaboration avec Agence Simple',
     description:
@@ -65,6 +66,7 @@ const videos = [
   },
   {
     videoId: 'fepN_sOkUAo',
+    uploadDate: '2026-03-21T04:51:43-07:00',
     client: 'Daisy app',
     title: 'Interview Daisy app sur la collaboration avec Agence Simple',
     description:
@@ -72,6 +74,7 @@ const videos = [
   },
   {
     videoId: 'h7vkCT5aDhY',
+    uploadDate: '2026-03-20T10:28:25-07:00',
     client: 'Les Épaulettes',
     title: 'Interview Les Épaulettes sur la collaboration avec Agence Simple',
     description:
@@ -85,7 +88,7 @@ const schemas = videos.map((v) =>
     description: v.description,
     embedUrl: `https://www.youtube-nocookie.com/embed/${v.videoId}`,
     thumbnailUrl: `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`,
-    uploadDate: '2025-09-01',
+    uploadDate: v.uploadDate,
   })
 );
 ---
