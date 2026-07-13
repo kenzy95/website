@@ -23,65 +23,76 @@ const schemas = [contactPointSchema()];
 
   <Section spacing="md">
     <Container size="default">
-      <div class="grid gap-12 md:grid-cols-2">
-        <div>
-          <h2 class="text-(length:--text-h3) font-semibold">Réserver un créneau</h2>
-          <p class="mt-3 text-(length:--text-body) text-(--color-gris)">
-            20 minutes en visio. Cadrage du besoin et avis honnête sur ce qu'on peut faire pour vous.
-          </p>
-          <!-- Calendly inline : charge en lazy quand le bloc devient visible (perf mobile) -->
-          <div
-            id="calendly-embed"
-            data-url="https://calendly.com/agencesimple?hide_gdpr_banner=1&primary_color=1e90ff"
-            class="mt-6 rounded-(--radius-lg) overflow-hidden border border-(--color-encre)/10 bg-white"
-            style="min-height: 660px;"
-          >
-            <noscript>
-              <a href="https://calendly.com/agencesimple" rel="noopener noreferrer" target="_blank">
-                Réserver un créneau sur Calendly
-              </a>
-            </noscript>
-          </div>
-        </div>
-
-        <div>
-          <h2 class="text-(length:--text-h3) font-semibold">Coordonnées directes</h2>
-          <ul class="mt-4 space-y-3 text-(length:--text-body)">
-            <li>
-              <span class="text-(--color-gris)">Email :</span>{' '}
-              <a href={`mailto:${SITE.contact.email}`} class="text-(--color-bleu) underline-offset-4 hover:underline">
-                {SITE.contact.email}
-              </a>
-            </li>
-            <li>
-              <span class="text-(--color-gris)">Téléphone :</span>{' '}
-              <a href={`tel:${SITE.contact.phone.replace(/\s+/g, '')}`} class="text-(--color-bleu) underline-offset-4 hover:underline">
-                {SITE.contact.phone}
-              </a>
-            </li>
-            <li>
-              <span class="text-(--color-gris)">LinkedIn :</span>{' '}
-              <a
-                href={SITE.social.linkedinFounder}
-                rel="noopener noreferrer"
-                target="_blank"
-                class="text-(--color-bleu) underline-offset-4 hover:underline"
-              >
-                Kenzy Gasmi
-              </a>
-            </li>
-          </ul>
-
-          <address class="not-italic mt-8 text-(length:--text-body) text-(--color-gris)">
-            {SITE.contact.address.street}<br />
-            {SITE.contact.address.postalCode} {SITE.contact.address.city}<br />
-            France
-          </address>
-        </div>
+      <h2 class="text-(length:--text-h3) font-semibold">Réserver un créneau</h2>
+      <p class="mt-3 text-(length:--text-body) text-(--color-gris) max-w-2xl">
+        20 minutes en visio. Cadrage du besoin et avis honnête sur ce qu'on peut faire pour vous.
+      </p>
+      <!-- Calendly inline (evenement direct /30min) : charge en lazy quand le bloc devient visible (perf mobile) -->
+      <div
+        id="calendly-embed"
+        data-url="https://calendly.com/agencesimple/30min?hide_gdpr_banner=1&primary_color=1e90ff"
+        class="mt-6 rounded-(--radius-lg) overflow-hidden border border-(--color-encre)/10 bg-white"
+        style="height: 700px; min-width: 320px;"
+      >
+        <noscript>
+          <a href="https://calendly.com/agencesimple/30min" rel="noopener noreferrer" target="_blank">
+            Réserver un créneau sur Calendly
+          </a>
+        </noscript>
       </div>
     </Container>
   </Section>
+
+  <Section spacing="md">
+    <Container size="default">
+      <h2 class="text-(length:--text-h3) font-semibold">Coordonnées directes</h2>
+      <div class="mt-6 grid gap-8 sm:grid-cols-3">
+        <div>
+          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">Email</p>
+          <a href={`mailto:${SITE.contact.email}`} class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline">
+            {SITE.contact.email}
+          </a>
+        </div>
+        <div>
+          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">Téléphone</p>
+          <a href={`tel:${SITE.contact.phone.replace(/\s+/g, '')}`} class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline">
+            {SITE.contact.phone}
+          </a>
+        </div>
+        <div>
+          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">LinkedIn</p>
+          <a
+            href={SITE.social.linkedinFounder}
+            rel="noopener noreferrer"
+            target="_blank"
+            class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline"
+          >
+            Kenzy Gasmi
+          </a>
+        </div>
+      </div>
+
+      <address class="not-italic mt-8 text-(length:--text-body) text-(--color-gris)">
+        {SITE.contact.address.street}<br />
+        {SITE.contact.address.postalCode} {SITE.contact.address.city}<br />
+        France
+      </address>
+    </Container>
+  </Section>
 </PageLayout>
+
+<style is:global>
+  /* Calendly injecte une iframe sans hauteur (150px par defaut). Sa CSS
+     .calendly-inline-widget iframe {height:100%} ne match pas notre conteneur
+     (on ne met pas la classe pour eviter la double init auto), on force donc
+     l'iframe a remplir le bloc de 700px. */
+  #calendly-embed iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+  }
+  #calendly-embed .calendly-spinner { padding-top: 6rem; }
+</style>
 
 <script is:inline>
   /* Charge le widget Calendly uniquement quand le bloc entre dans le viewport. */
