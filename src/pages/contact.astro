@@ -1,9 +1,20 @@
 ---
-import PageLayout from '@layouts/PageLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
 import Container from '@components/ui/Container.astro';
-import Section from '@components/ui/Section.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import HighlightMarker from '@components/ui/HighlightMarker.astro';
+import LogoMarquee from '@components/LogoMarquee.astro';
 import { contactPointSchema } from '@lib/schema';
 import { SITE } from '@lib/site';
+
+/**
+ * Page contact brandee home : hero encre sur le poster du gradient
+ * Interstellar + scrim, corps creme arrondi avec Calendly pleine largeur
+ * (evenement direct /30min), preuves cas clients, coordonnees en cards,
+ * marquee logos clients avant le footer.
+ */
 
 const title = 'Contact Agence Simple';
 const description =
@@ -11,81 +22,285 @@ const description =
 
 const breadcrumb = [{ name: 'Contact' }];
 const schemas = [contactPointSchema()];
+
+const preuves = [
+  { chiffre: '41', unite: 'RDV en 5 semaines', client: 'Happycolis', href: '/cas-clients/happycolis' },
+  { chiffre: '151', unite: 'RDV générés', client: 'Invent-App', href: '/cas-clients/invent-app' },
+  { chiffre: '14 %', unite: 'de taux de réponse', client: 'Dunforce', href: '/cas-clients/dunforce' },
+];
 ---
 
-<PageLayout title={title} description={description} breadcrumb={breadcrumb} schemas={schemas}>
-  <Section spacing="lg">
-    <Container size="default">
-      <h1 class="text-(length:--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
-      <p class="mt-6 text-(length:--text-body) text-(--color-gris) max-w-2xl">{description}</p>
-    </Container>
-  </Section>
+<BaseLayout
+  title={title}
+  description={description}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
 
-  <Section spacing="md">
-    <Container size="default">
-      <h2 class="text-(length:--text-h3) font-semibold">Réserver un créneau</h2>
-      <p class="mt-3 text-(length:--text-body) text-(--color-gris) max-w-2xl">
-        20 minutes en visio. Cadrage du besoin et avis honnête sur ce qu'on peut faire pour vous.
-      </p>
-      <!-- Calendly inline (evenement direct /30min) : charge en lazy quand le bloc devient visible (perf mobile) -->
-      <div
-        id="calendly-embed"
-        data-url="https://calendly.com/agencesimple/30min?hide_gdpr_banner=1&primary_color=1e90ff"
-        class="mt-6 rounded-(--radius-lg) overflow-hidden border border-(--color-encre)/10 bg-white"
-        style="height: 700px; min-width: 320px;"
-      >
-        <noscript>
-          <a href="https://calendly.com/agencesimple/30min" rel="noopener noreferrer" target="_blank">
-            Réserver un créneau sur Calendly
-          </a>
-        </noscript>
-      </div>
-    </Container>
-  </Section>
+  <main class="bg-[#0F1B3F] text-[#FAF7F2] min-h-screen">
+    <!-- HERO : gradient Interstellar (poster statique) + scrim -->
+    <section class="contact-hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <img
+        src="/images/hero-gradient-poster.webp"
+        alt=""
+        width="1200"
+        height="750"
+        loading="eager"
+        fetchpriority="high"
+        class="contact-hero__bg"
+        aria-hidden="true"
+      />
+      <div class="contact-hero__scrim" aria-hidden="true"></div>
 
-  <Section spacing="md">
-    <Container size="default">
-      <h2 class="text-(length:--text-h3) font-semibold">Coordonnées directes</h2>
-      <div class="mt-6 grid gap-8 sm:grid-cols-3">
-        <div>
-          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">Email</p>
-          <a href={`mailto:${SITE.contact.email}`} class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline">
-            {SITE.contact.email}
-          </a>
+      <Container size="default" class="relative z-10">
+        <div class="contact-hero__crumb">
+          <Breadcrumb items={breadcrumb} />
         </div>
-        <div>
-          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">Téléphone</p>
-          <a href={`tel:${SITE.contact.phone.replace(/\s+/g, '')}`} class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline">
-            {SITE.contact.phone}
-          </a>
-        </div>
-        <div>
-          <p class="text-(length:--text-caption) uppercase tracking-wider text-(--color-gris)">LinkedIn</p>
-          <a
-            href={SITE.social.linkedinFounder}
-            rel="noopener noreferrer"
-            target="_blank"
-            class="mt-1 inline-block text-(length:--text-body) text-(--color-bleu) underline-offset-4 hover:underline"
+
+        <p class="contact-eyebrow mt-10">Contact</p>
+        <h1 class="contact-hero__h1">
+          Parlons de votre
+          <span class="contact-accent">prospection</span>.
+        </h1>
+        <p class="contact-hero__lead">
+          20 minutes en visio pour clarifier votre besoin. Pas de discours commercial :
+          on regarde si on peut vous aider et
+          <HighlightMarker>on vous le dit franchement</HighlightMarker>.
+        </p>
+
+        <ul class="mt-8 flex flex-wrap gap-3" aria-label="Ce qui vous attend">
+          {
+            ['Diagnostic gratuit', 'Avis honnête, même négatif', 'Sans engagement'].map((c) => (
+              <li class="contact-chip">
+                <svg viewBox="0 0 24 24" fill="none" width="13" height="13" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                {c}
+              </li>
+            ))
+          }
+        </ul>
+      </Container>
+    </section>
+
+    <!-- CORPS CREME -->
+    <div class="relative z-10 bg-(--color-creme) text-(--color-encre) rounded-t-[32px]">
+      <!-- Calendly pleine largeur -->
+      <section class="pt-14 sm:pt-16 pb-10">
+        <Container size="default">
+          <h2 class="text-(length:--text-h3) font-semibold">Réserver un créneau</h2>
+          <p class="mt-3 text-(length:--text-body) text-(--color-gris) max-w-2xl">
+            Choisissez le créneau qui vous arrange, la visio se cale toute seule dans votre agenda.
+          </p>
+          <!-- Calendly inline (evenement direct /30min) : charge en lazy quand le bloc devient visible (perf mobile) -->
+          <div
+            id="calendly-embed"
+            data-url="https://calendly.com/agencesimple/30min?hide_gdpr_banner=1&primary_color=1e90ff"
+            class="mt-6 rounded-(--radius-lg) overflow-hidden border border-(--color-encre)/10 bg-white shadow-[0_10px_40px_rgba(15,27,63,0.08)]"
+            style="height: 700px; min-width: 320px;"
           >
-            Kenzy Gasmi
-          </a>
-        </div>
-      </div>
+            <noscript>
+              <a href="https://calendly.com/agencesimple/30min" rel="noopener noreferrer" target="_blank">
+                Réserver un créneau sur Calendly
+              </a>
+            </noscript>
+          </div>
+        </Container>
+      </section>
 
-      <address class="not-italic mt-8 text-(length:--text-body) text-(--color-gris)">
-        {SITE.contact.address.street}<br />
-        {SITE.contact.address.postalCode} {SITE.contact.address.city}<br />
-        France
-      </address>
-    </Container>
-  </Section>
-</PageLayout>
+      <!-- Preuves : ils sont passes par ce calendrier -->
+      <section class="py-10">
+        <Container size="default">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
+            Ils sont passés par ce calendrier
+          </p>
+          <div class="mt-6 grid gap-5 sm:grid-cols-3">
+            {
+              preuves.map((p) => (
+                <a href={p.href} class="contact-stat group">
+                  <span class="contact-stat__chiffre">{p.chiffre}</span>
+                  <span class="contact-stat__unite">{p.unite}</span>
+                  <span class="contact-stat__client">
+                    {p.client}
+                    <span aria-hidden="true" class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </Container>
+      </section>
+
+      <!-- Coordonnees en cards -->
+      <section class="py-10 pb-16">
+        <Container size="default">
+          <h2 class="text-(length:--text-h3) font-semibold">Coordonnées directes</h2>
+          <div class="mt-6 grid gap-5 sm:grid-cols-3">
+            <a href={`mailto:${SITE.contact.email}`} class="contact-card">
+              <span class="contact-card__label">Email</span>
+              <span class="contact-card__value">{SITE.contact.email}</span>
+            </a>
+            <a href={`tel:${SITE.contact.phone.replace(/\s+/g, '')}`} class="contact-card">
+              <span class="contact-card__label">Téléphone</span>
+              <span class="contact-card__value">{SITE.contact.phone}</span>
+            </a>
+            <a href={SITE.social.linkedinFounder} rel="noopener noreferrer" target="_blank" class="contact-card">
+              <span class="contact-card__label">LinkedIn</span>
+              <span class="contact-card__value">Kenzy Gasmi</span>
+            </a>
+          </div>
+
+          <address class="not-italic mt-8 text-(length:--text-body) text-(--color-gris)">
+            {SITE.contact.address.street},
+            {SITE.contact.address.postalCode} {SITE.contact.address.city}, France
+          </address>
+        </Container>
+      </section>
+
+      <!-- Preuve sociale : logos clients -->
+      <section class="pb-16">
+        <LogoMarquee />
+      </section>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .contact-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .contact-hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 70% at 40% 40%, rgba(8, 14, 34, 0.55), transparent 75%),
+      linear-gradient(180deg, rgba(15, 27, 63, 0.45), transparent 30%, rgba(15, 27, 63, 0.25) 100%);
+  }
+  .contact-hero__crumb :global(nav) { opacity: 0.7; }
+
+  .contact-eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .contact-hero__h1 {
+    margin-top: 1.1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+    max-width: 46rem;
+  }
+  .contact-accent {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+  .contact-hero__lead {
+    margin-top: 1.5rem;
+    max-width: 38rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.5);
+  }
+  .contact-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5em 1em;
+    border-radius: 999px;
+    background: rgba(250, 247, 242, 0.08);
+    border: 1px solid rgba(250, 247, 242, 0.18);
+    backdrop-filter: blur(8px);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-creme);
+  }
+  .contact-chip svg { color: var(--color-orange); }
+
+  /* Stat cards cas clients */
+  .contact-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 18px;
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .contact-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(15, 27, 63, 0.12);
+  }
+  .contact-stat__chiffre {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 2.1rem;
+    color: var(--color-bleu);
+    line-height: 1;
+  }
+  .contact-stat__unite {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .contact-stat__client {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-orange);
+  }
+
+  /* Cards coordonnees */
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    border-radius: 18px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(15, 27, 63, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .contact-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(15, 27, 63, 0.12);
+  }
+  .contact-card__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgba(15, 27, 63, 0.5);
+  }
+  .contact-card__value {
+    font-weight: 600;
+    color: var(--color-bleu);
+  }
+</style>
 
 <style is:global>
-  /* Calendly injecte une iframe sans hauteur (150px par defaut). Sa CSS
-     .calendly-inline-widget iframe {height:100%} ne match pas notre conteneur
-     (on ne met pas la classe pour eviter la double init auto), on force donc
-     l'iframe a remplir le bloc de 700px. */
+  /* Calendly injecte une iframe sans hauteur (150px par defaut). On force
+     l'iframe a remplir le bloc de 700px (pas la classe officielle
+     calendly-inline-widget pour eviter la double init auto + lazy). */
   #calendly-embed iframe {
     width: 100% !important;
     height: 100% !important;
