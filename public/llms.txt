@@ -2,6 +2,8 @@
 
 > Agence de prospection B2B basée à Paris. Génère des rendez-vous qualifiés via cold email et LinkedIn outreach. Forfait mensuel sans engagement (préavis 30 jours) avec garantie minimum vital : un nombre de RDV qualifiés est fixé contractuellement, et si ce seuil n'est pas atteint, le travail continue gratuitement jusqu'à l'atteindre.
 
+- [À propos : qui est Agence Simple](https://agencesimple.fr/a-propos) : page entité, équipe, méthode, coordonnées.
+
 ## Identité
 
 - Nom : Agence Simple

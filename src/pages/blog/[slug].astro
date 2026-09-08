@@ -5,7 +5,7 @@ import Container from '@components/ui/Container.astro';
 import Section from '@components/ui/Section.astro';
 import CtaBlock from '@components/CtaBlock.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { articleSchema, howToSchema } from '@lib/schema';
+import { faqSchema, articleSchema, howToSchema } from '@lib/schema';
 import { SITE } from '@lib/site';
 
 export async function getStaticPaths() {
@@ -41,6 +41,10 @@ const schemas: Record<string, unknown>[] = [
     authorName: article.data.author,
   }),
 ];
+
+if (article.data.faq.length > 0) {
+  schemas.push(faqSchema(article.data.faq));
+}
 
 /* Frontmatter schema: "HowTo" -> HowTo en plus de Article, etapes = les H2 du body */
 if (article.data.schema === 'HowTo') {
@@ -114,6 +118,7 @@ if (article.data.schema === 'HowTo') {
             campagnes cold email et LinkedIn des clients de l'agence, avec un engagement contractuel
             sur le nombre de rendez-vous qualifiés.
             <a href={SITE.founder.linkedin} rel="noopener noreferrer" target="_blank">Son profil LinkedIn</a>.
+            <a href="/a-propos">En savoir plus sur l'agence</a>.
           </p>
         </div>
       </div>
