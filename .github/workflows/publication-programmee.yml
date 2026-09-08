@@ -1,23 +1,23 @@
+# Le site n'est PAS relié à GitHub côté Cloudflare : il est déployé par envoi direct
+# (wrangler pages deploy). Ce workflow rebuild donc le site et le déploie lui-même les
+# lundi, mardi, jeudi et vendredi à 06:05 UTC quand un article porte la date du jour ;
+# le filtre isPublished (src/lib/publication.ts) fait sortir l'article au build.
+#
+# Secrets à créer dans le repo GitHub (Settings > Secrets and variables > Actions) :
+#   CLOUDFLARE_API_TOKEN  : jeton API Cloudflare, permission « Cloudflare Pages : Edit »
+#                           (dashboard Cloudflare > My Profile > API Tokens > Create Token)
+#   CLOUDFLARE_ACCOUNT_ID : 97a30f68c2125b07309e6a86f7d61271
 name: Publication programmée du blog
-
-# Lundi, mardi, jeudi, vendredi à 06:05 UTC (08:05 Paris en été, 07:05 en hiver).
-# Si un article porte la date du jour, on pousse un commit vide sur la branche déployée :
-# Cloudflare Pages rebuild, et le filtre isPublished (src/lib/publication.ts) fait sortir l'article.
 on:
   schedule:
     - cron: '5 6 * * 1,2,4,5'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  rebuild:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: feature/lamp-aceternity
       - name: Article du jour ?
         id: due
         run: |
@@ -25,13 +25,23 @@ jobs:
           if grep -l "^publishedAt: \"$TODAY\"" src/content/blog/*.mdx; then
             echo "due=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Aucun article daté $TODAY, pas de rebuild."
+            echo "Aucun article daté $TODAY, pas de déploiement."
             echo "due=false" >> "$GITHUB_OUTPUT"
           fi
-      - name: Commit vide pour déclencher Cloudflare Pages
+      - uses: actions/setup-node@v4
+        if: steps.due.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build
         if: steps.due.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
         run: |
-          git config user.name "publication-programmee"
-          git config user.email "contact@agencesimple.fr"
-          git commit --allow-empty -m "chore: publication programmée $(date -u +%F)"
-          git push origin HEAD
+          npm ci
+          npm run build
+      - name: Déploiement Cloudflare Pages
+        if: steps.due.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name agencesimple --branch main
