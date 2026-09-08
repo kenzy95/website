@@ -1,0 +1,151 @@
+---
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/ui/Container.astro';
+import Section from '@components/ui/Section.astro';
+import CtaBlock from '@components/CtaBlock.astro';
+import { faqSchema, organizationSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Page entité (E-E-A-T + GEO) : UNE réponse canonique à « qui est Agence Simple ? ».
+ * Faits uniquement issus de SITE (lib/site.ts) et des cas clients publiés. Aucun prix.
+ * Schemas : AboutPage + Person (fondateur) + FAQPage (FAQ visible) + BreadcrumbList.
+ */
+
+const title = 'Qui est Agence Simple ?';
+const seoTitle = 'À propos : qui est Agence Simple ?';
+const description =
+  "Agence Simple est une agence de prospection B2B basée à Paris : rendez-vous qualifiés par cold email et LinkedIn, forfait mensuel avec un minimum de rendez-vous garanti au contrat.";
+const url = `${SITE.url}/a-propos`;
+const breadcrumb = [{ name: 'À propos' }];
+
+const faq = [
+  {
+    question: 'Agence Simple crée-t-elle des sites web ?',
+    answer:
+      "Non. Agence Simple est une agence de prospection B2B. Son activité consiste à obtenir des rendez-vous qualifiés pour ses clients par cold email, LinkedIn et SDR externalisé. Les anciennes pages qui décrivaient une activité de création de sites ne correspondent plus à l'agence.",
+  },
+  {
+    question: 'Où est basée Agence Simple ?',
+    answer:
+      `À Paris, ${SITE.contact.address.street}, ${SITE.contact.address.postalCode}. L'agence travaille avec des clients dans toute la France, les échanges se font en visio et les campagnes sont pilotées à distance.`,
+  },
+  {
+    question: 'Qui dirige Agence Simple ?',
+    answer:
+      "Kenzy Gasmi, fondateur, pilote les campagnes des clients avec une équipe de spécialistes indépendants (ciblage et construction de listes, rédaction, délivrabilité). Il est l'interlocuteur unique de chaque client.",
+  },
+  {
+    question: "Comment Agence Simple facture-t-elle ses prestations ?",
+    answer:
+      "Sur un forfait mensuel qui inclut les outils et l'infrastructure d'envoi, avec un nombre minimum de rendez-vous qualifiés écrit au contrat. Si ce minimum n'est pas atteint, la mission est prolongée sans facturation supplémentaire. Les montants sont établis sur devis après un premier échange.",
+  },
+];
+
+const schemas: Record<string, unknown>[] = [
+  organizationSchema(),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: title,
+    url,
+    description,
+    about: { '@id': `${SITE.url}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE.url}/#kenzy-gasmi`,
+    name: SITE.founder.name,
+    jobTitle: 'Fondateur',
+    worksFor: { '@id': `${SITE.url}/#organization` },
+    url,
+    sameAs: [SITE.social.linkedinFounder],
+  },
+  faqSchema(faq),
+];
+
+const preuves = [
+  { chiffre: '41', unite: 'rendez-vous en 5 semaines', client: 'Happycolis', href: '/cas-clients/happycolis' },
+  { chiffre: '151', unite: 'rendez-vous générés', client: 'Invent-App', href: '/cas-clients/invent-app' },
+  { chiffre: '14 %', unite: 'de taux de réponse', client: 'Dunforce', href: '/cas-clients/dunforce' },
+];
+---
+
+<PageLayout title={seoTitle} description={description} breadcrumb={breadcrumb} schemas={schemas}>
+  <Section spacing="lg">
+    <Container size="narrow">
+      <p class="text-(length:--text-small) text-(--color-bleu) font-semibold uppercase tracking-wider">À propos</p>
+      <h1 class="mt-4 text-(length:--text-h1) font-bold leading-(--leading-tight)">{title}</h1>
+      <p class="mt-6 text-xl leading-relaxed text-(--color-gris)">
+        Agence Simple est une agence de prospection B2B basée à Paris. Nous obtenons des rendez-vous
+        qualifiés pour nos clients, par cold email et par LinkedIn, avec un nombre minimum de rendez-vous
+        inscrit au contrat. Nous ne faisons ni site web, ni publicité, ni référencement : uniquement de
+        la prospection sortante.
+      </p>
+    </Container>
+  </Section>
+
+  <Section spacing="md">
+    <Container size="narrow" class="prose-content">
+      <h2>Ce que nous faisons</h2>
+      <p>
+        Une mission commence par la cible : nous construisons la liste des entreprises et des décideurs
+        à contacter, puis nous écrivons les messages, nous montons l'infrastructure d'envoi (domaines,
+        boîtes, chauffe, suivi de la délivrabilité) et nous traitons chaque réponse jusqu'au créneau posé
+        dans l'agenda du client. Trois canaux, selon la cible :
+        <a href="/services/cold-email">le cold email</a>,
+        <a href="/services/linkedin-outreach">la prospection LinkedIn</a> et
+        <a href="/services/sdr-externalise">le SDR externalisé</a>, qui combine les deux avec une
+        personne dédiée.
+      </p>
+
+      <h2>Comment nous travaillons</h2>
+      <p>
+        Nous facturons un forfait mensuel, outils compris, et nous écrivons au contrat un nombre minimum
+        de rendez-vous qualifiés. Si ce minimum n'est pas atteint, la mission est prolongée sans
+        facturation supplémentaire jusqu'à ce qu'il le soit. Un rendez-vous qualifié, pour nous, c'est un
+        décideur identifié, un besoin exprimé par écrit, un créneau accepté et une fiche transmise avant
+        l'appel. Cette définition est dans chaque contrat, parce que c'est elle qui donne un sens à la
+        garantie. Nous préférons refuser une mission dont la cible est trop étroite plutôt que de promettre
+        un volume que le marché ne permet pas.
+      </p>
+
+      <h2>Ce que nos clients obtiennent</h2>
+      <p>Trois missions documentées, avec les chiffres et le contexte de chacune :</p>
+      <ul>
+        {preuves.map((p) => (
+          <li>
+            <a href={p.href}>{p.client}</a> : {p.chiffre} {p.unite}.
+          </li>
+        ))}
+      </ul>
+
+      <h2>Qui est derrière l'agence</h2>
+      <p>
+        {SITE.founder.name} a fondé Agence Simple et pilote chaque mission. Il travaille avec une équipe
+        de spécialistes indépendants, chacun sur une brique précise : construction de listes, rédaction
+        des séquences, délivrabilité. Le client a un seul interlocuteur du début à la fin.
+        <a href={SITE.founder.linkedin} rel="noopener noreferrer" target="_blank">Son profil LinkedIn</a>.
+      </p>
+
+      <h2>Coordonnées</h2>
+      <p>
+        {SITE.name}, {SITE.contact.address.street}, {SITE.contact.address.postalCode}{' '}
+        {SITE.contact.address.city}. SIRET {SITE.legal.siret}.
+        <a href={`mailto:${SITE.contact.email}`}>{SITE.contact.email}</a>.
+        Page entreprise <a href={SITE.social.linkedinCompany} rel="noopener noreferrer" target="_blank">LinkedIn</a>.
+      </p>
+
+      <h2>Questions fréquentes</h2>
+      {faq.map((f) => (
+        <div>
+          <h3>{f.question}</h3>
+          <p>{f.answer}</p>
+        </div>
+      ))}
+    </Container>
+  </Section>
+
+  <CtaBlock title="Vous voulez en parler ?" description="20 minutes en visio. On vous dit franchement si on peut vous aider." />
+</PageLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { isPublished } from '../../lib/publication';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import Container from '@components/ui/Container.astro';
@@ -18,7 +19,7 @@ const description =
 
 const breadcrumb = [{ name: 'Blog' }];
 
-const articles = await getCollection('blog', ({ data }) => !data.draft);
+const articles = await getCollection('blog', isPublished);
 articles.sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
 
 /* Cocons : bucket -> label + couleur accent (aligne sur les covers) */

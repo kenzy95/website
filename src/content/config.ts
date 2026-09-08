@@ -15,6 +15,8 @@ const article = z.object({
   keywords: z.array(z.string()).default([]),
   bucket: z.enum(['A', 'B', 'C', 'D']).optional(),
   schema: z.enum(['Article', 'HowTo']).default('Article'),
+  /* FAQ visible en fin d'article, reprise en schema FAQPage */
+  faq: z.array(z.object({ question: z.string(), answer: z.string() })).default([]),
 });
 
 const blog = defineCollection({ type: 'content', schema: article });
