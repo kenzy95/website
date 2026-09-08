@@ -1,0 +1,37 @@
+name: Publication programmée du blog
+
+# Lundi, mardi, jeudi, vendredi à 06:05 UTC (08:05 Paris en été, 07:05 en hiver).
+# Si un article porte la date du jour, on pousse un commit vide sur la branche déployée :
+# Cloudflare Pages rebuild, et le filtre isPublished (src/lib/publication.ts) fait sortir l'article.
+on:
+  schedule:
+    - cron: '5 6 * * 1,2,4,5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/lamp-aceternity
+      - name: Article du jour ?
+        id: due
+        run: |
+          TODAY=$(date -u +%F)
+          if grep -l "^publishedAt: \"$TODAY\"" src/content/blog/*.mdx; then
+            echo "due=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Aucun article daté $TODAY, pas de rebuild."
+            echo "due=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Commit vide pour déclencher Cloudflare Pages
+        if: steps.due.outputs.due == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "publication-programmee"
+          git config user.email "contact@agencesimple.fr"
+          git commit --allow-empty -m "chore: publication programmée $(date -u +%F)"
+          git push origin HEAD
