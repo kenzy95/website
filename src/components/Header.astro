@@ -17,8 +17,8 @@ const { variant = 'light' } = Astro.props as Props;
 
 const navItems = [
   { href: '/', label: 'Accueil' },
-  { href: '/cas-clients', label: 'Cas clients' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/cas-clients/', label: 'Cas clients' },
+  { href: '/contact/', label: 'Contact' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -72,7 +72,7 @@ const isDark = variant === 'dark';
     </nav>
 
     <div class="flex items-center gap-2">
-      <ArrowButton href="/contact" variant="bleu" size="sm">Prendre RDV</ArrowButton>
+      <ArrowButton href="/contact/" variant="bleu" size="sm">Prendre RDV</ArrowButton>
 
       <!-- Burger (mobile) -->
       <button

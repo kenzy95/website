@@ -23,10 +23,10 @@ interface Props {
 const { article } = Astro.props;
 const { Content } = await article.render();
 
-const url = `${SITE.url}/blog/${article.slug}`;
+const url = `${SITE.url}/blog/${article.slug}/`;
 
 const breadcrumb = [
-  { name: 'Blog', href: '/blog' },
+  { name: 'Blog', href: '/blog/' },
   { name: article.data.title },
 ];
 
@@ -118,7 +118,7 @@ if (article.data.schema === 'HowTo') {
             campagnes cold email et LinkedIn des clients de l'agence, avec un engagement contractuel
             sur le nombre de rendez-vous qualifiés.
             <a href={SITE.founder.linkedin} rel="noopener noreferrer" target="_blank">Son profil LinkedIn</a>.
-            <a href="/a-propos">En savoir plus sur l'agence</a>.
+            <a href="/a-propos/">En savoir plus sur l'agence</a>.
           </p>
         </div>
       </div>

@@ -27,7 +27,7 @@ const breadcrumb = [{ name: 'Services' }];
         {
           SERVICES.map((service) => (
             <li>
-              <Card href={`/services/${service.slug}`}>
+              <Card href={`/services/${service.slug}/`}>
                 <h2 class="text-(length:--text-h3) font-semibold">{service.shortName}</h2>
                 <p class="mt-3 text-(length:--text-body) text-(--color-gris)">{service.description}</p>
                 <span class="mt-4 inline-block text-(length:--text-small) text-(--color-bleu) underline-offset-4 hover:underline">

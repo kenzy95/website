@@ -20,14 +20,14 @@ import { SITE } from '@lib/site';
  */
 
 const service = SERVICES.find((s) => s.slug === 'sdr-externalise')!;
-const url = `${SITE.url}/services/sdr-externalise`;
+const url = `${SITE.url}/services/sdr-externalise/`;
 
 const metaTitle = 'SDR externalisé : équipe de prospection complète | Agence Simple';
 const metaDescription =
   'SDR externalisé : une équipe de prospection complète sans recrutement, 300-400 messages par jour, RDV qualifiés sur votre agenda. Garantie minimum vital.';
 
 const breadcrumb = [
-  { name: 'Services', href: '/services' },
+  { name: 'Services', href: '/services/' },
   { name: 'SDR externalisé' },
 ];
 
@@ -289,10 +289,10 @@ const schemas = [
             Sur le coût réel, l'écart penche nettement en faveur de l'externalisation, de l'ordre d'un à
             trois une fois additionnés le salaire chargé, le management, les outils et les mois de rampe
             à faible productivité. Nous avons documenté le calcul complet dans notre
-            <a href="/comparatifs/sdr-interne-vs-agence-externalisee">comparatif SDR interne vs agence externalisée</a>,
-            et un <a href="/outils/calculateur-cout-sdr-interne-vs-agence">calculateur du coût d'un SDR interne</a>
+            <a href="/comparatifs/sdr-interne-vs-agence-externalisee/">comparatif SDR interne vs agence externalisée</a>,
+            et un <a href="/outils/calculateur-cout-sdr-interne-vs-agence/">calculateur du coût d'un SDR interne</a>
             qui pose vos propres chiffres. La même logique s'applique face à un indépendant : notre
-            <a href="/comparatifs/agence-prospection-vs-freelance">comparatif agence vs freelance en prospection</a>
+            <a href="/comparatifs/agence-prospection-vs-freelance/">comparatif agence vs freelance en prospection</a>
             explique pourquoi une équipe couvre des angles morts qu'un solo ne peut pas tenir.
           </p>
 
@@ -306,7 +306,7 @@ const schemas = [
             l'agenda de la personne concernée. Le prospect voit un interlocuteur au sein de votre
             entreprise, pas une agence. Vous êtes une agence marketing et cherchez de la marque blanche pour
             revendre la prospection à vos clients ? C'est une offre distincte, décrite sur la page
-            <a href="/secteurs/agences">prospection B2B en marque blanche pour agences</a>.
+            <a href="/secteurs/agences/">prospection B2B en marque blanche pour agences</a>.
           </p>
           <p>
             Certains clients préfèrent la transparence et assument l'externalisation auprès de leurs
@@ -324,8 +324,8 @@ const schemas = [
           <p>
             Pour un client, nous déployons une infrastructure complète : domaines secondaires et boîtes
             email dédiées pour préserver votre domaine principal, un compte Sales Navigator et Aimfox
-            pour <a href="/services/linkedin-outreach">le canal LinkedIn dans le forfait SDR</a>,
-            Instantly pour <a href="/services/cold-email">le canal cold email dans le forfait SDR</a>,
+            pour <a href="/services/linkedin-outreach/">le canal LinkedIn dans le forfait SDR</a>,
+            Instantly pour <a href="/services/cold-email/">le canal cold email dans le forfait SDR</a>,
             une base cible sourcée à la main via nos spécialistes de recherche, un copy travaillé en
             plusieurs variantes A/B, un humain qui qualifie chaque réponse, et un reporting mensuel
             partagé.
@@ -427,7 +427,7 @@ const schemas = [
             <p class="stat-card__body">
               <strong>Invent-App.</strong> Une collaboration dans la durée sur le marché de
               l'événementiel, en mode équipe externalisée sur les deux canaux. Le déroulé complet est
-              dans le cas client <a href="/cas-clients/invent-app">151 RDV livrés pour Invent-App</a>.
+              dans le cas client <a href="/cas-clients/invent-app/">151 RDV livrés pour Invent-App</a>.
             </p>
           </div>
           <div class="stat-card">
@@ -466,7 +466,7 @@ const schemas = [
           <p>
             Rapporté au coût complet d'un SDR interne, salaire chargé plus management plus outils plus
             les mois de rampe, l'externalisation revient nettement moins cher et démarre bien plus vite.
-            Vous recevez un devis précis après un premier échange, <a href="/contact">réservez un créneau</a>. Et parce que
+            Vous recevez un devis précis après un premier échange, <a href="/contact/">réservez un créneau</a>. Et parce que
             nous engageons un nombre de rendez-vous par mois via la garantie minimum vital, si
             l'objectif n'est pas tenu sur trois mois, nous prolongeons gratuitement jusqu'à l'atteindre.
           </p>
@@ -480,9 +480,9 @@ const schemas = [
           <h2 id="profils">Pour quels profils</h2>
           <p>
             Ce format convient particulièrement à deux profils. Les
-            <a href="/secteurs/scale-up-post-levee">scale-up post-Series A</a> qui doivent transformer
+            <a href="/secteurs/scale-up-post-levee/">scale-up post-Series A</a> qui doivent transformer
             une levée en pipeline avant la prochaine étape, sans attendre trois mois de recrutement. Et
-            les <a href="/secteurs/agences">agences qui veulent un SDR en marque blanche</a> pour leurs
+            les <a href="/secteurs/agences/">agences qui veulent un SDR en marque blanche</a> pour leurs
             propres clients, sans monter une cellule outbound en interne.
           </p>
 
@@ -493,8 +493,8 @@ const schemas = [
             le vrai coût de la démarche, si vous voulez creuser avant d'en parler avec nous.
           </p>
           <ul class="feature-list feature-list--flat">
-            <li><a href="/blog/externaliser-prospection-b2b-guide">Externaliser sa prospection B2B : le guide complet</a></li>
-            <li><a href="/blog/cout-sdr-interne-vs-agence">Combien coûte un SDR interne ? Le vrai calcul</a></li>
+            <li><a href="/blog/externaliser-prospection-b2b-guide/">Externaliser sa prospection B2B : le guide complet</a></li>
+            <li><a href="/blog/cout-sdr-interne-vs-agence/">Combien coûte un SDR interne ? Le vrai calcul</a></li>
           </ul>
 
           <!-- FAQ -->
@@ -546,7 +546,7 @@ const schemas = [
           avec un engagement chiffré de rendez-vous.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

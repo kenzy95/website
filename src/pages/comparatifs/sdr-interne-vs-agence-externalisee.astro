@@ -19,10 +19,10 @@ import { SITE } from '@lib/site';
  */
 
 const comparison = COMPARISONS.find((c) => c.slug === 'sdr-interne-vs-agence-externalisee')!;
-const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+const url = `${SITE.url}/comparatifs/${comparison.slug}/`;
 
 const breadcrumb = [
-  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'Comparatifs', href: '/comparatifs/' },
   { name: 'SDR interne vs agence' },
 ];
 
@@ -60,7 +60,7 @@ const schemas = [
   }),
   breadcrumbSchema([
     { name: 'Accueil', url: `${SITE.url}/` },
-    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs/` },
     { name: 'SDR interne vs agence', url },
   ]),
   faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
@@ -149,7 +149,7 @@ const schemas = [
             oublié : le temps de management. Un SDR seul, sans personne pour cadrer sa cible, relire ses
             messages et corriger sa trajectoire, produit rarement de bons résultats, et ce temps a une
             valeur même s'il n'apparait sur aucune facture. Nous détaillons le calcul complet dans notre
-            article sur <a href="/blog/cout-sdr-interne-vs-agence">le coût réel d'un SDR interne</a>.
+            article sur <a href="/blog/cout-sdr-interne-vs-agence/">le coût réel d'un SDR interne</a>.
           </p>
           <p>
             Une agence mutualise tous ces postes : les outils sont déjà là, l'infrastructure est déjà
@@ -241,7 +241,7 @@ const schemas = [
             appétit de tout maitriser en interne, recruter un SDR finit par être le bon choix. Dans ce
             cas, le rôle honnête d'une agence est de construire le playbook et de vous aider à passer le
             relais, pas de vous garder captif. C'est exactement ce que propose notre
-            <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>, et c'est ce cadre
+            <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>, et c'est ce cadre
             que nous posons dès le premier échange, avant même de parler chiffres.
           </p>
         </div>
@@ -250,13 +250,13 @@ const schemas = [
           <p class="panel__intro">Pour aller plus loin</p>
           <ul class="feature-list">
             <li>
-              Le calcul complet du coût d'un poste interne : <a href="/blog/cout-sdr-interne-vs-agence">combien coûte vraiment un SDR interne</a>.
+              Le calcul complet du coût d'un poste interne : <a href="/blog/cout-sdr-interne-vs-agence/">combien coûte vraiment un SDR interne</a>.
             </li>
             <li>
-              Le format externalisé décrit en détail : <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+              Le format externalisé décrit en détail : <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
             </li>
             <li>
-              L'autre grand arbitrage de structure : <a href="/comparatifs/agence-prospection-vs-freelance">agence de prospection vs freelance</a>.
+              L'autre grand arbitrage de structure : <a href="/comparatifs/agence-prospection-vs-freelance/">agence de prospection vs freelance</a>.
             </li>
             <li>
               Le modèle complet d'Agence Simple : <a href="/">notre agence de prospection B2B</a>.
@@ -300,7 +300,7 @@ const schemas = [
           des deux modèles sert le mieux votre stade et votre trésorerie. Sans discours de vente.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

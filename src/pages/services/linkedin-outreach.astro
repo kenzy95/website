@@ -22,14 +22,14 @@ import { SITE } from '@lib/site';
  */
 
 const service = SERVICES.find((s) => s.slug === 'linkedin-outreach')!;
-const url = `${SITE.url}/services/linkedin-outreach`;
+const url = `${SITE.url}/services/linkedin-outreach/`;
 
 const metaTitle = 'Agence prospection LinkedIn, rythme humain | Agence Simple';
 const metaDescription =
   'Agence prospection LinkedIn B2B : ciblage Sales Navigator, scripts personnalisés, rythme réaliste. Forfait mensuel avec garantie de RDV.';
 
 const breadcrumb = [
-  { name: 'Services', href: '/services' },
+  { name: 'Services', href: '/services/' },
   { name: 'LinkedIn outreach' },
 ];
 
@@ -211,8 +211,8 @@ const schemas = [
             qui ciblent des décideurs présents et actifs sur le réseau : C-level, VP Sales, Head of Data,
             DRH, direction de la communication. Sur ces cibles, LinkedIn résonne souvent mieux que
             l'email froid. C'est particulièrement vrai pour la
-            <a href="/secteurs/saas">prospection LinkedIn pour SaaS B2B</a> et pour la
-            <a href="/secteurs/cabinet-conseil">prospection LinkedIn pour cabinets conseil</a>, deux
+            <a href="/secteurs/saas/">prospection LinkedIn pour SaaS B2B</a> et pour la
+            <a href="/secteurs/cabinet-conseil/">prospection LinkedIn pour cabinets conseil</a>, deux
             univers où la relation prime sur le volume.
           </p>
           <p>
@@ -347,7 +347,7 @@ const schemas = [
             <li>
               Pas de garantie de signature. On engage un nombre de rendez-vous, la conversion en client
               reste chez vous. Si vous voulez qu'une équipe prenne aussi la relation en charge, regardez
-              le <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+              le <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
             </li>
           </ul>
         </div>
@@ -383,7 +383,7 @@ const schemas = [
             <span class="stat-card__label">RDV multicanal Invent-App</span>
             <p class="stat-card__body">
               LinkedIn a contribué aux 151 rendez-vous générés sur la durée. Le déroulé est dans le cas
-              client <a href="/cas-clients/invent-app">151 RDV qualifiés multicanal pour Invent-App</a>.
+              client <a href="/cas-clients/invent-app/">151 RDV qualifiés multicanal pour Invent-App</a>.
             </p>
           </div>
         </div>
@@ -401,14 +401,14 @@ const schemas = [
           <p>
             La prospection LinkedIn chez Agence Simple est un forfait mensuel, sans engagement de durée.
             Le montant dépend du volume visé et de la complexité de la cible : vous recevez un devis précis
-            après un premier échange, <a href="/contact">réservez un créneau</a>. Les abonnements
+            après un premier échange, <a href="/contact/">réservez un créneau</a>. Les abonnements
             Sales Navigator et Aimfox sont réglés directement par vous, au coût réel.
           </p>
           <p>
             Si vous hésitez entre les canaux, le
-            <a href="/comparatifs/cold-email-vs-linkedin-outreach">comparatif cold email vs LinkedIn outreach</a>
+            <a href="/comparatifs/cold-email-vs-linkedin-outreach/">comparatif cold email vs LinkedIn outreach</a>
             explique lequel privilégier selon votre cible. En pratique, les deux se combinent souvent :
-            <a href="/services/cold-email">le canal cold email en complément</a> démultiplie les points de
+            <a href="/services/cold-email/">le canal cold email en complément</a> démultiplie les points de
             contact dans une même campagne. Le format complet, avec les deux canaux orchestrés et une
             équipe dédiée, est décrit dans <a href="/">notre offre de prospection B2B clé en main</a>.
           </p>
@@ -425,8 +425,8 @@ const schemas = [
             vous voulez creuser le sujet avant d'en parler avec nous.
           </p>
           <ul class="feature-list feature-list--flat">
-            <li><a href="/blog/prospection-linkedin-methode">Prospection LinkedIn : la méthode complète</a></li>
-            <li><a href="/blog/sales-navigator-guide-ciblage">Sales Navigator : le guide du ciblage efficace</a></li>
+            <li><a href="/blog/prospection-linkedin-methode/">Prospection LinkedIn : la méthode complète</a></li>
+            <li><a href="/blog/sales-navigator-guide-ciblage/">Sales Navigator : le guide du ciblage efficace</a></li>
           </ul>
 
           <!-- FAQ -->
@@ -467,7 +467,7 @@ const schemas = [
           proposition avec un engagement chiffré de rendez-vous.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

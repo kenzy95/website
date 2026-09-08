@@ -27,10 +27,10 @@ export function getStaticPaths() {
 }
 
 const { sector, content } = Astro.props;
-const url = `${SITE.url}/secteurs/${sector.slug}`;
+const url = `${SITE.url}/secteurs/${sector.slug}/`;
 
 const breadcrumb = [
-  { name: 'Secteurs', href: '/secteurs' },
+  { name: 'Secteurs', href: '/secteurs/' },
   { name: sector.shortName },
 ];
 
@@ -44,7 +44,7 @@ const schemas = [
   faqSchema(content.faq.map((f) => ({ question: f.question, answer: f.answer }))),
   breadcrumbSchema([
     { name: 'Accueil', url: `${SITE.url}/` },
-    { name: 'Secteurs', url: `${SITE.url}/secteurs` },
+    { name: 'Secteurs', url: `${SITE.url}/secteurs/` },
     { name: sector.shortName, url },
   ]),
 ];
@@ -177,7 +177,7 @@ const schemas = [
           chiffré de rendez-vous.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

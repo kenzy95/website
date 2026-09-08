@@ -154,7 +154,7 @@ const schemas = videos.map((v) =>
 
         <div class="stats">
           {cases.map((c) => (
-            <a class="stat-card stat-card--link" href={`/cas-clients/${c.slug}`}>
+            <a class="stat-card stat-card--link" href={`/cas-clients/${c.slug}/`}>
               <span class="stat-card__num">{c.stat}</span>
               <span class="stat-card__label">{c.unit}</span>
               <p class="stat-card__body">
@@ -203,7 +203,7 @@ const schemas = videos.map((v) =>
           compatible avec notre approche. Si la réponse est non, vous repartez avec les raisons.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

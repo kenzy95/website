@@ -30,10 +30,10 @@ export function getStaticPaths() {
 }
 
 const { city, content } = Astro.props;
-const url = `${SITE.url}/villes/${city.slug}`;
+const url = `${SITE.url}/villes/${city.slug}/`;
 
 const breadcrumb = [
-  { name: 'Villes', href: '/villes' },
+  { name: 'Villes', href: '/villes/' },
   { name: city.name },
 ];
 
@@ -50,7 +50,7 @@ const schemas = [
   faqSchema(content.faq.map((f) => ({ question: f.question, answer: f.answer }))),
   breadcrumbSchema([
     { name: 'Accueil', url: `${SITE.url}/` },
-    { name: 'Villes', url: `${SITE.url}/villes` },
+    { name: 'Villes', url: `${SITE.url}/villes/` },
     { name: city.name, url },
   ]),
 ];
@@ -183,7 +183,7 @@ const schemas = [
           du sens. Si c'est oui, vous repartez avec une proposition et un engagement chiffré de rendez-vous.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

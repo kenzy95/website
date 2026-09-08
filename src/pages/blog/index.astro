@@ -81,7 +81,7 @@ const fmtDate = (d: Date) =>
             const cocon = COCONS[article.data.bucket ?? 'A'];
             return (
               <li class="article-card-slot" data-bucket={article.data.bucket ?? 'A'}>
-                <a href={`/blog/${article.slug}`} class="article-card">
+                <a href={`/blog/${article.slug}/`} class="article-card">
                   <div class="article-card__media">
                     <img
                       src={article.data.cover}
@@ -120,7 +120,7 @@ const fmtDate = (d: Date) =>
           Le premier échange est un diagnostic gratuit de votre cible.
         </p>
         <div class="mt-8 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Prendre rendez-vous">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Prendre rendez-vous">
             Prendre RDV
           </GlassButton>
         </div>

@@ -236,7 +236,7 @@ export function contactPointSchema() {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
     name: 'Contact Agence Simple',
-    url: `${SITE.url}/contact`,
+    url: `${SITE.url}/contact/`,
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',

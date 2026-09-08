@@ -73,10 +73,10 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
         "Notre travail ne dépend pas de la géographie du client : nous avons livré 151 rendez-vous qualifiés à Invent-App sur une verticale SaaS, dont plus de 90 % jugés qualifiés. La même mécanique de ciblage et de copy s'applique à un client parisien comme à un client basé ailleurs, avec en plus, sur Paris, la possibilité de se voir en présentiel.",
     },
     maillage: {
-      service: { href: '/services/sdr-externalise', label: 'notre SDR externalisé en marque blanche' },
-      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      service: { href: '/services/sdr-externalise/', label: 'notre SDR externalisé en marque blanche' },
+      caseStudy: { href: '/cas-clients/invent-app/', label: '151 RDV qualifiés pour Invent-App' },
       article: {
-        href: '/blog/externaliser-prospection-b2b-guide',
+        href: '/blog/externaliser-prospection-b2b-guide/',
         label: 'le guide pour externaliser sa prospection B2B',
       },
     },
@@ -140,10 +140,10 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
         "Notre performance ne dépend pas de la ville du client : nous avons généré 41 rendez-vous qualifiés en cinq semaines pour Happycolis, sur une cible opérationnelle exigeante. La même mécanique de ciblage et de copy s'applique à une ETI industrielle rhônalpine comme à n'importe quel compte français, avec sur Lyon la possibilité de points en présentiel.",
     },
     maillage: {
-      service: { href: '/services/cold-email', label: 'notre agence cold email' },
-      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
+      service: { href: '/services/cold-email/', label: 'notre agence cold email' },
+      caseStudy: { href: '/cas-clients/happycolis/', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
       article: {
-        href: '/blog/sales-navigator-guide-ciblage',
+        href: '/blog/sales-navigator-guide-ciblage/',
         label: 'notre guide du ciblage sur Sales Navigator',
       },
     },
@@ -207,10 +207,10 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
         "Notre résultat ne dépend pas de la géographie : nous avons livré 151 rendez-vous qualifiés à Invent-App sur une verticale SaaS, dont plus de 90 % jugés qualifiés. Cette mécanique de ciblage et de copy s'applique aussi bien à une start-up early-stage bordelaise qu'à une PME de service régionale, avec sur Bordeaux la possibilité de se voir en présentiel.",
     },
     maillage: {
-      service: { href: '/services/linkedin-outreach', label: 'notre agence de prospection LinkedIn' },
-      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      service: { href: '/services/linkedin-outreach/', label: 'notre agence de prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/invent-app/', label: '151 RDV qualifiés pour Invent-App' },
       article: {
-        href: '/blog/definir-client-ideal-ciblage-b2b',
+        href: '/blog/definir-client-ideal-ciblage-b2b/',
         label: 'notre méthode pour définir son client idéal',
       },
     },
@@ -274,10 +274,10 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
         "Notre performance ne tient pas à la géographie du client : nous avons obtenu 14 % de taux de réponse pour Dunforce sur une cible de bailleurs sociaux, un segment difficile à ouvrir. La même rigueur de ciblage, de copy et de délivrabilité s'applique à un fournisseur retail lillois comme à n'importe quel compte français, avec sur Lille des rencontres en présentiel facilitées par le TGV.",
     },
     maillage: {
-      service: { href: '/services/cold-email', label: 'notre agence cold email' },
-      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de taux de réponse pour Dunforce' },
+      service: { href: '/services/cold-email/', label: 'notre agence cold email' },
+      caseStudy: { href: '/cas-clients/dunforce/', label: '14 % de taux de réponse pour Dunforce' },
       article: {
-        href: '/blog/delivrabilite-email-spf-dkim-dmarc',
+        href: '/blog/delivrabilite-email-spf-dkim-dmarc/',
         label: 'notre guide de la délivrabilité email (SPF, DKIM, DMARC)',
       },
     },
@@ -341,10 +341,10 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
         "Notre résultat ne dépend pas de la ville du client : nous avons généré 41 rendez-vous qualifiés en cinq semaines pour Happycolis, sur une cible opérationnelle exigeante. Cette mécanique de ciblage et de copy s'applique aussi bien à une PME familiale marseillaise qu'à un acteur logistique régional, avec sur Marseille la possibilité de points en présentiel.",
     },
     maillage: {
-      service: { href: '/services/linkedin-outreach', label: 'notre agence de prospection LinkedIn' },
-      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
+      service: { href: '/services/linkedin-outreach/', label: 'notre agence de prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/happycolis/', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
       article: {
-        href: '/blog/prospection-linkedin-methode',
+        href: '/blog/prospection-linkedin-methode/',
         label: 'notre méthode de prospection sur LinkedIn',
       },
     },

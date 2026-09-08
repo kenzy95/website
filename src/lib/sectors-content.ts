@@ -75,10 +75,10 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
         "Sur la verticale SaaS B2B, nous avons livré 151 rendez-vous qualifiés à Invent-App, dont plus de 90 % jugés qualifiés par le client. Le ciblage par stade et la traduction produit vers problème métier y ont joué un rôle central. Le déroulé complet, angles testés compris, est détaillé dans le cas client.",
     },
     maillage: {
-      service: { href: '/services/cold-email', label: 'notre agence cold email' },
-      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      service: { href: '/services/cold-email/', label: 'notre agence cold email' },
+      caseStudy: { href: '/cas-clients/invent-app/', label: '151 RDV qualifiés pour Invent-App' },
       article: {
-        href: '/blog/definir-client-ideal-ciblage-b2b',
+        href: '/blog/definir-client-ideal-ciblage-b2b/',
         label: 'définir son client idéal et son ciblage B2B',
       },
     },
@@ -154,10 +154,10 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
         "Sur des cibles B2B réputées difficiles d'accès, où la crédibilité conditionne la première réponse, nous avons atteint 14 % de taux de réponse pour Dunforce sur la population des bailleurs sociaux. La logique est transposable à une ESN qui vise un secteur exigeant : une accroche ancrée dans une référence pertinente ouvre des portes qu'un pitch générique laisse fermées.",
     },
     maillage: {
-      service: { href: '/services/linkedin-outreach', label: 'notre prospection LinkedIn' },
-      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de réponse sur une cible difficile (Dunforce)' },
+      service: { href: '/services/linkedin-outreach/', label: 'notre prospection LinkedIn' },
+      caseStudy: { href: '/cas-clients/dunforce/', label: '14 % de réponse sur une cible difficile (Dunforce)' },
       article: {
-        href: '/blog/sales-navigator-guide-ciblage',
+        href: '/blog/sales-navigator-guide-ciblage/',
         label: 'le guide du ciblage avec Sales Navigator',
       },
     },
@@ -233,10 +233,10 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
         "Sur les cibles exigeantes où la qualité de l'accroche conditionne tout, nous avons atteint 14 % de taux de réponse pour Dunforce en travaillant l'angle plutôt que le volume. Pour un cabinet de conseil, la même logique s'applique : c'est la pertinence perçue du premier message, adressé au bon dirigeant, qui décide de l'ouverture de la relation.",
     },
     maillage: {
-      service: { href: '/services/linkedin-outreach', label: 'notre prospection LinkedIn ciblée' },
-      caseStudy: { href: '/cas-clients/dunforce', label: '14 % de réponse par la qualité de l\'accroche (Dunforce)' },
+      service: { href: '/services/linkedin-outreach/', label: 'notre prospection LinkedIn ciblée' },
+      caseStudy: { href: '/cas-clients/dunforce/', label: '14 % de réponse par la qualité de l\'accroche (Dunforce)' },
       article: {
-        href: '/blog/prospection-linkedin-methode',
+        href: '/blog/prospection-linkedin-methode/',
         label: 'la méthode complète de prospection LinkedIn',
       },
     },
@@ -312,10 +312,10 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
         "Sur une verticale SaaS proche de l'univers scale-up, nous avons livré 151 rendez-vous qualifiés à Invent-App, avec plus de 90 % jugés qualifiés par le client, en itérant sur les angles jusqu'à trouver la mécanique gagnante. C'est exactement le type de montée en volume rapide et documentée qu'une scale-up post-levée recherche pour absorber ses premiers mois.",
     },
     maillage: {
-      service: { href: '/services/sdr-externalise', label: 'notre SDR externalisé en marque blanche' },
-      caseStudy: { href: '/cas-clients/invent-app', label: '151 RDV qualifiés pour Invent-App' },
+      service: { href: '/services/sdr-externalise/', label: 'notre SDR externalisé en marque blanche' },
+      caseStudy: { href: '/cas-clients/invent-app/', label: '151 RDV qualifiés pour Invent-App' },
       article: {
-        href: '/blog/externaliser-prospection-b2b-guide',
+        href: '/blog/externaliser-prospection-b2b-guide/',
         label: 'le guide pour externaliser sa prospection B2B',
       },
     },
@@ -391,10 +391,10 @@ export const SECTORS_CONTENT: Record<string, SectorContent> = {
         "Sur une cible e-commerce et logistique, exactement le type de compte qu'une agence peut nous confier en marque blanche, nous avons livré 41 rendez-vous qualifiés à Happycolis en 5 semaines, autour de 7 % de taux de réponse. Ce résultat, produit à notre standard, est celui que vous revendez à votre client sous votre nom.",
     },
     maillage: {
-      service: { href: '/services/sdr-externalise', label: 'notre SDR externalisé en marque blanche' },
-      caseStudy: { href: '/cas-clients/happycolis', label: '41 RDV en 5 semaines pour Happycolis' },
+      service: { href: '/services/sdr-externalise/', label: 'notre SDR externalisé en marque blanche' },
+      caseStudy: { href: '/cas-clients/happycolis/', label: '41 RDV en 5 semaines pour Happycolis' },
       article: {
-        href: '/blog/cout-sdr-interne-vs-agence',
+        href: '/blog/cout-sdr-interne-vs-agence/',
         label: 'le coût d\'un SDR interne face à une agence',
       },
     },

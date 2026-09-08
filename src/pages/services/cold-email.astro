@@ -21,14 +21,14 @@ import { SITE } from '@lib/site';
  */
 
 const service = SERVICES.find((s) => s.slug === 'cold-email')!;
-const url = `${SITE.url}/services/cold-email`;
+const url = `${SITE.url}/services/cold-email/`;
 
 const metaTitle = 'Agence cold email B2B avec vraie délivrabilité | Agence Simple';
 const metaDescription =
   'Agence cold email B2B : délivrabilité, copy, séquences. Configuration SPF/DKIM/DMARC, warm-up, A/B test. Forfait mensuel sans engagement.';
 
 const breadcrumb = [
-  { name: 'Services', href: '/services' },
+  { name: 'Services', href: '/services/' },
   { name: 'Cold email' },
 ];
 
@@ -210,7 +210,7 @@ const schemas = [
             Le cold email a du sens pour les éditeurs SaaS, les ESN, les scale-up et les cabinets de
             conseil dont le panier moyen annuel se compte en plusieurs milliers d'euros par client et
             dont la cible est identifiable par email via LinkedIn et l'enrichissement de données. C'est
-            particulièrement adapté au <a href="/secteurs/saas">cold email pour éditeurs SaaS</a> qui
+            particulièrement adapté au <a href="/secteurs/saas/">cold email pour éditeurs SaaS</a> qui
             cherchent un canal sortant scalable en complément de l'inbound.
           </p>
           <p>
@@ -352,7 +352,7 @@ const schemas = [
             <li>
               Pas de vente derrière le rendez-vous. On ouvre la conversation, vous menez le closing. Si
               vous voulez qu'une équipe prenne aussi en charge la relation, regardez le
-              <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+              <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
             </li>
             <li>
               Pas d'email marketing : ni newsletter, ni séquence de nurturing inbound, ni relance sur
@@ -372,7 +372,7 @@ const schemas = [
           <p>
             Sur la vente proprement dite, notre parti pris est assumé : personne ne connaît votre produit
             mieux que vous. Si vous cherchez un cran de plus sur la dimension équipe, il est décrit dans
-            notre offre de <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            notre offre de <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
           </p>
 
           <!-- Résultats -->
@@ -398,7 +398,7 @@ const schemas = [
             <p class="stat-card__body">
               <strong>Invent-App.</strong> Plus de 90 % de rendez-vous jugés qualifiés par le client. Le
               déroulé est dans le cas client
-              <a href="/cas-clients/invent-app">151 RDV qualifiés via cold email pour Invent-App</a>.
+              <a href="/cas-clients/invent-app/">151 RDV qualifiés via cold email pour Invent-App</a>.
             </p>
           </div>
           <div class="stat-card">
@@ -407,7 +407,7 @@ const schemas = [
             <p class="stat-card__body">
               <strong>Dunforce.</strong> Sur une cible réputée difficile, les bailleurs sociaux. Le
               détail est dans le cas client
-              <a href="/cas-clients/dunforce">14 % de taux de réponse pour Dunforce</a>.
+              <a href="/cas-clients/dunforce/">14 % de taux de réponse pour Dunforce</a>.
             </p>
           </div>
         </div>
@@ -426,20 +426,20 @@ const schemas = [
           <p>
             Le cold email chez Agence Simple est un forfait mensuel, sans engagement de durée et sans
             marge sur les outils. Le montant dépend du volume visé et de la complexité de la cible : vous
-            recevez un devis précis après un premier échange, <a href="/contact">réservez un créneau</a>.
+            recevez un devis précis après un premier échange, <a href="/contact/">réservez un créneau</a>.
           </p>
           <p>
             Rapporté à un SDR interne, salaire chargé plus outils plus management plus les mois de montée
             en régime, un forfait démarre plus vite et se résilie en un mois si le compte n'y est pas.
             Les deux modèles se défendent selon votre stade, et nous avons posé les critères dans notre
             comparatif
-            <a href="/comparatifs/sdr-interne-vs-agence-externalisee">SDR interne vs agence externalisée</a>.
+            <a href="/comparatifs/sdr-interne-vs-agence-externalisee/">SDR interne vs agence externalisée</a>.
           </p>
           <p>
             Si vous hésitez entre les canaux, le
-            <a href="/comparatifs/cold-email-vs-linkedin-outreach">comparatif cold email vs LinkedIn outreach</a>
+            <a href="/comparatifs/cold-email-vs-linkedin-outreach/">comparatif cold email vs LinkedIn outreach</a>
             explique lequel privilégier selon votre cible, et la
-            <a href="/services/linkedin-outreach">prospection LinkedIn en complément</a> se combine
+            <a href="/services/linkedin-outreach/">prospection LinkedIn en complément</a> se combine
             souvent avec le cold email dans une même campagne. Le format complet, avec les deux canaux
             orchestrés, est décrit dans <a href="/">notre offre de prospection B2B clé en main</a>.
           </p>
@@ -456,9 +456,9 @@ const schemas = [
             voulez creuser le sujet avant d'en parler avec nous.
           </p>
           <ul class="feature-list feature-list--flat">
-            <li><a href="/blog/comment-ecrire-cold-email-b2b">Comment écrire un cold email B2B qui obtient des réponses</a></li>
-            <li><a href="/blog/delivrabilite-email-spf-dkim-dmarc">Délivrabilité email : SPF, DKIM, DMARC expliqués simplement</a></li>
-            <li><a href="/blog/taux-reponse-cold-email-benchmarks">Taux de réponse en cold email : benchmarks et leviers</a></li>
+            <li><a href="/blog/comment-ecrire-cold-email-b2b/">Comment écrire un cold email B2B qui obtient des réponses</a></li>
+            <li><a href="/blog/delivrabilite-email-spf-dkim-dmarc/">Délivrabilité email : SPF, DKIM, DMARC expliqués simplement</a></li>
+            <li><a href="/blog/taux-reponse-cold-email-benchmarks/">Taux de réponse en cold email : benchmarks et leviers</a></li>
           </ul>
 
           <!-- FAQ -->
@@ -499,7 +499,7 @@ const schemas = [
           recevez une proposition avec un engagement chiffré de rendez-vous.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

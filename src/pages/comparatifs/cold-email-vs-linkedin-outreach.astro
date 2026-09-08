@@ -18,10 +18,10 @@ import { SITE } from '@lib/site';
  */
 
 const comparison = COMPARISONS.find((c) => c.slug === 'cold-email-vs-linkedin-outreach')!;
-const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+const url = `${SITE.url}/comparatifs/${comparison.slug}/`;
 
 const breadcrumb = [
-  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'Comparatifs', href: '/comparatifs/' },
   { name: 'Cold email vs LinkedIn' },
 ];
 
@@ -59,7 +59,7 @@ const schemas = [
   }),
   breadcrumbSchema([
     { name: 'Accueil', url: `${SITE.url}/` },
-    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs/` },
     { name: 'Cold email vs LinkedIn', url },
   ]),
   faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
@@ -144,7 +144,7 @@ const schemas = [
             supporte le volume du cold email. Un cycle long à panier élevé, où chaque compte pèse
             lourd, justifie l'investissement relationnel de LinkedIn, quitte à traiter moins de
             contacts mais mieux. Nous détaillons la façon de cadrer cette cible dans notre article sur
-            <a href="/blog/definir-client-ideal-ciblage-b2b">comment définir son client idéal en B2B</a>.
+            <a href="/blog/definir-client-ideal-ciblage-b2b/">comment définir son client idéal en B2B</a>.
           </p>
 
           <h2 id="tableau">Le tableau comparatif, critère par critère</h2>
@@ -201,13 +201,13 @@ const schemas = [
             Si votre cible est large, joignable par email et que vous cherchez du volume de rendez-vous
             à coût maitrisé, le cold email est votre point de départ naturel. C'est le levier le plus
             scalable, à condition de soigner la délivrabilité et la pertinence du message. Le format
-            complet est décrit sur notre page <a href="/services/cold-email">cold email</a>.
+            complet est décrit sur notre page <a href="/services/cold-email/">cold email</a>.
           </p>
           <p>
             Si votre cible est resserrée, haut placée, sensible à la relation et à la réputation, ou si
             l'email professionnel est difficile à obtenir proprement, LinkedIn prend l'avantage. Vous
             traitez moins de comptes, mais chaque approche est plus incarnée et mieux acceptée. Le
-            détail se trouve sur notre page <a href="/services/linkedin-outreach">LinkedIn outreach</a>.
+            détail se trouve sur notre page <a href="/services/linkedin-outreach/">LinkedIn outreach</a>.
           </p>
           <p>
             Dans la plupart des cas réels, la vraie réponse n'est pas l'un contre l'autre, mais l'un
@@ -236,16 +236,16 @@ const schemas = [
           <p class="panel__intro">Pour aller plus loin</p>
           <ul class="feature-list">
             <li>
-              Le canal email dans le détail : <a href="/services/cold-email">notre service cold email</a>.
+              Le canal email dans le détail : <a href="/services/cold-email/">notre service cold email</a>.
             </li>
             <li>
-              Le canal LinkedIn dans le détail : <a href="/services/linkedin-outreach">notre service LinkedIn outreach</a>.
+              Le canal LinkedIn dans le détail : <a href="/services/linkedin-outreach/">notre service LinkedIn outreach</a>.
             </li>
             <li>
-              Bien cadrer sa cible avant de choisir : <a href="/blog/definir-client-ideal-ciblage-b2b">définir son client idéal en B2B</a>.
+              Bien cadrer sa cible avant de choisir : <a href="/blog/definir-client-ideal-ciblage-b2b/">définir son client idéal en B2B</a>.
             </li>
             <li>
-              Les repères de performance en cold email : <a href="/blog/taux-reponse-cold-email-benchmarks">taux de réponse et benchmarks</a>.
+              Les repères de performance en cold email : <a href="/blog/taux-reponse-cold-email-benchmarks/">taux de réponse et benchmarks</a>.
             </li>
           </ul>
         </div>
@@ -286,7 +286,7 @@ const schemas = [
           remplira le mieux votre agenda. Sans discours de vente.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

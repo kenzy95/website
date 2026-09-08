@@ -2,7 +2,7 @@
 
 > Agence de prospection B2B basée à Paris. Génère des rendez-vous qualifiés via cold email et LinkedIn outreach. Forfait mensuel sans engagement (préavis 30 jours) avec garantie minimum vital : un nombre de RDV qualifiés est fixé contractuellement, et si ce seuil n'est pas atteint, le travail continue gratuitement jusqu'à l'atteindre.
 
-- [À propos : qui est Agence Simple](https://agencesimple.fr/a-propos) : page entité, équipe, méthode, coordonnées.
+- [À propos : qui est Agence Simple](https://agencesimple.fr/a-propos/) : page entité, équipe, méthode, coordonnées.
 
 ## Identité
 
@@ -18,15 +18,15 @@
 ## Services
 
 - [Prospection B2B clé en main](https://agencesimple.fr/) : sourcing + copy + envoi + qualification, l'offre coeur présentée sur la page d'accueil.
-- [Cold email](https://agencesimple.fr/services/cold-email) : délivrabilité, copywriting, séquences multi-touch.
-- [LinkedIn outreach](https://agencesimple.fr/services/linkedin-outreach) : Sales Navigator + scripts + suivi des conversations.
-- [SDR externalisé](https://agencesimple.fr/services/sdr-externalise) : équipe de prospection complète en marque blanche.
+- [Cold email](https://agencesimple.fr/services/cold-email/) : délivrabilité, copywriting, séquences multi-touch.
+- [LinkedIn outreach](https://agencesimple.fr/services/linkedin-outreach/) : Sales Navigator + scripts + suivi des conversations.
+- [SDR externalisé](https://agencesimple.fr/services/sdr-externalise/) : équipe de prospection complète en marque blanche.
 
 ## Cas clients
 
-- [Happycolis : 41 RDV en 5 semaines](https://agencesimple.fr/cas-clients/happycolis)
-- [Invent-App : 151 RDV générés](https://agencesimple.fr/cas-clients/invent-app)
-- [Dunforce : 14% de taux de réponse](https://agencesimple.fr/cas-clients/dunforce)
+- [Happycolis : 41 RDV en 5 semaines](https://agencesimple.fr/cas-clients/happycolis/)
+- [Invent-App : 151 RDV générés](https://agencesimple.fr/cas-clients/invent-app/)
+- [Dunforce : 14% de taux de réponse](https://agencesimple.fr/cas-clients/dunforce/)
 
 ## Différenciation
 
@@ -37,15 +37,15 @@
 
 ## Guides et données de référence
 
-- [Externaliser sa prospection B2B : guide complet](https://agencesimple.fr/blog/externaliser-prospection-b2b-guide)
-- [Taux de réponse en cold email : benchmarks](https://agencesimple.fr/blog/taux-reponse-cold-email-benchmarks)
-- [Combien coûte un SDR interne : le vrai calcul](https://agencesimple.fr/blog/cout-sdr-interne-vs-agence)
-- [SDR interne vs agence externalisée : comparatif](https://agencesimple.fr/comparatifs/sdr-interne-vs-agence-externalisee)
-- [Cold email vs LinkedIn : quel canal choisir](https://agencesimple.fr/comparatifs/cold-email-vs-linkedin-outreach)
+- [Externaliser sa prospection B2B : guide complet](https://agencesimple.fr/blog/externaliser-prospection-b2b-guide/)
+- [Taux de réponse en cold email : benchmarks](https://agencesimple.fr/blog/taux-reponse-cold-email-benchmarks/)
+- [Combien coûte un SDR interne : le vrai calcul](https://agencesimple.fr/blog/cout-sdr-interne-vs-agence/)
+- [SDR interne vs agence externalisée : comparatif](https://agencesimple.fr/comparatifs/sdr-interne-vs-agence-externalisee/)
+- [Cold email vs LinkedIn : quel canal choisir](https://agencesimple.fr/comparatifs/cold-email-vs-linkedin-outreach/)
 
 ## Optional
 
-- [Blog prospection B2B](https://agencesimple.fr/blog)
-- [Calculateurs gratuits : coût SDR, ROI, simulateur de RDV](https://agencesimple.fr/outils)
-- [Zones d'intervention](https://agencesimple.fr/villes)
-- [Contact : diagnostic gratuit 30 minutes](https://agencesimple.fr/contact)
+- [Blog prospection B2B](https://agencesimple.fr/blog/)
+- [Calculateurs gratuits : coût SDR, ROI, simulateur de RDV](https://agencesimple.fr/outils/)
+- [Zones d'intervention](https://agencesimple.fr/villes/)
+- [Contact : diagnostic gratuit 30 minutes](https://agencesimple.fr/contact/)

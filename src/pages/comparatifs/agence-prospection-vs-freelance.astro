@@ -19,10 +19,10 @@ import { SITE } from '@lib/site';
  */
 
 const comparison = COMPARISONS.find((c) => c.slug === 'agence-prospection-vs-freelance')!;
-const url = `${SITE.url}/comparatifs/${comparison.slug}`;
+const url = `${SITE.url}/comparatifs/${comparison.slug}/`;
 
 const breadcrumb = [
-  { name: 'Comparatifs', href: '/comparatifs' },
+  { name: 'Comparatifs', href: '/comparatifs/' },
   { name: 'Agence vs freelance' },
 ];
 
@@ -60,7 +60,7 @@ const schemas = [
   }),
   breadcrumbSchema([
     { name: 'Accueil', url: `${SITE.url}/` },
-    { name: 'Comparatifs', url: `${SITE.url}/comparatifs` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs/` },
     { name: 'Agence vs freelance', url },
   ]),
   faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
@@ -143,7 +143,7 @@ const schemas = [
             membre ne stoppe pas la machine, parce que la connaissance ne vit pas dans une seule tête.
             C'est cette continuité que l'on paie, et elle vaut cher le jour où un imprévu survient. Nous
             expliquons pourquoi cette structuration compte dans notre
-            <a href="/blog/externaliser-prospection-b2b-guide">guide pour externaliser sa prospection B2B</a>.
+            <a href="/blog/externaliser-prospection-b2b-guide/">guide pour externaliser sa prospection B2B</a>.
           </p>
 
           <h2 id="tableau">Le tableau comparatif, critère par critère</h2>
@@ -228,7 +228,7 @@ const schemas = [
             assumé est de combiner le meilleur des deux mondes : une structure d'agence qui pilote et
             garantit la continuité, servie par des profils spécialisés. C'est le modèle de notre
             <a href="/">agence de prospection B2B</a>, décrit en détail sur notre page
-            <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+            <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
           </p>
         </div>
 
@@ -236,13 +236,13 @@ const schemas = [
           <p class="panel__intro">Pour aller plus loin</p>
           <ul class="feature-list">
             <li>
-              Pourquoi et comment structurer l'externalisation : <a href="/blog/externaliser-prospection-b2b-guide">notre guide complet</a>.
+              Pourquoi et comment structurer l'externalisation : <a href="/blog/externaliser-prospection-b2b-guide/">notre guide complet</a>.
             </li>
             <li>
-              Le format externalisé décrit en détail : <a href="/services/sdr-externalise">SDR externalisé en marque blanche</a>.
+              Le format externalisé décrit en détail : <a href="/services/sdr-externalise/">SDR externalisé en marque blanche</a>.
             </li>
             <li>
-              L'arbitrage interne vs externe : <a href="/comparatifs/sdr-interne-vs-agence-externalisee">SDR interne vs agence externalisée</a>.
+              L'arbitrage interne vs externe : <a href="/comparatifs/sdr-interne-vs-agence-externalisee/">SDR interne vs agence externalisée</a>.
             </li>
             <li>
               Le modèle complet d'Agence Simple : <a href="/">notre agence de prospection B2B</a>.
@@ -286,7 +286,7 @@ const schemas = [
           disons franchement quel modèle vous sert le mieux. Même si la réponse est un freelance.
         </p>
         <div class="mt-10 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>

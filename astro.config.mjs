@@ -8,7 +8,7 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   site: 'https://agencesimple.fr',
-  trailingSlash: 'never',
+  trailingSlash: 'always',
   build: {
     format: 'directory',
     inlineStylesheets: 'auto',

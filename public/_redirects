@@ -10,42 +10,42 @@
 # -> /articles/happycolis -> /cas-clients/happycolis).
 
 # --- Miroir /fr/* (doit rester en tete) ---
-/fr                                   /                              301
-/fr/*                                 /:splat                        301
+/fr  /  301
+/fr/*  /:splat  301
 
 # --- Cas clients (anciens /articles de cas client) ---
-/articles/happycolis                  /cas-clients/happycolis        301
-/articles/invent-app                  /cas-clients/invent-app        301
-/articles/dunforce                    /cas-clients/dunforce          301
+/articles/happycolis  /cas-clients/happycolis/  301
+/articles/invent-app  /cas-clients/invent-app/  301
+/articles/dunforce  /cas-clients/dunforce/  301
 
 # --- Rubriques ---
 # /services et /contact existent a l'identique sur le nouveau site : pas de regle
 # (une redirection source == destination creerait une boucle infinie).
-/articles                             /blog                          301
-/use-case                             /cas-clients                   301
-/service-details                      /services                      301
-/review                               /                              301
+/articles  /blog/  301
+/use-case  /cas-clients/  301
+/service-details  /services/  301
+/review  /  301
 
 # --- L'agence (variantes encodees incluses) ---
-/L'agence                             /                              301
-/L%27agence                           /                              301
+/L'agence  /  301
+/L%27agence  /  301
 
 # --- Mentions legales (variantes encodees incluses) ---
-/Mentions-légales                     /legal/mentions-legales        301
-/Mentions-l%C3%A9gales                /legal/mentions-legales        301
+/Mentions-légales  /legal/mentions-legales/  301
+/Mentions-l%C3%A9gales  /legal/mentions-legales/  301
 
 # --- Pages Framer de template sans equivalent -> accueil ---
-/site-web                             /                              301
-/page                                 /                              301
-/page-2                               /                              301
-/page-3                               /                              301
-/page-4                               /                              301
-/licensed-assets                      /                              301
+/site-web  /  301
+/page  /  301
+/page-2  /  301
+/page-3  /  301
+/page-4  /  301
+/licensed-assets  /  301
 
 # --- Anciens articles EN de template -> blog ---
-/articles/unveiling-the-power-of-organic-search-why-it-matters-and-how-to-leverage-it   /blog   301
-/articles/unlocking-the-secret-sauce-a-guide-to-ranking-on-google                       /blog   301
-/articles/the-ultimate-guide-to-boosting-your-website-s-seo-performance                 /blog   301
-/articles/analyse-donnees-amelioration-site-web                                         /blog   301
-/articles/securite-sites-web-2024                                                       /blog   301
-/articles/importance-ux-ui-conversion-clients                                           /blog   301
+/articles/unveiling-the-power-of-organic-search-why-it-matters-and-how-to-leverage-it  /blog/  301
+/articles/unlocking-the-secret-sauce-a-guide-to-ranking-on-google  /blog/  301
+/articles/the-ultimate-guide-to-boosting-your-website-s-seo-performance  /blog/  301
+/articles/analyse-donnees-amelioration-site-web  /blog/  301
+/articles/securite-sites-web-2024  /blog/  301
+/articles/importance-ux-ui-conversion-clients  /blog/  301

@@ -23,7 +23,7 @@ interface Props {
 const { metaTitle, metaDescription, toolName, h1, accent, lead } = Astro.props;
 
 const breadcrumb = [
-  { name: 'Outils', href: '/outils' },
+  { name: 'Outils', href: '/outils/' },
   { name: toolName },
 ];
 ---
@@ -71,7 +71,7 @@ const breadcrumb = [
           est un bon canal pour vous.
         </p>
         <div class="mt-8 flex justify-center">
-          <GlassButton href="/contact" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
             Réserver un diagnostic gratuit
           </GlassButton>
         </div>
