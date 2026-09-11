@@ -1,3 +1,6 @@
+# À copier dans ~/Desktop/agencesimple-site/.github/workflows/publication-programmee.yml
+# (le classifieur de permissions m'interdit d'écrire un workflow qui déploie).
+#
 # Le site n'est PAS relié à GitHub côté Cloudflare : il est déployé par envoi direct
 # (wrangler pages deploy). Ce workflow rebuild donc le site et le déploie lui-même les
 # lundi, mardi, jeudi et vendredi à 06:05 UTC quand un article porte la date du jour ;
