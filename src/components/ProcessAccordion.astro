@@ -170,7 +170,9 @@ const ETAPES = [
               </div>
 
               {e.logos.map((l, n) => (
-                <span class={`logo l${n}`}><img src={`/logos/tools/${l}`} alt="" loading="lazy" /></span>
+                <span class={`logo l${e.logos.length === 1 ? 1 : n}`}>
+                  <img src={`/logos/tools/${l}`} alt="" loading="lazy" />
+                </span>
               ))}
             </div>
           </div>
@@ -381,8 +383,23 @@ const ETAPES = [
   .logo img { width: 21px; height: 21px; object-fit: contain; }
   /* cales sur la carte d'interface (largeur figee), pas sur le bord de la
      carte : sinon ils se font couper des que la carte revient a 248px */
-  .logo.l0 { top: 12px; left: calc(var(--w-active) - 7rem); }
-  .logo.l1 { top: 54px; left: calc(var(--w-active) - 4.3rem); }
+  /* Alignement : le bord droit du logo bas tombe exactement sur le bord droit
+     de la carte d'interface (26px + sa largeur figee), et le logo haut est
+     decale de 42px sur les DEUX axes. La diagonale est voulue, pas subie. */
+  .logo.l1 { top: 52px; left: calc(var(--w-active) - 64px); }
+  .logo.l0 { top: 10px; left: calc(var(--w-active) - 106px); }
+
+  /* Au repos la carte ne fait que 248px : les logos tomberaient hors cadre et
+     seraient tranches par overflow:hidden. Ils n'apparaissent donc qu'une fois
+     la carte ouverte, quand la place existe. */
+  .logo {
+    opacity: 0;
+    transition: opacity 0.26s var(--ease);
+  }
+  .card[data-state='active'] .logo {
+    opacity: 1;
+    transition: opacity 0.3s var(--ease) 0.26s;
+  }
 
   /* --- etape 1 : les criteres de ciblage --- */
   .crit {
@@ -499,8 +516,9 @@ const ETAPES = [
     .card-visual img { opacity: 1; filter: none; animation: none; }
     .scene { opacity: 1; }
     .ui { width: auto; right: 26px; }
-    .logo.l0 { left: auto; right: 74px; }
-    .logo.l1 { left: auto; right: 22px; }
+    .logo { opacity: 1; }
+    .logo.l1 { left: auto; right: 26px; }
+    .logo.l0 { left: auto; right: 68px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .card, .card-desc, .card-acts, .card-visual img, .scene { transition: none; }
