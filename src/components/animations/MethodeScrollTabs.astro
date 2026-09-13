@@ -8,6 +8,7 @@
  *
  * Mecanique relevee sur le hero de calendly.com (2026-09-13) :
  *  - le scroll avance un index d'etape au lieu de faire defiler la page
+ *  - la scene s'ouvre, tient pendant les etapes, puis se REFERME
  *  - le fond est UNE nappe continue large de 300% qui glisse en continu
  *  - un filtre SVG "goo" soude la pastille active au connecteur, donc a la carte
  *  - transitions 600ms cubic-bezier(.5, 0, .5, 1)
@@ -621,7 +622,11 @@ const ICONS: Record<string, string> = {
     const cards = [...panels.children] as HTMLElement[];
     const N = tabs.length;
     const PX_PER_STEP = 620;
-    const EXPAND = 0.3; /* le tiers du parcours sert a l'agrandissement */
+    /* Trois temps, comme chez Calendly : la scene s'ouvre, elle tient pendant
+       les etapes, puis elle se REFERME avant de rendre la main a la page. */
+    const EXPAND = 0.2;
+    const CONTRACT = 0.16;
+    const HOLD = 1 - EXPAND - CONTRACT; /* la part reservee aux etapes */
 
     /* Etat de depart : une carte centree, nettement plus petite que la page.
        Etat d'arrivee : la scene a 24px des bords. C'est l'ecart entre les
@@ -639,6 +644,7 @@ const ICONS: Record<string, string> = {
     const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const easeInCubic = (t: number) => t * t * t;
     const desktop = () =>
       matchMedia('(min-width:900px)').matches &&
       !matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -666,7 +672,10 @@ const ICONS: Record<string, string> = {
 
     function size() {
       measureStart();
-      sec.style.height = desktop() ? `${innerHeight + N * PX_PER_STEP}px` : '';
+      /* les etapes n'occupent plus tout le parcours : on gonfle la hauteur
+         pour que chacune garde ses PX_PER_STEP une fois l'ouverture et la
+         fermeture deduites */
+      sec.style.height = desktop() ? `${innerHeight + (N * PX_PER_STEP) / HOLD}px` : '';
     }
 
     let ticking = false;
@@ -678,16 +687,18 @@ const ICONS: Record<string, string> = {
       if (total <= 0) return;
       const p = clamp(-sec.getBoundingClientRect().top / total, 0, 1);
 
-      /* phase 1 : la carte centree s'ouvre jusqu'a occuper la page */
-      const e = easeOutCubic(clamp(p / EXPAND, 0, 1));
-      stage.style.setProperty('--stage-x', `${lerp(startX, END_INSET, e).toFixed(1)}px`);
-      stage.style.setProperty('--stage-yi', `${lerp(startY, END_INSET, e).toFixed(1)}px`);
-      stage.style.setProperty('--stage-radius', `${lerp(24, 64, e).toFixed(1)}px`);
-      stage.style.setProperty('--stage-y', `${lerp(40, 0, e).toFixed(1)}px`);
+      /* ouverture puis fermeture : o vaut 0 au debut, 1 au milieu, 0 a la fin */
+      const open = easeOutCubic(clamp(p / EXPAND, 0, 1));
+      const close = easeInCubic(clamp((p - (1 - CONTRACT)) / CONTRACT, 0, 1));
+      const o = open * (1 - close);
+      stage.style.setProperty('--stage-x', `${lerp(startX, END_INSET, o).toFixed(1)}px`);
+      stage.style.setProperty('--stage-yi', `${lerp(startY, END_INSET, o).toFixed(1)}px`);
+      stage.style.setProperty('--stage-radius', `${lerp(24, 64, o).toFixed(1)}px`);
+      stage.style.setProperty('--stage-y', `${lerp(40, 0, o).toFixed(1)}px`);
 
       /* phase 2 : la nappe glisse EN CONTINU pendant que les onglets et la
          carte changent par palier. C'est ce decalage qui fait le carrousel. */
-      const s = clamp((p - EXPAND) / (1 - EXPAND), 0, 1);
+      const s = clamp((p - EXPAND) / HOLD, 0, 1);
       track.style.transform = `translate3d(${(-s * (100 - 100 / 3)).toFixed(3)}%,0,0)`;
       setStep(Math.min(N - 1, Math.floor(s * N)));
       prog.style.width = `${(s * 100).toFixed(1)}%`;
@@ -697,7 +708,7 @@ const ICONS: Record<string, string> = {
       if (!desktop()) return;
       const total = sec.offsetHeight - innerHeight;
       scrollTo({
-        top: sec.offsetTop + total * (EXPAND + (1 - EXPAND) * ((i + 0.5) / N)),
+        top: sec.offsetTop + total * (EXPAND + HOLD * ((i + 0.5) / N)),
         behavior: 'smooth',
       });
     }

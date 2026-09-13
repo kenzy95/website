@@ -11,7 +11,6 @@ import GuaranteeCards from '@components/GuaranteeCards.astro';
 import MethodeScrollTabs from '@components/animations/MethodeScrollTabs.astro';
 import ContainerScroll from '@components/animations/ContainerScroll.astro';
 import WhatWeDo from '@components/animations/WhatWeDo.astro';
-import ScrollExpansionHero from '@components/animations/ScrollExpansionHero.astro';
 import ProcessAccordion from '@components/ProcessAccordion.astro';
 import HeroShowcase from '@components/HeroShowcase.astro';
 import ShaderBg from '@components/ui/ShaderBg';
@@ -130,34 +129,6 @@ const HERO_SHADER =
 
     <!-- ============ 5. CE QU'ON PREND EN CHARGE (5 cards detaillees) ============ -->
     <ServiceTakeover />
-
-    <!-- ============ 6. GESTION COMPLETE : expansion sur calendrier plein de RDV ============ -->
-    <ScrollExpansionHero
-      mediaSrc="/images/calendrier-rdv.webp"
-      mediaSmallSrc="/images/agenda-jour.webp"
-      mediaType="image"
-      bgImageSrc="/images/bg-shader-kenzy.webp"
-      title="Gestion complète"
-      date="De A à Z"
-      scrollToExpand="Faites défiler pour découvrir"
-    >
-      <ShaderBg client:load slot="background" />
-      <div class="max-w-3xl mx-auto text-center text-(--color-creme)">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-(--color-orange)">
-          Le résultat concret
-        </p>
-        <h3
-          class="mt-5 leading-(--leading-title)"
-          style="font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(1.75rem, 3vw, 2.5rem);"
-        >
-          Un agenda qui se remplit de RDV qualifiés.
-        </h3>
-        <p class="mt-6 text-(--color-creme)/75 text-(length:--text-body-lg) leading-(--leading-relaxed)">
-          Stratégie, sourcing, infrastructure email, outils, copywriting, pilotage hebdo.
-          Vous récupérez les rendez-vous qualifiés directement dans votre agenda.
-        </p>
-      </div>
-    </ScrollExpansionHero>
 
     <!-- ============ 7. METHODOLOGIE : les 3 piliers en scene epinglee ============ -->
     <MethodeScrollTabs />
