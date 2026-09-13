@@ -1,0 +1,684 @@
+---
+/**
+ * MethodeScrollTabs - scene epinglee, 3 onglets, fond en nappe qui glisse.
+ *
+ * Remplace MethodeVennEnrichi (le Venn etait dense et peu lisible). Tout le
+ * contenu du Venn est conserve : les 3 piliers avec leurs bullets et leurs
+ * exemples, les 7 signaux, les 3 chiffres, le titre et la conclusion.
+ *
+ * Mecanique relevee sur le hero de calendly.com (2026-09-13) :
+ *  - le scroll avance un index d'etape au lieu de faire defiler la page
+ *  - le fond est UNE nappe continue large de 300% qui glisse en continu
+ *  - un filtre SVG "goo" soude la pastille active au connecteur, donc a la carte
+ *  - transitions 600ms cubic-bezier(.5, 0, .5, 1)
+ *
+ * La nappe (public/images/methode-nappe.webp) est fabriquee a partir des
+ * posters ShaderGradient deja presents dans le projet : meme charte, zero
+ * three.js. Une derive CSS de 40s la fait respirer a l'arret.
+ */
+
+const STEPS = [
+  {
+    key: 'ciblage',
+    num: '01',
+    label: 'Ciblage',
+    titre: 'Signaux fins',
+    color: 'var(--color-bleu)',
+    h: "On part de signaux d'achat précis, pas d'une liste achetée.",
+    desc: "Levée de fonds, ouverture de poste sales, sortie produit. Le signal déclenche le contact, jamais l'inverse.",
+    bullets: [
+      'Sales Navigator et signaux web scrapés',
+      'Vérification email continue',
+      "Critères d'exclusion stricts",
+    ],
+  },
+  {
+    key: 'copy',
+    num: '02',
+    label: 'Copy',
+    titre: 'Contexte naturel',
+    color: 'var(--color-orange)',
+    h: "On écrit une ouverture qui prouve qu'on a fait nos devoirs.",
+    desc: "Une phrase qui renvoie à un fait vérifiable chez le prospect. Vouvoiement court, ton humain.",
+    bullets: [
+      'Référence à un signal précis',
+      'Zéro jargon outbound, zéro promesse creuse',
+      "Testé sur un échantillon avant la liste complète",
+    ],
+  },
+  {
+    key: 'infra',
+    num: '03',
+    label: 'Infra',
+    titre: 'Délivrabilité',
+    color: '#8FA8F0',
+    h: "Le message arrive dans la boîte de réception, pas dans les promotions.",
+    desc: "Domaines dédiés montés en réputation. Votre domaine principal n'est jamais exposé.",
+    bullets: [
+      'Domaines secondaires dédiés par client',
+      'Warmup progressif 4 à 6 semaines',
+      '30 à 50 envois par boîte et par jour',
+    ],
+  },
+] as const;
+
+/* Les 7 signaux du Venn, conserves : ils illustrent le panneau Ciblage. */
+const SIGNAUX = [
+  { tag: 'LEVÉE', label: 'Série A 8M€', meta: "Aujourd'hui" },
+  { tag: 'RECRUTEMENT', label: 'Head of Sales', meta: 'Il y a 2 j' },
+  { tag: 'POST', label: 'CEO annonce expansion EU', meta: 'Cette semaine' },
+  { tag: 'PRODUIT', label: 'Sortie v2 API', meta: 'Hier' },
+  { tag: 'CROISSANCE', label: '+30 effectifs / 6 mois', meta: 'Tendance' },
+  { tag: 'CHANGEMENT', label: 'Nouveau CRO', meta: 'Il y a 4 j' },
+  { tag: 'SIGNAL FAIBLE', label: 'Refonte site B2B', meta: 'Cette semaine' },
+];
+
+const STATS = [
+  { num: '~12 000', lbl: 'Signaux scannés / sem.' },
+  { num: '340', lbl: 'Boîtes monitorées' },
+  { num: '~85', lbl: 'RDV livrés / mois' },
+];
+
+/* Les icones des onglets, une par pilier. */
+const ICONS: Record<string, string> = {
+  ciblage: 'M12 3a9 9 0 1 0 9 9M12 7.5a4.5 4.5 0 1 0 4.5 4.5M12 12l8.5-8.5M20.5 3.5V7h3.5',
+  copy: 'M4 20h16M6 16l9-9 3 3-9 9H6v-3z',
+  infra: 'M3 7l9 6 9-6M3 7h18v10H3zM3 7l9 6 9-6',
+};
+---
+
+<section class="mst" id="mst" aria-labelledby="mst-title">
+  <!-- En-tete : reste en flux normal, sur fond encre, donc toujours lisible -->
+  <header class="mst-head">
+    <p class="mst-eyebrow">Méthode · alimentée en signaux 24/7</p>
+    <h2 id="mst-title" class="mst-title">
+      <em class="acc-orange">Trois</em> forces. Une seule <em class="acc-bleu">équation</em>.
+    </h2>
+    <p class="mst-sub">
+      Un RDV qualifié, par définition, vit à l'intersection des trois. Et l'intersection, on la
+      nourrit en continu.
+    </p>
+    <ul class="mst-stats" aria-label="Le système en chiffres">
+      {STATS.map((s) => (
+        <li><span class="stat-num">{s.num}</span><span class="stat-lbl">{s.lbl}</span></li>
+      ))}
+    </ul>
+  </header>
+
+  <div class="mst-pin">
+    <div class="mst-stage" id="mst-stage">
+      <!-- LE FOND : la nappe, large de 300%, floutee, qui glisse au scroll -->
+      <div class="mst-bg" aria-hidden="true">
+        <div class="mst-track" id="mst-track"></div>
+      </div>
+
+      <!-- LES ONGLETS : deux couches calees sur la meme grille. Celle du bas
+           porte les pastilles et le connecteur sous le filtre goo, celle du
+           haut porte les icones (un filtre s'applique a tout son sous-arbre). -->
+      <div class="mst-tabs">
+        <div class="tabs-goo" aria-hidden="true">
+          <div class="tabs-row">
+            {STEPS.map((_, i) => <span class="tab-bg" data-on={i === 0 ? '1' : '0'}></span>)}
+          </div>
+          <svg class="connector" id="mst-conn" viewBox="0 0 32 14" fill="none" preserveAspectRatio="none">
+            <path
+              d="M25.0486 0C25.0486 0 20.3636 0.8695 20.3636 7C20.3636 13.1305 32 14 32 14L0 14C0 14 11.6364 13.1305 11.6364 7C11.6364 0.8695 6.9514 0 6.9514 0L25.0486 0Z"
+              fill="var(--color-creme)"
+            />
+          </svg>
+        </div>
+        <div class="tabs-icons">
+          <div class="tabs-row" id="mst-tabrow" role="tablist" aria-label="Les trois piliers">
+            {STEPS.map((s, i) => (
+              <button
+                type="button"
+                class="tab"
+                role="tab"
+                id={`mst-tab-${s.key}`}
+                aria-controls={`mst-panel-${s.key}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-label={`${s.num} ${s.label}`}
+                style={`--tab-color:${s.color}`}
+                data-i={i}
+              >
+                <svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={ICONS[s.key]} />
+                </svg>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- LA CARTE : permanente. Fond, rayon et ombre vivent sur le conteneur,
+           seul le contenu change. Sinon elle disparait pendant la transition. -->
+      <div class="mst-panels" id="mst-panels">
+        {STEPS.map((s, i) => (
+          <article
+            class="mst-panel"
+            id={`mst-panel-${s.key}`}
+            role="tabpanel"
+            aria-labelledby={`mst-tab-${s.key}`}
+            data-on={i === 0 ? '1' : '0'}
+          >
+            <div class="panel-text">
+              <p class="panel-num" style={`color:${s.color}`}>{s.num} / {s.label.toUpperCase()}</p>
+              <h3 class="panel-h">{s.h}</h3>
+              <p class="panel-desc">{s.desc}</p>
+              <ul class="panel-bullets">
+                {s.bullets.map((b) => (
+                  <li><span class="dot" style={`background:${s.color}`}></span>{b}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="panel-visual">
+              {s.key === 'ciblage' && (
+                <div class="sig-grid">
+                  {SIGNAUX.map((g) => (
+                    <div class="sig">
+                      <span class="sig-tag">{g.tag}</span>
+                      <span class="sig-label">{g.label}</span>
+                      <span class="sig-meta">{g.meta}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {s.key === 'copy' && (
+                <div class="mail">
+                  <div class="mail-bar"><span></span><span></span><span></span></div>
+                  <p class="mail-meta">Objet : votre annonce Head of Sales</p>
+                  <p class="mail-body">
+                    Bonjour Camille,<br /><br />
+                    j'ai vu l'annonce Head of Sales publiée cette semaine, deux mois après
+                    votre Série A. Vous montez l'équipe avant la machine ou l'inverse ?
+                  </p>
+                  <p class="mail-foot">Une phrase, un fait vérifiable, zéro promesse.</p>
+                </div>
+              )}
+
+              {s.key === 'infra' && (
+                <div class="infra">
+                  {['SPF', 'DKIM', 'DMARC'].map((k) => (
+                    <div class="infra-row"><span class="infra-k">{k}</span><span class="infra-ok">validé</span></div>
+                  ))}
+                  <div class="infra-row"><span class="infra-k">Domaine principal</span><span class="infra-ok">jamais exposé</span></div>
+                  <div class="infra-warm">
+                    <span class="infra-k">Warmup</span>
+                    <div class="warm-bar"><i></i></div>
+                    <span class="infra-meta">semaine 5 / 6</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="mst-prog" aria-hidden="true"><i id="mst-prog"></i></div>
+    </div>
+  </div>
+
+  <p class="mst-conclusion"><em>C'est notre métier. Aligner les trois forces. Tous les jours.</em></p>
+
+  <!-- Filtre goo : valeurs exactes relevees chez Calendly -->
+  <svg class="goo-defs" aria-hidden="true" focusable="false"><defs>
+    <filter id="mst-goo" x="-20%" y="-50%" width="140%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="b" />
+      <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" />
+    </filter>
+  </defs></svg>
+</section>
+
+<style>
+  .mst {
+    position: relative;
+    background: var(--color-encre);
+    color: var(--color-creme);
+    --tab-size: 56px;
+    --tab-gap: 7px;
+    --ease-tab: cubic-bezier(0.5, 0, 0.5, 1);
+    --dur-tab: 0.6s;
+    --stage-inset: 72px;
+    --stage-radius: 28px;
+    --stage-y: 60px;
+  }
+
+  /* --- en-tete ----------------------------------------------------------- */
+  .mst-head {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .mst-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-orange);
+    margin: 0;
+  }
+  .mst-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.4vw, 3.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 0;
+    text-wrap: balance;
+  }
+  .mst-title em { font-style: italic; }
+  .acc-orange { color: var(--color-orange); }
+  .acc-bleu { color: var(--color-bleu); }
+  .mst-sub {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-creme) 72%, transparent);
+    margin: 1rem auto 0;
+    max-width: 46ch;
+  }
+  .mst-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 2.25rem 0 0;
+    padding: 0;
+  }
+  .mst-stats li { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-orange);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-lbl {
+    font-size: 0.8rem;
+    color: color-mix(in srgb, var(--color-creme) 62%, transparent);
+  }
+
+  /* --- epinglage et scene ------------------------------------------------ */
+  .mst-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .mst-stage {
+    position: absolute;
+    inset: var(--stage-inset);
+    border-radius: var(--stage-radius);
+    transform: translateY(var(--stage-y));
+    overflow: hidden;
+    background: #1a2547;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    will-change: transform, border-radius;
+  }
+
+  /* --- le fond : la nappe qui glisse -------------------------------------- */
+  /* Le flou deborderait sur les bords : on etend la piste au-dela de la scene
+     et on laisse overflow:hidden recadrer. */
+  .mst-bg { position: absolute; inset: -140px; z-index: 0; overflow: hidden; }
+  .mst-track {
+    position: absolute;
+    inset: 0;
+    width: 300%;
+    background: url('/images/methode-nappe.webp') left center / 100% 100% no-repeat;
+    filter: blur(70px) saturate(1.05);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+  /* la derive : la nappe respire meme quand on ne scrolle pas.
+     scale et translate sont des proprietes CSS natives distinctes de
+     transform, donc elles se composent avec le translate3d pilote par le JS
+     au lieu de l'ecraser. */
+  .mst-track { animation: mst-drift 40s ease-in-out infinite alternate; }
+  @keyframes mst-drift {
+    from { scale: 1 1; translate: 0 0; }
+    to { scale: 1.08 1.12; translate: 0 -2.5%; }
+  }
+
+  /* --- onglets ------------------------------------------------------------ */
+  .mst-tabs { position: relative; z-index: 3; height: calc(var(--tab-size) + 14px); }
+  .tabs-row { display: flex; gap: var(--tab-gap); align-items: flex-start; }
+  .tabs-goo { position: absolute; inset: 0; filter: url('#mst-goo'); }
+  .tabs-icons { position: relative; }
+  .tab-bg {
+    width: var(--tab-size);
+    height: var(--tab-size);
+    flex: 0 0 var(--tab-size);
+    border-radius: 19px;
+    background: color-mix(in srgb, var(--color-creme) 48%, transparent);
+    transition: background-color var(--dur-tab) var(--ease-tab);
+  }
+  .tab-bg[data-on='1'] { background: var(--color-creme); }
+  .connector {
+    position: absolute;
+    top: var(--tab-size);
+    left: 0;
+    width: 32px;
+    height: 14px;
+    transform: translateX(var(--conn-x, 12px));
+    transition: transform var(--dur-tab) var(--ease-tab);
+  }
+  .tab {
+    width: var(--tab-size);
+    height: var(--tab-size);
+    flex: 0 0 var(--tab-size);
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  .tab .gl {
+    width: 25px;
+    height: 25px;
+    color: var(--color-encre);
+    opacity: 0.45;
+    transition: color var(--dur-tab) var(--ease-tab), opacity var(--dur-tab) var(--ease-tab);
+  }
+  .tab[aria-selected='true'] .gl { color: var(--tab-color); opacity: 1; }
+  .tab:focus-visible { outline: 2px solid var(--color-creme); outline-offset: 4px; border-radius: 19px; }
+
+  /* --- la carte ----------------------------------------------------------- */
+  .mst-panels {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 996px;
+    height: 348px;
+    background: var(--color-creme);
+    border-radius: 28px;
+    color: var(--color-encre);
+    /* les trois ombres empilees de Calendly */
+    filter: drop-shadow(0 4px 5px rgba(10, 20, 45, 0.06))
+      drop-shadow(0 10px 15px rgba(10, 20, 45, 0.08))
+      drop-shadow(0 40px 50px rgba(10, 20, 45, 0.22));
+    transform: translate3d(0, 0, 0);
+  }
+  .mst-panel {
+    position: absolute;
+    inset: 0;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    align-content: center;
+    opacity: 0;
+    pointer-events: none;
+    /* relais : le sortant s'efface d'abord, l'entrant attend son tour */
+    transition: opacity 0.24s var(--ease-tab);
+  }
+  .mst-panel[data-on='1'] {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.34s var(--ease-tab) 0.2s;
+  }
+  @media (min-width: 900px) {
+    .mst-panel { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 2.25rem; padding: 2.5rem; }
+  }
+  .panel-num {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    margin: 0 0 0.75rem;
+  }
+  .panel-h {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 1.9vw, 1.65rem);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.6rem;
+    text-wrap: balance;
+  }
+  .panel-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-encre) 72%, transparent);
+    margin: 0;
+  }
+  .panel-bullets { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .panel-bullets li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: color-mix(in srgb, var(--color-encre) 78%, transparent);
+  }
+  .dot { flex: 0 0 6px; height: 6px; border-radius: 50%; translate: 0 -1px; }
+
+  /* --- visuels des panneaux ---------------------------------------------- */
+  .panel-visual { min-width: 0; display: flex; align-items: center; }
+
+  .sig-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem; width: 100%; }
+  .sig {
+    border: 1px solid color-mix(in srgb, var(--color-encre) 14%, transparent);
+    border-radius: 9px;
+    padding: 0.4rem 0.55rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    background: color-mix(in srgb, var(--color-bleu) 4%, transparent);
+  }
+  .sig:nth-child(odd) { background: color-mix(in srgb, var(--color-orange) 4%, transparent); }
+  .sig-tag { font-size: 0.52rem; font-weight: 600; letter-spacing: 0.1em; color: var(--color-bleu); }
+  .sig:nth-child(odd) .sig-tag { color: var(--color-orange); }
+  .sig-label { font-size: 0.72rem; font-weight: 500; line-height: 1.2; }
+  .sig-meta { font-size: 0.58rem; font-style: italic; color: color-mix(in srgb, var(--color-encre) 50%, transparent); }
+  .sig:last-child { grid-column: span 2; }
+
+  .mail {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--color-encre) 12%, transparent);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .mail-bar { display: flex; gap: 5px; padding: 0.5rem 0.7rem; background: color-mix(in srgb, var(--color-encre) 5%, transparent); }
+  .mail-bar span { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in srgb, var(--color-encre) 18%, transparent); }
+  .mail-meta {
+    font-size: 0.66rem;
+    font-weight: 500;
+    padding: 0.55rem 0.85rem 0;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-encre) 55%, transparent);
+  }
+  .mail-body { font-size: 0.78rem; line-height: 1.45; padding: 0.45rem 0.85rem 0.7rem; margin: 0; }
+  .mail-foot {
+    font-size: 0.64rem;
+    font-style: italic;
+    padding: 0.45rem 0.85rem;
+    margin: 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-encre) 9%, transparent);
+    color: var(--color-orange);
+  }
+
+  .infra { width: 100%; display: flex; flex-direction: column; gap: 0.4rem; }
+  .infra-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.76rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--color-encre) 4%, transparent);
+  }
+  .infra-k { font-weight: 500; }
+  .infra-ok { font-size: 0.68rem; color: #1f9d76; font-weight: 500; }
+  .infra-warm { display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.7rem; font-size: 0.76rem; }
+  .warm-bar { flex: 1; height: 5px; border-radius: 5px; background: color-mix(in srgb, var(--color-encre) 10%, transparent); overflow: hidden; }
+  .warm-bar i { display: block; height: 100%; width: 83%; border-radius: 5px; background: var(--color-orange); }
+  .infra-meta { font-size: 0.66rem; color: color-mix(in srgb, var(--color-encre) 52%, transparent); font-variant-numeric: tabular-nums; }
+
+  /* --- progression et conclusion ------------------------------------------ */
+  .mst-prog {
+    position: absolute;
+    left: 48px;
+    right: 48px;
+    bottom: 26px;
+    height: 3px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--color-creme) 20%, transparent);
+    z-index: 3;
+  }
+  .mst-prog i { display: block; height: 100%; width: 0; border-radius: 3px; background: color-mix(in srgb, var(--color-creme) 70%, transparent); }
+
+  .mst-conclusion {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: color-mix(in srgb, var(--color-creme) 78%, transparent);
+    margin: 0;
+    padding: 3rem 2rem 5rem;
+  }
+  .mst-conclusion em { font-style: italic; }
+
+  .goo-defs { position: absolute; width: 0; height: 0; pointer-events: none; }
+
+  /* --- replis : mobile et mouvement reduit -------------------------------- */
+  @media (max-width: 899px), (prefers-reduced-motion: reduce) {
+    .mst { height: auto !important; }
+    .mst-pin { position: static; height: auto; overflow: visible; }
+    .mst-stage {
+      position: static;
+      inset: auto;
+      transform: none;
+      border-radius: 24px;
+      padding: 1rem;
+      display: block;
+      margin: 0 1rem;
+    }
+    .mst-tabs, .mst-prog { display: none; }
+    .mst-panels { height: auto; max-width: none; background: transparent; filter: none; }
+    .mst-panel {
+      position: static;
+      opacity: 1;
+      pointer-events: auto;
+      background: var(--color-creme);
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      transition: none;
+    }
+    .mst-track { width: 100%; filter: blur(50px); animation: none; }
+    .mst-bg { inset: 0; }
+  }
+</style>
+
+<script>
+  (() => {
+    const $sec = document.getElementById('mst');
+    const $stage = document.getElementById('mst-stage');
+    const $track = document.getElementById('mst-track');
+    const $conn = document.getElementById('mst-conn');
+    const $tabrow = document.getElementById('mst-tabrow');
+    const $panels = document.getElementById('mst-panels');
+    const $prog = document.getElementById('mst-prog');
+    if (!$sec || !$stage || !$track || !$conn || !$tabrow || !$panels || !$prog) return;
+
+    /* recopie dans des const deja restreintes : TypeScript perd le narrowing
+       du garde ci-dessus a l'interieur des closures. */
+    const sec = $sec, stage = $stage, track = $track, conn = $conn;
+    const tabrow = $tabrow, panels = $panels, prog = $prog;
+
+    const tabs = [...tabrow.children] as HTMLElement[];
+    const bgs = [...(sec.querySelectorAll('.tab-bg') as NodeListOf<HTMLElement>)];
+    const cards = [...panels.children] as HTMLElement[];
+    const N = tabs.length;
+    const PX_PER_STEP = 620;
+    const EXPAND = 0.14;
+    const TAB = 56;
+    const GAP = 7;
+
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const desktop = () =>
+      matchMedia('(min-width:900px)').matches &&
+      !matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    let current = -1;
+    function setStep(i: number) {
+      if (i === current) return;
+      current = i;
+      bgs.forEach((el, n) => (el.dataset.on = n === i ? '1' : '0'));
+      tabs.forEach((el, n) => el.setAttribute('aria-selected', String(n === i)));
+      cards.forEach((el, n) => (el.dataset.on = n === i ? '1' : '0'));
+      /* le connecteur se centre sous la pastille active : (56 - 32) / 2 = 12 */
+      conn.style.setProperty('--conn-x', `${i * (TAB + GAP) + 12}px`);
+    }
+
+    function size() {
+      sec.style.height = desktop() ? `${innerHeight + N * PX_PER_STEP}px` : '';
+    }
+
+    let ticking = false;
+    function update() {
+      ticking = false;
+      if (!desktop()) return;
+
+      const total = sec.offsetHeight - innerHeight;
+      if (total <= 0) return;
+      const p = clamp(-sec.getBoundingClientRect().top / total, 0, 1);
+
+      /* phase 1 : la scene monte et s'etend jusqu'a 24px des bords */
+      const e = easeOutCubic(clamp(p / EXPAND, 0, 1));
+      stage.style.setProperty('--stage-inset', `${lerp(72, 24, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-radius', `${lerp(28, 64, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-y', `${lerp(60, 0, e).toFixed(1)}px`);
+
+      /* phase 2 : la nappe glisse EN CONTINU pendant que les onglets et la
+         carte changent par palier. C'est ce decalage qui fait le carrousel. */
+      const s = clamp((p - EXPAND) / (1 - EXPAND), 0, 1);
+      track.style.transform = `translate3d(${(-s * (100 - 100 / 3)).toFixed(3)}%,0,0)`;
+      setStep(Math.min(N - 1, Math.floor(s * N)));
+      prog.style.width = `${(s * 100).toFixed(1)}%`;
+    }
+
+    function jumpTo(i: number) {
+      if (!desktop()) return;
+      const total = sec.offsetHeight - innerHeight;
+      scrollTo({
+        top: sec.offsetTop + total * (EXPAND + (1 - EXPAND) * ((i + 0.5) / N)),
+        behavior: 'smooth',
+      });
+    }
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => jumpTo(i));
+      t.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        tabs[(i + d + N) % N].focus();
+      });
+    });
+
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    addEventListener('resize', () => {
+      size();
+      update();
+    });
+
+    setStep(0);
+    size();
+    update();
+  })();
+</script>
