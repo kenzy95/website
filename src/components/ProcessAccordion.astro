@@ -29,6 +29,7 @@ const ETAPES = [
       'Document stratégique validé avant tout envoi',
     ],
     img: '/images/story-cadrage.webp',
+    logos: ['linkedin.svg', 'clay.png'],
     accent: 'var(--color-orange)',
   },
   {
@@ -42,6 +43,7 @@ const ETAPES = [
       'Domaines dédiés, warmup 4 à 6 semaines',
     ],
     img: '/images/story-infra.webp',
+    logos: ['instantly.png', 'usebouncer.png'],
     accent: 'var(--color-bleu)',
   },
   {
@@ -55,6 +57,7 @@ const ETAPES = [
       'On coupe ce qui ne répond pas',
     ],
     img: '/images/story-lancement.webp',
+    logos: ['make.svg', 'claude.svg'],
     accent: 'var(--color-orange)',
   },
   {
@@ -68,6 +71,7 @@ const ETAPES = [
       'Reporting mensuel sans maquillage',
     ],
     img: '/images/story-agenda.webp',
+    logos: ['aimfox.svg'],
     accent: 'var(--color-bleu)',
   },
 ] as const;
@@ -117,9 +121,58 @@ const ETAPES = [
             </div>
           </div>
 
-          <div class="card-visual">
+          {/* La scene : degrade, carte d'interface simplifiee qui flotte,
+              logos qui debordent. Largeur figee sur la carte active pour que
+              rien ne se recompose pendant les 500ms de transition. */}
+          <div class="card-visual" aria-hidden="true">
             <img src={e.img} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
-            <span class="veil" aria-hidden="true"></span>
+            <span class="veil"></span>
+
+            <div class="scene">
+              <div class="ui">
+                {e.key === 'cadrage' && (
+                  <>
+                    <p class="ui-t">Qui vaut la peine d'être contacté</p>
+                    <span class="crit"><b>Secteur</b>SaaS B2B</span>
+                    <span class="crit"><b>Effectif</b>50 à 200</span>
+                    <span class="crit"><b>Signal</b>levée &lt; 6 mois</span>
+                    <span class="crit out"><b>Exclu</b>vos clients, votre pipe</span>
+                  </>
+                )}
+
+                {e.key === 'infra' && (
+                  <>
+                    <p class="ui-row"><span class="ui-k">À</span>
+                      <span class="pill"><i class="av"></i>Camille Dubois</span></p>
+                    <p class="ui-row"><span class="ui-k">Objet</span>
+                      <span class="ui-v">votre annonce Head of Sales</span></p>
+                    <p class="ui-body">j'ai vu l'annonce publiée cette semaine, deux mois après votre Série A.</p>
+                  </>
+                )}
+
+                {e.key === 'lancement' && (
+                  <>
+                    <p class="ui-t">Semaine 4</p>
+                    <div class="kpi"><span class="kpi-n">11,4 %</span><span class="kpi-l">de réponse</span>
+                      <span class="kpi-up">+3,1</span></div>
+                    <div class="bars"><i style="height:34%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:71%"></i><i style="height:88%"></i></div>
+                  </>
+                )}
+
+                {e.key === 'agenda' && (
+                  <>
+                    <p class="ui-t">Mardi 9</p>
+                    <span class="slot s1">10:00 · RDV qualifié, SaaS Fintech</span>
+                    <span class="slot s2">14:30 · RDV qualifié, ESN</span>
+                    <span class="slot s3">16:00 · RDV qualifié, Logistique</span>
+                  </>
+                )}
+              </div>
+
+              {e.logos.map((l, n) => (
+                <span class={`logo l${n}`}><img src={`/logos/tools/${l}`} alt="" loading="lazy" /></span>
+              ))}
+            </div>
           </div>
         </article>
       ))}
@@ -255,8 +308,8 @@ const ETAPES = [
     object-fit: cover;
     /* au repos le degrade n'est qu'une trace pale : les cartes inactives de
        Calendly ne sont jamais blanches non plus */
-    opacity: 0.22;
-    filter: saturate(0.75);
+    opacity: 0.4;
+    filter: saturate(0.8);
     transition: opacity 0.45s ease-in-out, filter 0.45s ease-in-out;
   }
   .card[data-state='active'] .card-visual img {
@@ -273,7 +326,166 @@ const ETAPES = [
   .veil {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, #fff 4%, rgba(255, 255, 255, 0.7) 38%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(180deg, #fff 4%, rgba(255, 255, 255, 0.62) 32%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  /* ====================================================================
+     LA SCENE : une carte d'interface simplifiee qui flotte sur le degrade,
+     avec des logos qui debordent. Jamais une capture d'ecran : 4 elements
+     maximum, du blanc, un seul chiffre lisible.
+     ==================================================================== */
+  .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    transition: opacity 0.4s var(--ease);
+  }
+  .card[data-state='active'] .scene { opacity: 1; }
+
+  .ui {
+    position: absolute;
+    top: 46px;
+    left: 26px;
+    /* largeur figee sur la carte active : rien ne se recompose pendant les
+       500ms de transition, la carte au repos la laisse simplement deborder */
+    width: calc(var(--w-active) - 3.25rem);
+    bottom: -14px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px -10px rgba(11, 53, 88, 0.28);
+    padding: 0.85rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.38rem;
+    overflow: hidden;
+  }
+  .ui-t {
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-encre) 55%, transparent);
+    margin: 0 0 0.12rem;
+  }
+
+  /* les logos qui debordent, comme les pastilles Gmail et Outlook de Calendly */
+  .logo {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 6px 18px -4px rgba(11, 53, 88, 0.3);
+    display: grid;
+    place-items: center;
+  }
+  .logo img { width: 21px; height: 21px; object-fit: contain; }
+  /* cales sur la carte d'interface (largeur figee), pas sur le bord de la
+     carte : sinon ils se font couper des que la carte revient a 248px */
+  .logo.l0 { top: 12px; left: calc(var(--w-active) - 7rem); }
+  .logo.l1 { top: 54px; left: calc(var(--w-active) - 4.3rem); }
+
+  /* --- etape 1 : les criteres de ciblage --- */
+  .crit {
+    display: flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    padding: 0.25rem 0.45rem;
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--color-bleu) 7%, transparent);
+  }
+  .crit b {
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-bleu);
+    flex: 0 0 auto;
+  }
+  .crit.out { background: color-mix(in srgb, var(--color-orange) 9%, transparent); }
+  .crit.out b { color: var(--color-orange); }
+
+  /* --- etape 2 : le mail en cours de redaction --- */
+  .ui-row { display: flex; align-items: center; gap: 0.45rem; margin: 0; font-size: 0.7rem; }
+  .ui-k {
+    font-size: 0.58rem;
+    color: color-mix(in srgb, var(--color-encre) 45%, transparent);
+    flex: 0 0 2.1rem;
+  }
+  .ui-v { font-weight: 500; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.5rem 0.15rem 0.2rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-bleu) 10%, transparent);
+    font-weight: 500;
+  }
+  .av {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--color-bleu), var(--color-orange));
+  }
+  .ui-body {
+    font-size: 0.68rem;
+    line-height: 1.4;
+    margin: 0.25rem 0 0;
+    padding-top: 0.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-encre) 9%, transparent);
+    color: color-mix(in srgb, var(--color-encre) 78%, transparent);
+  }
+
+  /* --- etape 3 : le chiffre de la semaine --- */
+  .kpi { display: flex; align-items: baseline; gap: 0.35rem; }
+  .kpi-n {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-l { font-size: 0.64rem; color: color-mix(in srgb, var(--color-encre) 55%, transparent); }
+  .kpi-up {
+    margin-left: auto;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #1f9d76;
+    background: rgba(31, 157, 118, 0.1);
+    padding: 0.1rem 0.35rem;
+    border-radius: 5px;
+  }
+  .bars { display: flex; align-items: flex-end; gap: 0.28rem; height: 42px; margin-top: 0.35rem; }
+  .bars i {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    background: color-mix(in srgb, var(--color-orange) 32%, transparent);
+  }
+  .bars i:last-child { background: var(--color-orange); }
+
+  /* --- etape 4 : les creneaux qui se posent --- */
+  .slot {
+    font-size: 0.66rem;
+    font-weight: 500;
+    padding: 0.32rem 0.5rem;
+    border-radius: 7px;
+    border-left: 3px solid var(--color-bleu);
+    background: color-mix(in srgb, var(--color-bleu) 8%, transparent);
+    white-space: nowrap;
+  }
+  /* le seul geste de la section : les creneaux se posent un par un quand la
+     carte s'ouvre. C'est ce que vend Agence Simple. */
+  .card[data-state='active'] .slot {
+    animation: slot-in 0.42s var(--ease) backwards;
+  }
+  .card[data-state='active'] .s1 { animation-delay: 0.18s; }
+  .card[data-state='active'] .s2 { animation-delay: 0.32s; }
+  .card[data-state='active'] .s3 { animation-delay: 0.46s; }
+  @keyframes slot-in {
+    from { opacity: 0; translate: 0 8px; }
+    to { opacity: 1; translate: 0 0; }
   }
 
   /* --- repli mobile : les 4 cartes empilees ------------------------------- */
@@ -283,12 +495,17 @@ const ETAPES = [
     .card[data-state='active'] { flex: 1 1 auto; width: 100%; border-radius: 28px; box-shadow: none; }
     .card-desc { display: none; }
     .card-acts { opacity: 1; width: 100%; pointer-events: auto; }
-    .card-visual { height: 190px; }
+    .card-visual { height: 230px; }
     .card-visual img { opacity: 1; filter: none; animation: none; }
+    .scene { opacity: 1; }
+    .ui { width: auto; right: 26px; }
+    .logo.l0 { left: auto; right: 74px; }
+    .logo.l1 { left: auto; right: 22px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .card, .card-desc, .card-acts, .card-visual img { transition: none; }
-    .card[data-state='active'] .card-visual img { animation: none; }
+    .card, .card-desc, .card-acts, .card-visual img, .scene { transition: none; }
+    .card[data-state='active'] .card-visual img,
+    .card[data-state='active'] .slot { animation: none; }
   }
 </style>
 
