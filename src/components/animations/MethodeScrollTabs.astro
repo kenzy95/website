@@ -631,14 +631,17 @@ const ICONS: Record<string, string> = {
     /* Etat de depart : une carte centree, nettement plus petite que la page.
        Etat d'arrivee : la scene a 24px des bords. C'est l'ecart entre les
        deux qui donne l'effet, un insert de depart trop faible ne se voit pas. */
-    const START_W = 1080;
-    const START_H = 620;
     const END_INSET = 24;
     let startX = 180;
     let startY = 170;
     function measureStart() {
-      startX = Math.max(END_INSET, (innerWidth - START_W) / 2);
-      startY = Math.max(END_INSET, (innerHeight - START_H) / 2);
+      /* la carte de depart est un ratio de la fenetre, plafonne : sur un
+         ecran etroit un 1080px fixe donnerait un insert quasi nul et
+         l'agrandissement ne se verrait plus */
+      const w = Math.min(1080, innerWidth * 0.74);
+      const h = Math.min(620, innerHeight * 0.72);
+      startX = Math.max(END_INSET, (innerWidth - w) / 2);
+      startY = Math.max(END_INSET, (innerHeight - h) / 2);
     }
 
     const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
