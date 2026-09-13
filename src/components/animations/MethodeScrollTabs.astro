@@ -117,8 +117,18 @@ const ICONS: Record<string, string> = {
            haut porte les icones (un filtre s'applique a tout son sous-arbre). -->
       <div class="mst-tabs">
         <div class="tabs-goo" aria-hidden="true">
+          {/* Cette couche reprend EXACTEMENT le meme contenu que les vrais
+              onglets, en visibility:hidden : elle se dimensionne toute seule
+              sur les libelles, sans que le filtre goo ne floute le texte. */}
           <div class="tabs-row">
-            {STEPS.map((_, i) => <span class="tab-bg" data-on={i === 0 ? '1' : '0'}></span>)}
+            {STEPS.map((s, i) => (
+              <span class="tab-bg" data-on={i === 0 ? '1' : '0'}>
+                <span class="tab-inner">
+                  <svg class="gl" viewBox="0 0 24 24"><path d={ICONS[s.key]} /></svg>
+                  <span class="tab-label">{s.label}</span>
+                </span>
+              </span>
+            ))}
           </div>
           <svg class="connector" id="mst-conn" viewBox="0 0 32 14" fill="none" preserveAspectRatio="none">
             <path
@@ -141,9 +151,12 @@ const ICONS: Record<string, string> = {
                 style={`--tab-color:${s.color}`}
                 data-i={i}
               >
-                <svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={ICONS[s.key]} />
-                </svg>
+                <span class="tab-inner">
+                  <svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d={ICONS[s.key]} />
+                  </svg>
+                  <span class="tab-label">{s.label}</span>
+                </span>
               </button>
             ))}
           </div>
@@ -236,13 +249,14 @@ const ICONS: Record<string, string> = {
     position: relative;
     background: var(--color-encre);
     color: var(--color-creme);
-    --tab-size: 56px;
+    --tab-size: 58px;
     --tab-gap: 7px;
     --ease-tab: cubic-bezier(0.5, 0, 0.5, 1);
     --dur-tab: 0.6s;
-    --stage-inset: 72px;
-    --stage-radius: 28px;
-    --stage-y: 60px;
+    --stage-x: 180px;
+    --stage-yi: 170px;
+    --stage-radius: 24px;
+    --stage-y: 40px;
   }
 
   /* --- en-tete ----------------------------------------------------------- */
@@ -307,7 +321,12 @@ const ICONS: Record<string, string> = {
   .mst-pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
   .mst-stage {
     position: absolute;
-    inset: var(--stage-inset);
+    /* deux inserts distincts : au depart la scene est une carte centree,
+       a l'arrivee elle occupe la page a 24px des bords */
+    top: var(--stage-yi);
+    bottom: var(--stage-yi);
+    left: var(--stage-x);
+    right: var(--stage-x);
     border-radius: var(--stage-radius);
     transform: translateY(var(--stage-y));
     overflow: hidden;
@@ -344,19 +363,33 @@ const ICONS: Record<string, string> = {
   }
 
   /* --- onglets ------------------------------------------------------------ */
-  .mst-tabs { position: relative; z-index: 3; height: calc(var(--tab-size) + 14px); }
+  .mst-tabs { position: relative; z-index: 3; height: calc(var(--tab-size) + 14px); margin-bottom: 0.5rem; }
   .tabs-row { display: flex; gap: var(--tab-gap); align-items: flex-start; }
   .tabs-goo { position: absolute; inset: 0; filter: url('#mst-goo'); }
   .tabs-icons { position: relative; }
-  .tab-bg {
-    width: var(--tab-size);
+  /* les deux couches partagent strictement le meme modele de boite */
+  .tab-bg,
+  .tab {
     height: var(--tab-size);
-    flex: 0 0 var(--tab-size);
+    flex: 0 0 auto;
     border-radius: 19px;
-    background: color-mix(in srgb, var(--color-creme) 48%, transparent);
+    padding: 0 1.15rem;
+    display: flex;
+    align-items: center;
+  }
+  .tab-inner { display: flex; align-items: center; gap: 0.55rem; }
+  .tab-bg {
+    background: color-mix(in srgb, var(--color-creme) 68%, transparent);
     transition: background-color var(--dur-tab) var(--ease-tab);
   }
+  .tab-bg .tab-inner { visibility: hidden; }
   .tab-bg[data-on='1'] { background: var(--color-creme); }
+  .tab-label {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
   .connector {
     position: absolute;
     top: var(--tab-size);
@@ -367,24 +400,18 @@ const ICONS: Record<string, string> = {
     transition: transform var(--dur-tab) var(--ease-tab);
   }
   .tab {
-    width: var(--tab-size);
-    height: var(--tab-size);
-    flex: 0 0 var(--tab-size);
-    display: grid;
-    place-items: center;
     border: 0;
     background: transparent;
     cursor: pointer;
-    padding: 0;
-  }
-  .tab .gl {
-    width: 25px;
-    height: 25px;
     color: var(--color-encre);
-    opacity: 0.45;
-    transition: color var(--dur-tab) var(--ease-tab), opacity var(--dur-tab) var(--ease-tab);
+    opacity: 0.66;
+    transition: opacity var(--dur-tab) var(--ease-tab), color var(--dur-tab) var(--ease-tab);
   }
-  .tab[aria-selected='true'] .gl { color: var(--tab-color); opacity: 1; }
+  /* la regle doit couvrir les DEUX couches : sans largeur, l'icone de la
+     couche goo s'effondre et les pastilles se decalent des libelles */
+  .tab .gl,
+  .tab-bg .gl { width: 21px; height: 21px; flex: 0 0 21px; }
+  .tab[aria-selected='true'] { opacity: 1; color: var(--tab-color); }
   .tab:focus-visible { outline: 2px solid var(--color-creme); outline-offset: 4px; border-radius: 19px; }
 
   /* --- la carte ----------------------------------------------------------- */
@@ -550,7 +577,7 @@ const ICONS: Record<string, string> = {
     .mst-pin { position: static; height: auto; overflow: visible; }
     .mst-stage {
       position: static;
-      inset: auto;
+      top: auto; bottom: auto; left: auto; right: auto;
       transform: none;
       border-radius: 24px;
       padding: 1rem;
@@ -594,9 +621,20 @@ const ICONS: Record<string, string> = {
     const cards = [...panels.children] as HTMLElement[];
     const N = tabs.length;
     const PX_PER_STEP = 620;
-    const EXPAND = 0.14;
-    const TAB = 56;
-    const GAP = 7;
+    const EXPAND = 0.3; /* le tiers du parcours sert a l'agrandissement */
+
+    /* Etat de depart : une carte centree, nettement plus petite que la page.
+       Etat d'arrivee : la scene a 24px des bords. C'est l'ecart entre les
+       deux qui donne l'effet, un insert de depart trop faible ne se voit pas. */
+    const START_W = 1080;
+    const START_H = 620;
+    const END_INSET = 24;
+    let startX = 180;
+    let startY = 170;
+    function measureStart() {
+      startX = Math.max(END_INSET, (innerWidth - START_W) / 2);
+      startY = Math.max(END_INSET, (innerHeight - START_H) / 2);
+    }
 
     const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -613,10 +651,21 @@ const ICONS: Record<string, string> = {
       tabs.forEach((el, n) => el.setAttribute('aria-selected', String(n === i)));
       cards.forEach((el, n) => (el.dataset.on = n === i ? '1' : '0'));
       /* le connecteur se centre sous la pastille active : (56 - 32) / 2 = 12 */
-      conn.style.setProperty('--conn-x', `${i * (TAB + GAP) + 12}px`);
+      placeConnector(i);
+    }
+
+    /* Les onglets n'ont plus tous la meme largeur depuis qu'ils portent un
+       libelle : on lit la position reelle au lieu de la calculer. */
+    function placeConnector(i: number) {
+      const t = tabs[i];
+      if (!t) return;
+      const row = t.parentElement as HTMLElement;
+      const x = t.offsetLeft - row.offsetLeft + (t.offsetWidth - 32) / 2;
+      conn.style.setProperty('--conn-x', `${x.toFixed(1)}px`);
     }
 
     function size() {
+      measureStart();
       sec.style.height = desktop() ? `${innerHeight + N * PX_PER_STEP}px` : '';
     }
 
@@ -629,11 +678,12 @@ const ICONS: Record<string, string> = {
       if (total <= 0) return;
       const p = clamp(-sec.getBoundingClientRect().top / total, 0, 1);
 
-      /* phase 1 : la scene monte et s'etend jusqu'a 24px des bords */
+      /* phase 1 : la carte centree s'ouvre jusqu'a occuper la page */
       const e = easeOutCubic(clamp(p / EXPAND, 0, 1));
-      stage.style.setProperty('--stage-inset', `${lerp(72, 24, e).toFixed(1)}px`);
-      stage.style.setProperty('--stage-radius', `${lerp(28, 64, e).toFixed(1)}px`);
-      stage.style.setProperty('--stage-y', `${lerp(60, 0, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-x', `${lerp(startX, END_INSET, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-yi', `${lerp(startY, END_INSET, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-radius', `${lerp(24, 64, e).toFixed(1)}px`);
+      stage.style.setProperty('--stage-y', `${lerp(40, 0, e).toFixed(1)}px`);
 
       /* phase 2 : la nappe glisse EN CONTINU pendant que les onglets et la
          carte changent par palier. C'est ce decalage qui fait le carrousel. */
@@ -674,11 +724,15 @@ const ICONS: Record<string, string> = {
     );
     addEventListener('resize', () => {
       size();
+      placeConnector(Math.max(0, current));
       update();
     });
 
+    measureStart();
     setStep(0);
     size();
     update();
+    /* les polices changent la largeur des onglets une fois chargees */
+    if (document.fonts?.ready) document.fonts.ready.then(() => placeConnector(Math.max(0, current)));
   })();
 </script>
