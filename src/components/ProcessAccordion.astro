@@ -125,7 +125,7 @@ const ETAPES = [
               logos qui debordent. Largeur figee sur la carte active pour que
               rien ne se recompose pendant les 500ms de transition. */}
           <div class="card-visual" aria-hidden="true">
-            <img src={e.img} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+            <img class="grad" src={e.img} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
             <span class="veil"></span>
 
             <div class="scene">
@@ -302,7 +302,11 @@ const ETAPES = [
 
   /* --- la zone visuelle : le degrade ShaderGradient de l'etape ------------ */
   .card-visual { margin-top: auto; position: relative; height: 260px; overflow: hidden; background: #fff; }
-  .card-visual img {
+  /* .grad et pas "img" : un selecteur sur toutes les images de la zone
+     attrapait aussi les logos de la scene, qui heritaient de position:absolute
+     inset:0 (collage dans le coin de leur pastille) et de l'animation de
+     derive (mise a l'echelle et decalage permanents). */
+  .card-visual .grad {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -314,7 +318,7 @@ const ETAPES = [
     filter: saturate(0.8);
     transition: opacity 0.45s ease-in-out, filter 0.45s ease-in-out;
   }
-  .card[data-state='active'] .card-visual img {
+  .card[data-state='active'] .card-visual .grad {
     opacity: 1;
     filter: saturate(1);
     /* la derive : le degrade respire, mais seulement sur la carte active */
@@ -513,7 +517,7 @@ const ETAPES = [
     .card-desc { display: none; }
     .card-acts { opacity: 1; width: 100%; pointer-events: auto; }
     .card-visual { height: 230px; }
-    .card-visual img { opacity: 1; filter: none; animation: none; }
+    .card-visual .grad { opacity: 1; filter: none; animation: none; }
     .scene { opacity: 1; }
     .ui { width: auto; right: 26px; }
     .logo { opacity: 1; }
@@ -521,8 +525,8 @@ const ETAPES = [
     .logo.l0 { left: auto; right: 68px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .card, .card-desc, .card-acts, .card-visual img, .scene { transition: none; }
-    .card[data-state='active'] .card-visual img,
+    .card, .card-desc, .card-acts, .card-visual .grad, .scene { transition: none; }
+    .card[data-state='active'] .card-visual .grad,
     .card[data-state='active'] .slot { animation: none; }
   }
 </style>
