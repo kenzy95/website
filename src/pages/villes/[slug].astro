@@ -124,6 +124,28 @@ const schemas = [
 
           <h2 id="cas-client">Un résultat concret, quelle que soit la géographie</h2>
           <p>{content.casClient.texte}</p>
+
+          {content.questionsAvantSigner && (
+            <>
+              <h2 id="avant-de-signer">Que demander à une agence de prospection avant de signer ?</h2>
+              <p>
+                Que l'agence soit installée à {city.name} ou non, ces questions font le tri. Exigez des
+                réponses écrites : une condition qui n'est pas dans le contrat n'existe pas.
+              </p>
+              <ol class="questions">
+                {content.questionsAvantSigner.map((q) => (
+                  <li>
+                    <strong>{q.question}</strong>
+                    <span>{q.pourquoi}</span>
+                  </li>
+                ))}
+              </ol>
+              <p>
+                Nous avons appliqué ces critères à huit agences, sources à l'appui, dans notre
+                <a href="/comparatifs/alternatives-lalaleads-captain-prospect-recom/">comparatif des alternatives à Lalaleads, Captain Prospect et ReCom</a>.
+              </p>
+            </>
+          )}
         </div>
 
         <div class="panel panel--inclus">
@@ -165,6 +187,20 @@ const schemas = [
               </li>
             ))}
           </ul>
+
+          {content.sources && (
+            <>
+              <h2 id="sources">Sources</h2>
+              <p>Chiffres et informations publiques citées sur cette page, consultées le 13 octobre 2026.</p>
+              <ol class="sources">
+                {content.sources.map((s) => (
+                  <li>
+                    <a href={s.href} rel="noopener" target="_blank">{s.label}</a>
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
         </div>
       </Container>
     </article>
@@ -377,6 +413,33 @@ const schemas = [
     top: 0.05em;
     font-weight: 700;
     color: var(--color-bleu);
+  }
+
+  .questions {
+    margin-top: 1.5rem;
+    padding-left: 1.4rem;
+    list-style: decimal;
+  }
+  .questions li {
+    margin-top: 1.1rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .questions li strong {
+    display: block;
+    color: var(--color-encre);
+  }
+  .sources {
+    margin-top: 1.25rem;
+    padding-left: 1.4rem;
+    list-style: decimal;
+  }
+  .sources li {
+    margin-top: 0.5rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
   }
 
   .faq {

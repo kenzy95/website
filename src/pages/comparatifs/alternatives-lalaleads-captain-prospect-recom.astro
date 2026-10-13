@@ -1,0 +1,866 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Container from '@components/ui/Container.astro';
+import GlassButton from '@components/ui/GlassButton.astro';
+import ArrowButton from '@components/ui/ArrowButton.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { COMPARISONS } from '@lib/content-data';
+import { articleSchema, faqSchema, breadcrumbSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+/**
+ * Comparatif « alternatives à Lalaleads, Captain Prospect et ReCom » (calendrier GEO n°2).
+ * Question cible ChatGPT : « Quelles alternatives à Lalaleads ou Captain Prospect pour la
+ * prospection B2B ? » (relevé du 13/10/2026 : Agence Simple non citée).
+ *
+ * Règle de fond : chaque fait sur un concurrent renvoie à une page publique du concurrent,
+ * relevée le 13/10/2026 (curl 200), listée dans SOURCES et numérotée dans le tableau.
+ * Une information non publiée s'écrit « Non communiqué ». Aucun fait inventé.
+ * Agence Simple est une option parmi d'autres, limites comprises (pas de téléphone).
+ * Aucun prix Agence Simple en euros. Montants concurrents avec espaces insécables.
+ * Schemas : Article + BreadcrumbList + FAQPage (FAQ visible), même modèle que les autres comparatifs.
+ */
+
+const comparison = COMPARISONS.find((c) => c.slug === 'alternatives-lalaleads-captain-prospect-recom')!;
+const url = `${SITE.url}/comparatifs/${comparison.slug}/`;
+const RELEVE = '13 octobre 2026';
+
+const breadcrumb = [
+  { name: 'Comparatifs', href: '/comparatifs/' },
+  { name: 'Alternatives à Lalaleads, Captain Prospect, ReCom' },
+];
+
+const SOURCES = [
+  { id: 1, label: 'Lalaleads, page « Nos offres »', href: 'https://www.lalaleads.io/nos-offres' },
+  { id: 2, label: 'Lalaleads, page « La méthode Lala »', href: 'https://www.lalaleads.io/la-methode-lala' },
+  { id: 3, label: "Captain Prospect, page d'accueil (offres, canaux, adresse)", href: 'https://www.captainprospect.fr/' },
+  { id: 4, label: 'ReCom, page « Nos offres » (tarifs et FAQ)', href: 'https://www.re-com.fr/nos-offres' },
+  { id: 5, label: 'ReCom, page « Comment cela fonctionne »', href: 'https://www.re-com.fr/comment-cela-fonctionne' },
+  { id: 6, label: "LeadActiv, page d'accueil (méthode, implantation, FAQ)", href: 'https://www.leadactiv.fr/' },
+  { id: 7, label: 'LeadActiv, page « Nos offres »', href: 'https://www.leadactiv.fr/nos-offres/' },
+  { id: 8, label: 'Oliverlist, page « Offre »', href: 'https://www.oliverlist.com/offre' },
+  { id: 9, label: "Oliverlist, page d'accueil (canaux, synchronisation CRM)", href: 'https://www.oliverlist.com/' },
+  { id: 10, label: "Acceor, page d'accueil (canal, FAQ sur la tarification)", href: 'https://www.acceor.com/' },
+  { id: 11, label: "devlo, page d'accueil (offres et FAQ)", href: 'https://devlo.ch/' },
+  { id: 12, label: "Agence Simple, page d'accueil (FAQ sur le minimum vital)", href: 'https://agencesimple.fr/' },
+];
+
+type Cell = { t: string; s?: number[] };
+interface Row {
+  nom: string;
+  lieu?: Cell;
+  facturation: Cell;
+  canaux: Cell;
+  engagement: Cell;
+  donnees: Cell;
+  garantie: Cell;
+  nous?: boolean;
+}
+
+const NC: Cell = { t: 'Non communiqué' };
+
+const ROWS: Row[] = [
+  {
+    nom: 'Lalaleads',
+    facturation: {
+      t: 'Forfait dès 1 500 € HT/mois (Full digital) ou 2 400 € HT/mois (Multicanal). Offre au rendez-vous : 350 € HT par RDV, volume plafonné, 990 € HT de mise en place',
+      s: [1],
+    },
+    canaux: { t: 'Email et LinkedIn, téléphone dans l\'offre Multicanal', s: [1] },
+    engagement: { t: 'Sans engagement sur Full digital et Multicanal. Non précisé pour l\'offre au rendez-vous', s: [1] },
+    donnees: { t: 'Tableur commenté de tous les échanges remis en fin de mission. Propriété des domaines et boîtes : non communiqué', s: [2] },
+    garantie: { t: 'Pas de minimum de RDV publié. L\'offre au rendez-vous facture au résultat', s: [1] },
+  },
+  {
+    nom: 'Captain Prospect',
+    lieu: { t: 'Lyon (69004)', s: [3] },
+    facturation: {
+      t: 'Email dès 750 €/mois, téléphone dès 1 500 €/mois, multicanal dès 250 € par RDV plus un fixe mensuel',
+      s: [3],
+    },
+    canaux: { t: 'Téléphone, email, social selling (prospection par les réseaux sociaux)', s: [3] },
+    engagement: NC,
+    donnees: NC,
+    garantie: NC,
+  },
+  {
+    nom: 'ReCom',
+    lieu: { t: 'Lyon', s: [4] },
+    facturation: {
+      t: 'Forfait mensuel dès 1 290 € (digital), 1 690 € (téléphone), 2 490 € (multicanal premium)',
+      s: [4],
+    },
+    canaux: { t: 'Téléphone, email, LinkedIn', s: [4] },
+    engagement: {
+      t: 'Sans engagement (digital), sans engagement après 8 journées (téléphone), à partir du 3e mois (premium). Préavis de 15 jours',
+      s: [4, 5],
+    },
+    donnees: { t: 'Fichier complet qualifié restitué sur demande, avec tâches et relances programmées', s: [4, 5] },
+    garantie: NC,
+  },
+  {
+    nom: 'LeadActiv',
+    lieu: { t: 'Annecy et Lyon', s: [6] },
+    facturation: { t: 'Sur mesure, à partir de 1 760 € HT/mois', s: [7] },
+    canaux: { t: 'Email, LinkedIn, appels uniquement vers des prospects déjà engagés', s: [6] },
+    engagement: NC,
+    donnees: { t: 'Base de données au client dès le premier jour, remise à tout moment, y compris à l\'arrêt', s: [6, 7] },
+    garantie: { t: 'Engagement de moyens revendiqué : pas de promesse de rendez-vous', s: [6] },
+  },
+  {
+    nom: 'Oliverlist',
+    facturation: { t: 'Fixe dès 1 500 € HT/mois, plus dès 250 € HT par rendez-vous honoré', s: [8] },
+    canaux: { t: 'Email et téléphone', s: [9] },
+    engagement: { t: 'Sans engagement de durée', s: [8] },
+    donnees: {
+      t: 'Contacts synchronisés dans votre CRM ou en fichier Excel. Domaines achetés et gérés par Oliverlist, propriété non précisée',
+      s: [8, 9],
+    },
+    garantie: { t: 'Rendez-vous absents ou hors cible non facturés', s: [8] },
+  },
+  {
+    nom: 'Acceor',
+    facturation: { t: 'Tarif non communiqué. Refuse explicitement la facturation au rendez-vous', s: [10] },
+    canaux: { t: 'Téléphone (spécialité revendiquée)', s: [10] },
+    engagement: NC,
+    donnees: NC,
+    garantie: NC,
+  },
+  {
+    nom: 'devlo',
+    lieu: { t: 'Suisse', s: [11] },
+    facturation: { t: 'Programme géré dès CHF 4 500 par mois. Pilote de 90 jours à CHF 36 000', s: [11] },
+    canaux: { t: 'Email, LinkedIn, téléphone', s: [11] },
+    engagement: { t: 'Non communiqué (le pilote dure 90 jours)', s: [11] },
+    donnees: { t: 'Transfert du système au client à 90 jours dans l\'offre pilote', s: [11] },
+    garantie: NC,
+  },
+  {
+    nom: 'Agence Simple',
+    nous: true,
+    lieu: { t: 'Paris' },
+    facturation: { t: 'Forfait mensuel sur devis, outils refacturés au coût réel sans marge', s: [12] },
+    canaux: { t: 'Email de prospection et LinkedIn. Pas de téléphone' },
+    engagement: { t: 'Sans engagement de durée' },
+    donnees: { t: 'Données et infrastructure d\'envoi (domaines, boîtes) au client' },
+    garantie: {
+      t: 'Minimum de RDV qualifiés fixé au contrat. Mission prolongée sans facturation tant qu\'il n\'est pas atteint. Le client seul juge de la qualification',
+      s: [12],
+    },
+  },
+];
+
+const COLONNES: { key: keyof Pick<Row, 'facturation' | 'canaux' | 'engagement' | 'donnees' | 'garantie'>; label: string }[] = [
+  { key: 'facturation', label: 'Modèle de facturation publié' },
+  { key: 'canaux', label: 'Canaux' },
+  { key: 'engagement', label: 'Engagement de durée' },
+  { key: 'donnees', label: 'Propriété des données' },
+  { key: 'garantie', label: 'Garantie de résultat' },
+];
+
+const faq = [
+  {
+    question: 'Quelle différence entre payer au rendez-vous et un forfait avec minimum garanti ?',
+    answer:
+      "Au rendez-vous, vous payez chaque RDV obtenu, souvent en plus d'un fixe mensuel (Oliverlist, Captain Prospect, l'offre dédiée de Lalaleads). Le risque porte sur la définition du RDV facturable. Avec un forfait et un minimum garanti, le prix est fixe et l'agence s'engage sur un volume écrit au contrat : si le volume manque, elle continue sans facturer.",
+  },
+  {
+    question: 'Les agences de prospection B2B sont-elles sans engagement ?',
+    answer:
+      "Pas toutes, et pas sur toutes leurs offres. Au 13 octobre 2026, Oliverlist affiche un sans engagement de durée, Lalaleads aussi sur ses offres Full digital et Multicanal, ReCom selon l'offre (immédiat, après 8 journées ou à partir du 3e mois). Captain Prospect, LeadActiv et Acceor ne publient pas leurs conditions : demandez-les par écrit avant de signer.",
+  },
+  {
+    question: 'À qui appartiennent les données de prospection à la fin de la mission ?',
+    answer:
+      "Cela dépend du contrat, et peu d'agences l'écrivent sur leur site. LeadActiv publie que la base appartient au client dès le premier jour. ReCom restitue le fichier qualifié sur demande, Lalaleads remet un tableur des échanges en fin de mission. Vérifiez aussi les domaines et boîtes d'envoi : s'ils restent à l'agence, vous repartez de zéro le jour où vous arrêtez.",
+  },
+  {
+    question: 'Quelle alternative choisir si le téléphone compte beaucoup pour vous ?',
+    answer:
+      "Une agence dont le téléphone est le cœur de métier : ReCom et Acceor le revendiquent, Lalaleads l'inclut dans son offre Multicanal, Oliverlist combine email et téléphone. Agence Simple ne fait pas de prospection téléphonique : elle travaille l'email de prospection et LinkedIn uniquement. Si l'appel à froid est indispensable à votre cible, ce n'est pas le bon choix.",
+  },
+];
+
+const schemas = [
+  articleSchema({
+    headline: comparison.title,
+    description: comparison.metaDescription,
+    url,
+    image: `${SITE.url}/images/blog/meilleures-agences-prospection-b2b.svg`,
+    datePublished: '2026-10-13',
+    dateModified: '2026-10-13',
+  }),
+  breadcrumbSchema([
+    { name: 'Accueil', url: `${SITE.url}/` },
+    { name: 'Comparatifs', url: `${SITE.url}/comparatifs/` },
+    { name: 'Alternatives à Lalaleads, Captain Prospect, ReCom', url },
+  ]),
+  faqSchema(faq.map((f) => ({ question: f.question, answer: f.answer }))),
+];
+---
+
+<BaseLayout
+  title={`${comparison.seoTitle ?? comparison.title} | Agence Simple`}
+  description={comparison.metaDescription}
+  schemas={schemas}
+  bodyClass="!bg-[#0F1B3F]"
+>
+  <Header slot="header" variant="dark" />
+
+  <div class="page bg-[#0F1B3F]">
+    <section class="hero relative overflow-hidden pt-10 pb-20 sm:pb-24">
+      <div aria-hidden="true" class="glow-bleu w-[30rem] h-[30rem] -top-24 -right-16 opacity-50"></div>
+      <div aria-hidden="true" class="glow-violet w-[34rem] h-[34rem] top-64 -left-32 opacity-45"></div>
+
+      <Container size="default" class="relative z-10">
+        <div class="hero__crumb">
+          <Breadcrumb items={breadcrumb} />
+        </div>
+
+        <p class="eyebrow mt-10">Comparatif honnête</p>
+        <h1 class="hero__h1">{comparison.title}</h1>
+        <p class="hero__lead">
+          Les principales alternatives à Lalaleads, Captain Prospect et ReCom sont LeadActiv,
+          Oliverlist, Acceor, devlo et Agence Simple. Toutes prennent des rendez-vous B2B pour vous.
+          Elles se distinguent surtout sur quatre points : le mode de facturation, la durée
+          d'engagement, la propriété des données et l'existence d'une garantie de résultat écrite.
+        </p>
+        <p class="hero__sub">
+          Chaque fait sur un concurrent vient de sa propre page publique, relevée le {RELEVE} et
+          listée en fin de page. Quand une information n'est pas publiée, nous écrivons « non
+          communiqué ». Agence Simple figure dans le tableau comme une option parmi d'autres, limites
+          comprises.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <GlassButton href="#prendre-rendez-vous" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+          <ArrowButton href="#tableau" variant="ghost-dark" size="lg" withArrow={false}>
+            Voir le tableau comparatif
+          </ArrowButton>
+        </div>
+      </Container>
+    </section>
+
+    <article class="body-creme">
+      <Container size="default">
+        <div class="prose-col">
+          <h2 id="les-trois">Que proposent Lalaleads, Captain Prospect et ReCom ?</h2>
+          <p>
+            <strong>Lalaleads</strong> vend trois formules publiques : une offre « Full digital »
+            (email et LinkedIn), une offre « Multicanal » qui ajoute des commerciaux au téléphone, et
+            une offre au rendez-vous, facturée par RDV avec un volume plafonné. Les deux premières sont
+            affichées sans engagement.
+          </p>
+          <p>
+            <strong>Captain Prospect</strong>, installé à Lyon, propose de la prospection par email, par
+            téléphone et une offre multicanale facturée au rendez-vous, en plus d'un fixe mensuel. Ses
+            conditions d'engagement et de propriété des données ne figurent pas sur ses pages
+            publiques.
+          </p>
+          <p>
+            <strong>ReCom</strong>, également basé à Lyon, part du téléphone : des commerciaux dédiés
+            appellent vos prospects, avec de l'email et LinkedIn en complément. Ses trois forfaits sont
+            publiés, avec des conditions d'engagement différentes pour chacun.
+          </p>
+          <p>
+            Les trois sont des acteurs sérieux et documentés. Si vous cherchez une alternative, c'est
+            en général pour l'une de ces raisons : vous voulez payer autrement, garder vos données, ne
+            pas vous engager sur une durée, ou obtenir un engagement de résultat écrit.
+          </p>
+
+          <h2 id="tableau">Quelles alternatives, et en quoi diffèrent-elles ?</h2>
+          <p>
+            Le tableau compare huit agences sur cinq critères. Les chiffres entre crochets renvoient aux
+            sources en bas de page. Sur mobile, faites défiler le tableau horizontalement.
+          </p>
+        </div>
+
+        <div class="table-wrap" role="region" aria-labelledby="tableau" tabindex="0">
+          <table class="alt-table">
+            <caption class="sr-only">
+              Alternatives à Lalaleads, Captain Prospect et ReCom : facturation, canaux, engagement,
+              données et garantie, relevé du {RELEVE}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Agence</th>
+                {COLONNES.map((c) => <th scope="col">{c.label}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {ROWS.map((r) => (
+                <tr class={r.nous ? 'is-nous' : undefined}>
+                  <th scope="row">
+                    <span class="alt-table__nom">{r.nom}</span>
+                    {r.lieu && (
+                      <span class="alt-table__lieu">
+                        {r.lieu.t}
+                        {r.lieu.s?.map((n) => (
+                          <sup><a href={`#source-${n}`}>[{n}]</a></sup>
+                        ))}
+                      </span>
+                    )}
+                  </th>
+                  {COLONNES.map((c) => (
+                    <td class={r[c.key].t.startsWith('Non communiqué') ? 'is-nc' : undefined}>
+                      {r[c.key].t}
+                      {r[c.key].s?.map((n) => (
+                        <sup><a href={`#source-${n}`}>[{n}]</a></sup>
+                      ))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="lire">Comment lire ces cinq critères ?</h2>
+          <p>
+            <strong>La facturation.</strong> Deux logiques coexistent. Le forfait mensuel paie le
+            travail de l'agence, quel que soit le nombre de rendez-vous. Le paiement au rendez-vous
+            paie le résultat, presque toujours avec un fixe en plus. Le paiement au rendez-vous
+            rassure, mais tout se joue sur la définition du rendez-vous facturable : qui décide qu'il
+            est qualifié, et que se passe-t-il quand le prospect ne vient pas. Acceor, à l'inverse,
+            explique refuser ce modèle parce qu'il pousserait au volume plutôt qu'à la qualité.
+          </p>
+          <p>
+            <strong>L'engagement de durée.</strong> Une campagne de prospection met plusieurs semaines
+            à produire ses premiers rendez-vous. Un engagement de trois mois n'est donc pas absurde,
+            mais il doit être écrit. Méfiez-vous surtout du silence : quand les conditions ne sont pas
+            publiées, demandez-les par écrit.
+          </p>
+          <p>
+            <strong>La propriété des données.</strong> Une mission produit une base de prospects
+            enrichie, des messages testés et une infrastructure d'envoi : les domaines et boîtes mail
+            dédiés à la prospection. Si tout cela reste chez l'agence, vous repartez de zéro le jour où
+            vous arrêtez. LeadActiv est la seule, parmi les concurrents relevés, à écrire noir sur
+            blanc que la base appartient au client dès le premier jour.
+          </p>
+          <p>
+            <strong>La garantie.</strong> Parmi les pages relevées, une seule agence publie un
+            engagement de volume écrit au contrat. Oliverlist ne facture pas les rendez-vous absents ou hors cible,
+            ce qui protège sur la qualité mais pas sur la quantité. LeadActiv assume au contraire un
+            engagement de moyens et ne promet aucun rendez-vous. Ce n'est pas un défaut : c'est un
+            choix, à condition qu'il soit clair.
+          </p>
+
+          <h2 id="choisir">Quelle alternative choisir selon votre situation ?</h2>
+        </div>
+
+        <div class="panel panel--inclus">
+          <p class="panel__intro">En fonction de votre priorité</p>
+          <ul class="feature-list">
+            <li>
+              <strong>Le téléphone est central pour votre cible</strong> : ReCom ou Acceor, dont c'est
+              le cœur de métier, ou l'offre Multicanal de Lalaleads.
+            </li>
+            <li>
+              <strong>Vous voulez payer au rendez-vous</strong> : Oliverlist, l'offre multicanale de
+              Captain Prospect ou l'offre au rendez-vous de Lalaleads. Lisez la définition du rendez-vous
+              facturable avant de signer.
+            </li>
+            <li>
+              <strong>La propriété de la base est votre premier critère</strong> : LeadActiv l'écrit
+              publiquement, en échange d'un engagement de moyens.
+            </li>
+            <li>
+              <strong>Vous voulez un volume de rendez-vous écrit au contrat, sans durée minimum</strong> :
+              c'est le modèle d'Agence Simple.
+            </li>
+            <li>
+              <strong>Vous prospectez la Suisse</strong> : devlo travaille en français, allemand et
+              anglais selon la région linguistique visée.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="agence-simple">Où se situe Agence Simple, honnêtement ?</h2>
+          <p>
+            Agence Simple prospecte par email et par LinkedIn pour des entreprises B2B, depuis Paris.
+            Son modèle tient en trois engagements. Un minimum de rendez-vous qualifiés est fixé au
+            contrat, calibré sur votre taux de conversion. S'il n'est pas atteint, la mission continue
+            sans facturation jusqu'à l'atteindre. Et il n'y a pas d'engagement de durée : vous restez
+            parce que les rendez-vous arrivent.
+          </p>
+          <p>
+            Vous êtes seul juge de la qualification : un rendez-vous que vous estimez hors cible sort
+            du décompte. Les données et l'infrastructure d'envoi restent les vôtres à la fin de la
+            mission. Côté résultats, l'agence a obtenu 41 rendez-vous qualifiés en cinq semaines pour
+            <a href="/cas-clients/happycolis/">Happycolis</a>, 151 rendez-vous pour
+            <a href="/cas-clients/invent-app/">Invent-App</a> et 14 % de taux de réponse pour
+            <a href="/cas-clients/dunforce/">Dunforce</a>.
+          </p>
+          <p>
+            Ses limites sont tout aussi nettes. Pas de prospection téléphonique : si l'appel à froid
+            est indispensable à votre marché, une agence comme ReCom vous servira mieux. Pas de tarif
+            affiché en ligne : le forfait est fixé après un diagnostic, parce que le minimum garanti
+            dépend de votre cible. Et un seul bureau, à Paris : pour un client à Lyon ou ailleurs, le
+            travail se fait à distance, avec des déplacements quand ils ont du sens.
+          </p>
+          <p>
+            Le détail du mécanisme est expliqué dans notre article sur la
+            <a href="/blog/garantie-de-resultat-prospection-b2b/">garantie de résultat en prospection B2B</a>,
+            et le paiement au résultat dans
+            <a href="/blog/paiement-au-rendez-vous-prospection/">notre analyse du paiement au rendez-vous</a>.
+          </p>
+        </div>
+
+        <div class="panel panel--inclus">
+          <p class="panel__intro">Pour aller plus loin</p>
+          <ul class="feature-list">
+            <li>
+              Les questions à poser à toute agence avant de signer : <a href="/blog/choisir-agence-prospection-b2b-12-questions/">les 12 questions qui font le tri</a>.
+            </li>
+            <li>
+              Un panorama plus large du marché : <a href="/blog/meilleures-agences-prospection-b2b/">les agences de prospection B2B en 2026</a>.
+            </li>
+            <li>
+              L'arbitrage interne ou externe : <a href="/comparatifs/sdr-interne-vs-agence-externalisee/">SDR interne vs agence externalisée</a>.
+            </li>
+            <li>
+              Le modèle complet d'Agence Simple : <a href="/">notre agence de prospection B2B</a>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="prose-col">
+          <h2 id="faq">Questions fréquentes</h2>
+          <ul class="faq">
+            {faq.map((item) => (
+              <li class="faq__item">
+                <details>
+                  <summary>
+                    <span class="faq__q">{item.question}</span>
+                    <span class="faq__toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" class="faq__toggle-v" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="faq__a">{item.answer}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+
+          <h2 id="sources">Sources</h2>
+          <p>
+            Pages publiques consultées le {RELEVE}. Les offres évoluent : vérifiez les conditions
+            auprès de chaque agence avant de signer. Une erreur sur votre agence ? Écrivez-nous via la
+            <a href="/contact/">page contact</a>, nous corrigeons.
+          </p>
+          <ol class="sources">
+            {SOURCES.map((s) => (
+              <li id={`source-${s.id}`}>
+                <a href={s.href} rel="noopener" target="_blank">{s.label}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Container>
+    </article>
+
+    <section id="prendre-rendez-vous" class="final relative overflow-hidden py-20 sm:py-28">
+      <div aria-hidden="true" class="glow-bleu w-[28rem] h-[28rem] -top-20 left-1/4 opacity-45"></div>
+      <div aria-hidden="true" class="glow-orange w-[22rem] h-[22rem] bottom-0 right-10 opacity-35"></div>
+
+      <Container size="narrow" class="relative z-10 text-center">
+        <h2 class="final__h2">Comparer sur votre cas, pas sur une grille</h2>
+        <p class="final__p">
+          En trente minutes de diagnostic gratuit, nous regardons votre cible, votre panier moyen et le
+          rôle du téléphone dans votre vente. Si notre modèle vous convient, vous repartez avec un
+          minimum de rendez-vous chiffré. S'il ne vous convient pas, nous vous disons laquelle des
+          agences de ce tableau correspond mieux.
+        </p>
+        <div class="mt-10 flex justify-center">
+          <GlassButton href="/contact/" size="lg" withArrow ariaLabel="Réserver un diagnostic gratuit">
+            Réserver un diagnostic gratuit
+          </GlassButton>
+        </div>
+      </Container>
+    </section>
+  </div>
+
+  <div class="sticky-cta">
+    <a href="#prendre-rendez-vous">Réserver un diagnostic gratuit</a>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .hero__crumb :global(nav) {
+    color: rgba(250, 247, 242, 0.55);
+  }
+  .hero__crumb :global(a) {
+    color: rgba(250, 247, 242, 0.7);
+  }
+  .hero__crumb :global(a:hover) {
+    color: var(--color-bleu);
+  }
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+  }
+  .hero__h1 {
+    margin-top: 1.25rem;
+    max-width: 54rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-creme);
+  }
+  .hero__lead {
+    margin-top: 1.75rem;
+    max-width: 46rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.85);
+  }
+  .hero__sub {
+    margin-top: 1.25rem;
+    max-width: 46rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.6);
+  }
+
+  .body-creme {
+    position: relative;
+    z-index: 5;
+    background: var(--color-creme);
+    border-radius: 32px 32px 0 0;
+    padding: 4.5rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .body-creme {
+      padding: 6rem 0 7rem;
+    }
+  }
+
+  .prose-col {
+    max-width: 46rem;
+  }
+  .prose-col :global(p) {
+    margin-top: 1.25rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .prose-col :global(h2) {
+    margin-top: 4rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-title);
+    letter-spacing: -0.02em;
+    color: var(--color-encre);
+    scroll-margin-top: 5.5rem;
+  }
+  .prose-col :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .body-creme :global(a) {
+    color: var(--color-bleu);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(30, 144, 255, 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .body-creme :global(a:hover) {
+    text-decoration-color: var(--color-bleu);
+  }
+
+  .compare {
+    margin-top: 2rem;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .compare__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .compare__row:first-child {
+    border-top: 0;
+  }
+  @media (min-width: 640px) {
+    .compare__row {
+      grid-template-columns: 0.8fr 1.1fr 1.1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+  }
+  .compare__row span {
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .compare__row [role='rowheader'] {
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .compare__row--head {
+    background: var(--color-encre);
+  }
+  .compare__row--head span {
+    color: var(--color-creme);
+    font-weight: 700;
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .panel {
+    margin-top: 3rem;
+    max-width: 52rem;
+    border-radius: 24px;
+    padding: 2rem 2rem 1.9rem;
+  }
+  .panel--inclus {
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.06);
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .panel__intro {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-orange);
+    margin-bottom: 1.25rem;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.9rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-weight: 700;
+    color: var(--color-bleu);
+  }
+
+  .faq {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(15, 27, 63, 0.1);
+  }
+  .faq__item {
+    border-bottom: 1px solid rgba(15, 27, 63, 0.1);
+    list-style: none;
+  }
+  .faq__item details {
+    width: 100%;
+  }
+  .faq__item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-encre);
+    transition: color 200ms ease;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__item summary:hover {
+    color: var(--color-bleu);
+  }
+  .faq__q {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.4;
+  }
+  .faq__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: rgba(15, 27, 63, 0.05);
+    border: 1px solid rgba(15, 27, 63, 0.12);
+    color: var(--color-encre);
+    flex-shrink: 0;
+    transition: all 200ms ease;
+  }
+  .faq__item details[open] .faq__toggle {
+    background: var(--color-bleu);
+    border-color: var(--color-bleu);
+    color: #ffffff;
+  }
+  .faq__item details[open] .faq__toggle-v {
+    display: none;
+  }
+  .faq__a {
+    padding: 0 0 1.75rem 0 !important;
+    margin-top: 0 !important;
+    color: rgba(15, 27, 63, 0.7) !important;
+    font-size: 1rem !important;
+    line-height: 1.65 !important;
+    max-width: 56rem;
+  }
+
+  .final {
+    scroll-margin-top: 4rem;
+  }
+  .final__h2 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    color: var(--color-creme);
+  }
+  .final__p {
+    margin-top: 1.5rem;
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: rgba(250, 247, 242, 0.82);
+  }
+
+  .sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgba(15, 27, 63, 0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sticky-cta a {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-bleu);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+
+  /* Tableau des alternatives : vrai <table> HTML (lisible par les moteurs), défilement horizontal sur mobile */
+  .table-wrap {
+    margin-top: 2rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #ffffff;
+    border: 1px solid rgba(15, 27, 63, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 27, 63, 0.05);
+  }
+  .table-wrap:focus-visible {
+    outline: 2px solid var(--color-bleu);
+    outline-offset: 2px;
+  }
+  .alt-table {
+    width: 100%;
+    min-width: 60rem;
+    border-collapse: collapse;
+    font-size: var(--text-small, 0.9rem);
+    line-height: 1.5;
+    color: rgba(15, 27, 63, 0.82);
+  }
+  .alt-table th,
+  .alt-table td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid rgba(15, 27, 63, 0.07);
+  }
+  .alt-table thead th {
+    border-top: 0;
+    background: var(--color-encre);
+    color: var(--color-creme);
+    font-size: var(--text-caption);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .alt-table tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #ffffff;
+    min-width: 9rem;
+    font-weight: 700;
+    color: var(--color-encre);
+  }
+  .alt-table__nom {
+    display: block;
+  }
+  .alt-table__lieu {
+    display: block;
+    margin-top: 0.2rem;
+    font-weight: 400;
+    font-size: var(--text-caption);
+    color: rgba(15, 27, 63, 0.6);
+  }
+  .alt-table tr.is-nous th,
+  .alt-table tr.is-nous td {
+    background: #eef6ff;
+  }
+  .alt-table td.is-nc {
+    color: rgba(15, 27, 63, 0.5);
+    font-style: italic;
+  }
+  .alt-table sup {
+    margin-left: 0.15rem;
+    font-size: 0.7em;
+  }
+  .alt-table sup a {
+    text-decoration: none;
+  }
+
+  .sources {
+    margin-top: 1.25rem;
+    padding-left: 1.4rem;
+    list-style: decimal;
+  }
+  .sources li {
+    margin-top: 0.5rem;
+    font-size: var(--text-body);
+    line-height: var(--leading-normal);
+    color: rgba(15, 27, 63, 0.82);
+    scroll-margin-top: 5.5rem;
+  }
+</style>

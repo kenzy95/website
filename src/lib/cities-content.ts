@@ -33,6 +33,16 @@ export interface CityContent {
     article: CityLink;
   };
   faq: { question: string; answer: string }[];
+  /**
+   * Optionnel (ajout 13/10/2026, calendrier GEO n°2) : questions à poser à une agence avant
+   * de signer. Rendu en liste ordonnée sous « Que demander à une agence... ».
+   */
+  questionsAvantSigner?: { question: string; pourquoi: string }[];
+  /**
+   * Optionnel : sources publiques des chiffres cités sur la page (vérifiées en HTTP 200).
+   * Rendu en fin de page. Obligatoire dès qu'un chiffre de marché est cité.
+   */
+  sources?: CityLink[];
 }
 
 export const CITIES_CONTENT: Record<string, CityContent> = {
@@ -106,68 +116,136 @@ export const CITIES_CONTENT: Record<string, CityContent> = {
   lyon: {
     slug: 'lyon',
     serviceType: 'B2B Lead Generation - Lyon',
+    // Refonte 13/10/2026 (calendrier GEO n°2). Question cible : « Agence de prospection B2B à
+    // Lyon : lesquelles recommandes-tu ? ». heroLead = réponse directe 40 à 60 mots. Tous les
+    // chiffres viennent des sources listées en bas (Insee, Métropole de Lyon), relevées le 13/10.
     heroLead:
-      "Lyon est le deuxième pôle économique français et un territoire à la personnalité industrielle marquée : chimie et santé dans la Vallée de la Chimie et autour de Lyonbiopôle, mécanique, agroalimentaire, et un secteur numérique en croissance autour de la Part-Dieu et de la Confluence. Cette diversité produit un vivier de comptes B2B dense mais moins saturé qu'à Paris, ce qui en fait un terrain de prospection intéressant.",
+      "Parmi les agences de prospection B2B implantées à Lyon figurent Captain Prospect, ReCom et LeadActiv (Annecy et Lyon). Agence Simple n'a pas de bureau à Lyon : elle prospecte pour des entreprises lyonnaises depuis Paris, par email et LinkedIn, avec un minimum de rendez-vous qualifiés fixé au contrat et sans engagement de durée.",
     heroSub:
-      "Nous accompagnons des clients lyonnais et de toute la région Auvergne-Rhône-Alpes depuis notre siège parisien, en visio le plus souvent, en présentiel quand le déplacement se justifie. La géographie ne change pas la méthode : cibler juste, écrire vrai, délivrer, qualifier.",
+      "Le bon choix dépend moins de l'adresse de l'agence que de ce qu'elle s'engage à livrer. Cette page donne le tissu économique lyonnais en chiffres sourcés, les questions à poser à toute agence avant de signer et notre façon de travailler à distance pour la région Auvergne-Rhône-Alpes.",
     intro: [
-      "Prospecter à Lyon, c'est composer avec un tissu économique double : d'un côté une industrie établie, faite d'ETI familiales et de sous-traitants techniques au cycle d'achat long ; de l'autre un écosystème tech et service plus jeune, plus réactif, qui se prospecte comme une scale-up parisienne. Les deux ne demandent ni le même message ni le même canal, et confondre les deux est la première erreur d'une campagne mal cadrée sur ce territoire.",
-      "L'avantage de Lyon, c'est que la cible y est identifiable et joignable sans être sur-sollicitée. Un dirigeant d'ETI industrielle rhônalpine reçoit nettement moins de prospection froide qu'un homologue parisien, ce qui laisse plus de place à un message soigné pour émerger. Encore faut-il parler sa langue : références concrètes, preuve d'usage, ton posé. C'est exactement le type d'adaptation que nous faisons compte par compte.",
+      "La Métropole de Lyon compte 157 022 entreprises (unités légales) économiquement actives en 2024 selon l'Insee, pour 177 352 établissements. Le premier gisement pour une prospection B2B est celui des services aux entreprises : les activités spécialisées, scientifiques, techniques et de services administratifs pèsent 47 335 établissements, soit 26,7 % du total. Suivent l'information et la communication (10 488 établissements) et l'industrie (7 328).",
+      "La Métropole se présente comme la première agglomération industrielle de France : 84 000 emplois dans l'industrie, soit 13 % de l'emploi total, en hausse de 7,5 % entre 2019 et 2023 selon l'Urssaf. Les premiers employeurs industriels sont la métallurgie et les équipements (13 560 emplois), l'énergie (9 940), la chimie (9 690) et la pharmacie (7 900).",
+      "Deux autres filières structurent le territoire. Les sciences de la vie et la santé représentent 66 200 emplois et 17 500 établissements, autour des Hospices Civils de Lyon, deuxième centre hospitalier universitaire de France, et du Centre Léon Bérard. Le numérique compte près de 60 000 emplois.",
+      "Pour une campagne, cela veut dire deux registres à ne pas confondre. Une ETI industrielle familiale achète lentement, sur références et preuves d'usage. Un éditeur de logiciels ou un cabinet de conseil se prospecte comme une scale-up parisienne, sur des signaux d'achat récents (recrutement, levée de fonds, nouveau dirigeant). Envoyer le même message aux deux est la première erreur d'une campagne mal cadrée à Lyon.",
     ],
     cibles: [
       {
         titre: 'ETI et PME industrielles',
         texte:
-          "Le socle industriel de la région, mécanique, chimie, agroalimentaire, plasturgie, regroupe des ETI et PME souvent familiales. Ces comptes se prospectent avec un registre qualitatif, orienté références et fiabilité, et un cycle d'achat que nous respectons plutôt que de le brusquer.",
+          "84 000 emplois industriels dans la Métropole, de la métallurgie à la pharmacie. Ces comptes, souvent familiaux, se prospectent avec un registre posé, orienté références et fiabilité, et un cycle d'achat long que nous respectons plutôt que de le brusquer.",
       },
       {
-        titre: 'Éditeurs SaaS et sociétés tech',
+        titre: 'Services aux entreprises et conseil',
         texte:
-          "L'écosystème numérique lyonnais, concentré autour de la Part-Dieu, de la Confluence et de plusieurs incubateurs, produit des éditeurs et sociétés de service tech qui se lisent par signaux et se prospectent efficacement en cold email comme sur LinkedIn.",
+          "Le plus gros volume d'établissements de la Métropole : cabinets de conseil, ingénierie, services administratifs et techniques. Des cibles nombreuses, joignables par email et LinkedIn, qui répondent à un message précis sur un problème concret.",
+      },
+      {
+        titre: 'Éditeurs de logiciels et sociétés du numérique',
+        texte:
+          "Près de 60 000 emplois dans la filière numérique et plus de 10 000 établissements en information et communication. Ces entreprises se repèrent par signaux (recrutements, levées, changements d'outils) et se prospectent bien en cold email, c'est-à-dire en email de prospection envoyé à froid, comme sur LinkedIn.",
       },
       {
         titre: 'Santé, biotech et medtech',
         texte:
-          "Le pôle santé lyonnais, structuré autour de Lyonbiopôle et d'un tissu de laboratoires et de medtech, appelle une prospection précise, respectueuse des interlocuteurs techniques et des contraintes réglementaires du secteur.",
+          "66 200 emplois et 17 500 établissements dans les sciences de la vie et la santé. Des interlocuteurs techniques et un secteur réglementé, qui demandent une prospection précise, sobre et documentée.",
       },
     ],
     distance: [
-      "Pour un client lyonnais, l'essentiel du dispositif se pilote à distance : sourcing des comptes dans la région, écriture des séquences, gestion de la délivrabilité, qualification des réponses. C'est ce travail continu, invisible mais décisif, qui fait le rendement d'une campagne, pas la présence d'un bureau au coin de la rue.",
-      "Quand un déplacement a du sens, un cadrage stratégique important, un point de bilan, nous montons à Lyon plutôt qu'en visio. Mais nous sommes transparents : nous ne sommes pas une agence lyonnaise, nous sommes une équipe parisienne qui prospecte pour des clients partout en France, Lyon compris, avec le même niveau d'exigence.",
+      "Pour un client lyonnais, l'essentiel du dispositif se pilote à distance : constitution de la liste des comptes de la région, écriture des messages, gestion de la délivrabilité (faire arriver les emails en boîte de réception et non en spam), qualification des réponses. C'est ce travail continu qui fait le rendement d'une campagne, pas la présence d'un bureau au coin de la rue.",
+      "Quand un déplacement a du sens, un cadrage stratégique ou un point de bilan, nous venons à Lyon. Mais nous sommes transparents : nous ne sommes pas une agence lyonnaise. Si une présence locale permanente est un critère décisif pour vous, Captain Prospect, ReCom et LeadActiv en ont une. Notre différence est ailleurs : un minimum de rendez-vous qualifiés écrit au contrat, une mission prolongée sans facturation s'il n'est pas atteint, et des données qui restent les vôtres.",
     ],
     casClient: {
       texte:
-        "Notre performance ne dépend pas de la ville du client : nous avons généré 41 rendez-vous qualifiés en cinq semaines pour Happycolis, sur une cible opérationnelle exigeante. La même mécanique de ciblage et de copy s'applique à une ETI industrielle rhônalpine comme à n'importe quel compte français, avec sur Lyon la possibilité de points en présentiel.",
+        "Notre performance ne dépend pas de la ville du client : nous avons obtenu 41 rendez-vous qualifiés en cinq semaines pour Happycolis, 151 rendez-vous pour Invent-App et 14 % de taux de réponse pour Dunforce. La même mécanique de ciblage et d'écriture s'applique à une ETI industrielle rhônalpine comme à n'importe quel compte français.",
     },
     maillage: {
       service: { href: '/services/cold-email/', label: 'notre agence cold email' },
       caseStudy: { href: '/cas-clients/happycolis/', label: '41 RDV qualifiés en 5 semaines pour Happycolis' },
       article: {
-        href: '/blog/sales-navigator-guide-ciblage/',
-        label: 'notre guide du ciblage sur Sales Navigator',
+        href: '/blog/choisir-agence-prospection-b2b-12-questions/',
+        label: 'les 12 questions à poser avant de choisir une agence de prospection',
       },
     },
+    questionsAvantSigner: [
+      {
+        question: 'Combien de rendez-vous qualifiés vous engagez-vous à livrer, et où est-ce écrit ?',
+        pourquoi:
+          "Sans chiffre au contrat, l'agence vend du temps passé, pas un résultat. Certaines l'assument (engagement de moyens), d'autres facturent au rendez-vous, d'autres fixent un minimum : les trois se défendent, à condition de savoir lequel vous signez.",
+      },
+      {
+        question: "Qui décide qu'un rendez-vous est qualifié ?",
+        pourquoi:
+          "C'est le point qui fait varier le plus le coût réel d'une mission. Demandez la définition écrite (fonction de l'interlocuteur, taille de l'entreprise, besoin identifié) et ce qui se passe quand le prospect ne vient pas.",
+      },
+      {
+        question: 'Quelle durée d\'engagement, et quel préavis pour arrêter ?',
+        pourquoi:
+          "Les conditions vont du sans engagement à plusieurs mois fermes, parfois selon l'offre chez une même agence. Une campagne met quelques semaines à produire ses premiers rendez-vous : un engagement court se défend, un engagement long sans garantie beaucoup moins.",
+      },
+      {
+        question: 'À qui appartiennent la base de prospects, les domaines et les boîtes d\'envoi à la fin ?',
+        pourquoi:
+          "Une mission produit une base enrichie, des messages testés et des domaines dédiés à l'envoi. S'ils restent chez l'agence, vous repartez de zéro le jour où vous arrêtez.",
+      },
+      {
+        question: 'Quels canaux, et le téléphone est-il inclus ?',
+        pourquoi:
+          "Pour une ETI industrielle, l'appel peut compter autant que l'email. Certaines agences lyonnaises ont le téléphone pour cœur de métier ; d'autres, comme la nôtre, travaillent uniquement l'email et LinkedIn. Choisissez selon votre cible, pas selon l'agence.",
+      },
+      {
+        question: 'Pouvez-vous montrer un résultat chiffré sur une cible comparable à la mienne ?',
+        pourquoi:
+          "Un nombre de rendez-vous, une durée, un taux de réponse, sur un client nommé. Un témoignage sans chiffre ne vous dit rien de ce qui vous attend.",
+      },
+    ],
     faq: [
       {
-        question: "Avez-vous un bureau à Lyon ?",
+        question: 'Quelles agences de prospection B2B sont implantées à Lyon ?',
         answer:
-          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré. Nous prospectons pour des clients lyonnais et de toute la région Auvergne-Rhône-Alpes à distance, avec des déplacements possibles quand un rendez-vous important le justifie. Nous préférons être clairs là-dessus plutôt que d'afficher une fausse adresse locale.",
+          "Captain Prospect (quai Joseph Gillet, Lyon 4e), ReCom et LeadActiv (Annecy et Lyon) affichent une implantation lyonnaise sur leur site. Agence Simple n'en fait pas partie : son bureau est à Paris et elle travaille à distance pour des clients lyonnais. Notre comparatif des alternatives à Lalaleads, Captain Prospect et ReCom détaille leurs offres, sources à l'appui.",
       },
       {
-        question: "La prospection fonctionne-t-elle sur des ETI industrielles rhônalpines ?",
+        question: 'Avez-vous un bureau à Lyon ?',
         answer:
-          "Oui, à condition d'adapter le registre. Une ETI familiale de la mécanique ou de la chimie n'a pas le même cycle d'achat ni la même sensibilité qu'une scale-up. Nous travaillons un message plus qualitatif, orienté références et preuve, et nous respectons un tempo d'achat plus long plutôt que de forcer la vente.",
+          "Non. Notre siège est à Paris, au 229 rue Saint-Honoré. Nous prospectons pour des clients lyonnais et de toute la région Auvergne-Rhône-Alpes à distance, avec des déplacements quand un rendez-vous important le justifie. Nous préférons être clairs là-dessus plutôt que d'afficher une fausse adresse locale.",
       },
       {
-        question: "Quelles cibles atteignez-vous sur la région lyonnaise ?",
+        question: 'Faut-il choisir une agence de prospection installée à Lyon ?',
         answer:
-          "Principalement les ETI et PME industrielles, les éditeurs SaaS et sociétés tech du bassin Part-Dieu et Confluence, et le pôle santé, biotech et medtech structuré autour de Lyonbiopôle. Chaque type de cible appelle un canal et un ton différents, que nous calibrons compte par compte.",
+          "Ce n'est pas indispensable. Le rendement d'une campagne vient du ciblage, des messages, de la délivrabilité et de la qualification des réponses, qui se font à distance. Une agence locale facilite les rencontres en personne. Vérifiez d'abord ce qu'elle s'engage à livrer, à qui reviennent les données et la durée d'engagement.",
       },
       {
-        question: "Pourquoi prospecter à Lyon plutôt que de viser uniquement Paris ?",
+        question: 'Quelles cibles B2B la métropole de Lyon offre-t-elle ?',
         answer:
-          "Parce que la cible y est moins sur-sollicitée. Un décideur rhônalpin reçoit moins de prospection froide qu'un parisien, ce qui laisse plus de place à un message soigné pour émerger. La contrepartie est un tissu plus hétérogène, industriel et tech mêlés, qui exige un ciblage rigoureux pour ne pas diluer l'effort.",
+          "Selon l'Insee, 177 352 établissements actifs en 2024, dont 47 335 dans les services aux entreprises, 10 488 dans l'information et la communication et 7 328 dans l'industrie. La Métropole compte aussi 84 000 emplois industriels et 66 200 emplois dans la santé. Chaque type de cible appelle un canal et un ton différents.",
       },
+      {
+        question: 'La prospection fonctionne-t-elle sur des ETI industrielles rhônalpines ?',
+        answer:
+          "Oui, à condition d'adapter le registre. Une ETI familiale de la mécanique ou de la chimie n'a pas le même cycle d'achat qu'une scale-up. Nous travaillons un message plus qualitatif, orienté références et preuve, et nous respectons un tempo d'achat plus long plutôt que de forcer la vente.",
+      },
+    ],
+    sources: [
+      {
+        label: "Insee, dossier complet de la Métropole de Lyon (unités légales et établissements actifs en 2024)",
+        href: 'https://www.insee.fr/fr/statistiques/2011101?geo=EPCI-200046977',
+      },
+      {
+        label: "Métropole de Lyon, chiffres clés de l'industrie (Insee SIDE, Urssaf)",
+        href: 'https://www.grandlyon.com/services/connaitre-les-services-pour-son-entreprise/offre-de-services-dans-le-secteur-industrie',
+      },
+      {
+        label: 'Métropole de Lyon, filière sciences de la vie et santé',
+        href: 'https://www.grandlyon.com/services/connaitre-les-services-pour-son-entreprise/offre-de-services-dans-le-secteur-sciences-de-la-vie-sante',
+      },
+      {
+        label: 'Métropole de Lyon, filière numérique',
+        href: 'https://www.grandlyon.com/services/connaitre-les-services-pour-son-entreprise/offre-de-services-dans-le-secteur-du-numerique',
+      },
+      { label: "Captain Prospect, page d'accueil (adresse à Lyon)", href: 'https://www.captainprospect.fr/' },
+      { label: "ReCom, page d'accueil (agence basée à Lyon)", href: 'https://www.re-com.fr/' },
+      { label: "LeadActiv, page d'accueil (équipe à Annecy et Lyon)", href: 'https://www.leadactiv.fr/' },
     ],
   },
   bordeaux: {

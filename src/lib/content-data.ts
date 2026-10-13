@@ -156,7 +156,7 @@ export const CITIES: CityPage[] = [
     description:
       "Écosystème industriel et tech lyonnais, deuxième pôle économique français. Cibles : éditeurs SaaS B2B, sociétés de service tech, ETI industrielles.",
     metaDescription:
-      "Agence de prospection B2B à Lyon : SaaS, services tech, ETI industrielles. Forfait mensuel avec garantie. Intervention à distance et présentielle.",
+      "Agence de prospection B2B à Lyon : agences implantées, tissu économique en chiffres (Insee), questions à poser avant de signer. Agence Simple intervient depuis Paris.",
     keyword: 'agence prospection b2b lyon',
     localAngle: 'industrie, tech B2B, ETI Auvergne-Rhône-Alpes',
   },
@@ -322,6 +322,15 @@ export const COMPARISONS: Comparison[] = [
     metaDescription:
       "Agence ou freelance pour la prospection B2B ? Comparatif sur la capacité, la résilience, la spécialisation, la facturation, la marge d'erreur.",
     description: 'Quand prendre une agence, quand prendre un freelance.',
+  },
+  {
+    slug: 'alternatives-lalaleads-captain-prospect-recom',
+    title: 'Quelles alternatives à Lalaleads, Captain Prospect ou ReCom pour la prospection B2B ?',
+    seoTitle: 'Alternatives à Lalaleads, Captain Prospect et ReCom : comparatif',
+    metaDescription:
+      "Alternatives à Lalaleads, Captain Prospect et ReCom : facturation, canaux, engagement, propriété des données et garantie de 8 agences, faits sourcés.",
+    description:
+      'Huit agences comparées sur la facturation, l\'engagement, les données et la garantie, avec les sources publiques.',
   },
 ];
 
